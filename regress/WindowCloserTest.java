@@ -5,13 +5,14 @@ import java.awt.event.*;
  * @author Ian Darwin
  * @version $Id$
  */
-public class WinClose {
+public class WindowCloserDemo {
 
 	/* Main method */
 	public static void main(String argv[]) {
-		Frame f = new Frame("WinClose");
+		Frame f = new Frame("WindowCloserDemo");
+		f.add(new Label("Try Titlebar Close", Label.CENTER));
 		f.setSize(200, 100);
 		f.setVisible(true);
-		f.addWindowListener(new WindowCloser(f));
+		f.addWindowListener(new WindowCloser(f, true));
 	}
 }

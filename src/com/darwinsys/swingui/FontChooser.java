@@ -1,4 +1,5 @@
-import java.awt.*; import java.awt.event.*;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 /** Canonical font selection dialog. AWT version.
@@ -39,7 +40,7 @@ public class FontChooser extends Dialog {
 	 * array of fonts on the system. Builds a GUI to let
 	 * the user choose one font at one size.
 	 */
-	public FontChooser(JFrame f) {
+	public FontChooser(Frame f) {
 		super(f, "Font Chooser", true);
 
 		Container cp = this;	// or getContentPane() in Swing
@@ -139,10 +140,10 @@ public class FontChooser extends Dialog {
 		if (isBold) attrs = Font.BOLD;
 		if (isItalic) attrs |= Font.ITALIC;
 		resultFont = new Font(resultName, attrs, resultSize);
-		System.out.println("resultName = " + resultName + "; " +
-				"resultFont = " + resultFont);
+		// System.out.println("resultName = " + resultName + "; " +
+		//		 "resultFont = " + resultFont);
 		previewArea.setFont(resultFont);
-		previewArea.repaint();
+		pack();				// ensure Dialog is big enough.
 	}
 
 	/** Retrieve the selected font name. */
@@ -161,10 +162,31 @@ public class FontChooser extends Dialog {
 
 	/** Simple main program to start it running */
 	public static void main(String args[]) {
-		JFrame f = new JFrame("Dummy");
-		FontChooser fc = new FontChooser(f);
-		fc.setVisible(true);
-		System.out.println("You chose " + fc.getSelectedFont());
-		System.exit(0);
+		final JFrame f = new JFrame("Dummy");
+		final FontChooser fc = new FontChooser(f);
+		final Container cp = f.getContentPane();
+		cp.setLayout(new GridLayout(0, 1));	// one vertical column
+
+		JButton theButton = new JButton("Change font");
+		cp.add(theButton);
+
+		final JLabel theLabel = new JLabel("Java is great!");
+		cp.add(theLabel);
+
+		// Now that theButton and theLabel are ready, make the action listener
+		theButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fc.setVisible(true);
+				Font myNewFont = fc.getSelectedFont();
+				System.out.println("You chose " + myNewFont);
+				theLabel.setFont(myNewFont);
+				f.pack();	// again
+				fc.dispose();
+			}
+		});
+
+		f.pack();
+		f.setVisible(true);
+		f.addWindowListener(new WindowCloser(f, true));
 	}
 }

@@ -7,12 +7,21 @@ import java.awt.event.*;
  * @version $Id$
  */
 public class WindowCloser extends WindowAdapter {
+	/** The window we close */
 	Window win;
+	/** True if we are to exit as well. */
+	boolean doExit = false;
 	public WindowCloser(Window w) {
+		this(w, false);
+	}
+	public WindowCloser(Window w, boolean exit) {
 		win = w;
+		doExit = exit;
 	}
 	public void windowClosing(WindowEvent e) {
 		win.setVisible(false);
 		win.dispose();
+		if (doExit)
+			System.exit(0);
 	}
 }
