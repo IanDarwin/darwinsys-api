@@ -175,7 +175,7 @@ public class FontChooser extends JDialog {
 
 	/** Simple main program to start it running */
 	public static void main(String[] args) {
-		final JFrame f = new JFrame("Dummy");
+		final JFrame f = new JFrame("FontChooser Startup");
 		final FontChooser fc = new FontChooser(f);
 		final Container cp = f.getContentPane();
 		cp.setLayout(new GridLayout(0, 1));	// one vertical column
@@ -183,7 +183,7 @@ public class FontChooser extends JDialog {
 		JButton theButton = new JButton("Change font");
 		cp.add(theButton);
 
-		final JLabel theLabel = new JLabel("Java is great!");
+		final JLabel theLabel = new JLabel("Java is great!", JLabel.CENTER);
 		cp.add(theLabel);
 
 		// Now that theButton and theLabel are ready, make the action listener
@@ -193,12 +193,12 @@ public class FontChooser extends JDialog {
 				Font myNewFont = fc.getSelectedFont();
 				System.out.println("You chose " + myNewFont);
 				theLabel.setFont(myNewFont);
-				f.pack();	// again
+				f.pack();		// adjust for new size
 				fc.dispose();
 			}
 		});
 
-		f.pack();
+		f.setSize(150, 100);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
