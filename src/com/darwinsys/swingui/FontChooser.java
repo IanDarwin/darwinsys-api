@@ -26,7 +26,7 @@ public class FontChooser extends Dialog {
 	protected String fontList[];
 	/** The file name chooser */
 	protected List fNameChoice;
-	/** The file size chooser */
+	/** The font size chooser */
 	protected List fSizeChoice;
 	/** The bold and italic choosers */
 	Checkbox bold, italic;
