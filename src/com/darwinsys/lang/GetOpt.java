@@ -10,7 +10,12 @@ public class GetOpt {
 	protected String pattern;
 	/** Where we are in the options */
 	protected int optind = 0;
-	/** Retreive the option index */
+	/** A public constant for "no more options"
+	 * XXX should switch to hasNext()/next() pattern.
+	 */
+	public static final int DONE = 0;
+
+	/** Retrieve the option index */
 	public int getOptInd() {
 		return optind;
 	}
@@ -40,7 +45,7 @@ public class GetOpt {
 		if (optind == (argv.length))
 			done = true;
 		if (done)
-			return 0;
+			return DONE;
 		String thisArg = argv[optind++];
 		optarg = null;
 
