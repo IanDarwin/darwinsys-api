@@ -5,21 +5,17 @@ import java.awt.*;
 import javax.swing.*;
 
 /** Test program for LabelText class.
- * STATUS: NOT WORKING!!
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
  */
-public class LabelTextTest extends JComponent {
+public class LabelTextTest extends JPanel {
 
 	/** "main program" method - construct and show */
-	public static void main(String[] av) {
+	public static void main(String[] argv) {
 		JFrame f = new JFrame("LabelTextTest");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		LabelTextTest comp = new LabelTextTest();
-		comp.setBackground(Color.yellow);
-		Container cp = f.getContentPane();
-		cp.setLayout(new FlowLayout());
-		cp.add(comp);
+		LabelTextTest testee = new LabelTextTest();
+		f.setContentPane(testee);	// it is a JPanel
 		f.pack();
 		f.setLocation(200, 200);
 		f.setVisible(true);

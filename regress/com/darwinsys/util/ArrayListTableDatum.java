@@ -5,7 +5,7 @@ import com.darwinsys.swingui.*;
 /** Class to hold a name and a value from a Properties; the
  * ArrayList contains one of these per Properties entry.
  * Needs to be a non-inner class only to allow the Panel
- * to constructs instances of it.
+ * to construct instances of it.
  */
 public class ArrayListTableDatum {
 	String name;

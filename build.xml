@@ -25,6 +25,8 @@
 			/>
 	</target>
 
+	<target name="dist" depends="jar,src-jar"/>
+
 	<target name="jar" depends="docs">
 		<jar jarfile="${build}/${obj.jar}" 
 			manifest="manifest.stub"
@@ -38,8 +40,6 @@
 			basedir="." includes="build.xml,src/**">
 		</jar>
 	</target>
-
-	<target name="dist" depends="jar,src-jar"/>
 
 	<target name="deploy" depends="jar">
 		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
@@ -61,9 +61,35 @@
 		</javadoc>
 	</target>
 
-	<target name="regress" depends="jar">
-		<java className="regress.GetOptTest"
-			classpath="build:${servletapi.jar}:${mail.jar}:${activation.jar}"/>
+	<!-- Simple Regression Tests -->
+	<target name="regress" depends="build">
+		<property name="file" value="${build}/com/darwinsys/io/FileIO.class"/>
+
+		<!-- FileIOTest copies its $av[0] to $av[0].bak; check w/ checksum -->
+		<java className="regress.FileIOTest" classpath="build">
+			<arg value="${file}"/>
+			</java>
+			<checksum file="${file}" property="sum"/>
+			<checksum file="${file}.bak" property="${sum}"
+				verifyProperty="isEqual"/>
+
+		<!-- Test out GetOpt -->
+		<java className="regress.GetOptTest" classpath="build"/>
+		<java className="regress.StringFormatTest" classpath="build"/>
+	</target>
+
+	<!-- These regressions require manual intervention, so not default -->
+	<target name="regress.gui" depends="build">
+		<java className="regress.ArrayListTableSimple" classpath="build"
+			fork="yes"/>
+		<java className="regress.LabelTextTest" classpath="build"
+			fork="yes"/>
+		<java className="regress.SimpleHelpTest" classpath="build"
+			fork="yes">
+			<arg value="../otherlang/help/index.html"/>
+			</java>
+		<java className="regress.WindowCloserTest" classpath="build"
+			fork="yes"/>
 	</target>
 
 	<target name="clean">

@@ -2,7 +2,7 @@ package demo;
 
 import javax.swing.*;
 
-import com.darwinsys.util.LabelText;
+import com.darwinsys.swingui.LabelText;
 
 /**
  * Demo of LabelText JavaBean

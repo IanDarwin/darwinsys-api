@@ -23,16 +23,16 @@ public class SimpleHelp extends JFrame implements HyperlinkListener {
 	/* Construct a Help object. Just construct a JEditorPane
 	 * with a URL, and it does all the help from there.
 	 */
-    public SimpleHelp(String name) {
-		super(name + " Help Window");
+    public SimpleHelp(String windowName, String helpIndexFileName) {
+		super(windowName + " Help Window");
 		cp = getContentPane();
-		getAccessibleContext().setAccessibleName(name + " Help Window");
+		getAccessibleContext().setAccessibleName(windowName + " Help Window");
 		getAccessibleContext().setAccessibleDescription(
-			"A window for viewing the help for " + name +
+			"A window for viewing the help for " + windowName +
 			", which is somewhat hyperlinked.");
 	
 		try {
-			URL url = new File("help/index.html").toURL();
+			URL url = new File(helpIndexFileName).toURL();
 			// Only create the window once.
 			if (help == null) {
 				// System.out.println("Creat-ing help window for " + url);
@@ -41,7 +41,7 @@ public class SimpleHelp extends JFrame implements HyperlinkListener {
 				help.setEditable(false);
 				help.addHyperlinkListener(this);
 				JScrollPane scroller = new JScrollPane();
-				scroller.setBorder(BorderFactory.createTitledBorder(name + " Help"));
+				scroller.setBorder(BorderFactory.createTitledBorder(windowName + " Help"));
 				scroller.getViewport().add(help);
 				cp.add(BorderLayout.CENTER, scroller);
 				addWindowListener(new WindowAdapter() {
