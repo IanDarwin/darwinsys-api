@@ -1,0 +1,5 @@
+"Hello"|"World"
+123|456
+"LU"|86.25|"11/4/1998"|"2:19PM"|+4.0625
+bad "input"|123e01
+XYZZY|""|"OReilly & Associates| Inc."|"Darwin| Ian"|"a \"glug\" bit|"|5|"Memory fault| core dumped"

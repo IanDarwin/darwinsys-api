@@ -15,29 +15,30 @@ import java.util.*;
  * the copyright notice and book citation attached." I have done so.
  * @author Brian W. Kernighan and Rob Pike (C++ original)
  * @author Ian F. Darwin (translation into Java and removal of I/O)
+ * @author Ben Ballard (rewrote advQuoted to handle '""' and for readability)
  */
 public class CSV {	
 
-	public static final String SEP = ",";
+	public static final char DEFAULT_SEP = ',';
 
 	/** Construct a CSV parser, with the default separator (`,'). */
 	public CSV() {
-		this(SEP);
+		this(DEFAULT_SEP);
 	}
 
 	/** Construct a CSV parser with a given separator. Must be
 	 * exactly the string that is the separator, not a list of
 	 * separator characters!
 	 */
-	public CSV(String sep) {
-		fieldsep = sep;
+	public CSV(char sep) {
+		fieldSep = sep;
 	}
 
 	/** The fields in the current String */
 	protected ArrayList list = new ArrayList();
 
-	/** the separator string for this parser */
-	protected String fieldsep;
+	/** the separator char for this parser */
+	protected char fieldSep;
 
 	/** parse: break the input String into fields
 	 * @return java.util.Iterator containing each field 
@@ -55,63 +56,53 @@ public class CSV {
 		}
 
 		do {
-			sb.setLength(0);
-			if (i < line.length() && line.charAt(i) == '"')
-				i = advquoted(line, sb, ++i);	// skip quote
-			else
-				i = advplain(line, sb, i);
-			list.add(sb.toString());
+            sb.setLength(0);
+            if (i < line.length() && line.charAt(i) == '"')
+                i = advQuoted(line, sb, ++i);	// skip quote
+            else
+                i = advPlain(line, sb, i);
+            list.add(sb.toString());
+            Debug.println("csv", sb.toString());
 			i++;
 		} while (i < line.length());
 
 		return list.iterator();
 	}
 
-	/** advquoted: quoted field; return index of next separator */
-	protected int advquoted(String s, StringBuffer sb, int i)
+	/** advQuoted: quoted field; return index of next separator */
+	protected int advQuoted(String s, StringBuffer sb, int i)
 	{
 		int j;
-
-		// Loop through input s, handling escaped quotes
-		// and looking for the ending " or , or end of line.
-
-		for (j = i; j < s.length(); j++) {
-			// found end of field if find unescaped quote.
-			if (s.charAt(j) == '"' && s.charAt(j-1) != '\\') {
-				int k = s.indexOf(fieldsep, j);
-				Debug.println("csv", "j = " + j + ", k = " + k);
-				if (k == -1) {	// no separator found after this field
-					k += s.length();
-					for (k -= j; k-- > 0; ) {
-						sb.append(s.charAt(j++));
-					}
-				} else {
-					--k;	// omit quote from copy
-					for (k -= j; k-- > 0; ) {
-						sb.append(s.charAt(j++));
-					}
-					++j;	// skip over quote
-				}
-				break;
+		int len= s.length();
+        for (j=i; j<len; j++) {
+            if (s.charAt(j) == '"' && j+1 < len) {
+                if (s.charAt(j+1) == '"') {
+                    j++; // skip escape char
+                } else if (s.charAt(j+1) == fieldSep) { //next delimeter
+                    j++; // skip end quotes
+                    break;
+                }
+            } else if (s.charAt(j) == '"' && j+1 == len) { // end quotes at end of line
+                break; //done
 			}
 			sb.append(s.charAt(j));	// regular character.
 		}
 		return j;
 	}
 
-	/** advplain: unquoted field; return index of next separator */
-	protected int advplain(String s, StringBuffer sb, int i)
+	/** advPlain: unquoted field; return index of next separator */
+	protected int advPlain(String s, StringBuffer sb, int i)
 	{
 		int j;
 
-		j = s.indexOf(fieldsep, i); // look for separator
+		j = s.indexOf(fieldSep, i); // look for separator
 		Debug.println("csv", "i = " + i + ", j = " + j);
-		if (j == -1) {               	// none found
-			sb.append(s.substring(i));
-			return s.length();
-		} else {
-			sb.append(s.substring(i, j));
-			return j;
-		}
-	}
+        if (j == -1) {               	// none found
+            sb.append(s.substring(i));
+            return s.length();
+        } else {
+            sb.append(s.substring(i, j));
+            return j;
+        }
+    }
 }
