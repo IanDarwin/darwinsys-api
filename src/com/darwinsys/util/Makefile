@@ -21,7 +21,7 @@ all build:	$(JAR)
 # remove the '#' on the following line:
 $(JAR):	$(SRC) # docs
 		$(JAVAC) -d . $(SRC)
-		jar -cfm $(JAR) manifest.stub com docs
+		jar -cfm $(JAR) manifest.stub com docs Makefile $(SRC)
 
 doc docs:	docs/index.html
 docs/index.html: $(SRC)
