@@ -1,11 +1,18 @@
 package com.darwinsys.util;
 
 import java.io.*;
+import java.text.*;
 
 /**
  * Class methods for dumping bytes from memory or input.
+ * <br>
+ * XXX simplify by moving Getters back into code here, no classes
+ * needed, just an if statement.
  */
 public class Dumper {
+
+	/** A formatter for the offset */
+	NumberFormat offsetFormatter = new DecimalFormat("00000");
 
 	public static void main(String[] av) throws IOException {
 		Dumper c = new Dumper();
@@ -34,7 +41,7 @@ public class Dumper {
 	 * and reset the two StringBuffers.
 	 */
 	protected void endOfLine() {
-		System.out.print(offset += PERLINE);
+		System.out.print(offsetFormatter.format(offset += PERLINE));
 		System.out.print(": ");
 		System.out.print(num);
 		System.out.print(' ');
