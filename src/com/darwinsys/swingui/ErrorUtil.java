@@ -1,9 +1,20 @@
 package com.darwinsys.swingui;
 
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
+
+// For DetailsDialog inner class
+import java.io.CharArrayWriter;
+import java.io.PrintWriter;
 
 /**
  * Convenience class for fielding Exceptions in a Swing App.
@@ -25,6 +36,22 @@ public class ErrorUtil {
 	/** The button options for the any non-ultimate) Excepton */
 	final static String[] choicesMore = { "OK", "Details...", "Next" };
 
+	/** Secondary dialog for the "Details..." button */
+	protected static DetailsDialog detailsDialog;
+
+	/** Public no-arg constructor for those who like simple instantiation. */
+	public ErrorUtil() {
+	}
+	/** Convenience routine for use with AWT's dispatch thread. Usage:
+	 * <pre>
+	 * System.setProperty("sun.awt.exception.handler",
+	 *		"com.darwinsys.swingui.ErrorUtil");
+	 * </pre>
+	 */
+	public void handle(Throwable th) {
+		showExceptions(null, th);
+	}
+		
 	/** Show the given Exception (and any nested Exceptions) in JOptionPane(s).
 	 */
 	public static void showExceptions(Component parent, Throwable theExc) {
@@ -60,14 +87,49 @@ public class ErrorUtil {
 				choices[0]							// default
 				);
 
-			if (response == 0)
+			if (response == 0)			// "OK"
 				return;
-			// if (response == 1)
+			if (response == 1) {		// "Details"
 				// show a JDialog with a JTextArea of printStackTrace();
-			// else resp = 2, let it fall through:
+				if (detailsDialog == null)
+					detailsDialog = new DetailsDialog((JFrame)parent);
+				detailsDialog.showStackTrace(theExc);
+			}
+			// else resp = 2, "Next", let it fall through:
 
 			theExc = next;
 
 		} while (next != null);
+	}
+
+	/** Inner class Dialog to display the details of an Exception */
+	protected static class DetailsDialog extends JDialog {
+		JButton ok;
+		JTextArea text;
+		/** Construct a DetailsDialog given a parent (Frame/JFrame) */
+		DetailsDialog(JFrame parent) {
+			super(parent);
+			Container cp = getContentPane();
+			text = new JTextArea(40, 40);
+			cp.add(text, BorderLayout.CENTER);
+			ok = new JButton();
+			cp.add(ok, BorderLayout.SOUTH);
+			ok.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					dispose();
+				}
+			});
+			pack();
+		}
+
+		/** Display the stackTrace from the given Throwable in this Dialog. */
+		void showStackTrace(Throwable exc) {
+			CharArrayWriter buff = new CharArrayWriter();
+			PrintWriter pw = new PrintWriter(buff);
+			exc.printStackTrace(pw);
+			pw.close();
+			text.setText(buff.toString());
+			setVisible(true);
+		}
 	}
 }
