@@ -73,9 +73,11 @@ public class MutableIntegerTest extends TestCase {
 	 * Class under test for String toString(int)
 	 */
 	public void testToStringint() {
+		assertEquals("toString(int)", "100", MutableInteger.toString(100));
 	}
 
 	public void testParseInt() {
+		assertEquals("parseInt", 100, MutableInteger.parseInt("100"));
 	}
 
 }
