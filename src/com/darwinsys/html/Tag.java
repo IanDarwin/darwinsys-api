@@ -3,7 +3,11 @@ package com.darwinsys.util;
 import java.io.*;
 
 /** A series of methods for writing HTML/XML tags.
+ * Substantially less capable than Jakarta Element Constructor Set (ECS),
+ * but simpler to get started with.
+ * <p>
  * All methods are static for ease of use.
+ * @version $Id$
  */
 public class Tag {
 	protected static final char LB = '<';
