@@ -10,16 +10,20 @@ import javax.swing.JOptionPane;
  * Displays exceptions in a JOptionPane, and follows chained
  * exceptions, both the 1.x SQLException.getNextExeption() and
  * the new 1.4 Exception.getCause().
+ * <p>
+ * The user (will be able to) press a Details... button to see the
+ * traceback in a dialog; tracebacks are <b>not</b> displayed unless
+ * the user requests them.
  * @author Ian Darwin
  * @version $Id$
  */
 public class ErrorUtil {
 
 	/** The button options for the ultimate (or only) Excepton */
-	final static String[] choicesNoMore = { "OK", "Details" };
+	final static String[] choicesNoMore = { "OK", "Details..." };
 
 	/** The button options for the any non-ultimate) Excepton */
-	final static String[] choicesMore = { "OK", "Details", "Next" };
+	final static String[] choicesMore = { "OK", "Details...", "Next" };
 
 	/** Show the given Exception (and any nested Exceptions) in JOptionPane(s).
 	 */
