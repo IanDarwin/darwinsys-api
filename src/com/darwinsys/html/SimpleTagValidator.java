@@ -6,6 +6,8 @@ import java.util.regex.*;
  * Check a String to ensure that it contains either no HTML tags, or only
  * the HTML tags listed in OKTAGS (or the corresponding end-tags).
  * It is <em>not</em> intended as a full-function HTML validator!
+ * Nor is any claim advanced that this is a complete solution to preventing
+ * Cross-Site Scripting. It is just, well, a SIMPLE Tag Validator.
  * @version $Id$
  */
 public class SimpleTagValidator {
