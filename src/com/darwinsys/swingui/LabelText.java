@@ -15,13 +15,18 @@ public class LabelText extends JComponent implements java.io.Serializable {
 	/** The label component */
 	protected JTextField theTextField;
 
-	/** Construct the object including its GUI */
+	/** Construct the object with the label and a default textfield size */
 	public LabelText(String label) {
+		this(label, 10);
+	}
+
+	/** Construct the object with given label and textfield size */
+	public LabelText(String label, int nch) {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		theLabel = new JLabel(label);
 		add(theLabel);
-		theTextField = new JTextField(10);
+		theTextField = new JTextField(nch);
 		add(theTextField);
 	}
 
