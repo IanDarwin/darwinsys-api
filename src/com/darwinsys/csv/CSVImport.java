@@ -38,11 +38,11 @@ public class CSV {
 	/** the separator string for this parser */
 	protected String fieldsep;
 
-	/** split: split line into fields
+	/** parse: break the input String into fields
 	 * @return java.util.Iterator containing each field 
-	 * as a String, in order.
+	 * from the original as a String, in order.
 	 */
-	public Iterator split(String line)
+	public Iterator parse(String line)
 	{
 		StringBuffer sb = new StringBuffer();
 		list.clear();			// discard previous, if any
@@ -82,7 +82,7 @@ public class CSV {
 					sb.append(s.charAt(j++));
 				break;
 			}
-			sb.append(s.charAt(j));
+			sb.append(s.charAt(j));	// regular character.
 		}
 		return j;
 	}

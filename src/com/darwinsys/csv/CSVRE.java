@@ -1,21 +1,22 @@
 import java.io.*;
 import java.util.*;
 
-/** CSV in action: lines from a file and print. */
-public class CSVFile {
-
+/* Simple demo of CSV using Regular Expressions.
+ */
+public class CSVSimple {	
 	public static void main(String[] argv) throws IOException
 	{
 		String line;
 	
-		// Construct a new CSV parser.
-		CSV csv = new CSV();
+		// Construct a new Regular Expression parser.
+		RE csv = new RE("([^\"\\]*(?);
 
 		BufferedReader is = new BufferedReader(
 			new InputStreamReader(System.in));
+
 		while ((line = is.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
-			Iterator e = csv.parse(line);
+			Iterator e = csv.match(line);
 			int i = 0;
 			while (e.hasNext()) 
 				System.out.println("fields[" + i++ + "] = `" +
