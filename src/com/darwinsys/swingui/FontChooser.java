@@ -7,10 +7,14 @@ import javax.swing.*;
 /** A font selection dialog. AWT version.
  * <p>Note: can take a LONG time to start up on systems
  * with (literally) hundreds of fonts.
+ * TODO change list to JList, add a SelectionChangedListener to preview.
  * @author	Ian Darwin
  * @version $Id$
  */
-public class FontChooser extends Dialog {
+public class FontChooser extends JDialog {
+
+	// Results:
+
 	/** The font the user has chosen */
 	protected Font resultFont;
 	/** The resulting font name */
@@ -22,19 +26,26 @@ public class FontChooser extends Dialog {
 	/** The resulting italicness */
 	protected boolean isItalic;
 
+	// Working fields
+
+	/** Display text */
+	protected String displayText = "Qwerty Yuiop";
 	/** The list of Fonts */
 	protected String fontList[];
-	/** The file name chooser */
+	/** The font name chooser */
 	protected List fNameChoice;
 	/** The font size chooser */
 	protected List fSizeChoice;
 	/** The bold and italic choosers */
 	Checkbox bold, italic;
+
 	/** The list of font sizes */
 	protected String fontSizes[] = {
 		"8", "10", "11", "12", "14", "16", "18", "20", "24",
 		"30", "36", "40", "48", "60", "72"
 		};
+	/** The index of the default size (e.g., 14 point == 4) */
+	protected static final int DEFAULT_SIZE = 4;
 	/** The display area. Use a JLabel as the AWT label doesn't always
 	 * honor setFont() in a timely fashion :-)
 	 */
@@ -47,7 +58,7 @@ public class FontChooser extends Dialog {
 	public FontChooser(Frame f) {
 		super(f, "Font Chooser", true);
 
-		Container cp = this;	// or getContentPane() in Swing
+		Container cp = getContentPane();
 
 		Panel top = new Panel();
 		top.setLayout(new FlowLayout());
@@ -73,7 +84,7 @@ public class FontChooser extends Dialog {
 
 		for (int i=0; i<fontSizes.length; i++)
 			fSizeChoice.add(fontSizes[i]);
-		fSizeChoice.select(5);
+		fSizeChoice.select(DEFAULT_SIZE);
 
 		cp.add(BorderLayout.NORTH, top);
 
@@ -83,13 +94,13 @@ public class FontChooser extends Dialog {
 		attrs.add(bold  =new Checkbox("Bold", false));
 		attrs.add(italic=new Checkbox("Italic", false));
 
-		previewArea = new JLabel("Qwerty Yuiop", JLabel.CENTER);
+		previewArea = new JLabel(displayText, JLabel.CENTER);
 		previewArea.setSize(200, 50);
 		cp.add(BorderLayout.CENTER, previewArea);
 
 		Panel bot = new Panel();
 
-		Button okButton = new Button("Apply");
+		JButton okButton = new JButton("Apply");
 		bot.add(okButton);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,7 +110,7 @@ public class FontChooser extends Dialog {
 			}
 		});
 
-		Button pvButton = new Button("Preview");
+		JButton pvButton = new JButton("Preview");
 		bot.add(pvButton);
 		pvButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -107,7 +118,7 @@ public class FontChooser extends Dialog {
 			}
 		});
 
-		Button canButton = new Button("Cancel");
+		JButton canButton = new JButton("Cancel");
 		bot.add(canButton);
 		canButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
