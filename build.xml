@@ -1,0 +1,42 @@
+<project name="com.darwinsys.util package" default="jar" basedir=".">
+
+	<!-- $Id$ -->
+
+	<!-- dependancies -->
+	<property name="mail.jar" value="${user.home}/classes/ext/mail.jar"/>
+	<property name="activation.jar"
+		value="${user.home}/classes/ext/activation.jar"/>
+	<property name="servletapi.jar"
+		value="${user.home}/classes/ext/servlet.jar"/>
+
+	<!-- other properties -->
+	<property name="src" value="."/>
+	<property name="build" value="./build"/>
+	<property name="build.compiler" value="jikes"/>
+
+	<property name="obj.jar" value="com-darwinsys-util.jar"/>
+	<property name="src.jar" value="com-darwinsys-util-src.jar"/>
+
+	<property name="deploy.dir" value="${user.home}/classes/ext"/>
+
+	<target name="init">
+		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
+		<mkdir dir="${build}"/> <!-- Ensure build directory exists -->
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${build}"
+			classpath="${servletapi.jar}:${mail.jar}:${activation.jar}"
+			/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar jarfile="${build}/${deploy.jar}" basedir="${build}"
+			includes="META-INF/*,com/**">
+		</jar>
+	</target>
+
+	<target name="deploy" depends="jar">
+	<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
+	</target>
+</project>
