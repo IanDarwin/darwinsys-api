@@ -149,9 +149,12 @@ public class EntryLayout implements LayoutManager {
 			Dimension d = c.getPreferredSize();
 			int colWidth = (int)(contSize.width * widthPercentages[col]);
 			
-			x += col == 0 ? hpad :
-				hpad * (col-1) + (int)(contSize.width * widthPercentages[col-1]);
-			int y = vpad * (row) + (row * heights[row]) + (heights[row]-d.height),
+			if (col == 0) {
+				x = hpad;
+			} else {
+				x += hpad * (col-1) + (int)(contSize.width * widthPercentages[col-1]);
+			}
+			int y = vpad * (row) + (row * heights[row]) + (heights[row]-d.height);
 			Rectangle r = new Rectangle(x, y, colWidth, d.height);
 			c.setBounds(r);
 		}
