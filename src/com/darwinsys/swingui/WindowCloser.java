@@ -1,3 +1,5 @@
+package com.darwinsys.util;
+
 import java.awt.Window;
 import java.awt.event.*;
 
@@ -11,6 +13,7 @@ public class WindowCloser extends WindowAdapter {
 	Window win;
 	/** True if we are to exit as well. */
 	boolean doExit = false;
+
 	public WindowCloser(Window w) {
 		this(w, false);
 	}

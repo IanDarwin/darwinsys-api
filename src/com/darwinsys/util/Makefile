@@ -5,13 +5,22 @@
 JAVAC=		jikes +E
 
 SRC=		Debug.java FileIO.java FileProperties.java \
-			GetOpt.java MutableInteger.java
+			GetOpt.java MutableInteger.java StrSubs.java \
+			UtilGUI.java WindowCloser.java 
 
-all:		jar
+JAR=		darwinsys-util.jar
 
-jar:	$(SRC)
+all:		$(JAR)
+
+$(JAR):	$(SRC)
 		$(JAVAC) -d . $(SRC)
-		jar cvf darwinsys-util.jar com
+		jar cvf $(JAR) com
 
 src-jar:
 		jar cvf darwinsys-util-src.jar $(SRC) Makefile
+
+install:	$(JAR)
+		cp $(JAR) $$HOME/classes/
+
+clean:
+		-rm -rf $(JAR) com

@@ -60,5 +60,4 @@ public class GetOpt {
 		// Still no match, and not used all args, so must be error.
 		return '?';
 	}
-
 }
