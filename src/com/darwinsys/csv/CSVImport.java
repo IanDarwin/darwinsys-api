@@ -27,16 +27,16 @@ public class CSV {
 		this(DEFAULT_SEP);
 	}
 
-	/** Construct a CSV parser with a given separator. Must be
-	 * exactly the string that is the separator, not a list of
-	 * separator characters!
+	/** Construct a CSV parser with a given separator. 
+	 * @param sep The single char for the separator (not a list of
+	 * separator characters)
 	 */
 	public CSV(char sep) {
 		fieldSep = sep;
 	}
 
 	/** The fields in the current String */
-	protected ArrayList list = new ArrayList();
+	protected List list = new ArrayList();
 
 	/** the separator char for this parser */
 	protected char fieldSep;
@@ -45,15 +45,15 @@ public class CSV {
 	 * @return java.util.Iterator containing each field 
 	 * from the original as a String, in order.
 	 */
-	public Iterator parse(String line)
+	public List parse(String line)
 	{
 		StringBuffer sb = new StringBuffer();
-		list.clear();			// discard previous, if any
+		list.clear();			// recycle to initial state
 		int i = 0;
 
 		if (line.length() == 0) {
 			list.add(line);
-			return list.iterator();
+			return list;
 		}
 
 		do {
@@ -67,7 +67,7 @@ public class CSV {
 			i++;
 		} while (i < line.length());
 
-		return list.iterator();
+		return list;
 	}
 
 	/** advQuoted: quoted field; return index of next separator */

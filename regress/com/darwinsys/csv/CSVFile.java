@@ -24,7 +24,7 @@ public class CSVFile {
 		String line;
 		while ((line = is.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
-			Iterator e = csv.parse(line);
+			Iterator e = csv.parse(line).iterator();
 			int i = 0;
 			while (e.hasNext()) 
 				System.out.println("field[" + i++ + "] = `" +
