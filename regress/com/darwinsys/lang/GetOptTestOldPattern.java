@@ -65,7 +65,7 @@ public class GetOptTest extends TestCase {
 				case 'f':
 				case 'h':
 				case '1':
-					 //assertEquals(val, null);
+					 assertEquals(val, null);
 					break;
 				default:
 					throw new IllegalArgumentException(
@@ -73,6 +73,7 @@ public class GetOptTest extends TestCase {
 			}
 		}
 		assertEquals(1, go.getFilenameList().size());
+		assertEquals("infile", go.getFilenameList().get(0));
 	}
 
 	void process1(String argChars, String[] args, boolean shouldFail) {
@@ -118,10 +119,10 @@ public class GetOptTest extends TestCase {
 			if (c == '?')
 				errs++;
 			String val = (String)m.get(key);
-			if (!val.equals(""))
-				System.out.print("; Option " + val);
-			else
+			if (val == null || val.equals(""))
 				System.out.print("; (no option)");
+			else
+				System.out.print("; Option " + val);
 			System.out.println();
 		}
 

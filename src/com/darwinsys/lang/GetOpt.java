@@ -1,7 +1,9 @@
 package com.darwinsys.lang;
 
+import com.darwinsys.util.Debug;
+
 import java.util.Map;
-import java.util.Properties;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -68,6 +70,8 @@ public class GetOpt {
 				++i;
 			}
 			options[ix++] = new GetOptDesc(c, null, argTakesValue);
+			Debug.println("getopt",
+				"CONSTR: options[" + ix + "] = " + c + ", " + argTakesValue);
 		}
 	}
 
@@ -91,17 +95,19 @@ public class GetOpt {
 	 * containing the value, or null for a non-option argument.
 	 */
 	public Map parseArguments(String[] argv) {
-		Map optionsAndValues = new Properties();
+		Map optionsAndValues = new HashMap();
 		fileNameArguments = new ArrayList();
 		for (int i = 0; i < argv.length; i++) {
+			Debug.println("getopt", "parseArg: i=" + i + ": arg " + argv[i]);
 			char c = getopt(argv);
 			if (c != DONE) {
 				strConvArray[0] = c;
-				optionsAndValues.put(new String(strConvArray), 
-					(optarg != null ? optarg : ""));
+				optionsAndValues.put(new String(strConvArray), optarg);
+				// If this arg takes an option, we must skip it here.
+				if (optarg != null)
+					++i;
 			} else {
 				fileNameArguments.add(argv[i]);
-System.out.println("parseArg: adding: " + argv[i]);
 			}
 		}
 		return optionsAndValues;
@@ -116,11 +122,14 @@ System.out.println("parseArg: adding: " + argv[i]);
 		return fileNameArguments;
 	}
 
-	/** Return one argument. Call repeatedly until it returns DONE.
+	/** The true heart of getopt, whether used old way or new way:
+	 * returns one argument; call repeatedly until it returns DONE.
 	 */
 	public char getopt(String argv[]) {
-System.out.println("getopt1, optind=" + optind + ", argv.length="+argv.length);
-		if (optind == (argv.length)) {
+		Debug.println("getopt",
+			"optind=" + optind + ", argv.length="+argv.length);
+
+		if (optind == (argv.length)-1) {
 			done = true;
 		}
 
@@ -136,7 +145,6 @@ System.out.println("getopt1, optind=" + optind + ", argv.length="+argv.length);
 		// If so look it up in the list.
 		String thisArg = argv[optind++];
 		if (thisArg.startsWith("-")) {
-System.out.println("getopt2, optind=" + optind + ", argv.length="+argv.length);
 			optarg = null;
 			for (int i=0; i<options.length; i++) {
 				if ( options[i].argLetter == thisArg.charAt(1) ||
@@ -145,8 +153,8 @@ System.out.println("getopt2, optind=" + optind + ", argv.length="+argv.length);
 					// If it needs an option argument, get it.
 					if (options[i].takesArgument) {
 						if (optind < argv.length) {
-							optarg = argv[optind++]; 
-System.out.println("getopt3, optind=" + optind + ", argv.length="+argv.length);
+							optarg = argv[optind]; 
+							++optind;
 						} else {
 							throw new IllegalArgumentException(
 								"Option " + options[i].argLetter +
@@ -160,7 +168,6 @@ System.out.println("getopt3, optind=" + optind + ", argv.length="+argv.length);
 			return '?';
 		} else {
 			// Found non-argument non-option word in argv: end of options.
-System.out.println("getopt4, optind=" + optind + ", argv.length="+argv.length);
 			done = true;
 			return DONE;
 		}

@@ -22,14 +22,14 @@
 	<target name="build" depends="init">
 		<javac srcdir="${src}" destdir="${build}"
 			classpath="${servletapi.jar}:${mail.jar}:${activation.jar}"
-			deprecation="true" fork="false"
+			debug="true" deprecation="true" fork="false"
 			/>
 		<echo message="You must run 'ant jar' to update the Docs and Jar"/>
 	</target>
 
 	<target name="dist" depends="jar,src-jar"/>
 
-	<target name="jar" depends="docs">
+	<target name="jar" depends="docs,regress">
 		<jar jarfile="${build}/${obj.jar}" 
 			manifest="manifest.stub"
 			basedir="${build}" includes="META-INF/*,com/**/*.class,docs">
