@@ -86,7 +86,7 @@ public class Dumper {
 			int column = 0;
 
 			while ((b=g.get()) != -1) {
-				// XXX sleazebag formatting
+				// XXX sleazebag formatting - fix with 1.5 Format
 				if (b < 16)
 					num.append('0');
 				num.append(Integer.toString(b, 16));
