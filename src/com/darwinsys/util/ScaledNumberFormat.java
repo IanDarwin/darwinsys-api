@@ -7,7 +7,7 @@ import java.util.*;
  * "Human-readable" output uses 3 digits max.--put unit suffixes at
  * the end.  Makes output compact and easy-to-read esp. on huge disks.
  * Formatting code was originally in OpenBSD "df", converted to library routine.
- * Scanning code written for OpenBSD libutil.
+ * Scanning code written for OpenBSD libutil by Todd Miller.
  * 
  * Rewritten in Java in January, 2001.
  *
@@ -22,11 +22,16 @@ public class ScaledNumberFormat extends Format {
 	final static int GIGA = 3;
 	final static int TERA = 4;
 	final static int PETA = 5;
-	/* final static int EXA  = 6; */
+	final static int EXA  = 6;
 
-	/** The input scaling factors. Must be in same order as scale_factors. */
+	DecimalFormat df6 = new DecimalFormat("#####0");
+	DecimalFormat df5 = new DecimalFormat("####0");
+
+	/** The input scaling factors. All three arrays must be in same order. */
 	static char scale_chars[] = { 'B', 'K', 'M', 'G', 'T', 'P', 'E',  };
-	/** The input scale sizes. Must be in same order as scale_chars. */
+	/** The numeric scale values. All three arrays must be in same order. */
+	int units[] = { NONE, KILO, MEGA, GIGA, TERA, PETA, EXA };
+	/** The input scale sizes. All three arrays must be in same order. */
 	static long scale_factors[] = {
 		1,
 		1024,
@@ -36,7 +41,6 @@ public class ScaledNumberFormat extends Format {
 		1125899906842624L,
 		1152921504606846976L
 	};
-
 
 	/* To prevent numeric overflow (Java doesn't yet have "long long") */
 	static final int MAX_DIGITS = 10;
@@ -98,7 +102,7 @@ public class ScaledNumberFormat extends Format {
 		}
 
 		/* Validate scale factor, and scale whole and fraction by it. */
-		for (i=0; i<scale_factors.length; i++) {
+		for (i = 0; i < scale_factors.length; i++) {
 			if (b[p] == scale_chars[i] ||
 				b[p] == Character.toLowerCase(scale_chars[i])) {
 				scale_fact = scale_factors[i];
@@ -106,7 +110,7 @@ public class ScaledNumberFormat extends Format {
 				whole *= scale_fact;
 				// scale fractional part
 				fpart *= scale_fact;
-				for (i=0; i<fract_digits-1; i++)
+				for (i = 0; i < fract_digits - 1; i++)
 					fpart /= 10;
 				whole += fpart;
 				return new Long(whole);
@@ -114,48 +118,6 @@ public class ScaledNumberFormat extends Format {
 		}
 		throw new IllegalArgumentException("invalid scale factor " + b[p]);	
 	}
-
-	class ValAndFract {	
-		long value;
-		long fract;
-		ValAndFract(long v, long f) {
-			value = v; fract = f;
-		}
-	}
-
-	/* Adjust units. Used by fmt, not by scan */
-	private int unit_adjust(ValAndFract vaf) {
-		long abval;
-		int unit = NONE;
-
-		abval = Math.abs(vaf.value);
-		if (abval < 1024) {
-			unit = NONE;
-			vaf.fract = 0;
-		} else if (abval < 1048576L) {
-			unit = KILO;
-			vaf.fract = vaf.value % 1024;
-			vaf.value /= 1024;
-		} else if (abval < 1073741824L) {
-			unit = MEGA;
-			vaf.fract = vaf.value % 1048576;
-			vaf.value /= 1048576;
-		} else if (abval < 1099511627776L) {
-			unit = GIGA;
-			vaf.fract = vaf.value % 1073741824L;
-			vaf.value /= 1073741824L;
-		} else if (abval < 1125899906842624L) {
-			unit = TERA;
-			vaf.fract = vaf.value % 1099511627776L;
-			vaf.value /= 1099511627776L;
-		} else if (abval < 1152921504606846976L) {
-			unit = PETA;
-			vaf.fract = vaf.value % 1152921504606846976L;
-			vaf.value /= 1125899906842624L;
-		}
-		return (unit);
-	}
-
 
 	/* Format the given Number as a Scaled Numeral, returning the
 	 * Stringbuffer (updated), and updating the FieldPosition.
@@ -175,19 +137,24 @@ public class ScaledNumberFormat extends Format {
 	}
 
 	/** Format a given long as a Scaled Numeral.
-	 * This method is the REAL FORMATTING ENGINE. Shouldn't be.
+	 * This method is the REAL FORMATTING ENGINE.
 	 */
 	public String format(long number) {
 		long fract = 0;
-		int unit;
+		int unit = NONE;
 
 		StringBuffer buf = new StringBuffer();
 
-		// printf("BEFORE: number is %d, ", number);
-		ValAndFract vaf = new ValAndFract(number, fract);
-		unit = unit_adjust(vaf);
-		number = vaf.value;
-		fract = vaf.fract;
+		long abval = Math.abs(number);
+
+		for (int i = 0; i < scale_factors.length; i++) {
+			if (abval < scale_factors[i]) {
+				unit = units[i-1];
+				fract = i == 1 ? 0 : abval % scale_factors[i-1];
+				number /= scale_factors[i-1];
+				break;
+			}
+		}
 		// printf("AFTER: unit %d, number %d, fract %d\n", unit, number, fract);
 
 		if (fract < 0)
@@ -207,6 +174,4 @@ public class ScaledNumberFormat extends Format {
 
 		return buf.toString();
 	}
-	DecimalFormat df6 = new DecimalFormat("#####0");
-	DecimalFormat df5 = new DecimalFormat("####0");
 }
