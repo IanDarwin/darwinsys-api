@@ -14,7 +14,7 @@ public class ServletUtil {
 	 * (Connection objects are ThreadSafe).
 	 * @return a JDBC connection, or null.
 	 */
-	protected Connection getConnection(
+	public Connection getConnection(
 		ServletContext application,
 		String connAttrName)
 		throws SQLException, ClassNotFoundException {
