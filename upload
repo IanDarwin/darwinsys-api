@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -x
-
-scp com-darwinsys-util.jar darwinsys.com:/www/javacook/
