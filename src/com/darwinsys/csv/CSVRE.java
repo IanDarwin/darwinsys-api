@@ -1,7 +1,9 @@
 import java.io.*;
 import org.apache.regexp.*;
 
-/* Simple demo of CSV using Regular Expressions.
+/* Simple demo of CSV matching using Regular Expressions.
+ * Does NOT use the "CSV" class defined in the book.
+ * CSV_PATTERN from Chapter 7, Mastering Regular Expressions
  */
 public class CSVRE {	
 	/** The rather involved pattern used to match CSV's */
@@ -14,6 +16,7 @@ public class CSVRE {
 		String line;
 	
 		// Construct a new Regular Expression parser.
+		System.out.println("PATTERN = " + CSV_PATTERN); // debug
 		RE csv = new RE(CSV_PATTERN);
 
 		// Construct an input reader
@@ -22,14 +25,15 @@ public class CSVRE {
 
 		while ((line = is.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
-			int i = 0;
 			while (csv.match(line)) {
-				// int start = csv.getParenStart();
-				// int end   = csv.getParenEnd();
+				int n = csv.getParenCount();
+				System.out.println("Count = " + n);
 
-				System.out.println("fields[" + i++ + "] = `" +
-					csv.getParen(0) + "'");
-				break;
+				for (int i=0; i<n; i++) {
+					System.out.println("fields[" + i + "] = `" +
+						csv.getParen(i) + "'");
+				}
+				break;	// until we increment line
 			}
 		}
 	}
