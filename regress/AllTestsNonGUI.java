@@ -16,7 +16,9 @@ public class AllTestsNonGUI {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for regress");
 		//$JUnit-BEGIN$
+		suite.addTestSuite(ConnectionUtilTest.class);
 		suite.addTestSuite(FilePropertiesTest.class);
+		suite.addTestSuite(SimpleTagValidatorTest.class);
 		suite.addTestSuite(IndexListTest.class);
 		suite.addTestSuite(StringFormatTest.class);
 		suite.addTestSuite(ScaledNumberFormatTest.class);
