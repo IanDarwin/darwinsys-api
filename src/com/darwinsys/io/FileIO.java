@@ -107,4 +107,10 @@ public class FileIO {
 		BufferedWriter os = new BufferedWriter(new FileWriter(fileName));
 		os.write(text);
 	}
+
+	/** Open a BufferedReader from a named file. */
+	public static BufferedReader openFile(String fileName)
+	throws IOException {
+		return new BufferedReader(new FileReader(fileName));
+	}
 }

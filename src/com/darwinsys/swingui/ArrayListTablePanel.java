@@ -95,7 +95,7 @@ public class ArrayListTablePanel extends JPanel {
 					return;
 				Object obj = list.get(i);
 				list.remove(i);
-				list.add(i+1, obj);
+				list.add(i, obj);
 				table.tableChanged(new 
 					TableModelEvent(model, i, i+1, 
 					TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT));

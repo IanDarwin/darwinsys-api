@@ -22,7 +22,7 @@ public class MutableInteger {
 	}
 
 	public void incr(int amt) {
-		value ++ amt;
+		value += amt;
 	}
 
 	public void decr() {
