@@ -85,7 +85,7 @@ public class PropertiesMap implements Map {
 
 	/** Return the set of keys */
     public java.util.Set keySet() {
-		return new Set(names);
+		return new HashSet(names);
 	}
 
 	/** Return a Collection containing the values */
