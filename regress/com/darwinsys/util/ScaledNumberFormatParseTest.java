@@ -38,6 +38,7 @@ public class ScaledNumberFormatTest extends TestCase {
 				Object o = sf.parseObject(sdata[i].string, null);
 				assert(((Long)o).longValue() == sdata[i].number);
 			} catch (Exception ex) {
+				System.out.println("ERROR IN PARSE CASE " + i);
 				System.out.println(sdata[i] + " threw " + ex);
 			}
 		}
@@ -49,7 +50,7 @@ public class ScaledNumberFormatTest extends TestCase {
 		new data(999,    "   999B"),
 		new data(1000,   "  1000B"),
 		new data(1023,   "  1023B"),
-		new data(1024,   "   1.2K"),
+		new data(1024,   "   1.0K"),
 		new data(-1234,  "  -1.2K"),
 		new data(1025,   "   1.1K"),
 		new data(123456, "   120K"),
@@ -61,6 +62,7 @@ public class ScaledNumberFormatTest extends TestCase {
 			try {
 				assertEquals(ddata[i].string, sf.format(ddata[i].number));
 			} catch (Exception ex) {
+				System.out.println("ERROR IN FORMAT CASE " + i);
 				System.out.println(ddata[i] + " threw " + ex);
 			}
 		}

@@ -24,8 +24,14 @@ public class ScaledNumberFormat extends Format {
 	final static int PETA = 5;
 	final static int EXA  = 6;
 
-	DecimalFormat df6 = new DecimalFormat("#####0");
-	DecimalFormat df5 = new DecimalFormat("####0");
+	DecimalFormat df5, df6;
+
+	public ScaledNumberFormat() {
+		df5 = new DecimalFormat("0");
+		df5.setMinimumIntegerDigits(5);
+		df6 = new DecimalFormat("0");
+		df6.setMinimumIntegerDigits(6);
+	}
 
 	/** The input scaling factors. All three arrays must be in same order. */
 	static char scale_chars[] = { 'B', 'K', 'M', 'G', 'T', 'P', 'E',  };
@@ -147,7 +153,7 @@ public class ScaledNumberFormat extends Format {
 
 		long abval = Math.abs(number);
 
-		for (int i = 0; i < scale_factors.length; i++) {
+		for (int i = 1/*!*/; i < scale_factors.length; i++) {
 			if (abval < scale_factors[i]) {
 				unit = units[i-1];
 				fract = i == 1 ? 0 : abval % scale_factors[i-1];
@@ -166,11 +172,20 @@ public class ScaledNumberFormat extends Format {
 
 		if (number == 0)
 			return "     0B";
-		else if (number > 10)
+		else if (number > 10) {
 			buf.append(df6.format(number)).append(scale_chars[unit]);
-		else
+		} else {
 			buf.append(df5.format(number)).append('.').
 				append(number>10?0:fract).append(scale_chars[unit]);
+		}
+
+		// replace leading zeros with spaces
+		for (int i = 0; i < buf.length(); i++) {
+			if (buf.charAt(i) == '0')
+				buf.setCharAt(i, ' ');
+			else
+				break;
+		}
 
 		return buf.toString();
 	}
