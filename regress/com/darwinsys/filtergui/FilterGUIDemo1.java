@@ -1,8 +1,7 @@
-import com.darwinsys.util.WindowCloser;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+import java.util.*;
 
 /** A simple demo of FilterGUI */
 public class FilterGUIDemo1 {
@@ -21,9 +20,23 @@ public class FilterGUIDemo1 {
 		// create a this object, tell it to show up
 		final JFrame f = new JFrame("FilterGUI Demo 1");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FilterGUI comp = new FilterGUI(filters, DEFAULT_FILTER);
-		f.getContentPane().add(comp);
-		f.addWindowListener(new WindowCloser(f));
+		final FilterGUI comp = new FilterGUI(filters, DEFAULT_FILTER);
+		Container cp = f.getContentPane();
+		cp.add(BorderLayout.CENTER, comp);
+		JButton b = new JButton("Show");
+		cp.add(BorderLayout.SOUTH, b);
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				java.util.List l = comp.getSelected();
+				Iterator it = l.iterator();
+				while (it.hasNext()) {
+					System.out.println(it.next());
+				}
+			}
+		});
+
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		f.pack();
 		f.setLocation(200, 200);
 		f.setVisible(true);

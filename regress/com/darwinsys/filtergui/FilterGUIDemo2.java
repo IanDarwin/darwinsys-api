@@ -1,5 +1,3 @@
-import com.darwinsys.util.WindowCloser;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -38,7 +36,7 @@ public class FilterGUIDemo2 {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FilterGUI comp = new FilterGUI(filters, DEFAULT_FILTER);
 		f.getContentPane().add(comp);
-		f.addWindowListener(new WindowCloser(f));
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.pack();
 		f.setLocation(200, 200);
 		f.setVisible(true);

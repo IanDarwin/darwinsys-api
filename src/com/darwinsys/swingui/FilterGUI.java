@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 
 /** FilterGUI implements a back-and-forth list, i.e., two columns
  * and items can be moved back and forth between them with "Add" and "Del"
@@ -84,7 +85,7 @@ public class FilterGUI extends JComponent {
 	}
 
 	/** Retrieve the list of currently-selected objects */
-	public List getCurrent() {
-		return current;
+	public java.util.List getSelected() {
+		return currentListModel;
 	}
 }
