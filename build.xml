@@ -59,6 +59,13 @@
 			</packageset>
 			<bottom><![CDATA[<i>Copyright &#169; 2000-2003 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
 		</javadoc>
+		<copy file="html/index.html" todir="docs"/>
+	</target>
+
+	<target name="install-docs" depends="docs">
+		<Scp todir="ian@www.darwinsys.com:/www/javacook/">
+			<fileset dir="${build/docs}"/>
+		</Scp>
 	</target>
 
 	<!-- Simple Regression Tests -->
