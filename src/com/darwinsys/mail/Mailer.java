@@ -10,8 +10,8 @@ import javax.mail.internet.*;
  * Example usage:
  * <pre>
  * Mailer mb = new Mailer();
- * mb.setFrom("lhbooks@darwinsys.com");
- * mb.addTo("lhbooks@darwinsys.com");
+ * mb.setFrom("orders@YourDomain.com");
+ * mb.addTo("orders@YourDomain.com");
  * mb.setSubject("LHBOOKS ORDER!!");
  * mb.setBody(order.toString());
  * mb.setServer(application.getInitParameter("mail.server.smtp")); 
