@@ -10,10 +10,12 @@ public class GetOpt {
 	protected String pattern;
 	/** Where we are in the options */
 	protected int optind = 0;
-	/** A public constant for "no more options"
+	/** Public constant for "no more options"
 	 * XXX should switch to hasNext()/next() pattern.
 	 */
 	public static final int DONE = 0;
+	/** Internal flag - whether we are done all the options */
+	protected boolean done = false;
 
 	/** Retrieve the option index */
 	public int getOptInd() {
@@ -21,48 +23,55 @@ public class GetOpt {
 	}
 	/** The option argument, if there is one. */
 	protected String optarg;
-	/** Retreive the option argument */
+
+	/** Retrieve the current option argument */
 	public String optarg() {
 		return optarg;
 	}
-	/** Whether we are done all the options */
-	protected boolean done = false;
 
 	/* Construct a GetOpt object, storing the set of option characters. */
 	public GetOpt(String patt) {
 		pattern = patt;
-		optind = 0;
 		rewind();
 	}
 
 	public void rewind() {
 		done = false;
+		optind = 0;
 	}
 
 	/** Return one argument.
 	 */
 	public char getopt(String argv[]) {
-		if (optind == (argv.length))
+		if (optind == (argv.length)) {
 			done = true;
-		if (done)
-			return DONE;
-		String thisArg = argv[optind++];
-		optarg = null;
+		}
 
-		for (int i=0; i<pattern.length(); i++) {
-			char c = pattern.charAt(i);
-			if (thisArg.startsWith("-")) {
-				if (thisArg.equals("-"+c)) {
+		// Do not combine with previous if statement.
+		if (done) {
+			return DONE;
+		}
+
+		// Pick off the next command line argument, look if it starts "-".
+		// If so look it up in the list.
+		String thisArg = argv[optind++];
+		if (thisArg.startsWith("-")) {
+			optarg = null;
+			for (int i=0; i<pattern.length(); i++) {
+				char c = pattern.charAt(i);
+				if (thisArg.equals("-"+c)) {	// we found it
+					// If it needs an option argument, get it.
 					if (i+1 < pattern.length() && pattern.charAt((i++)+1)==':')
 						optarg = argv[optind++]; 
 					return c;
 				}
-			} else {
-				done = true;
-				return 0;
 			}
+			// Still no match, and not used all args, so must be error.
+			return '?';
+		} else {
+			// Found non-argument non-option word in argv: end of options.
+			done = true;
+			return 0;
 		}
-		// Still no match, and not used all args, so must be error.
-		return '?';
 	}
 }
