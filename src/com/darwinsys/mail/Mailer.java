@@ -1,4 +1,4 @@
-package jabadot;
+package com.darwinsys.util;
 
 import java.io.*;
 import java.util.*;
