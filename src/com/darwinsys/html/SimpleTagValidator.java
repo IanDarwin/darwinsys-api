@@ -19,7 +19,7 @@ public class SimpleTagValidator {
 	};
 	private final String[] okTags;
 	
-	Pattern patt = Pattern.compile("<\\s*/?(\\w+)");
+	private final Pattern patt = Pattern.compile("<\\s*/?(\\w+)");
 	private String failedTag = null;
 	
 	/** Construct a Validator using the default OK list */
