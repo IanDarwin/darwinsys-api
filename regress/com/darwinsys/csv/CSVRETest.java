@@ -30,4 +30,8 @@ public class CSVRETest extends TestCase {
 		assertEquals("b", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+	public void testMixedField() {
+		List list = target.parse("\"LU\",86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
+		assertEquals(2, list.size());
+	}
 }

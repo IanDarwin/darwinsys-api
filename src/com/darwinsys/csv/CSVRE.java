@@ -8,6 +8,7 @@ import com.darwinsys.util.Debug;
  * Does NOT use the "CSV" class defined in the Java CookBook. RE pattern
  * adapted from Chapter 7 of <em>Mastering Regular Expressions</em> 
  * (p. 205, first edn.)
+ * @version $Id$
  */
 public class CSVRE {	
 	/** The rather involved pattern used to match CSV's consists of three
@@ -15,7 +16,7 @@ public class CSVRE {
 	 * the third null fields
 	 */
 	public static final String CSV_PATTERN =
-		"\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\",?|([^,]+),?|,";
+		"\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\",?|(([^,]+)),?|,";
 	private static Pattern csvRE;
 
 	public static void main(String[] argv) throws IOException {
@@ -47,7 +48,7 @@ public class CSVRE {
 		}
 	}
 	
-	/** Parse one line. Overkill for this program, but factored out
+	/** Parse one line. Factored out
 	 * to be similar to original CSV class.
 	 */
 	public List parse(String line) {
@@ -56,8 +57,7 @@ public class CSVRE {
 		// For each field
 		while (m.find()) {
 			// Get last group to exclude the trailing "," character
-			list.add(m.group(1) != null  && !(m.group(1).equals(",")) ? 
-							m.group(1) : m.group());
+			list.add(m.group(1));
 		}
 		return list;
 	}
