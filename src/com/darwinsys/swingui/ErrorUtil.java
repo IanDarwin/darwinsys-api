@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/*
+/**
  * Convenience class for fielding Exceptions in a Swing App.
  * Displays exceptions in a JOptionPane, and follows chained
  * exceptions, both the 1.x SQLException.getNextExeption() and
@@ -21,25 +21,22 @@ public class ErrorUtil {
 	/** The button options for the any non-ultimate) Excepton */
 	final static String[] choicesMore = { "OK", "Details", "Next" };
 
-	/** Show Exception(s) in a JOptionPane.
+	/** Show the given Exception (and any nested Exceptions) in JOptionPane(s).
 	 */
-	public static void showExceptions(
-		Component parent, 
-		Throwable theException
-		) {
+	public static void showExceptions(Component parent, Throwable theExc) {
 
 		Throwable next = null;
 
 		do {
-			String className = theException.getClass().getName();
+			String className = theExc.getClass().getName();
 			String message = className;
 
-			if (theException instanceof SQLException) {
-				SQLException sexc = (SQLException)theException;
+			if (theExc instanceof SQLException) {
+				SQLException sexc = (SQLException)theExc;
 				message += "; code=" + sexc.getErrorCode();
 				next = sexc.getNextException();
 			}
-			else next = theException.getCause();   // Comment out if < JDK 1.4
+			else next = theExc.getCause();   // Comment out if < JDK 1.4
 
 			String[] choices = next != null ? choicesMore : choicesNoMore;
 
@@ -65,7 +62,7 @@ public class ErrorUtil {
 				// show a JDialog with a JTextArea of printStackTrace();
 			// else resp = 2, let it fall through:
 
-			theException = next;
+			theExc = next;
 
 		} while (next != null);
 	}

@@ -1,6 +1,6 @@
 package regress;
 
-import javax.sql.SQLException;
+import java.sql.SQLException;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
