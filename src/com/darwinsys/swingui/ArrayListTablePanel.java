@@ -16,10 +16,9 @@ import java.util.*;
  * The class of things in the list must have a public, no-argument constructor.
  *
  * <BR>XXX TODO <ul>
- * <li>1. Implement MoveUp/MoveDown!
+ * <li>1. Debug MoveUp/MoveDown!
  * <li>2. add constructor options for Add, Remove, MoveUp/MoveDown buttons
  * </ul>
- *		N.B. model.invalidateCache() when adding/moving/removing!
  *
  * @author	Ian Darwin, ian@darwinsys.com
  * @version	$Id$
@@ -82,8 +81,9 @@ public class ArrayListTablePanel extends JPanel {
 				list.remove(i);
 				list.add(i-1, obj);
 				table.tableChanged(new 
-					TableModelEvent(model, i-1, i, 
+					TableModelEvent(model, i-1, i-1, 
 					TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT));
+				model.invalidateCache();
 			}
 		});
 
@@ -95,10 +95,12 @@ public class ArrayListTablePanel extends JPanel {
 					return;
 				Object obj = list.get(i);
 				list.remove(i);
-				list.add(i, obj);
+				list.add(i+1, obj);
 				table.tableChanged(new 
-					TableModelEvent(model, i, i+1, 
+					TableModelEvent(model, i, i, 
 					TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT));
+				// table.setSelectedRowInterval(i+1, i+1);
+				model.invalidateCache();
 			}
 		});
 
@@ -112,6 +114,7 @@ public class ArrayListTablePanel extends JPanel {
 				table.tableChanged(new 
 					TableModelEvent(model, i, i, 
 					TableModelEvent.ALL_COLUMNS, TableModelEvent.DELETE));
+				model.invalidateCache();
 			}
 		});
 
