@@ -21,6 +21,10 @@ public class MutableInteger {
 		value++;
 	}
 
+	public void incr(int amt) {
+		value ++ amt;
+	}
+
 	public void decr() {
 		value--;
 	}
