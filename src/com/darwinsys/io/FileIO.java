@@ -80,7 +80,7 @@ public class FileIO {
 		os.close();
 	}
 
-	/** Read the entire content of an Reader into a String */
+	/** Read the entire content of a Reader into a String */
 	public static String readerToString(Reader is) throws IOException {
 		StringBuffer sb = new StringBuffer();
 		char[] b = new char[BLKSIZ];
@@ -99,5 +99,12 @@ public class FileIO {
 	public static String inputStreamToString(InputStream is)
 	throws IOException {
 		return readerToString(new InputStreamReader(is));
+	}
+
+	/** Write a String as the entire content of a File */
+	public static void stringToFile(String text, String fileName)
+	throws IOException {
+		BufferedWriter os = new BufferedWriter(new FileWriter(fileName));
+		os.write(text);
 	}
 }
