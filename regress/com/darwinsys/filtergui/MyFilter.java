@@ -1,3 +1,5 @@
+package regress;
+
 public abstract class MyFilter {
 	MyFilter next;
 	public abstract void write(byte[] data) throws MyFilterException;

@@ -1,4 +1,4 @@
-package demo;
+package regress;
 
 import javax.swing.*;
 

@@ -1,12 +1,16 @@
+package com.darwinsys.swingui;
+
 import java.util.*;
+import javax.swing.ListModel;
 import javax.swing.event.*;
 
-public class MyListModel extends ArrayList 
-implements javax.swing.ListModel {
+/** FilterGUIListModel combines an ArrayList with a ListModel for ease of use.
+ */
+public class FilterGUIListModel extends ArrayList implements ListModel {
 
 	protected Object source;
 
-	MyListModel(Object source) {
+	FilterGUIListModel(Object source) {
 		this.source = source;
 	}
 

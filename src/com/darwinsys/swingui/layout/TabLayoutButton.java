@@ -1,11 +1,13 @@
+package com.darwinsys.swingui.layout;
+
 import java.awt.*;
 import java.awt.event.*;
 
 /**
- * A TabButton is used by TabLayout to display the name, and 
+ * A TabLayoutButton is used by TabLayout to display the name, and 
  * tell the TabLayout to show the component when called.
  */
-public class TabButton extends Component implements MouseListener {
+public class TabLayoutButton extends Component implements MouseListener {
 	/** The current text for the Tab */
 	String label;
 	/** The current image for the Tab (NOT USED) */
@@ -17,8 +19,8 @@ public class TabButton extends Component implements MouseListener {
 	/** A better padding around text */
 	protected final int PREFPAD = 10;
 
-	/** Construct a TabButton with a String and a Component (Panel?) */
-	TabButton(String s, TabLayout p){
+	/** Construct a TabLayoutButton with a String and a Component (Panel?) */
+	TabLayoutButton(String s, TabLayout p){
 		label = s;
 		image = null;
 		parent = p;
@@ -26,10 +28,10 @@ public class TabButton extends Component implements MouseListener {
 		addMouseListener(this);
 	}
 
-	/** Construct a TabButton with an Image (NOT WORKING YET).
+	/** Construct a TabLayoutButton with an Image (NOT WORKING YET).
 	 * @param im	Image, from GetImage
 	 */
-	TabButton(Image im, TabLayout p){
+	TabLayoutButton(Image im, TabLayout p){
 		label = null;
 		throw new IllegalArgumentException("Image not supported yet");
 	}

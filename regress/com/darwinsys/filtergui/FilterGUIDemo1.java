@@ -1,7 +1,11 @@
+package regress;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+
+import com.darwinsys.swingui.*;
 
 /** A simple demo of FilterGUI */
 public class FilterGUIDemo1 {

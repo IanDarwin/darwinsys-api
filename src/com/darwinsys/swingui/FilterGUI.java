@@ -1,24 +1,35 @@
+package com.darwinsys.swingui;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-/** FilterGUI implements a back-and-forth list, i.e., two columns
+/** FilterGUI implements a back-and-forth list, ie, two columns of items,
  * and items can be moved back and forth between them with "Add" and "Del"
  * buttons.
+ * This is meant to provide a framework for Java programs that want
+ * to provide chaining of various filters, or any other example where
+ * you want to move items between an inactive list and an active list.
+ * It does some neat things, including balancing the widths of the
+ * two JLists.
+ * <p>The test classes are called Filters because this type of selection GUI
+ * is often used to select chained filters, but the FilterGUI is much
+ * more general than this: a list of files to include/exclude, a list of
+ * users, or a list of filters; any of these can be used.
  * <p>
  * TODO: fix balancing (have main pack() then call adjustWidths()?).
  * Set single-selection mode on the scrolling lists.
- * And find a more standard name for this thing.
- * @author	Ian Darwin, ian@darwinsys.com
+ * And maybe find a more standard name for this thing.
+ * @author	Ian Darwin, http://www.darwinsys.com/contact.html
  * @version $Id$
  */
 public class FilterGUI extends JComponent {
 
 	JList addableList;
-	MyListModel addableListModel;
+	FilterGUIListModel addableListModel;
 	JList currentList;
-	MyListModel currentListModel;
+	FilterGUIListModel currentListModel;
 
 	/** Construct the object including its GUI */
 	public FilterGUI(Object[] data, int defaultIndex) {
@@ -27,16 +38,17 @@ public class FilterGUI extends JComponent {
 		setLayout(new BorderLayout(5, 5));
 
 		addableList = new JList();
-		addableListModel = new MyListModel(addableList);
+		addableListModel = new FilterGUIListModel(addableList);
 		addableList.setModel(addableListModel);
 		addableList.setBorder(BorderFactory.createEtchedBorder());
 		// addableList.setText("Addable");
-		for (int i=0; i<data.length; i++)
+		for (int i=0; i<data.length; i++) {
 			if (i != defaultIndex)
-			addableListModel.add(data[i]);
+				addableListModel.add(data[i]);
+		}
 
 		currentList = new JList();
-		currentListModel = new MyListModel(currentList);
+		currentListModel = new FilterGUIListModel(currentList);
 		currentList.setModel(currentListModel);
 		// currentList.setText("Current");
 		currentList.setBorder(BorderFactory.createEtchedBorder());

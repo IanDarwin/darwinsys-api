@@ -22,6 +22,7 @@
 	<target name="build" depends="init">
 		<javac srcdir="${src}" destdir="${build}"
 			classpath="${servletapi.jar}:${mail.jar}:${activation.jar}"
+			deprecation="true"
 			/>
 	</target>
 
@@ -46,7 +47,7 @@
 	</target>
 
 	<target name="docs" depends="build">
-		<javadoc sourcepath="${src}" destdir="docs/api"
+		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
 			packagenames="com.darwinsys.*"
 			maxmemory="32m" 
 			windowtitle="com.darwinsys.* - Java Cookbook Utilities"
@@ -59,16 +60,31 @@
 			</packageset>
 			<bottom><![CDATA[<i>Copyright &#169; 2000-2003 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
 		</javadoc>
-		<copy file="html/index.html" todir="docs"/>
+		<copy file="html/index.html" todir="${build}/docs"/>
 	</target>
 
-	<target name="install-docs" depends="docs">
-		<Scp todir="ian@www.darwinsys.com:/www/javacook/">
-			<fileset dir="${build/docs}"/>
-		</Scp>
+	<target name="install-docs" depends="init"><!--DOCS-->
+	<!-- jsch scp is too slow and unreliable, at least IMHO. -->
+		<input
+			message="Please enter ssh password:"
+			addproperty="ssh.password"
+			/>
+		<exec executable="clear"/>
+		<scp todir="ian@www.darwinsys.com:/www/javacook/docs"
+			password="${ssh.password}">
+			<fileset dir="${build}/docs"/>
+		</scp>
+	<!--
+		<exec executable="/usr/bin/scp">
+			<arg value="-r"/>
+			<arg value="${build}/docs"/>
+			<arg value="ian@www.darwinsys.com:/www/javacook/"/>
+		</exec>
+	-->
 	</target>
 
 	<!-- Simple Regression Tests -->
+	<!-- Pretty lame, should re-do with JUnit -->
 	<target name="regress" depends="build">
 		<property name="file" value="${build}/com/darwinsys/io/FileIO.class"/>
 

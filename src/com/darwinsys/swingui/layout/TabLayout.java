@@ -1,3 +1,5 @@
+package com.darwinsys.swingui.layout;
+
 import java.awt.*;
 import java.util.*;
 
@@ -21,7 +23,7 @@ public class TabLayout implements LayoutManager {
 	 */
 	protected Hashtable curComps;
 
-	/** The "internal Panel", or container for the TabButtons;
+	/** The "internal Panel", or container for the TabLayoutButtons;
 	 * user must construct it and give it to us in our constructor. 
 	 * We add it to the panel, you just need to construct it.
 	 * XXX TODO can we not Construct it, now that we Add it?? 
@@ -38,7 +40,7 @@ public class TabLayout implements LayoutManager {
 	protected Component showing;
 
 	/** Construct a TabLayout given a top Panel and number of rows
-	 * Use this form if you know there'll be lots of TabButtons
+	 * Use this form if you know there'll be lots of TabLayoutButtons
 	 * XXX TODO compute nrows yourself.
 	 */
 	TabLayout(Panel p, int rows) {
@@ -74,9 +76,9 @@ public class TabLayout implements LayoutManager {
 	 */
 	public void addLayoutComponent(String name, Component c) {
 		System.out.println("Adding: Name " + name);
-		// Add a TabButton to the top Panel.
-		// TabButton needs "this" to callback our show().
-		p.add(new TabButton(name, this));
+		// Add a TabLayoutButton to the top Panel.
+		// TabLayoutButton needs "this" to callback our show().
+		p.add(new TabLayoutButton(name, this));
 		// Add the Component into our Hashtable for later use
 		curComps.put(name, c);
 		// Hide the Component until a show() call.

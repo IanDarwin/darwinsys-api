@@ -1,37 +1,39 @@
+package com.darwinsys.swingui.layout;
+
 import java.awt.*;
 import java.util.*;
 
 /** 
- * RelLayout, a Relative Layout Manager for AWT.
- * For porting tired old code that uses x,y locations.
+ * RelativeLayout, a Relative Layout Manager for AWT.
+ * Mainly for porting tired old code that uses x,y locations.
  * You really can't just assign x,y locations to components 
  * in Java AWT - it breaks badly when the user resizes (and you can
  * <EM>not</EM> mandate that the user can't resize you -- see any book
  * on UI design for *that* little discussion -- and can also look
  * bad due to resolution independance.  Symantec Cafe 1.x, for example,
- * spits out unfortunate (and unmaintainable) code like this:
+ * used to spit out unfortunate (and unmaintainable) code like this:
 <PRE>
  *       setLayout(null);
  *       setSize(331,241);
  *       label1=new Label("Info Applet", Label.CENTER);
  *       add(label1);
  *       label1.setBounds(91,19,107,15);
- * <EM>Bleahhggghhh!!!</EM>
+ * <EM>Bleaarrgghh!!!</EM>
 </PRE>
  * To make it work properly at all resolutions and survive
  * user-initiated resize actions, change it to
 <PRE>
- *	setLayout(new RelLayout(331,241,false);
+ *	setLayout(new RelativeLayout(331,241,false);
  *	label1=new Label("Info Applet", Label.CENTER);
  *	add("91,19", label1);
 </PRE>
  * Note that it's actually <EM>less</EM> work to get it right.
  * Symantec, Microsoft, and others, please take note!
  *
- * @author Ian Darwin, ian@darwinsys.com, http://www.darwinsys.com
+ * @author Ian Darwin, http://www.darwinsys.com/contact.html
  */
 
-public class RelLayout implements LayoutManager {
+public class RelativeLayout implements LayoutManager {
 	/** requested absolute width of canvas */
 	protected int reqWid;
 	/** requested absolute height of canvas */
@@ -46,9 +48,9 @@ public class RelLayout implements LayoutManager {
 	protected Vector curComps = new Vector();
 
 	/**
-	 * Constructs an RelLayout, given original hard-coded size of panel.
+	 * Constructs an RelativeLayout, given original hard-coded size of panel.
 	 */
-	RelLayout(int wid, int ht) {
+	RelativeLayout(int wid, int ht) {
 		this.reqWid = wid;
 		this.reqHgt = ht;
 	}
@@ -158,31 +160,31 @@ public class RelLayout implements LayoutManager {
 	public void  removeLayoutComponent(Component c) {
 		curComps.removeElement(c);
 	}
-}
 
-/**
- * Tracker is a class used only by <A HREF="RelLayout.html">RelLayout</A>,
- * to track the original "requested" (hard-coded) x,y locations of
- * each Component.
- */
-class Tracker {
-	int absx, absy;
-	Component c;
+	/**
+	 * Tracker is a class used only by RelativeLayout,
+	 * to track the original "requested" (hard-coded) x,y locations of
+	 * each Component.
+	 */
+	class Tracker {
+		int absx, absy;
+		Component c;
 
-	/** Construct a tracker item given its location and Component. */
-	Tracker(int x, int y, Component c) {
-		this.absx = x;
-		this.absy = y;
-		this.c = c;
-	}
+		/** Construct a tracker item given its location and Component. */
+		Tracker(int x, int y, Component c) {
+			this.absx = x;
+			this.absy = y;
+			this.c = c;
+		}
 
-	/** Extract the location as a Point. */
-	public Point getRequestedLoc() {
-		return new Point(absx, absy);
-	}
+		/** Extract the location as a Point. */
+		public Point getRequestedLoc() {
+			return new Point(absx, absy);
+		}
 
-	/** Extract the Component from this Tracker. */
-	public Component getComponent() {
-		return c;
+		/** Extract the Component from this Tracker. */
+		public Component getComponent() {
+			return c;
+		}
 	}
 }
