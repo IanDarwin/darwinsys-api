@@ -8,7 +8,7 @@ import java.awt.event.*;
  * tell the TabLayout to show the component when called.
  * @deprecated Use javax.swing.JTabbedPane instead of TabLayout.
  */
-public class TabLayoutButton extends Component implements MouseListener {
+class TabLayoutButton extends Component implements MouseListener {
 	/** The current text for the Tab */
 	String label;
 	/** The current image for the Tab (NOT USED) */
@@ -94,7 +94,7 @@ public class TabLayoutButton extends Component implements MouseListener {
 		return new Dimension(d.width+MINPAD, d.height+MINPAD);
 	}
 
-	/** Computer our maximumSize */
+	/** Compute our maximumSize */
 	public Dimension getPreferredSize() {
 		Dimension d = getStrSize(label);
 		return new Dimension(d.width+PREFPAD, d.height+PREFPAD);
