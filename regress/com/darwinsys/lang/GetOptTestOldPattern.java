@@ -5,6 +5,7 @@ import java.util.*;
 import com.darwinsys.lang.GetOpt;
 
 /** Some test cases for GetOpt.
+ * <br/>XXX REWRITE USING JUNIT
  * @author Ian F. Darwin, ian@darwinsys.com
  * @version $Id$
  */
@@ -29,7 +30,7 @@ public class GetOptTest {
 	private static void process(
 		String argChars, String[] args, boolean shouldFail) {
 
-		System.out.println("** START ** " + argChars);
+		// System.out.println("** START ** " + argChars);
 
 		GetOpt go = new GetOpt(argChars);
 
@@ -52,7 +53,7 @@ public class GetOptTest {
 		for (int i=go.getOptInd(); i<args.length; i++)
 			System.out.println("Filename-like arg " + args[i]);
 
-		System.out.println("** START NEW WAY ** " + argChars);
+		// System.out.println("** START NEW WAY ** " + argChars);
 		GetOpt go2 = new GetOpt(argChars);
 		Map m = go2.parseArguments(args);
 		if (m.size() == 0)
