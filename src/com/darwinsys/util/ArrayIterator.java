@@ -5,9 +5,7 @@ import java.util.*;
  * @version	$Id$
  */
 public class IterDemo implements Iterator {
-	/** Some data. Not very interesting but
-	 * this is meant to be a simple demo.
-	 */
+	/** The data to be sorted. */
 	protected String[] data = { "one", "two", "three" };
 
 	protected int index = 0;
@@ -27,7 +25,8 @@ public class IterDemo implements Iterator {
 	}
 
 	/** Remove the object that next() just returned.
-	 * The Iterator is not required to support this interface.
+	 * An Iterator is not required to support this interface,
+	 * and we certainly don't!
 	 */
 	public void remove() {
 		throw new UnsupportedOperationException(
