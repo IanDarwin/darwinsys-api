@@ -28,25 +28,37 @@ public class SQLRunner {
 	throws ClassNotFoundException, SQLException, IOException {
 		Properties p = new Properties();
 		p.load(new FileInputStream("db.properties"));
-		db_driver = p.getProperty("db.driver");
-		db_url = p.getProperty("db.url");
-		db_user = p.getProperty("db.user");
-		db_password = p.getProperty("db.password");
+		int i = 0;
+		String prefix = "dflt";
+		if (args.length > 0 && args[0].equals("-c")) {
+			prefix = args[i + 1];
+			i += 2;
+		}
+		db_driver = p.getProperty(prefix  + "." + "db.driver");
+		db_url = p.getProperty(prefix  + "." + "db.url");
+		db_user = p.getProperty(prefix  + "." + "db.user");
+		db_password = p.getProperty(prefix  + "." + "db.password");
+		if (db_driver == null || db_url == null)
+			throw new IllegalStateException("Driver or URL null: " + prefix);
 
 		try {
 			SQLRunner prog = new SQLRunner(db_driver, db_url,
 				db_user, db_password);
-			if (args.length == 0)
+			if (args.length <= i)
 				prog.runScript(new BufferedReader(
 					new InputStreamReader(System.in)));
 			else
-				prog.runScript(args[0]);
+				prog.runScript(args[i]);
 			prog.close();
-		} catch (Exception ex) {
+		} catch (SQLException ex) {
 			System.out.println("** ERROR **");
 			System.out.println(ex.toString());
 			System.exit(1);
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+			System.exit(1);
 		}
+		System.exit(0);
 	}
 
 	public SQLRunner(String driver, String dbUrl,
@@ -105,8 +117,8 @@ public class SQLRunner {
 		System.out.println("Executing : <<" + str.trim() + ">>");
 		System.out.flush();
 		try {
-			boolean ret = stmt.execute(str);
-			if (!ret)
+			boolean hasResults = stmt.execute(str);
+			if (!hasResults)
 				System.out.println("OK: " + stmt.getUpdateCount());
 			else {
 				ResultSet rs = stmt.getResultSet();
@@ -147,6 +159,9 @@ public class SQLRunner {
 				found = true;
 			}
 			if (line.endsWith(";")) {
+				// Kludge, kill off empty statements (";") by itself, continue scanning.
+				if (line.length() == 1)
+					line = "";
 				ret = ret.substring(0, ret.length()-1);
 				return ret;
 			}
