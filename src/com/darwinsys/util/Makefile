@@ -20,7 +20,7 @@ $(JAR):	$(SRC) doc
 		$(JAVAC) -d . $(SRC)
 		jar -cfm $(JAR) manifest.stub com doc
 
-docs:	doc/index.html
+doc docs:	docs/index.html
 docs/index.html: $(SRC)
 		-@mkdir docs 2>/dev/null	# ensure dir exists, ok if already there
 		javadoc -d docs *.java
