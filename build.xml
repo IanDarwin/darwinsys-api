@@ -35,7 +35,7 @@
 	<target name="src-jar" depends="docs">
 		<jar jarfile="${build}/${src.jar}"
 			manifest="manifest.stub"
-			basedir="${build}" includes="build.xml,src/**">
+			basedir="." includes="build.xml,src/**">
 		</jar>
 	</target>
 
