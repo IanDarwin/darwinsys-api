@@ -107,8 +107,18 @@ public class SQLRunner {
 				System.out.println("OK: " + stmt.getUpdateCount());
 			else {
 				ResultSet rs = stmt.getResultSet();
+				ResultSetMetaData md = rs.getMetaData();
+				int cols = md.getColumnCount();
+				for (int i=1; i <= cols; i++) {
+					System.out.print(md.getColumnName(i) + "\t");
+				}
+				System.out.println();
+
 				while (rs.next()) {
-					System.out.println(rs.getString(1));
+					for (int i=1; i <= cols; i++) {
+						System.out.print(rs.getString(i) + "\t");
+					}
+					System.out.println();
 				}
 			}
 		} catch (SQLException ex) {
