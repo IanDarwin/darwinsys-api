@@ -20,4 +20,10 @@ public class Debug {
 		if (isEnabled(category))
 			System.out.println(msg);
 	}
+	/** Same thing but for non-String objects (think of the other
+	 * form as an optimization of this).
+	 */
+	public static void println(String category, Object stuff) {
+		println(category, stuff.toString());
+	}
 }
