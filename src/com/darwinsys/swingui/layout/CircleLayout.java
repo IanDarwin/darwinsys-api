@@ -88,7 +88,7 @@ public class CircleLayout implements LayoutManager {
 			System.out.println(c.getClass().getName() + 
 				" " + angle + ", " + theta +
 				", x=" + x + ", y=" + y);
-			c.setBounds(dx + x + (d.width/2), dy + y + (d.height/2),
+			c.setBounds(dx + x - (d.width/2), dy + y - (d.height/2),
 				d.width, d.height);
 		}
 	}
