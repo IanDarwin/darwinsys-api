@@ -1,13 +1,17 @@
-/* Inner logic adapted from a C++ original that was */
-/* Copyright (C) 1999 Lucent Technologies */
-/* Excerpted from 'The Practice of Programming' */
-/* by Brian W. Kernighan and Rob Pike */
-
-import java.io.*;
 import java.util.*;
 
-/** read and parse comma-separated values
- * sample input: "LU",86.25,"11/4/1998","2:19PM",+4.0625
+/** Parse comma-separated values (CSV), a common Windows file format.
+ * Sample input: "LU",86.25,"11/4/1998","2:19PM",+4.0625
+ * <p>
+ * Inner logic adapted from a C++ original that was
+ * Copyright (C) 1999 Lucent Technologies
+ * Excerpted from 'The Practice of Programming'
+ * by Brian W. Kernighan and Rob Pike.
+ * <p>
+ * Included by permission of the http://tpop.awl.com/ web site, 
+ * which says:
+ * "You may use this code for any purpose, as long as you leave 
+ * the copyright notice and book citation attached." I have done so.
  * @author Brian W. Kernighan and Rob Pike (C++ original)
  * @author Ian F. Darwin (translation into Java and removal of I/O)
  */
@@ -28,38 +32,42 @@ public class CSV {
 		fieldsep = sep;
 	}
 
-	protected Vector list = new Vector();		// field Strings
-	protected String fieldsep;		// separator characters
+	/** The fields in the current String */
+	protected ArrayList list = new ArrayList();
+
+	/** the separator string for this parser */
+	protected String fieldsep;
 
 	/** split: split line into fields
-	 * @return java.util.Enumeration containing each field as a String, in order.
+	 * @return java.util.Iterator containing each field 
+	 * as a String, in order.
 	 */
-	public Enumeration split(String line)
+	public Iterator split(String line)
 	{
-		StringBuffer fld = new StringBuffer();
-		list.removeAllElements();			// discard previous, if any
-		int i = 0, j;
+		StringBuffer sb = new StringBuffer();
+		list.clear();			// discard previous, if any
+		int i = 0;
 
 		if (line.length() == 0) {
-			list.addElement(line);
-			return list.elements();
+			list.add(line);
+			return list.iterator();
 		}
 
 		do {
-			fld.setLength(0);
+			sb.setLength(0);
 			if (i < line.length() && line.charAt(i) == '"')
-				j = advquoted(line, fld, ++i);	// skip quote
+				i = advquoted(line, sb, ++i);	// skip quote
 			else
-				j = advplain(line, fld, i);
-			list.addElement(fld.toString());
-			i = j + 1;
-		} while (j < line.length());
+				i = advplain(line, sb, i);
+			list.add(sb.toString());
+			i++;
+		} while (i < line.length());
 
-		return list.elements();
+		return list.iterator();
 	}
 
 	/** advquoted: quoted field; return index of next separator */
-	protected int advquoted(String s, StringBuffer fld, int i)
+	protected int advquoted(String s, StringBuffer sb, int i)
 	{
 		int j;
 
@@ -67,14 +75,14 @@ public class CSV {
 			// found end of field if find unescaped quote.
 			if (s.charAt(j) == '"' && s.charAt(j-1) != '\\') {
 				int k = s.indexOf(fieldsep, j);
-				System.out.println("j="+j+", k="+k);
+				// System.out.println("j="+j+", k="+k);
 				if (k == -1)	// no separator found after this field
 					k += s.length();
 				for (k -= j; k-- > 0; )
-					fld.append(s.charAt(j++));
+					sb.append(s.charAt(j++));
 				break;
 			}
-			fld.append(s.charAt(j));
+			sb.append(s.charAt(j));
 		}
 		return j;
 	}
@@ -92,23 +100,6 @@ public class CSV {
 		} else {
 			fld.append(s.substring(i, j));
 			return j;
-		}
-	}
-
-	/** Canonical main program - test lines from a file and print. */
-	public static void main(String[] argv) throws IOException
-	{
-		String line;
-		CSV csv = new CSV();
-
-		BufferedReader is = new BufferedReader(
-			new InputStreamReader(System.in));
-		while ((line = is.readLine()) != null) {
-			System.out.println("line = " + line);
-			Enumeration e = csv.split(line);
-			int i = 0;
-			while (e.hasMoreElements()) 
-				System.out.println(i++ + ": " + e.nextElement());
 		}
 	}
 }
