@@ -1,5 +1,7 @@
-import java.text.*;
-import java.util.*;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 
 /**
  * Format numbers scaled for human comprehension.
