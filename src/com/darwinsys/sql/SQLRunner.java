@@ -142,7 +142,7 @@ public class SQLRunner {
 			if (line == null || line.length() == 0) {
 				continue;
 			}
-			if (!line.startsWith("#")) {
+			if (!(line.startsWith("#") || line.startsWith("--"))) {
 				ret += ' ' + line;
 				found = true;
 			}
