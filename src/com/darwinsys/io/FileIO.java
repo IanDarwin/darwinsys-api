@@ -16,36 +16,38 @@ public class FileIO {
 			new BufferedInputStream(new FileInputStream(inName));
 		BufferedOutputStream os = 
 			new BufferedOutputStream(new FileOutputStream(outName));
-		copyFile(is, os);
+		copyFile(is, os, true);
 	}
 
 	/** Copy a file from an opened InputStream to opened OutputStream */
-	public static void copyFile(InputStream is, OutputStream os) 
+	public static void copyFile(InputStream is, OutputStream os, boolean close) 
 	throws IOException {
 		int b;				// the byte read from the file
 		while ((b = is.read()) != -1) {
 			os.write(b);
 		}
 		is.close();
-		os.close();
+		if (close)
+			os.close();
     }
 
 	/** Copy a file from an opened Reader to opened Writer */
-	public static void copyFile(Reader is, Writer os) 
+	public static void copyFile(Reader is, Writer os, boolean close) 
 	throws IOException {
 		int b;				// the byte read from the file
 		while ((b = is.read()) != -1) {
 			os.write(b);
 		}
 		is.close();
-		os.close();
+		if (close)
+			os.close();
     }
 
 	/** Copy a file from a filename to a PrintWriter. */
-	public static void copyFile(String inName, PrintWriter pw) 
+	public static void copyFile(String inName, PrintWriter pw, boolean close) 
 	throws FileNotFoundException, IOException {
 		BufferedReader is = new BufferedReader(new FileReader(inName));
-		copyFile(is, pw);
+		copyFile(is, pw, close);
 	}
 
 	/** Open a file and read the first line from it. */
