@@ -9,7 +9,7 @@ import javax.swing.*;
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
  */
-public class LabelText extends JComponent implements java.io.Serializable {
+public class LabelText extends JPanel implements java.io.Serializable {
 	/** The label component */
 	protected JLabel theLabel;
 	/** The label component */

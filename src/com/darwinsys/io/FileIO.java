@@ -79,4 +79,25 @@ public class FileIO {
 		is.close();
 		os.close();
 	}
+
+	/** Read the entire content of an Reader into a String */
+	public static String readerToString(Reader is) throws IOException {
+		StringBuffer sb = new StringBuffer();
+		char[] b = new char[BLKSIZ];
+		int n;
+
+		// Read a block. If it gets any chars, append them.
+		while ((n = is.read(b)) > 0) {
+			sb.append(b, 0, n);
+		}
+
+		// Only construct the String object once, here.
+		return sb.toString();
+	}
+
+	/** Read the content of a Stream into a String */
+	public static String inputStreamToString(InputStream is)
+	throws IOException {
+		return readerToString(new InputStreamReader(is));
+	}
 }

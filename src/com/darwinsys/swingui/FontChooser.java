@@ -4,7 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/** Canonical font selection dialog. AWT version.
+/** A font selection dialog. AWT version.
+ * <p>Note: can take a LONG time to start up on systems
+ * with (literally) hundreds of fonts.
  * @author	Ian Darwin
  * @version $Id$
  */
