@@ -12,7 +12,7 @@
 	<property name="obj.jar" value="darwinsys.jar"/>
 	<property name="src.jar" value="darwinsys-src.jar"/>
 
-	<property name="deploy.dir" value="${user.home}/classes/ext"/>
+	<property name="deploy.dir" value="${user.home}/lib"/>
 
 	<target name="init">
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->

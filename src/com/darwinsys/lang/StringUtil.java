@@ -2,7 +2,7 @@ package com.darwinsys.lang;
 
 /** Miscellaneous string utilities:
  * arrayToCommaList - print an array with commas, "and";
- * subst - simple substitute (like 1.4's String.subst but not RE-based)
+ * subst - simple substitute (like 1-4's String.subst but not RE-based)
  * .
  */
 public class StringUtil {
@@ -38,7 +38,7 @@ public class StringUtil {
 	}
 
 	/** Backwards-compability: StringBuffer.indexOf(String, int) added in
-	 * JDK 1.4, but we need it here and one of my servers is on 1.3. :-)
+	 * JDK 1-4, but we need it here and one of my servers is on JDK 1-3.
 	 */
 	public static int indexOf(StringBuffer sb, String str, int fromIndex) {
 
