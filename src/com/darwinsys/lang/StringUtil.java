@@ -25,9 +25,12 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/** Simple demo/test program */
-	public static void main(String[] args) {
-		String[] list = { "apples", "oranges", "pumpkins", "bananas" };
-		System.out.println(arrayToCommaList(list));
+	public static String subst(String oldStr, String newStr, String input) {
+		int where = 0;
+		StringBuffer sb = new StringBuffer(input);
+		while ((where = sb.indexOf(oldStr, where)) != -1) {
+			sb.replace(where, where + oldStr.length(), newStr);
+		}
+		return sb.toString();
 	}
 }

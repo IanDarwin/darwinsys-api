@@ -16,7 +16,7 @@ public class CircleLayoutTest {
 	public static void main(String[] av) {
 		final JFrame f = new JFrame("CircleLayout Demonstration");
 		Container cp = f.getContentPane();
-		cp.setLayout(new CircleLayout());
+		cp.setLayout(new CircleLayout(true));
 		cp.add(new JButton("One"));
 		cp.add(new JButton("Two"));
 		cp.add(new JButton("Three"));
