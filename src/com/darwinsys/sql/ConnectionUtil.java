@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.darwinsys.database.DataBaseException;
 
@@ -87,5 +90,31 @@ public class ConnectionUtil {
 			System.err.println("Warning: IO error checking path: " + configFileName);
 			ConnectionUtil.configFileName = configFileName;
 		}
+	}
+	
+	/** Generate a Set<String> of the config names available
+	 * from the current configuration file.
+	 * @return Set<String> of the configurations
+	 */
+	public static Set list() {
+		Set configNames = new TreeSet();
+		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream(configFileName));
+			Enumeration enumeration = p.keys();
+			while (enumeration.hasMoreElements()) {
+				String element = (String) enumeration.nextElement();
+				int offset;
+				if ((offset= element.indexOf('.')) == -1)
+					continue;
+				String configName = element.substring(0, offset);
+				//System.out.println(configName);
+				configNames.add(configName);
+				
+			}
+		} catch (IOException ex) {
+			throw new DataBaseException(ex.toString());
+		}
+		return configNames;
 	}
 }
