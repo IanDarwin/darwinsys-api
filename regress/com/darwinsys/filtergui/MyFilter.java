@@ -1,4 +1,4 @@
-package regress;
+package regress.filtergui;
 
 public abstract class MyFilter {
 	MyFilter next;

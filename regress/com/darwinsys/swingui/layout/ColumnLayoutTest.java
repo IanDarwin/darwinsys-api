@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+import com.darwinsys.swingui.layout.ColumnLayout;
+
 /**
  * Simple class to non-exhaustively test out RelLayout layout manager.
  */

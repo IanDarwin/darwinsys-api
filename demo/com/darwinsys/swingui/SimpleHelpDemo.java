@@ -1,5 +1,7 @@
 package regress;
 
+import javax.swing.JFrame;
+
 import com.darwinsys.swingui.SimpleHelp;
 
 public class SimpleHelpDemo {
@@ -8,6 +10,8 @@ public class SimpleHelpDemo {
 		if (argv.length == 0)
 			throw new IllegalArgumentException(
 			"Usage: SimpleHelpDemo helpFile");
-		new SimpleHelp("TESTING", argv[0]).setVisible(true);
+		JFrame jf = new SimpleHelp("Demo", argv[0]);
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setVisible(true);
 	}
 }

@@ -101,16 +101,35 @@
 	</target>
 
 	<!-- These regressions require manual intervention, so not default -->
-	<target name="regress.gui" depends="build">
+	<target name="regress.swingui" depends="build">
+		<echo           message="ArrayListTableSimple"/>
 		<java className="regress.ArrayListTableSimple" classpath="build"
 			fork="yes"/>
+		<echo           message="LabelTextTest"/>
 		<java className="regress.LabelTextTest" classpath="build"
 			fork="yes"/>
+		<echo           message="SimpleHelpTest"/>
 		<java className="regress.SimpleHelpTest" classpath="build"
 			fork="yes">
 			<arg value="../otherlang/help/index.html"/>
 			</java>
+		<echo           message="WindowCloserTest (deprecated)"/>
 		<java className="regress.WindowCloserTest" classpath="build"
+			fork="yes"/>
+	</target>
+
+	<target name="regress.layout" depends="build">
+		<echo           message="CircleLayoutTest"/>
+		<java className="regress.CircleLayoutTest" classpath="build"
+			fork="yes"/>
+		<echo           message="ColumnLayoutTest"/>
+		<java className="regress.ColumnLayoutTest" classpath="build"
+			fork="yes"/>
+		<echo           message="RelativeLayoutTest"/>
+		<java className="regress.RelativeLayoutTest" classpath="build"
+			fork="yes"/>
+		<echo           message="TabLayoutTest"/>
+		<java className="regress.TabLayoutTest" classpath="build"
 			fork="yes"/>
 	</target>
 

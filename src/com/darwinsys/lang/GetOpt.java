@@ -5,12 +5,16 @@ import java.util.Properties;
 import java.util.List;
 import java.util.ArrayList;
 
-/** A class to implement UNIX-style (single-character) command arguments
- * @author Ian F. Darwin, ian@darwinsys.com
+/** A class to implement UNIX-style (single-character) command line arguments
  * Originally patterned after (but not using code from) the UNIX 
  * getopt(3) program, this has been redesigned to be more Java-friendly.
  * <p>
  * This is <em>not</em> threadsafe; it is expected to be used only from main().
+ * <p>
+ * For another way of dealing with command lines, see the
+ * <a href="http://jakarta.apache.org/commons/cli/">Jakarta Commons
+ * Command Line Interface</a>.
+ * @author Ian F. Darwin, ian@darwinsys.com
  * @version $Id$
  */
 public class GetOpt {

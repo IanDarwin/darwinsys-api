@@ -1,4 +1,4 @@
-package regress;
+package regress.filtergui;
 
 import java.awt.*;
 import java.awt.event.*;

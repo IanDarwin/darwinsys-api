@@ -24,6 +24,7 @@ public class LabelTextTest extends JPanel {
 	/** Construct the object including its GUI */
 	public LabelTextTest() {
 		super();
+		setLayout(new GridLayout(0, 1));
 		JComponent foo;
 		add(foo = new LabelText("Hello, and welcome to the world of Java"));
 		foo.setFont(new Font("helvetica", Font.BOLD, 24));

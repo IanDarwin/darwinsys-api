@@ -88,13 +88,13 @@ public class TabLayoutButton extends Component implements MouseListener {
 	}
 
 	/** Compute our minimumSize */
-	public Dimension minimumSize() {
+	public Dimension getMinimumSize() {
 		Dimension d = getStrSize(label);
 		return new Dimension(d.width+MINPAD, d.height+MINPAD);
 	}
 
 	/** Computer our maximumSize */
-	public Dimension preferredSize() {
+	public Dimension getPreferredSize() {
 		Dimension d = getStrSize(label);
 		return new Dimension(d.width+PREFPAD, d.height+PREFPAD);
 	}

@@ -50,7 +50,7 @@ public class RelativeLayout implements LayoutManager {
 	/**
 	 * Constructs an RelativeLayout, given original hard-coded size of panel.
 	 */
-	RelativeLayout(int wid, int ht) {
+	public RelativeLayout(int wid, int ht) {
 		this.reqWid = wid;
 		this.reqHgt = ht;
 	}

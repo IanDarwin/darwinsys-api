@@ -1,7 +1,11 @@
+package com.darwinsys.swingui.layout;
+
 import java.awt.*;
 import java.util.*;
 
-/** Intended to become a CircleLayout layout manager.
+import com.darwinsys.util.Debug;
+
+/** Beginnings of a CircleLayout layout manager.
  * @author Ian F. Darwin, ian@darwinsys.com
  * @version $Id$
  */
@@ -47,7 +51,6 @@ public class CircleLayout implements LayoutManager {
 	 * specified container given the components therein.
 	 */
 	public Dimension minimumLayoutSize(Container parent)  {
-		// System.out.println("minimumLayoutSize");
 		return computelayoutSize(parent);
 	}
 
@@ -64,7 +67,6 @@ public class CircleLayout implements LayoutManager {
 
 	/** Lays out the container in the specified panel. */
 	public void layoutContainer(Container parent) {
-		// System.out.println("layoutContainer:");
 		Component[] components = parent.getComponents();
 		int numComps = components.length;
 		points = new Point[numComps];
@@ -72,9 +74,18 @@ public class CircleLayout implements LayoutManager {
 
 		int dx = totalSize.width / 2;
 		int dy = totalSize.height / 2;
-		int PAD = 10;
-		int radius = dx - PAD;
 
+		// make one quick pass to get max(PreferredSize.width[1..n]
+		int width = 0, height = 0;
+		for (int i=0; i<numComps; i++) {
+			width = Math.max(width, components[i].getPreferredSize().width);
+			height = Math.max(height, components[i].getPreferredSize().height);
+		}
+		int componentPad = Math.max(width, height) / 2;
+
+		int PAD = 10;
+		// Assumed to be regular (circle, not ellipse).
+		int radius = dx - componentPad - PAD;
 
 		int degreesPer = 360 / numComps;
 		int angle = startAtTop ? 0 : degreesPer/2;
@@ -85,7 +96,7 @@ public class CircleLayout implements LayoutManager {
 			double theta = Math.toRadians(angle);
 			int x = (int)(Math.sin(theta) * radius);
 			int y = (int)(Math.cos(theta) * radius);
-			System.out.println(c.getClass().getName() + 
+			Debug.println("layout", c.getClass().getName() + 
 				" " + angle + ", " + theta +
 				", x=" + x + ", y=" + y);
 			c.setBounds(dx + x - (d.width/2), dy + y - (d.height/2),

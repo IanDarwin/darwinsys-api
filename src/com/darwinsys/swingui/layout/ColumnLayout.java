@@ -38,15 +38,17 @@ public class ColumnLayout implements LayoutManager {
 	Component[] curComps;
 
 	/** Construct a ColumnLayout given only an alignment. */
-	ColumnLayout(int dirn) {
+	public ColumnLayout(int dirn) {
 		this(dirn, 0, 0);
 	}
+
 	/** Construct a ColumnLayout given an alignment and a padding amount. */
-	ColumnLayout(int dirn, int pad) {
+	public ColumnLayout(int dirn, int pad) {
 		this(dirn, pad, pad);
 	}
+
 	/** Construct a ColumnLayout given an alignment and h,v padding amounts. */
-	ColumnLayout(int dirn, int hpad, int vpad) {
+	public ColumnLayout(int dirn, int hpad, int vpad) {
 		alignment = dirn;
 		hPadding  = hpad;
 		vPadding  = vpad;

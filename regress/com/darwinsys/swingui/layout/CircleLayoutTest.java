@@ -1,6 +1,10 @@
+package regress;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import com.darwinsys.swingui.layout.CircleLayout;
 
 /** Testbed for CircleLayout layout manager.
  * @author	Ian Darwin, ian@darwinsys.com

@@ -3,6 +3,8 @@ package com.darwinsys.swingui.layout;
 import java.awt.*;
 import java.util.*;
 
+import com.darwinsys.util.Debug;
+
 /** 
  * TabLayout, a TabLayout Layout Manager.
  * 
@@ -28,7 +30,7 @@ public class TabLayout implements LayoutManager {
 	 * We add it to the panel, you just need to construct it.
 	 * XXX TODO can we not Construct it, now that we Add it?? 
 	 */
-	protected Panel p;
+	protected Container p;
 
 	/** The layout manager of the internal Panel */
 	protected LayoutManager pl;
@@ -43,7 +45,7 @@ public class TabLayout implements LayoutManager {
 	 * Use this form if you know there'll be lots of TabLayoutButtons
 	 * XXX TODO compute nrows yourself.
 	 */
-	TabLayout(Panel p, int rows) {
+	public TabLayout(Container p, int rows) {
 		super();
 		nComponents = 0;
 		this.p = p;
@@ -52,15 +54,16 @@ public class TabLayout implements LayoutManager {
 		curComps = new Hashtable();
 		showing = null;
 	}
+
 	/** Construct and TabLayout only a top Panel */
-	TabLayout(Panel p) {
+	public TabLayout(Container p) {
 		this(p, 1);
 	}
 
 	/** Show one panel, given its name. */
 	public void show(String s) {
 		Component c = (Component)curComps.get(s);
-		System.out.println("Showing " + s + "=" + c);
+		Debug.println("layout", "Showing " + s + "=" + c);
 		if (showing != null)
 			showing.setVisible(false);
 		c.setVisible(true);
@@ -75,7 +78,7 @@ public class TabLayout implements LayoutManager {
 	 * @param	c	Component to be added.
 	 */
 	public void addLayoutComponent(String name, Component c) {
-		System.out.println("Adding: Name " + name);
+		Debug.println("layout", "Adding: Name " + name);
 		// Add a TabLayoutButton to the top Panel.
 		// TabLayoutButton needs "this" to callback our show().
 		p.add(new TabLayoutButton(name, this));
@@ -97,14 +100,11 @@ public class TabLayout implements LayoutManager {
 			target.add(p);
 			added = true;
 		}
-		System.out.println("layoutContainer: size " + target.getSize());
+		Debug.println("layout", "layoutContainer: size " + target.getSize());
 		pl.layoutContainer(p);
-System.out.println("Back from pl.layoutContainer");
 		Dimension pReq = p.getPreferredSize();
-System.out.println("pReq=" + pReq);
 		p.setBounds(new Rectangle(0, 0, pReq.width, pReq.height));
 		topBreak = p.getSize().height;
-System.out.println("TopBreak=" + topBreak);
 		Enumeration keys = curComps.keys();
 		while (keys.hasMoreElements()) {
 			String key = (String)keys.nextElement();
@@ -115,8 +115,8 @@ System.out.println("TopBreak=" + topBreak);
 			py = 0;
 			pw = d.width;
 			ph = d.height;
-			// System.out.println("layoutContainer]: move " +
-			// 	tc + " to " + px + ", " + py);
+			Debug.println("layout", "layoutContainer]: move " +
+				tc + " to " + px + ", " + py);
 			tc.setBounds(new Rectangle(px, topBreak+py, pw, ph));
 		}
 	}
@@ -140,8 +140,6 @@ System.out.println("TopBreak=" + topBreak);
 			Dimension d = tc.getMinimumSize();
 			minw = Math.max(minw, d.width);
 			minh = Math.max(minh, d.height);
-			// System.out.println("minLay, minw = " + 
-			// 	minw + "; minh = " + minh);
 		}
 		return new Dimension(minw, topBreak + minh);
 	}
@@ -162,7 +160,7 @@ System.out.println("TopBreak=" + topBreak);
 			Dimension d = tc.getPreferredSize();
 			prefw = Math.max(prefw, d.width);
 			prefh = Math.max(prefh, d.height);
-			System.out.println(key + " prefLay, prefw = " + 
+			Debug.println("layout", key + " prefLay, prefw = " + 
 				prefw + "; prefh = " + prefh);
 		}
 		if (!added) {
