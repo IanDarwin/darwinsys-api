@@ -6,6 +6,8 @@ package com.darwinsys.lang;
  * .
  */
 public class StringUtil {
+	
+	public static final String ENCODING_UTF_8 = "UTF-8";
 
 	/** Format an array of Object as a list with commas,
 	 * like "apples, oranges, and bananas");
