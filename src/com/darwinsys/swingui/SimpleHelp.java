@@ -8,9 +8,11 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
-/*
- * Simple Help Frame based on JFC JEditorPane
+/**
+ * Simple Help Frame based on JFC JEditorPane.
+ * <p>
  * May someday rewrite using JavaHelp API.
+ * @version $Id$
  */
 public class SimpleHelp extends JFrame implements HyperlinkListener {
 	/** The contentpane */
