@@ -19,15 +19,16 @@ public class MyHelp extends JFrame implements HyperlinkListener {
 	/* Construct a Help object. Just construct a JEditorPane
 	 * with a URL, and it does all the help from there.
 	 */
-    public MyHelp() {
-		super("Help Window");
+    public MyHelp(String name) {
+		super(name + " Help Window");
 		cp = getContentPane();
-		getAccessibleContext().setAccessibleName("TestEdit Help Window");
-		getAccessibleContext().setAccessibleDescription("A window for viewing TestEdit HELP, which is somewhat hyperlinked.");
+		getAccessibleContext().setAccessibleName(name + " Help Window");
+		getAccessibleContext().setAccessibleDescription(
+			"A window for viewing the help for " + name +
+			", which is somewhat hyperlinked.");
 	
 		try {
-			URL url = new URL("file:///"+ System.getProperty("user.dir")+
-				"/help/index.html");
+			URL url = new File("help/index.html").toURL();
 			// Only create the window once.
 			if (help == null) {
 				// System.out.println("Creat-ing help window for " + url);
