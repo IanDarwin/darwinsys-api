@@ -7,9 +7,9 @@ package com.darwinsys.util;
 public class Debug {
 	/** Static method to see if a given category of debugging is enabled.
 	 * Enable by setting e.g., -Ddebug.fileio to debug file I/O operations.
-	 * Test like this:<BR>
-	 if (Debug.isEnabled("fileio"))<BR>
-	 	System.out.println("Starting to read file " + fileName);
+	 * Use like this:<BR>
+	 * if (Debug.isEnabled("fileio"))<BR>
+	 * 	System.out.println("Starting to read file " + fileName);
 	 */
 	public static boolean isEnabled(String category) {
 		return System.getProperty("debug." + category) != null;
