@@ -51,9 +51,9 @@ public class FontChooser extends Frame {
 		for (int i=0; i<fontSizes.length; i++)
 			fSizeChoice.add(fontSizes[i]);
 
-		previewArea = new Label("Qwerty Yuiop");
-		cp.add(previewArea);
+		previewArea = new MyLabel("Qwerty Yuiop");
 		previewArea.setSize(200, 50);
+		cp.add(previewArea);
 
 		Button okButton = new Button("Apply");
 		cp.add(okButton);
@@ -107,5 +107,25 @@ public class FontChooser extends Frame {
 	/** Simple main program to start it running */
 	public static void main(String args[]) {
 		new FontChooser().setVisible(true);
+	}
+
+	/** This tiny inner class just extends Label to allow for
+	 * setSize() to control the results of getPreferredSize().
+	 */
+	class MyLabel extends Label {
+		protected int wid = 0, ht = 0;
+		public MyLabel(String s) {
+			super(s);
+		}
+
+		public void setSize(int w, int h) {
+			super.setSize(wid = w, ht = h);
+		}
+
+		public Dimension getPreferredSize() {
+			if (wid == 0 || ht == 0)
+				return super.getPreferredSize();
+			return new Dimension(wid, ht);
+		}
 	}
 }
