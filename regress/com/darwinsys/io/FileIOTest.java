@@ -9,14 +9,16 @@ import java.io.*;
 public class FileIOTest extends TestCase {
 	/** Test File name. This file is created in build.xml */
 	public static final String FILENAME="fileiotest.dat";
+	/** Test string. Must agree with 'message' in build.xml! */
+	public static finale String MESSAGE=
+		"This one-line file is created by com.darwinsys/build.xml.";
 
 	public void testReaderToString() {
 		try {
 			String s = FileIO.readerToString(new FileReader(FILENAME));
 
 			// Make sure that readerToString really reads from the file.
-			// Don't change this next line w/o also changing build.xml
-			assertEquals(s, "This is a one-line file.");
+			assertEquals(s, MESSAGE);
 
 			// Make sure that readerToString doesn't append gunk like
 			// extraneous nulls.

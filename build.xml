@@ -91,7 +91,9 @@
 	<target name="regress" depends="build">
 		<!-- Tests using JUnit -->
 		<!-- Don't change this w/o changing FileIOTest.java -->
-		<echo file="${fileiotest.dat}" message="This is a one-line file."/>
+		<echo file="${fileiotest.dat}" 
+		message="This one-line file is created by com.darwinsys/build.xml."/>
+
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 				<classpath>
 						<pathelement location="${build}"/>
