@@ -2,8 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/** A font selection dialog. AWT version.
- * <p>Note: can take a LONG time to start up on systems
+/** A font selection dialog.
+ * <p>Note: can take a long time to start up on systems
  * with (literally) hundreds of fonts.
  * TODO change list to JList, add a SelectionChangedListener to preview.
  * @author	Ian Darwin
@@ -31,7 +31,7 @@ public class FontChooser extends JDialog {
 	/** The list of Fonts */
 	protected String fontList[];
 	/** The font name chooser */
-	protected List fNameChoice;
+	protected List fontNameChoice;
 	/** The font size chooser */
 	protected List fontSizeChoice;
 	/** The bold and italic choosers */
@@ -61,8 +61,8 @@ public class FontChooser extends JDialog {
 		Panel top = new Panel();
 		top.setLayout(new FlowLayout());
 
-		fNameChoice = new List(8);
-		top.add(fNameChoice);
+		fontNameChoice = new List(8);
+		top.add(fontNameChoice);
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		// For JDK 1.1: returns about 10 names (Serif, SansSerif, etc.)
@@ -74,8 +74,8 @@ public class FontChooser extends JDialog {
 			getAvailableFontFamilyNames();
 
 		for (int i=0; i<fontList.length; i++)
-			fNameChoice.add(fontList[i]);
-		fNameChoice.select(0);
+			fontNameChoice.add(fontList[i]);
+		fontNameChoice.select(0);
 
 		fontSizeChoice = new List(8);
 		top.add(fontSizeChoice);
@@ -144,7 +144,7 @@ public class FontChooser extends JDialog {
 	 * build a font, and set it.
 	 */
 	protected void previewFont() {
-		resultName = fNameChoice.getSelectedItem();
+		resultName = fontNameChoice.getSelectedItem();
 		String resultSizeName = fontSizeChoice.getSelectedItem();
 		int resultSize = Integer.parseInt(resultSizeName);
 		isBold = bold.getState();
