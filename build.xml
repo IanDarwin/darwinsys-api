@@ -1,4 +1,4 @@
-<project name="com.darwinsys.util package" default="regress" basedir=".">
+<project name="com.darwinsys.* package" default="regress" basedir=".">
 
 	<!-- $Id$ -->
 
@@ -9,8 +9,8 @@
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
 
-	<property name="obj.jar" value="com-darwinsys-util.jar"/>
-	<property name="src.jar" value="com-darwinsys-util-src.jar"/>
+	<property name="obj.jar" value="com-darwinsys-all.jar"/>
+	<property name="src.jar" value="com-darwinsys-all-src.jar"/>
 
 	<property name="deploy.dir" value="${user.home}/classes/ext"/>
 
@@ -26,26 +26,30 @@
 	</target>
 
 	<target name="jar" depends="docs">
-		<jar jarfile="${build}/${obj.jar}" basedir="${build}"
-			includes="META-INF/*,com/**/*.class,demo/**/*.class,docs">
+		<jar jarfile="${build}/${obj.jar}" 
+			manifest="manifest.stub"
+			basedir="${build}" includes="META-INF/*,com/**/*.class,docs">
 		</jar>
 	</target>
+
+	<target name="src-jar" depends="docs">
+		<jar jarfile="${build}/${src.jar}"
+			manifest="manifest.stub"
+			basedir="${build}" includes="build.xml,src/**">
+		</jar>
+	</target>
+
+	<target name="dist" depends="jar,src-jar"/>
 
 	<target name="deploy" depends="jar">
 		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
-	</target>
-
-	<target name="src-jar" depends="build">
-		<jar jarfile="${build}/${src.jar}"
-			basedir="${build}" includes="META-INF/*,*/**.java">
-		</jar>
 	</target>
 
 	<target name="docs" depends="build">
 		<javadoc sourcepath="${src}" destdir="docs/api"
 			packagenames="com.darwinsys.*"
 			maxmemory="32m" 
-			windowtitle="com.darwinsys.util - Java Cookbook Utilities"
+			windowtitle="com.darwinsys.* - Java Cookbook Utilities"
 			Version="true" Author="true" Use="true"
 			Overview="overview.html"
 			>
@@ -60,5 +64,10 @@
 	<target name="regress" depends="jar">
 		<java className="regress.GetOptTest"
 			classpath="build:${servletapi.jar}:${mail.jar}:${activation.jar}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="build"/>
+		<delete dir="docs"/>
 	</target>
 </project>
