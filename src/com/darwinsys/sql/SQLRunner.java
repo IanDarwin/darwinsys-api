@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.io.*;
 import java.util.*;
+import com.darwinsys.lang.*;	// for getopt
 
 /** Class to run an SQL script, like psql(1), SQL*Plus, or similar programs.
  * Command line interface hard-codes sample driver and dburl,
@@ -9,6 +10,9 @@ import java.util.*;
  * @author	Ian Darwin, ian@darwinsys.com
  */
 public class SQLRunner {
+
+	/** The default configuration file */
+	public static String DEFAULT_FILE = "db.properties";
 
 	/** The database driver */
 	protected static String db_driver;
@@ -24,31 +28,55 @@ public class SQLRunner {
 	/** SQL Statement */
 	protected Statement stmt;
 
+	private static void doHelp(int i) {
+		System.out.println(
+		"Usage: SQLRunner [-f configFile] [-c config] [SQLscript[ ...]");
+		System.exit(i);
+	}
+
 	public static void main(String[] args)
 	throws ClassNotFoundException, SQLException, IOException {
-		Properties p = new Properties();
-		p.load(new FileInputStream("db.properties"));
-		int i = 0;
-		String prefix = "dflt";
-		if (args.length > 0 && args[0].equals("-c")) {
-			prefix = args[i + 1];
-			i += 2;
+		String fileName = DEFAULT_FILE;
+		String config = "default";
+		GetOpt go = new GetOpt("f:c:");
+		char c;
+		while ((c = go.getopt(args)) != GetOpt.DONE) {
+			switch(c) {
+			case 'h':
+				doHelp(0);
+				break;
+			case 'f':
+				fileName = go.optarg();
+				break;
+			case 'c':
+				config = go.optarg();
+				break;
+			default:
+				System.err.println("Unknown option character " + c);
+				doHelp(1);
+			}
 		}
-		db_driver = p.getProperty(prefix  + "." + "db.driver");
-		db_url = p.getProperty(prefix  + "." + "db.url");
-		db_user = p.getProperty(prefix  + "." + "db.user");
-		db_password = p.getProperty(prefix  + "." + "db.password");
-		if (db_driver == null || db_url == null)
-			throw new IllegalStateException("Driver or URL null: " + prefix);
+
+		Properties p = new Properties();
+		p.load(new FileInputStream(fileName));
+		db_driver = p.getProperty(config  + "." + "db.driver");
+		db_url = p.getProperty(config  + "." + "db.url");
+		db_user = p.getProperty(config  + "." + "db.user");
+		db_password = p.getProperty(config  + "." + "db.password");
+		if (db_driver == null || db_url == null) {
+			throw new IllegalStateException("Driver or URL null: " + config);
+		}
+
 
 		try {
 			SQLRunner prog = new SQLRunner(db_driver, db_url,
 				db_user, db_password);
-			if (args.length <= i)
+			if (go.getOptInd() == args.length) {
 				prog.runScript(new BufferedReader(
 					new InputStreamReader(System.in)));
-			else
+			} else for (int i = go.getOptInd(); i < args.length; i++) {
 				prog.runScript(args[i]);
+			}
 			prog.close();
 		} catch (SQLException ex) {
 			System.out.println("** ERROR **");
@@ -84,7 +112,7 @@ public class SQLRunner {
 		stmt = conn.createStatement();
 	}
 
-	/** Run one script file. Called from cmd line main
+	/** Run one script file, by name. Called from cmd line main
 	 * or from user code.
 	 */
 	public void runScript(String scriptFile)
@@ -98,6 +126,7 @@ public class SQLRunner {
 		runScript(is);
 	}
 
+	/** Run one script, by name, given a BufferedReader. */
 	public void runScript(BufferedReader is)
 	throws IOException {
 
@@ -109,7 +138,7 @@ public class SQLRunner {
 		}
 	}
 
-	/** Run one Statement as an Update.
+	/** Run one Statement, and format results as per Update or Query.
 	 * Called from runScript or from user code.
 	 */
 	public void runStatement(String str)
