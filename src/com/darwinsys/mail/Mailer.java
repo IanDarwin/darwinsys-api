@@ -224,6 +224,20 @@ public class Mailer {
 		}.start();
 	}
 
+	/** Convenience method that does it all with one call. */
+	public static void send(String mailhost, 
+		String recipient, String sender, String subject, String message) 
+	throws MailException {
+		Mailer m = new Mailer();
+		m.setSMTPhost(mailhost);
+		m.addTo(recipient);
+		m.setFrom(sender);
+		m.setSubject(subject);
+		m.setBody(message);
+		m.doSend();
+	}
+
+
 	/** Convert a list of addresses to an ArrayList. This will work
 	 * for simple names like "tom, mary@foo.com, 123.45@c$.com"
 	 * but will fail on certain complex (but RFC-valid) names like
