@@ -157,7 +157,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	public SQLRunner(String driver, String dbUrl, String user, String password,
 			String outputFile, String outputMode)
 			throws IOException, ClassNotFoundException, SQLException {
-		conn = ConnectionUtil.createConnection(driver, dbUrl, user, password);
+		conn = ConnectionUtil.getConnection(driver, dbUrl, user, password);
 		finishSetup(outputFile, outputMode);
 	}
 	
