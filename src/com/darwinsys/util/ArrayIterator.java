@@ -1,6 +1,6 @@
 package com.darwinsys.util;
 
-import java.util.*;
+import java.util.Iterator;
 
 /** De-mystify the Iterator interface, showing how
  * to write a simple Iterator for an Array of Objects.
