@@ -17,7 +17,7 @@ public class EntryLayoutTest {
 		cp.add(new JLabel("Login:", SwingConstants.RIGHT));
 		cp.add(new JTextField(10));
 		cp.add(new JLabel("Password:", SwingConstants.RIGHT));
-		cp.add(new JTextField(20));
+		cp.add(new JPasswordField(20));
 		cp.add(new JLabel("Security Domain:", SwingConstants.RIGHT));
 		cp.add(new JTextField(20));
 		// cp.add(new JLabel("Monkey wrench in works"));

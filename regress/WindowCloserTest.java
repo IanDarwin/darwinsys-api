@@ -9,9 +9,9 @@ public class WindowCloserDemo {
 
 	/* Main method */
 	public static void main(String argv[]) {
-		Frame f = new Frame("WindowCloserDemo");
+		Frame f = new Frame("Close Me");
 		f.add(new Label("Try Titlebar Close", Label.CENTER));
-		f.setSize(200, 100);
+		f.setSize(100, 100);
 		f.setVisible(true);
 		f.addWindowListener(new WindowCloser(f, true));
 	}
