@@ -18,6 +18,8 @@ public class FontChooser extends Frame {
 	protected List fNameChoice;
 	/** The file size chooser */
 	protected List fSizeChoice;
+	/** The bold and italic choosers */
+	Checkbox bold, italic;
 	/** The list of font sizes */
 	protected String fontSizes[] = {
 		"8", "10", "11", "12", "14", "16", "18", "20", "24",
@@ -43,31 +45,36 @@ public class FontChooser extends Frame {
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		// For JDK 1.1: returns about 10 names (Serif, SansSerif, etc.)
-		fontList = toolkit.getFontList();
+		// fontList = toolkit.getFontList();
 		// For JDK 1.2: a much longer list; most of the names that come
 		// with your OS (e.g., Arial, Lucida, Lucida Bright, Lucida Sans...)
-		// fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
-		//	getAvailableFontFamilyNames();
+		fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
+			getAvailableFontFamilyNames();
 
 		for (int i=0; i<fontList.length; i++)
-			fNameChoice.addItem(fontList[i]);
+			fNameChoice.add(fontList[i]);
 		fNameChoice.select(0);
 
 		fSizeChoice = new List();
 		top.add(fSizeChoice);
 
 		for (int i=0; i<fontSizes.length; i++)
-			fSizeChoice.addItem(fontSizes[i]);
+			fSizeChoice.add(fontSizes[i]);
 		fSizeChoice.select(0);
 
 		cp.add(BorderLayout.NORTH, top);
+
+		Panel attrs = new Panel();
+		top.add(attrs);
+		attrs.setLayout(new GridLayout(0,1));
+		attrs.add(bold  =new Checkbox("Bold", false));
+		attrs.add(italic=new Checkbox("Italic", false));
 
 		previewArea = new MyLabel("Qwerty Yuiop", Label.CENTER);
 		previewArea.setSize(200, 50);
 		cp.add(BorderLayout.CENTER, previewArea);
 
 		Panel bot = new Panel();
-		bot.setLayout(new FlowLayout());
 
 		Button okButton = new Button("Apply");
 		bot.add(okButton);
@@ -109,9 +116,14 @@ public class FontChooser extends Frame {
 		resultName = fNameChoice.getSelectedItem();
 		String resultSizeName = fSizeChoice.getSelectedItem();
 		int resultSize = Integer.parseInt(resultSizeName);
-		resultFont = new Font(resultName, Font.BOLD, resultSize);
-		// System.out.println("resultName = " + resultName + "; " +
-		//		"resultFont = " + resultFont);
+		boolean isBold = bold.getState();
+		boolean isItalic = italic.getState();
+		int attrs = Font.PLAIN;
+		if (isBold) attrs = Font.BOLD;
+		if (isItalic) attrs += Font.ITALIC;
+		resultFont = new Font(resultName, attrs, resultSize);
+		System.out.println("resultName = " + resultName + "; " +
+				"resultFont = " + resultFont);
 		previewArea.setFont(resultFont);
 		previewArea.repaint();
 	}
