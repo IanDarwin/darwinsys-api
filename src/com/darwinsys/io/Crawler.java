@@ -15,36 +15,15 @@ public class Crawler implements Checkpointer {
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;
 	
-	public static void main(String args[]) {
-		String dir = args.length == 0 ? "." : args[0];	
-
-		FilenameFilter javaFileFilter = new FilenameFilter() {
-			public boolean accept(File dir, String s) {
-				if (s.endsWith(".java") || s.endsWith(".class") || s.endsWith(".jar"))
-					return true;
-				// others: projects, ... ?
-				return false;
-			}
-		};
-		FileHandler dummyVisitorJustPrints = new FileHandler() {
-
-			public void visit(File f) {
-				System.out.println(f.getAbsolutePath());
-			}
-			
-		};
-		new Crawler(javaFileFilter, dummyVisitorJustPrints).crawl(new File(dir));
-	}
-	
-	Crawler(FilenameFilter chooser, FileHandler fileVisitor) {
+	public Crawler(FilenameFilter chooser, FileHandler fileVisitor) {
 		this.chooser = chooser;
 		this.visitor = fileVisitor;
 	}
-	Crawler(FileHandler fileVisitor) {
+	public Crawler(FileHandler fileVisitor) {
 		this(null, fileVisitor);
 	}
 	
-	void crawl(File startDir) {
+	public void crawl(File startDir) {
 		File[] dir = startDir.listFiles(); // Get list of names
 		java.util.Arrays.sort(dir);		// Sort it (Data Structuring chapter))
 		for (int i=0; i<dir.length; i++) {
