@@ -76,7 +76,7 @@ public class IndexList implements List {
 	}
 
     public Iterator iterator() {
-		Object newData = new Object[hwm];
+		Object[] newData = new Object[hwm];
 		System.arraycopy(data, 0, newData, 0, hwm);
 		return new ArrayIterator(newData);
 	}
