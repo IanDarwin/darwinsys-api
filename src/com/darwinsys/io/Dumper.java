@@ -10,19 +10,53 @@ public class Dumper {
 	public static void main(String[] av) {
 		Dumper c = new Dumper();
 		switch(av.length) {
-		case 0: c.dump(System.in);
+		case 0: c.dump(new StreamGetter(System.in));
 			break;
 		default:
 			for (int i=0; i<av.length; i++)
 				try {
-					c.dump(new FileInputStream(av[i]));
+					c.dump(new StreamGetter(new FileInputStream(av[i])));
 				} catch (FileNotFoundException e) {
 					System.err.println(e);
 				}
 		}
 	}
 
-	/** The numberof items per line */
+	/** The general contract of a class to get bytes. */
+	interface Getter {
+		public int get();
+	}
+	/** A Getter that reads from an in-memory array of bytes */
+	class ByteArrayGetter implements Getter {
+		public ByteArrayGetter(byte[] data) {
+			this.data = data;
+			offset = 0;
+			max = data.length;
+		}
+		private byte[] data;
+		private int offset;
+		private int max;
+		public int get() {
+			if (offset < max)
+				return data[offset++];
+			return -1;
+		}
+	}
+
+	class StreamGetter implements Getter {
+		private BufferedInputStream is;
+		public StreamGetter(ois) throws IOException {
+			if (ois instanceof BufferedInputStream)
+				is = ois;
+			else
+				is = new BufferedInputStream(ois);
+		}
+		public int get() throws IOException {
+			return ois.read();
+		}
+	}
+
+	/** The number of items per line */
 	public final static int PERLINE = 16;
 
 	protected StringBuffer num = new StringBuffer();
@@ -45,7 +79,7 @@ public class Dumper {
 	}
 
 	/** print one file, given an open InputStream */
-	public void dump(InputStream ois) {
+	public void dump(Getter g) {
 		BufferedInputStream is = new BufferedInputStream(ois);
 		num.setLength(0);
 		txt.setLength(0);
@@ -56,7 +90,7 @@ public class Dumper {
 			int b = 0;
 			int column = 0;
 
-			while ((b=is.read()) != -1) {
+			while ((b=g.get()) != -1) {
 				// XXX sleazebag formatting
 				if (b < 16)
 					num.append('0');
