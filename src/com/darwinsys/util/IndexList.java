@@ -47,7 +47,7 @@ public class IndexList implements List {
     public boolean add(Object o) {
 		ensureCapacity(hwm);
 		data[hwm++] = o;
-		return 0;
+		return true;
 	}
 	/** remove() simply sets the given value to null.
 	 */

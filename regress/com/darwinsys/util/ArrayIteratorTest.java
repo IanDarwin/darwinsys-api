@@ -1,4 +1,9 @@
+package regress;
+
 import junit.framework.*;
+
+import com.darwinsys.util.ArrayIterator;
+
 public class ArrayIteratorTest extends TestCase {
 
 	String[] TESTDATA = { "one", "two", "three" };
