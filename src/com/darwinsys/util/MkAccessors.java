@@ -24,6 +24,7 @@ public class MkAccessors {
 
 	/** make an accessor for each field named in the command line */
 	public static void main(String[] args) {
+System.out.println("in main(" + args + ")...");
 		PrintWriter out = new PrintWriter(System.out);
 		for (int i=0; i < args.length; i++) {
 			process(args[i], out);
@@ -35,7 +36,8 @@ public class MkAccessors {
 	 * @param out - the PrintWriter to print to.
 	 */
 	public static void process(String fld, PrintWriter out) {
-		out.println( "\t/** Get the value of " + fld + " */");
+System.out.println("process(" + fld + ")...");
+		System.out.println( "\t/** Get the value of " + fld + " */");
 		out.println( "\tpublic String get" + firstCap(fld) + "() {");
 		out.println( "\t	return " + fld + ";");
 		out.println( "\t}");

@@ -1,20 +1,43 @@
 package regress;
 
+import junit.framework.*;
+
 import com.darwinsys.io.FileIO;
+
 import java.io.*;
 
-public class FileIOTest {
-    public static void main(String[] av) {
-		if (av.length < 0)
-			throw new IllegalArgumentException("Usage: FileIOTest filename");
-		String fileName = av[0];
-		String targetFileName = av[0] + ".bak";
+public class FileIOTest extends TestCase {
+	/** Test File name. This file is created in build.xml */
+	public static final String FILENAME="fileiotest.dat";
+
+	public void testReaderToString() {
+		try {
+			String s = FileIO.readerToString(new FileReader(FILENAME));
+
+			// Make sure that readerToString really reads from the file.
+			// Don't change this next line w/o also changing build.xml
+			assertEquals(s, "This is a one-line file.");
+
+			// Make sure that readerToString doesn't append gunk like
+			// extraneous nulls.
+			assertEquals(s.length(), new File(FILENAME).length());
+
+		} catch (Exception ex) {
+			System.err.println(ex);
+			throw new IllegalArgumentException(ex.toString());
+		}
+	}
+    public void testCopyFile() {
+		String fileName = FILENAME;
+		String targetFileName = FILENAME + ".bak";
 		try {
 			FileIO.copyFile(fileName, targetFileName);
-		} catch (FileNotFoundException e) {
-			System.err.println(e);
-		} catch (IOException e) {
-			System.err.println(e);
+			String s1 = FileIO.readerToString(new FileReader(fileName));
+			String s2 = FileIO.readerToString(new FileReader(targetFileName));
+			assertEquals(s1, s2);
+		} catch (IOException ex) {
+			System.err.println(ex);
+			throw new IllegalArgumentException(ex.toString());
 		}
 	}
 }
