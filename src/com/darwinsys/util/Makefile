@@ -7,10 +7,12 @@ JAVAC=		jikes +E
 FMT_SRC=	QuickTimeFormat.java StringFormat.java
 GUI_SRC=	ArrayListTableModel.java ArrayListTablePanel.java \
 			I18N.java SimpleHelp.java UtilGUI.java WindowCloser.java 
-IO_SRC=		FileIO.java FileProperties.java Tag.java ExecAndPrint.java
+IO_SRC=		DataIO.java FileIO.java FileProperties.java \
+			Tag.java ExecAndPrint.java
 STR_SRC=	StrSubs.java StringUtil.java
 MISC_SRC=	Debug.java GetOpt.java Mailer.java MutableInteger.java
-SRC=		$(FMT_SRC) $(GUI_SRC) $(IO_SRC) $(STR_SRC) $(MISC_SRC)
+DOC_SRC=	overview.html
+SRC=		$(FMT_SRC) $(GUI_SRC) $(IO_SRC) $(STR_SRC) $(MISC_SRC) $(DOC_SRC)
 
 JAR=		com-darwinsys-util.jar
 
@@ -23,10 +25,13 @@ jar $(JAR):	$(SRC) # docs
 		$(JAVAC) -d . $(SRC)
 		jar -cfm $(JAR) manifest.stub com docs Makefile # $(SRC)
 
-doc docs:	docs/index.html
+doc:	docs/index.html
 docs/index.html: $(SRC)
 		-@mkdir docs 2>/dev/null	# ensure dir exists, ok if already there
-		javadoc -d docs *.java
+		javadoc -J-Xmx32m -d docs -version -author \
+		-overview overview.html \
+		-windowtitle "com.darwinsys.util - Java Cookbook Utilities" \
+		*.java
 
 src-jar:
 		jar cvf darwinsys-util-src.jar $(SRC) Makefile
