@@ -179,14 +179,14 @@ public class Mailer {
 		}
 		
 		// create a message
-		Message mesg = new MimeMessage(session);
+		final Message mesg = new MimeMessage(session);
 
 		InternetAddress[] addresses;
 
 		// TO Address list
 		addresses = new InternetAddress[toList.size()];
 		for (int i=0; i<addresses.length; i++)
-			addresses[i] = new InternetAddress((String)ccList.get(i));
+			addresses[i] = new InternetAddress((String)toList.get(i));
 		mesg.setRecipients(Message.RecipientType.TO, addresses);
 
 		// From Address
@@ -201,7 +201,7 @@ public class Mailer {
 		// BCC Address list
 		addresses = new InternetAddress[bccList.size()];
 		for (int i=0; i<addresses.length; i++)
-			addresses[i] = new InternetAddress((String)ccList.get(i));
+			addresses[i] = new InternetAddress((String)bccList.get(i));
 		mesg.setRecipients(Message.RecipientType.BCC, addresses);
 
 		// The Subject
@@ -211,7 +211,17 @@ public class Mailer {
 		mesg.setText(body);
 
 		// Finally, send the message! (use static Transport method)
-		Transport.send(mesg);
+		// Do this in a Thread as it sometimes is too slow for JServ
+		new Thread() {
+			public void run() {
+				try {
+					Transport.send(mesg);
+				} catch (MessagingException e) {
+					throw new IllegalArgumentException(
+					"Transport.send() threw: " + e.toString());
+				}
+			}
+		}.start();
 	}
 
 	/** Convert a list of addresses to an ArrayList. This will work
