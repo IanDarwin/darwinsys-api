@@ -4,7 +4,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 /** Print ResultSet in HTML
- * @version $Id$
  */
 class ResultsDecoratorHTML extends ResultsDecorator {
 	
@@ -13,7 +12,6 @@ class ResultsDecoratorHTML extends ResultsDecorator {
 	}
 	
 	public void write(ResultSet rs) throws SQLException {
-		out.println("<br>Your response:");
 
 		ResultSetMetaData md = rs.getMetaData();
 		int count = md.getColumnCount();
