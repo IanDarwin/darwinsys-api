@@ -12,19 +12,23 @@ IO_SRC=		DataIO.java FileIO.java FileProperties.java \
 			Tag.java ExecAndPrint.java
 STR_SRC=	StrSubs.java StringUtil.java
 MISC_SRC=	Debug.java GetOpt.java Mailer.java MutableInteger.java
-DOC_SRC=	overview.html
 SRC=		$(FMT_SRC) $(GUI_SRC) $(IO_SRC) $(STR_SRC) $(MISC_SRC) $(DOC_SRC)
+DOC_AUX=	overview.html
+AUX=		$(DOC_AUX)
 
 JAR=		com-darwinsys-util.jar
 
-all build:	$(JAR)
+all build:	$(JAR) $(AUX)
+
+jars:	jar src-jar
 
 # The explicit dependancy upon "docs" is commented out so I don't have
 # to wait for javadoc whenever I tweak a file. You should probably
 # remove the '#' on the following line:
 jar $(JAR):	$(SRC) # docs
+		@rm -f com/darwinsys/util/*.class # avoid src-in-jar problem.
 		$(JAVAC) -d . $(SRC)
-		jar -cfm $(JAR) manifest.stub com docs Makefile # $(SRC)
+		jar -cfm $(JAR) manifest.stub com docs Makefile
 
 doc:	docs/index.html
 docs/index.html: $(SRC)

@@ -16,6 +16,8 @@ public class LabelText extends JPanel implements java.io.Serializable {
 	protected JLabel theLabel;
 	/** The label component */
 	protected JTextField theTextField;
+	/** The font to use */
+	protected Font myFont;
 
 	/** Construct the object with no initial values.
 	 * To be usable as a JavaBean there MUST be a no-argument constructor.
@@ -37,6 +39,11 @@ public class LabelText extends JPanel implements java.io.Serializable {
 		add(theLabel);
 		theTextField = new JTextField(numChars);
 		add(theTextField);
+		//if (myFont != null) {
+		//	// See setFont() below!
+		//	theLabel.setFont(myFont);
+		//	theTextField.setFont(myFont);
+		//}
 	}
 
 	/** Get the label's horizontal alignment */
@@ -46,16 +53,7 @@ public class LabelText extends JPanel implements java.io.Serializable {
 
 	/** Set the label's horizontal alignment */
 	public void setLabelAlignment(int align) {
-		switch (align) {
-		case JLabel.LEFT:
-		case JLabel.CENTER:
-		case JLabel.RIGHT:
-			theLabel.setHorizontalAlignment(align);
-			break;
-		default:
-			throw new IllegalArgumentException(
-				"setLabelAlignment argument must be one of JLabel aligners");
-		}
+		theLabel.setHorizontalAlignment(align);
 	}
 
 	/** Get the text displayed in the text field */
@@ -79,10 +77,16 @@ public class LabelText extends JPanel implements java.io.Serializable {
 	}
 
 	/** Set the font used in both subcomponents. */
-	public void setFont(Font f) {
-		theLabel.setFont(f);
-		theTextField.setFont(f);
-	}
+	// public void setFont(Font f) {
+		// myFont = f;
+		// Since this class' constructors call to super() can trigger
+		// calls to setFont() (from Swing.LookAndFeel.installColorsAndFont),
+		// have to cache the font here.
+		// if (theLabel != null)
+			// theLabel.setFont(f);
+		// if (theTextField != null)
+			// theTextField.setFont(f);
+	// }
 
 	/** Adds the ActionListener to receive action events from the textfield */
 	public void addActionListener(ActionListener l) {

@@ -228,19 +228,27 @@ public class Mailer {
 
 		// Finally, send the message! (use static Transport method)
 		// Do this in a Thread as it sometimes is too slow for JServ
-		new Thread() {
-			public void run() {
-				try {
+		// new Thread() {
+			// public void run() {
+				// try {
+
 					Transport.send(mesg);
-				} catch (MessagingException e) {
-					throw new IllegalArgumentException(
-					"Transport.send() threw: " + e.toString());
-				}
-			}
-		}.start();
+
+				// } catch (MessagingException e) {
+					// throw new IllegalArgumentException(
+					// "Transport.send() threw: " + e.toString());
+				// }
+			// }
+		// }.start();
 	}
 
-	/** Convenience method that does it all with one call. */
+	/** Convenience method that does it all with one call.
+	 * @param mailhost - SMTP server host
+	 * @param recipient - domain address of email (user@host.domain)
+	 * @param sender - your email address
+	 * @param subject - the subject line
+	 * @param message - the entire message body as a String with embedded \n's
+	 */
 	public static void send(String mailhost, 
 		String recipient, String sender, String subject, String message) 
 	throws MessagingException {
