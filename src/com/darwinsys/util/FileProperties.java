@@ -19,13 +19,14 @@ import java.util.*;
  * @version $Id$
  */
 public class FileProperties extends Properties {
+	/** The name of the file this FileProperties represents. */
 	protected String fileName = null;
 
 	/** Construct a FileProperties given a fileName. */
 	public FileProperties(String loadsaveFileName)
 	throws IOException {
 		super();
-		fileName = loadsaveFileName;
+		setFileName(loadsaveFileName);
 		load();
 	}
 
@@ -35,35 +36,44 @@ public class FileProperties extends Properties {
 	public FileProperties(String loadsaveFileName, Properties defProp)
 	throws IOException {
 		super(defProp);
-		fileName = loadsaveFileName;
+		setFileName(loadsaveFileName);
 		load();
 	}
 
-	/** The InputStream for loading */
-	protected InputStream inStr = null;
+	/** Save the fileName. If it exists not, but it+".properties" does,
+	 * save the full name.
+	 */
+	void setFileName(String newName) {
+		fileName = newName;
+		if (new File(fileName).exists()) {
+			return;
+		}
+		if (!newName.endsWith(".properties")) {
+			File f2 = new File(newName + ".properties");
+			if (f2.exists()) {
+				fileName = newName + ".properties";
+				return;
+			}
+		}
+	}
 
-	/** The OutputStream for loading */
-	protected OutputStream outStr = null;
+	public String getFileName() {
+		return fileName;
+	}
 
 	/** Load the properties from the saved filename.
 	 * If that fails, try again, tacking on the .properties extension
 	 */
 	public Properties load() throws IOException {
-		try {
-			if (inStr==null) {
-				inStr = new FileInputStream(fileName);
-			}
-		} catch (FileNotFoundException fnf) {
-			if (!fileName.endsWith(".properties")) {
-				inStr = new FileInputStream(fileName + ".properties");
-				// If we succeeded, remember it:
-				fileName += ".properties";
-			} else
-				// It did end with .properties and failed, re-throw exception.
-				throw fnf;
-		}
+
+		// Sorry it's an InputStream not a Reader, but that's what
+		// the superclass load method still requires (as of 1.4 at least).
+		InputStream inStr = new FileInputStream(fileName);
+
 		// now message the superclass code to load the file.
 		load(inStr);
+
+		inStr.close();
 
 		// Return "this" for convenience
 		return this;
@@ -71,21 +81,17 @@ public class FileProperties extends Properties {
 
 	/** Save the properties to disk for later loading. */
 	public void save() throws IOException {
-		if (outStr==null) {
-			outStr = new FileOutputStream(fileName);
-		}
+		OutputStream outStr = new FileOutputStream(fileName);
+		
 		// Get the superclass to do most of the work for us.
 		store(outStr, "# Written by FileProperties.save() at " + new Date());
+
+		outStr.close();
 	}
 
+	/** No longer needed.
+	 * @deprecated No longer needed.
+	 */
 	public void close() {
-		try {
-			if (inStr != null)
-				inStr.close();
-			if (outStr != null)
-				outStr.close();
-		} catch (IOException e) {
-			// don't care 
-		}
 	}
 }
