@@ -7,6 +7,20 @@ import javax.mail.internet.*;
 
 /** Mailer. No relation to Norman. Sends an email message.
  * My old Sender class, recast as a Bean for use in JSP's & elsewhere.
+ * Example usage:
+ * <pre>
+ * Mailer mb = new Mailer();
+ * mb.setFrom("lhbooks@darwinsys.com");
+ * mb.addTo("lhbooks@darwinsys.com");
+ * mb.setSubject("LHBOOKS ORDER!!");
+ * mb.setBody(order.toString());
+ * mb.setServer(application.getInitParameter("mail.server.smtp")); 
+ * try {
+ *     mb.doSend();
+ * } catch (MessagingException ex) {
+ *	   ...
+ * }
+ * </pre>
  * @author Ian F. Darwin
  * @version $Id$
  */

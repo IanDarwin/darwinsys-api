@@ -18,6 +18,9 @@ public class GetOptTest extends TestCase {
 	private String goodArgs[]  = {
 			"-h", "-o", "outfile", "infile"
 	};
+	private String goodLongArgs[]  = {
+			"-help", "-output-file", "outfile", "infile"
+	};
 	private char[] goodArgsExpectChars = { 'h', 'o' };
 
 	private 	String badArgChars = "f1o";
@@ -31,6 +34,15 @@ public class GetOptTest extends TestCase {
 		new GetOptDesc('h', "help", false),
 	};
 
+	public void testBadArgChar() {
+		String bad = "abc@";
+		try {
+			new GetOpt(bad);
+			fail("GetOpt(" + bad + ") did not throw expected exception");
+		} catch (IllegalArgumentException ex) {
+			System.err.println("Caught expected exception " + ex);
+		}
+	}
 	public void testOldwayGood() {
 		process1(goodArgChars, goodArgs, false);
 		process2(goodArgChars, goodArgs, false);
@@ -44,10 +56,19 @@ public class GetOptTest extends TestCase {
 		process2(badArgChars, badArgs, true);
 	}
 
-	public void testNewWay() {
+	public void testNewWayShort() {
 		GetOpt go = new GetOpt(options);
 		Map map = go.parseArguments(goodArgs);
-		// assertNotEquals(map.size(), 0);
+		newWayInner(go, map);
+	}
+	public void testNewWayLong() {
+		GetOpt go = new GetOpt(options);
+		Map map = go.parseArguments(goodLongArgs);
+		newWayInner(go, map);
+	}
+
+	protected void newWayInner(GetOpt go, Map map) {
+		assertFalse(map.size() == 0);
 		if (map.size() == 0) {
 			throw new IllegalArgumentException(
 				"Unexpected empty map");

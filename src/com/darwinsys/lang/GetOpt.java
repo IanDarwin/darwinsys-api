@@ -47,7 +47,7 @@ public class GetOpt {
 	}
 
 	/* Construct a GetOpt parser, storing the set of option characters.
-	 * This is a legacy constructor for very backwards compatibility.
+	 * This is a legacy constructor for backwards compatibility.
 	 */
 	public GetOpt(String patt) {
 		// Pass One: just count the letters
