@@ -6,6 +6,7 @@ import java.awt.event.*;
 /**
  * A TabLayoutButton is used by TabLayout to display the name, and 
  * tell the TabLayout to show the component when called.
+ * @deprecated Use javax.swing.JTabbedPane instead of TabLayout.
  */
 public class TabLayoutButton extends Component implements MouseListener {
 	/** The current text for the Tab */

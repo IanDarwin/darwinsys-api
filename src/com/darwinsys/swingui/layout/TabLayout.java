@@ -6,15 +6,13 @@ import java.util.*;
 import com.darwinsys.util.Debug;
 
 /** 
- * TabLayout, a TabLayout Layout Manager.
- * 
+ * TabLayout, a Tab-based Layout Manager with precedes JTabbedPane.
  * <P>Not completely implemented.
  * XXX TODO Handle Insets in case we're in a Frame
- *
  * <P>As with CardLayout, you <I>must</I> use the form add(String, Component);
- *
  * @author Ian Darwin, ian@darwinsys.com, 
- * <A HREF="http://www.darwinsys.com">http://www.darwinsys.com</A>
+ * <a href="http://www.darwinsys.com">http://www.darwinsys.com</a>
+ * @deprecated Use javax.swing.JTabbedPane instead.
  */
 public class TabLayout implements LayoutManager {
 	/** The number of Components currently added */

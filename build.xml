@@ -24,6 +24,7 @@
 			classpath="${servletapi.jar}:${mail.jar}:${activation.jar}"
 			deprecation="true"
 			/>
+		<echo message="You must run 'ant jar' to update the Docs and Jar"/>
 	</target>
 
 	<target name="dist" depends="jar,src-jar"/>
