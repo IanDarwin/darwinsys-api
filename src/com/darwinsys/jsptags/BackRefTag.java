@@ -16,11 +16,11 @@ public class BackRefTag extends TagSupport {
 	private String label;
 
 	public int doEndTag() throws JspException {
-		String myLabel = label == null ? DEFAULT_LABEL : label;
+		final String myLabel = label == null ? DEFAULT_LABEL : label;
 		try {
-			HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-			JspWriter out = pageContext.getOut();
-			String whereFrom = request.getHeader("referer");
+			final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+			final JspWriter out = pageContext.getOut();
+			final String whereFrom = request.getHeader("referer");
 			if (whereFrom == null) {
 				System.out.println("Warning: BackRefTag: no referer");
 				return SKIP_BODY;
@@ -44,15 +44,15 @@ public class BackRefTag extends TagSupport {
 	/**
 	 * @param label The label to print (e.g., "Back");
 	 */
-	public void setLabel(String label) {
-		this.label = label;
+	public void setLabel(String lab) {
+		label = lab;
 	}
 	
 	/**
 	 * @param surroundingtag The HTML tag to surrounding the link (e.g., "h6").
 	 */
-	public void setSurroundingtag(String surroundingtag) {
-		this.surroundingtag = surroundingtag;
+	public void setSurroundingtag(String surround) {
+		surroundingtag = surround;
 	}
 
 

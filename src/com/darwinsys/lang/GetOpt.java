@@ -103,7 +103,7 @@ public class GetOpt {
 	/** The List of File Names found after args */
 	protected List fileNameArguments;
 	/** The set of characters to look for */
-	protected GetOptDesc[] options;
+	protected final GetOptDesc[] options;
 	/** Where we are in the options */
 	protected int optind = 0;
 	/** Public constant for "no more options" */
@@ -125,14 +125,14 @@ public class GetOpt {
 	/* Construct a GetOpt parser, given the option specifications
 	 * in an array of GetOptDesc objects. This is the preferred constructor.
 	 */
-	public GetOpt(GetOptDesc[] options) {
-		this.options = options;
+	public GetOpt(final GetOptDesc[] opt) {
+		this.options = opt;
 	}
 
 	/* Construct a GetOpt parser, storing the set of option characters.
 	 * This is a legacy constructor for backwards compatibility.
 	 */
-	public GetOpt(String patt) {
+	public GetOpt(final String patt) {
 		if (patt == null) {
 			throw new IllegalArgumentException("Pattern may not be null");
 		}
@@ -151,7 +151,7 @@ public class GetOpt {
 		// Pass Two: construct an array of GetOptDesc opjects.
 		options = new GetOptDesc[n];
 		for (int i = 0, ix = 0; i<patt.length(); i++) {
-			char c = patt.charAt(i);
+			final char c = patt.charAt(i);
 			boolean argTakesValue = false;
 			if (i < patt.length() - 1 && patt.charAt(i+1) == ':') {
 				argTakesValue = true;

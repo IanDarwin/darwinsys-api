@@ -8,12 +8,12 @@ package com.darwinsys.util;
  * @version $Id$
  */
 public class IdMapEntry {
-	int id;
-	String name;
+	private final int id;
+	private final String name;
 
-	public IdMapEntry(int id, String name) {
-		this.id = id;
-		this.name = name;
+	public IdMapEntry(final int i, final String n) {
+		this.id = i;
+		this.name = n;
 	}
 
 	public int getKey() {

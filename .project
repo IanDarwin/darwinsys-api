@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>darwinsys</name>
+	<name>darwinsys-api</name>
 	<comment></comment>
 	<projects>
 		<project>JavaCookJars</project>

@@ -169,13 +169,13 @@ public class RelativeLayout implements LayoutManager {
 	 */
 	class Tracker {
 		int absx, absy;
-		Component c;
+		Component theComp;
 
 		/** Construct a tracker item given its location and Component. */
 		Tracker(int x, int y, Component c) {
 			this.absx = x;
 			this.absy = y;
-			this.c = c;
+			this.theComp = c;
 		}
 
 		/** Extract the location as a Point. */
@@ -185,7 +185,7 @@ public class RelativeLayout implements LayoutManager {
 
 		/** Extract the Component from this Tracker. */
 		public Component getComponent() {
-			return c;
+			return theComp;
 		}
 	}
 }

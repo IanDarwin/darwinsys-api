@@ -21,7 +21,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	protected Class columnClasses[];
 
 	/** The list of Method object */
-	protected ArrayList m = null;
+	protected ArrayList methods = null;
 
 	/** for caching. */
 	private int ROW_INVALID = -1;
@@ -32,14 +32,14 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 
 	/** Constructor requires the list of objects */
 	public ArrayListTableModel(ArrayList m) {
-		this.m = m;
+		methods = m;
 	}
 
 	/** Allow the model to load the ArrayList all at once, as when
 	 * loading a file.
 	 */
 	void setListData(ArrayList v) {
-		m = v;
+		methods = v;
 		invalidateCache();
 	}
 
@@ -67,7 +67,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 
 	/** Returns the number of objects in the list. */
 	public int getRowCount()  {
-		return m.size();
+		return methods.size();
 	}
 
 	/** All cells are editable.
@@ -89,7 +89,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	 */
 	public Object getCached(int row) {
 		if (row != prevRow) {
-			current = m.get(row);
+			current = methods.get(row);
 			prevRow = row;
 		}
 		return current;

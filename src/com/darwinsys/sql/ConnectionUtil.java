@@ -67,7 +67,8 @@ public class ConnectionUtil {
 	/** Sets the full path of the config file to read.
 	 * @param configFileName The configFileName to set.
 	 */
-	public static void setConfigFileName(String configFileName) {
+	public static void setConfigFileName(String configFileNam) {
+		configFileName = configFileNam;
 		File file = new File(configFileName);
 		if (!file.canRead()) {
 			throw new IllegalArgumentException("Unreadable: " + configFileName);

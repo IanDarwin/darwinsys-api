@@ -16,15 +16,15 @@ public class ArrayIterator implements Iterator {
 	/** Construct an ArrayIterator object.
 	 * @param data The array of objects to be iterated over.
 	 */
-	public ArrayIterator(Object[] data) {
-		setData(data);
+	public ArrayIterator(final Object[] d) {
+		setData(d);
 	}
 
 	/** (Re)set the data array to the given array, and reset the iterator.
 	 * @param data The array of objects to be iterated over.
 	 */
-	public void setData(Object[] data) {
-		this.data = data;
+	public void setData(final Object[] d) {
+		this.data = d;
 		index = 0;
 	}
 

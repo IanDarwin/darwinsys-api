@@ -20,20 +20,20 @@ public class StringFormat extends Format {
 	/** Current max length */
 	private int maxChars;
 
-	public StringFormat(int maxChars, int just) {
-		switch(just) {
+	public StringFormat(int maxCh, int justn) {
+		switch(justn) {
 		case JUST_LEFT:
 		case JUST_CENTRE:
 		case JUST_RIGHT:
-			this.just = just;
+			this.just = justn;
 			break;
 		default:
 			throw new IllegalArgumentException("invalid justification arg.");
 		}
-		if (maxChars < 1) {
+		if (maxCh < 1) {
 			throw new IllegalArgumentException("maxChars must be positive.");
 		}
-		this.maxChars = maxChars;
+		this.maxChars = maxCh;
 	}
 
 	/** Format a String */

@@ -10,13 +10,13 @@ import java.util.Enumeration;
 public class EnumerationIterator implements Iterator {
 
 	/** The Enumeration being delegated to */
-	private Enumeration old;
+	private final Enumeration oldEnum;
 
 	/** Construct an EnumerationIterator from an old-style Enumeration.
 	 * @param  old The Enumeration to be adapted.
 	 */
-	public EnumerationIterator(Enumeration old) {
-		this.old = old;
+	public EnumerationIterator(final Enumeration old) {
+		oldEnum = old;
 	}
 
 	/** Fulfuls the general contract of Iterator.hasNext(), that is,
@@ -24,13 +24,13 @@ public class EnumerationIterator implements Iterator {
 	 * the Iterator.
 	 */
 	public boolean hasNext() {
-		return old.hasMoreElements();
+		return oldEnum.hasMoreElements();
 	}
 	/** Fulfuls the general contract of Iterator.next(), that is,
 	 * returns the next element in the Iterator.
 	 */
 	public Object next() {
-		return old.nextElement();
+		return oldEnum.nextElement();
 	}
 
 	/** Remove is not implemented (optional method).

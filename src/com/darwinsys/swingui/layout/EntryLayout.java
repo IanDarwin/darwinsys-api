@@ -39,28 +39,28 @@ public class EntryLayout implements LayoutManager {
 	protected boolean validWidths = false;
 
 	/** Construct an EntryLayout with widths and padding specified.
-	 * @param widths	Array of doubles specifying column widths.
+	 * @param relWidths	Array of doubles specifying relative column widths.
 	 * @param h			Horizontal padding between items
 	 * @param v			Vertical padding between items
 	 */
-	public EntryLayout(double[] widths, int h, int v) {
-		COLUMNS = widths.length;
+	public EntryLayout(double[] relWidths, int h, int v) {
+		COLUMNS = relWidths.length;
 		widthPercentages = new double[COLUMNS];
-		for (int i=0; i<widths.length; i++) {
-			if (widths[i] >= 1.0)
+		for (int i=0; i<relWidths.length; i++) {
+			if (relWidths[i] >= 1.0)
 				throw new IllegalArgumentException(
 					"EntryLayout: widths must be fractions < 1");
-			widthPercentages[i] = widths[i];
+			widthPercentages[i] = relWidths[i];
 		}
 		validWidths = true;
 		hpad = h;
 		vpad = v;
 	}
 	/** Construct an EntryLayout with widths and with default padding amounts.
-	 * @param widths	Array of doubles specifying column widths.
+	 * @param relWidths	Array of doubles specifying column widths.
 	 */
-	public EntryLayout(double[] widths) {
-		this(widths, HPAD, VPAD);
+	public EntryLayout(double[] relWidths) {
+		this(relWidths, HPAD, VPAD);
 	}
 
 	/** Adds the specified component with the specified constraint 
@@ -99,8 +99,11 @@ public class EntryLayout implements LayoutManager {
 
 	/** Compute the size of the whole mess. Serves as the guts of 
 	 * preferredLayoutSize() and minimumLayoutSize().
+	 * @param parent The container in which to do the layout.
+	 * @param hp The horizontal padding (may be zero)
+	 * @param vp The Vertical Padding (may be zero).
 	 */
-	protected Dimension computeLayoutSize(Container parent, int hpad, int vpad) {
+	protected Dimension computeLayoutSize(Container parent, int hp, int vp) {
 		if (!validWidths)
 			return null;
 		Component[] components = parent.getComponents();
@@ -123,9 +126,9 @@ public class EntryLayout implements LayoutManager {
 
 		// Pass two: agregate them.
 		for (i=0; i<widths.length; i++)
-			preferredWidth += widths[i] + hpad;
+			preferredWidth += widths[i] + hp;
 		for (i=0; i<heights.length; i++)
-			preferredHeight += heights[i] + vpad;
+			preferredHeight += heights[i] + vp;
 
 		// Finally, pass the sums back as the actual size.
 		return new Dimension(preferredWidth, preferredHeight);

@@ -10,8 +10,8 @@ public class FilterGUIListModel extends ArrayList implements ListModel {
 
 	protected Object source;
 
-	FilterGUIListModel(Object source) {
-		this.source = source;
+	FilterGUIListModel(Object src) {
+		source = src;
 	}
 
 	public Object getElementAt(int index) {

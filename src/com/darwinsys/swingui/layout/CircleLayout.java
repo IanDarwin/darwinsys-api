@@ -1,6 +1,11 @@
 package com.darwinsys.swingui.layout;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
+import java.awt.Point;
+
 import com.darwinsys.util.Debug;
 
 /** A simplistic CircleLayout implementation of the LayoutManager interface.
@@ -20,8 +25,8 @@ public class CircleLayout implements LayoutManager {
 
 	/** Construct a CircleLayout
 	 */
-	public CircleLayout(boolean startAtTop) {
-		this.startAtTop = startAtTop;
+	public CircleLayout(boolean isTop) {
+		startAtTop = isTop;
 	}
 
 	/** Construct a CircleLayout with default values.

@@ -1,11 +1,18 @@
 package com.darwinsys.swingui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-/** FilterGUI implements a back-and-forth list, ie, two columns of items,
- * and items can be moved back and forth between them with "Add" and "Del"
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.JPanel;
+
+/** FilterGUI implements a back-and-forth list, ie, two columns of items, in
+ * which items can be moved back and forth between them with "Add" and "Del"
  * buttons.
  * This is meant to provide a framework for Java programs that want
  * to provide chaining of various filters, or any other example where
@@ -25,13 +32,13 @@ import javax.swing.*;
  */
 public class FilterGUI extends JComponent {
 
-	JList addableList;
-	FilterGUIListModel addableListModel;
-	JList currentList;
-	FilterGUIListModel currentListModel;
+	protected final JList addableList;
+	protected final FilterGUIListModel addableListModel;
+	protected final JList currentList;
+	protected final FilterGUIListModel currentListModel;
 
 	/** Construct the object including its GUI */
-	public FilterGUI(Object[] data, int defaultIndex) {
+	public FilterGUI(final Object[] data, final int defaultIndex) {
 		super();
 
 		setLayout(new BorderLayout(5, 5));

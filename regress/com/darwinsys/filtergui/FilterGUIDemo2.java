@@ -1,8 +1,8 @@
 package regress.filtergui;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
-import com.darwinsys.swingui.*;
+import com.darwinsys.swingui.FilterGUI;
 
 /** A simple demo of FilterGUI */
 public class FilterGUIDemo2 {

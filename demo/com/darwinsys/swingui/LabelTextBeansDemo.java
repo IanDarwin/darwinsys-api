@@ -71,7 +71,7 @@ public class LabelTextBeansDemo extends javax.swing.JFrame {
 
   }//GEN-END:initComponents
 
-  private void jButton1ActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+  void jButton1ActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     String name = bean1.getText();
     String addr = bean2.getText();
     JOptionPane.showMessageDialog(this,
@@ -81,12 +81,12 @@ public class LabelTextBeansDemo extends javax.swing.JFrame {
       JOptionPane.INFORMATION_MESSAGE);
   }//GEN-LAST:event_jButton1ActionPerformed
 
-  private void jButton2ActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+  void jButton2ActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     System.exit(0);
   }//GEN-LAST:event_jButton2ActionPerformed
 
   /** Exit the Application */
-  private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
+  void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
     System.exit (0);
   }//GEN-LAST:event_exitForm
 

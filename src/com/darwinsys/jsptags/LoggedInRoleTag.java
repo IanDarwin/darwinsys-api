@@ -22,7 +22,7 @@ public class LoggedInRoleTag extends BodyTagSupport {
 	/**
 	 * @param role The role to check for (e.g., "admin");
 	 */
-	public void setRole(String role) {
-		this.role = role;
+	public void setRole(String r) {
+		role = r;
 	}
 }

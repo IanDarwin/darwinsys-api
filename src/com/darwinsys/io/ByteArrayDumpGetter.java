@@ -3,8 +3,8 @@ package com.darwinsys.io;
 /** A Getter that reads from an in-memory array of bytes */
 class ByteArrayDumpGetter implements DumpGetter {
 
-	public ByteArrayDumpGetter(byte[] data) {
-		this.data = data;
+	public ByteArrayDumpGetter(byte[] d) {
+		data = d;
 		offset = 0;
 		max = data.length;
 	}
