@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class Dumper {
 
-	public static void main(String[] av) {
+	public static void main(String[] av) throws IOException {
 		Dumper c = new Dumper();
 		switch(av.length) {
 		case 0: c.dump(new StreamGetter(System.in));
@@ -19,40 +19,6 @@ public class Dumper {
 				} catch (FileNotFoundException e) {
 					System.err.println(e);
 				}
-		}
-	}
-
-	/** The general contract of a class to get bytes. */
-	interface Getter {
-		public int get();
-	}
-	/** A Getter that reads from an in-memory array of bytes */
-	class ByteArrayGetter implements Getter {
-		public ByteArrayGetter(byte[] data) {
-			this.data = data;
-			offset = 0;
-			max = data.length;
-		}
-		private byte[] data;
-		private int offset;
-		private int max;
-		public int get() {
-			if (offset < max)
-				return data[offset++];
-			return -1;
-		}
-	}
-
-	class StreamGetter implements Getter {
-		private BufferedInputStream is;
-		public StreamGetter(ois) throws IOException {
-			if (ois instanceof BufferedInputStream)
-				is = ois;
-			else
-				is = new BufferedInputStream(ois);
-		}
-		public int get() throws IOException {
-			return ois.read();
 		}
 	}
 
@@ -80,7 +46,6 @@ public class Dumper {
 
 	/** print one file, given an open InputStream */
 	public void dump(Getter g) {
-		BufferedInputStream is = new BufferedInputStream(ois);
 		num.setLength(0);
 		txt.setLength(0);
 
