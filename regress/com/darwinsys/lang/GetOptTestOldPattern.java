@@ -164,4 +164,15 @@ public class GetOptTest extends TestCase {
 				System.out.println("** FAILURE ** Expected errors not found");
 		}
 	}
+
+	public void testConstructorArgs() {
+		try {
+			new GetOpt(null);
+			fail("GetOpt(" + bad + ") did not throw expected exception");
+		} catch (IllegalArgumentException ex) {
+			System.err.println("Caught expected exception " + ex);
+		}
+		new GetOpt("foo");		// multiple occurrences of same letter - ok?
+		new GetOpt("f:c:");		// this failed at one point - multiple : args
+	}
 }
