@@ -2,8 +2,6 @@
 <classpath>
 	<classpathentry excluding="com/darwinsys/macosui/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/ian/lib/activation.jar"/>
-	<classpathentry kind="lib" path="C:/ian/lib/mail.jar"/>
-	<classpathentry kind="lib" path="C:/ian/lib/junit.jar"/>
+	<classpathentry kind="src" path="/JavaCookJars"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

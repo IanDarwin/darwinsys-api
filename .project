@@ -3,6 +3,7 @@
 	<name>darwinsys</name>
 	<comment></comment>
 	<projects>
+		<project>JavaCookJars</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
