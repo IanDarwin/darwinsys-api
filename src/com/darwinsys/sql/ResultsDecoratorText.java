@@ -19,7 +19,7 @@ class ResultsDecoratorText extends ResultsDecorator {
 		for (int i = 1; i <= cols; i++) {
 			out.print(md.getColumnName(i) + "\t");
 		}
-		System.out.println();
+		out.println();
 		while (rs.next()) {
 			for (int i = 1; i <= cols; i++) {
 				out.print(rs.getString(i) + "\t");
