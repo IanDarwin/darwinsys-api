@@ -43,11 +43,24 @@ public class FileProperties extends Properties {
 	/** The OutputStream for loading */
 	protected OutputStream outStr = null;
 
-	/** Load the proerties from the saved file */
+	/** Load the properties from the saved filename.
+	 * If that fails, try again, tacking on the .properties extension
+	 */
 	public void load() throws IOException {
-		if (inStr==null) {
-			inStr = new FileInputStream(fileName);
+		try {
+			if (inStr==null) {
+				inStr = new FileInputStream(fileName);
+			}
+		} catch (FileNotFoundException fnf) {
+			if (!fileName.endsWith(".properties")) {
+				inStr = new FileInputStream(fileName + ".properties");
+				// If we succeeded, remember it:
+				fileName += ".properties";
+			} else
+				// It did end with .properties and failed, re-throw exception.
+				throw fnf;
 		}
+		// now message the superclass code to load the file.
 		load(inStr);
 	}
 
@@ -57,5 +70,16 @@ public class FileProperties extends Properties {
 			outStr = new FileOutputStream(fileName);
 		}
 		store(outStr, "# Written by FileProperties.save() at " + new Date());
+	}
+
+	public void close() {
+		try {
+			if (inStr != null)
+				inStr.close();
+			if (outStr != null)
+				outStr.close();
+		} catch (IOException e) {
+			// don't care 
+		}
 	}
 }

@@ -39,4 +39,14 @@ public class I18N {
 		// else
 			// return new JMenuItem(miLabel, new MenuShortcut(key.charAt(0)));
 	}
+
+	/** Show a JOptionPane message dialog */
+	public static void mkDialog(JFrame parent,
+		String dialogTag, String titleTag, int messageType) {
+			JOptionPane.showMessageDialog(
+				parent,
+				rb.getString(dialogTag),
+				rb.getString(titleTag),
+				messageType);
+	}
 }

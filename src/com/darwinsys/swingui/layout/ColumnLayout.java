@@ -11,7 +11,7 @@ import java.util.*;
  * and next components, which (like Menu.addSeparator()) adds a
  * fixed-size non-visible component between two added components.
  * 
- * @note The current version of ColumnLayout doesnt resize.
+ * @note The current version of ColumnLayout doesn't resize.
  *
  * @author Ian Darwin, ian@darwinsys.com, http://www.darwinsys.com
  * @version $Id$
@@ -19,9 +19,9 @@ import java.util.*;
 
 public class ColumnLayout implements LayoutManager {
 	/** Constant for X AXIS (horizontal column) alignment */
-	public static final int X_AXIS = x;
+	public static final int X_AXIS = 'x';
 	/** Constant for Y AXIS (vertical column) alignment */
-	public static final int Y_AXIS = y;
+	public static final int Y_AXIS = 'y';
 	/** The alignment for this ColumnLayout */
 	protected final int alignment;
 	/** The X padding for this ColumnLayout */
@@ -59,7 +59,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param	c	Component to be added.
 	 */
 	public void addLayoutComponent(String name, Component c) {
-		System.err.println("dont use add(component,name) with ColumnLayout");
+		System.err.println("don't use add(component,name) with ColumnLayout");
 	}
 
 	/**

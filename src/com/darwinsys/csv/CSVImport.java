@@ -1,6 +1,6 @@
 /* Inner logic adapted from a C++ original that was */
 /* Copyright (C) 1999 Lucent Technologies */
-/* Excerpted from The Practice of Programming */
+/* Excerpted from 'The Practice of Programming' */
 /* by Brian W. Kernighan and Rob Pike */
 
 import java.io.*;
@@ -47,7 +47,7 @@ public Enumeration split(String line)
 
 	do {
 		fld.setLength(0);
-		if (i < line.length() && line.charAt(i) == ")
+		if (i < line.length() && line.charAt(i) == '"')
 			j = advquoted(line, fld, ++i);	// skip quote
 		else
 			j = advplain(line, fld, i);
@@ -65,7 +65,7 @@ protected int advquoted(String s, StringBuffer fld, int i)
 
 	for (j = i; j < s.length(); j++) {
 		// found end of field if find unescaped quote.
-		if (s.charAt(j) == " && s.charAt(j-1) != \\) {
+		if (s.charAt(j) == '"' && s.charAt(j-1) != '\\') {
 			int k = s.indexOf(fieldsep, j);
 			System.out.println("j="+j+", k="+k);
 			if (k == -1)	// no separator found after this field
