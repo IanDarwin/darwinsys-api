@@ -14,14 +14,14 @@
 
 	<property name="deploy.dir" value="${user.home}/lib"/>
 
-	<!-- If Ant 1.5 barfs on this, just comment it out
+	<!-- If Ant 1.5 barfs on this, just comment it out -->
 	<condition property="isMacOSX">
 		<and>
 			<os family="mac"/>
 			<os family="unix"/>
 		</and>
 	</condition>
-	-->
+	<!-- -->
 
 	<target name="init">
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
@@ -157,6 +157,12 @@
 			</java>
 		<echo           message="WindowCloserTest (deprecated)"/>
 		<java className="regress.WindowCloserTest" classpath="build"
+			fork="yes"/>
+	</target>
+
+	<target name="regress.macosui" depends="build">
+		<echo           message="MacOSUITest"/>
+		<java className="regress.MacOSUITest" classpath="build"
 			fork="yes"/>
 	</target>
 
