@@ -13,7 +13,7 @@ import javax.swing.*;
 public class LabelText extends JPanel implements java.io.Serializable {
 	/** The label component */
 	protected JLabel theLabel;
-	/** The label component */
+	/** The text field component */
 	protected JTextField theTextField;
 	/** The font to use */
 	protected Font myFont;
