@@ -77,7 +77,8 @@ public class FilterGUI extends JComponent {
 		c.add(addButton = new JButton("-->"));
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				if (addableList.getSelectedIndex() == -1)
+				int i = addableList.getSelectedIndex();
+				if (i < 0 || i >= addableListModel.size())
 					return;
 				Object o = addableList.getSelectedValue();
 				if (o == null)
@@ -90,7 +91,8 @@ public class FilterGUI extends JComponent {
 		c.add(delButton = new JButton("<--"));
 		delButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				if (currentList.getSelectedIndex() == -1)
+				int i = currentList.getSelectedIndex();
+				if (i < 0 || i >= currentListModel.size())
 					return;
 				Object o = currentList.getSelectedValue();
 				if (o == null)
@@ -104,11 +106,6 @@ public class FilterGUI extends JComponent {
 		add(BorderLayout.EAST, currentList);
 
 		// Balance Widths
-		// int w1 = addableList.getSize().width;
-		// int w2 = currentList.getSize().width;
-		// int w = (int)Math.max(w1, w2);
-		// addableList.setFixedCellWidth(w);
-		// currentList.setFixedCellWidth(w);
 		addableList.setPrototypeCellValue("Some Filter Name");
 		currentList.setPrototypeCellValue("Some Filter Name");
 	}
