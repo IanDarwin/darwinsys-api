@@ -6,18 +6,24 @@ import java.util.*;
  * @version	$Id$
  */
 public class ArrayIterator implements Iterator {
-	/** The data to be sorted. */
-	protected Object[] data = { "one", "two", "three" };
+	/** The data to be iterated over. */
+	protected Object[] data;
 
 	protected int index = 0;
 
-	/** Constructor */
-	public ArrayIterator(Object[] d) {
-		data = d;
+	/** Construct an ArrayIterator object.
+	 * @param data The array of objects to be iterated over.
+	 */
+	public ArrayIterator(Object[] data) {
+		setData(data);
 	}
 
-	/** Default Constructor */
-	public ArrayIterator() {
+	/** (Re)set the data array to the given array, and reset the iterator.
+	 * @param data The array of objects to be iterated over.
+	 */
+	public void setData(Object[] data) {
+		this.data = data;
+		index = 0;
 	}
 
 	/** 

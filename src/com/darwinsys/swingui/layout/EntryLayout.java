@@ -19,7 +19,7 @@ import java.util.*;
  * <b>Note:</b> As with GridLayout, the number of items 
  * added <B>must</B> be an even
  * multiple of the number of columns. If not, exceptions may be thrown!
- * @author Ian F. Darwin, ian@darwinsys.com
+ * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class EntryLayout implements LayoutManager {

@@ -15,7 +15,7 @@ import java.util.*;
  * <p>
  * Note: The current version of ColumnLayout doesn't resize.
  *
- * @author Ian Darwin, ian@darwinsys.com, http://www.darwinsys.com
+ * @author Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 

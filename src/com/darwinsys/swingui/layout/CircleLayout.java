@@ -5,8 +5,13 @@ import java.util.*;
 
 import com.darwinsys.util.Debug;
 
-/** Beginnings of a CircleLayout layout manager.
- * @author Ian F. Darwin, ian@darwinsys.com
+/** A simplistic CircleLayout implementation of the LayoutManager interface.
+ * Components are drawn at their preferred size.
+ * <br/>
+ * Bugs:<ul>
+ * <li>Only works well if the container is approximately square.
+ * </ul>
+ * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class CircleLayout implements LayoutManager {
@@ -20,7 +25,7 @@ public class CircleLayout implements LayoutManager {
 		this.startAtTop = startAtTop;
 	}
 
-	/** Construct a CircleLayout with default valuse.
+	/** Construct a CircleLayout with default values.
 	 */
 	public CircleLayout() {
 	}
@@ -62,14 +67,13 @@ public class CircleLayout implements LayoutManager {
 	protected Dimension computelayoutSize(Container parent) {
 
 		// Pass the sums back as the actual size.
-		return new Dimension(200, 200); // width == height!
+		return new Dimension(300, 300); // width == height!
 	}
 
 	/** Lays out the container in the specified panel. */
 	public void layoutContainer(Container parent) {
 		Component[] components = parent.getComponents();
-		int numComps = components.length;
-		points = new Point[numComps];
+		points = new Point[components.length];
 		Dimension totalSize = parent.getSize();
 
 		int dx = totalSize.width / 2;
@@ -77,7 +81,7 @@ public class CircleLayout implements LayoutManager {
 
 		// make one quick pass to get max(PreferredSize.width[1..n]
 		int width = 0, height = 0;
-		for (int i=0; i<numComps; i++) {
+		for (int i=0; i < components.length; i++) {
 			width = Math.max(width, components[i].getPreferredSize().width);
 			height = Math.max(height, components[i].getPreferredSize().height);
 		}
@@ -87,10 +91,10 @@ public class CircleLayout implements LayoutManager {
 		// Assumed to be regular (circle, not ellipse).
 		int radius = dx - componentPad - PAD;
 
-		int degreesPer = 360 / numComps;
+		int degreesPer = 360 / components.length;
 		int angle = startAtTop ? 0 : degreesPer/2;
 
-		for (int i=0; i<numComps; i++, angle += degreesPer) {
+		for (int i=0; i < components.length; i++, angle += degreesPer) {
 			Component c = components[i];
 			Dimension d = c.getPreferredSize();
 			double theta = Math.toRadians(angle);

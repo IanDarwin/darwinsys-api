@@ -10,7 +10,7 @@ import com.darwinsys.util.Debug;
  * <P>Not completely implemented.
  * XXX TODO Handle Insets in case we're in a Frame
  * <P>As with CardLayout, you <I>must</I> use the form add(String, Component);
- * @author Ian Darwin, ian@darwinsys.com, 
+ * @author Ian Darwin,
  * <a href="http://www.darwinsys.com">http://www.darwinsys.com</a>
  * @deprecated Use javax.swing.JTabbedPane instead.
  */

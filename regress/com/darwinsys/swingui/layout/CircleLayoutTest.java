@@ -22,6 +22,7 @@ public class CircleLayoutTest {
 		cp.add(new JButton("Three"));
 		cp.add(new JButton("Four"));
 		cp.add(new JButton("Five"));
+		cp.add(new JButton("Six"));
 		f.pack();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocation(200, 200);
