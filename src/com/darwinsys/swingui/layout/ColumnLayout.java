@@ -79,7 +79,8 @@ public class ColumnLayout implements LayoutManager {
 
 	/** Used internally: compute the layout and the maximal preferred 
 	 * width & height
-	 * <BR><B>TODO XXX NEED TO SCALE BY TARGSIZE</B>
+	 * <br/>
+	 * TODO XXX NEED TO SCALE BY TARGSIZE?
 	 */
 	protected Dimension doLayout(Container target) {
 		Dimension targSize = target.getSize();
