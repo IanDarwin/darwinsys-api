@@ -2,7 +2,6 @@ import com.darwinsys.util.WindowCloser;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.Vector;
 
 /** Demo for MyFilter
  * @author	Ian Darwin, ian@darwinsys.com
@@ -25,10 +24,10 @@ public class FilterGUI extends JComponent {
 		f.setVisible(true);
 	}
 
-	Vector addable = new Vector();
-	Vector current = new Vector();
-	JList toAddList;
+	JList addableList;
+	MyListModel addableListModel;
 	JList currentList;
+	MyListModel currentListModel;
 
 	/** Construct the object including its GUI */
 	public FilterGUI() {
@@ -52,51 +51,66 @@ public class FilterGUI extends JComponent {
 			new BasicFilter("Noise Reduction"),
 			new BasicFilter("RLE")
 		};
-		setLayout(new BorderLayout());
-		for (int i=0; i<filters.length; i++)
-			addable.add(filters[i]);
+		int DEFAULT_FILTER = 1;	// i.e., filters[DEFAULT_FILTER] is default
+		setLayout(new BorderLayout(5, 5));
 
-		toAddList = new JList(addable);
-		toAddList.setBorder(BorderFactory.createEtchedBorder());
-		// toAddList.setText("Addable");
-		currentList = new JList(current);
+		addableList = new JList();
+		addableListModel = new MyListModel(addableList);
+		addableList.setModel(addableListModel);
+		addableList.setBorder(BorderFactory.createEtchedBorder());
+		// addableList.setText("Addable");
+		for (int i=0; i<filters.length; i++)
+			if (i != DEFAULT_FILTER)
+			addableListModel.add(filters[i]);
+
+		currentList = new JList();
+		currentListModel = new MyListModel(currentList);
+		currentList.setModel(currentListModel);
 		// currentList.setText("Current");
 		currentList.setBorder(BorderFactory.createEtchedBorder());
+		currentListModel.add(filters[DEFAULT_FILTER]);
 
-		current.add(filters[1]);
-		add(BorderLayout.WEST, toAddList);
+		add(BorderLayout.WEST, addableList);
 		JPanel c = new JPanel();
 		c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
 		JButton addButton, delButton;
 		c.add(addButton = new JButton("-->"));
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				Object o = toAddList.getSelectedValue();
+				if (addableList.getSelectedIndex() == -1)
+					return;
+				Object o = addableList.getSelectedValue();
 				if (o == null)
 					return;
-				addable.remove(o);
-				current.add(o);
-				updateViews();
+				addableListModel.remove(o);
+				addableList.setSelectedIndex(-1);
+				currentListModel.add(o);
 			}
 		});
 		c.add(delButton = new JButton("<--"));
 		delButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
+				if (currentList.getSelectedIndex() == -1)
+					return;
 				Object o = currentList.getSelectedValue();
 				if (o == null)
 					return;
-				addable.add(o);
-				current.remove(o);
-				updateViews();
+				currentListModel.remove(o);
+				currentList.setSelectedIndex(-1);
+				addableListModel.add(o);
 			}
 		});
 		add(BorderLayout.CENTER, c);
 		add(BorderLayout.EAST, currentList);
-	}
 
-	private void updateViews() {
-		toAddList.setListData(addable);
-		currentList.setListData(current);
+		// Balance Widths
+		// int w1 = addableList.getSize().width;
+		// int w2 = currentList.getSize().width;
+		// int w = (int)Math.max(w1, w2);
+		// addableList.setFixedCellWidth(w);
+		// currentList.setFixedCellWidth(w);
+		addableList.setPrototypeCellValue("Some Filter Name");
+		currentList.setPrototypeCellValue("Some Filter Name");
 	}
 
 }
