@@ -1,3 +1,5 @@
+import com.darwinsys.util.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -5,7 +7,7 @@ import java.awt.event.*;
  * @author Ian Darwin
  * @version $Id$
  */
-public class WindowCloserDemo {
+public class WindowCloserTest {
 
 	/* Main method */
 	public static void main(String[] argv) {
