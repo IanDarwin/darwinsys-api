@@ -47,10 +47,10 @@
 			maxmemory="32m" 
 			windowtitle="com.darwinsys.util - Java Cookbook Utilities"
 			Version="true" Author="true" Use="true"
-			Overview="${src}/com/darwinsys/util/overview.html"
+			Overview="overview.html"
 			>
 			<packageset dir="${src}" defaultexcludes="yes">
-				<include name="com/darwinsys/util/**" />
+				<include name="com/darwinsys/**" />
 				<exclude name="regress/**"/>
 			</packageset>
 			<bottom><![CDATA[<i>Copyright &#169; 2000-2003 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>

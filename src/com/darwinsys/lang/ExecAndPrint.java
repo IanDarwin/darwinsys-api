@@ -1,5 +1,6 @@
 package com.darwinsys.lang;
 
+import com.darwinsys.io.*;
 import java.io.*;
 
 /**
