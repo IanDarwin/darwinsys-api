@@ -62,7 +62,9 @@ public class GetOpt {
 				char c = pattern.charAt(i);
 				if (thisArg.equals("-"+c)) {	// we found it
 					// If it needs an option argument, get it.
-					if (i+1 < pattern.length() && pattern.charAt((i++)+1)==':')
+					if (i+1 < pattern.length() && 
+						pattern.charAt(i+1)==':' &&
+						optind < argv.length)
 						optarg = argv[optind++]; 
 					return c;
 				}
@@ -72,7 +74,7 @@ public class GetOpt {
 		} else {
 			// Found non-argument non-option word in argv: end of options.
 			done = true;
-			return 0;
+			return DONE;
 		}
 	}
 }
