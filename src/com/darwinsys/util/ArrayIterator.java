@@ -14,14 +14,14 @@ public class ArrayIterator implements Iterator {
 	protected int index = 0;
 
 	/** Construct an ArrayIterator object.
-	 * @param data The array of objects to be iterated over.
+	 * @param d The array of objects to be iterated over.
 	 */
 	public ArrayIterator(final Object[] d) {
 		setData(d);
 	}
 
 	/** (Re)set the data array to the given array, and reset the iterator.
-	 * @param data The array of objects to be iterated over.
+	 * @param d The array of objects to be iterated over.
 	 */
 	public void setData(final Object[] d) {
 		this.data = d;
