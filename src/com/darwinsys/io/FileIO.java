@@ -51,8 +51,8 @@ public class FileIO {
 	/** Copy a file from a filename to a PrintWriter. */
 	public static void copyFile(String inName, PrintWriter pw, boolean close) 
 	throws FileNotFoundException, IOException {
-		BufferedReader is = new BufferedReader(new FileReader(inName));
-		copyFile(is, pw, close);
+		BufferedReader ir = new BufferedReader(new FileReader(inName));
+		copyFile(ir, pw, close);
 	}
 
 	/** Open a file and read the first line from it. */
@@ -77,7 +77,7 @@ public class FileIO {
 		InputStream is = new FileInputStream(inName);
 		OutputStream os = new FileOutputStream(outName);
 		int count = 0;		// the byte count
-		byte b[] = new byte[BLKSIZ];	// the bytes read from the file
+		byte[] b = new byte[BLKSIZ];	// the bytes read from the file
 		while ((count = is.read(b)) != -1) {
 			os.write(b, 0, count);
 		}
