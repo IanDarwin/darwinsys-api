@@ -5,22 +5,13 @@ import java.awt.event.*;
  * @author Ian Darwin
  * @version $Id$
  */
-public class WinClose extends Frame {
-	/* Constructor */
-	public WinClose() {
-		setSize(200, 100);
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				// Fancier: popup a "confirm quit" dialog here.
-				setVisible(false);
-				dispose();
-				System.exit(0);
-			}
-		});
-	}
+public class WinClose {
 
 	/* Main method */
 	public static void main(String argv[]) {
-		new WinClose().setVisible(true);
+		Frame f = new Frame("WinClose");
+		f.setSize(200, 100);
+		f.setVisible(true);
+		f.addWindowListener(new WindowCloser(f));
 	}
 }
