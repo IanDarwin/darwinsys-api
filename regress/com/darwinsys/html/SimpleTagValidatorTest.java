@@ -19,6 +19,8 @@ public class SimpleTagValidatorTest extends TestCase {
 			System.out.println(" caught expected NPE");
 		}
 		assertTrue("empty string", val.validate(""));
+		
+		assertTrue("leading space", val.validate("< a href='#foo'>Foo</a>"));
 
 		assertTrue("variety of tags",
 			val.validate("<p><a href='foo'>Link</a><i></p>?"));
@@ -28,10 +30,11 @@ public class SimpleTagValidatorTest extends TestCase {
 		String[] myTags = {"br", "i", "img" };
 		assertEquals("tagsAsStrings", "br, i, img",
 			new SimpleTagValidator(myTags).getTagsAsString(true));
+		
 		assertEquals("tagsAsStrings", "br i img",
 				new SimpleTagValidator(myTags).getTagsAsString(false));
 	}
-	public void testFailures() {
+	public void testValidateFailures() {
 		assertFalse("imgtag", val.validate("<img size=0>"));
 		assertEquals("get bad tag info", "img", val.getFailedTag());
 	}

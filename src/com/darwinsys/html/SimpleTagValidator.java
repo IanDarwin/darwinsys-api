@@ -5,6 +5,7 @@ import java.util.regex.*;
 /**
  * Check a String to ensure that it contains either no HTML tags, or only
  * the HTML tags listed in OKTAGS (or the corresponding end-tags).
+ * It is <em>not</em> intended as a full-function HTML validator!
  * @version $Id$
  */
 public class SimpleTagValidator {
@@ -16,7 +17,7 @@ public class SimpleTagValidator {
 	};
 	private final String[] okTags;
 	
-	Pattern patt = Pattern.compile("</?(\\w+)");
+	Pattern patt = Pattern.compile("<\\s*/?(\\w+)");
 	private String failedTag = null;
 	
 	/** Construct a Validator using the default OK list */
@@ -68,7 +69,7 @@ public class SimpleTagValidator {
 	/** Return the last tag that failed.
 	 * Usage example:
 	 * <code>System.out.printf("Invalid tag %s\n", val.getFailedTag());</code>
-	 * @return
+	 * @return The name of the tag that caused validate() to fail.
 	 */
 	public String getFailedTag() {
 		return failedTag;

@@ -3,7 +3,7 @@
 	<!-- $Id$ -->
 
 	<!-- dependancies -->
-	<property file="../build.properties"/>
+	<property file="../javasrc/build.properties"/>
 
 	<!-- other properties -->
 	<property name="src" value="src"/>
@@ -81,7 +81,7 @@
 	 -->
 	<target name="docs" depends="regress">
 		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
-			classpath="${build}:${darwinsys.jar}:${mail.jar}"
+			classpath="${build}:${darwinsys.jar}:${servletapi.jar}:${mail.jar}"
 			packagenames="com.darwinsys.*"
 			maxmemory="32m" 
 			windowtitle="com.darwinsys.* - Java Cookbook Utilities"
@@ -117,14 +117,7 @@
 	</target>
 
 	<!-- Simple Regression Tests -->
-	<!-- In process: re-do ALL with JUnit -->
 	<target name="regress" depends="build">
-		<!-- Tests using JUnit -->
-
-		<taskdef name="junit" 
-			classname="org/apache/tools/ant/taskdefs/optional/junit/JUnitTask"
-			classpath="${ant-junit.jar}:${junit.jar}"/>
-
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 				<classpath>
 						<pathelement location="${build}"/>

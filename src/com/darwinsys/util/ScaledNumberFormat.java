@@ -56,7 +56,7 @@ public class ScaledNumberFormat extends Format {
 
 	
 	/** Parse a String expected to contain a number in Human Scaled Form.
-	 * @param str - String to be parsed.
+	 * @param s - String to be parsed.
 	 * @param where Ignored - required by API
 	 * @return a Long containing the value (value is always
 	 * integral, even though has a fractional part before scaling).
