@@ -1,5 +1,6 @@
 /** A class to implement UNIX-style (single-character) command arguments
  * @author Ian F. Darwin, ian@darwinsys.com
+ * based on the standard UNIX getopt(3) program.
  * @version $Id$
  */
 public class GetOpt {
@@ -56,27 +57,4 @@ public class GetOpt {
 		return '?';
 	}
 
-	public static void main(String argv[]) {
-		String goodArgChars = "o:h", goodArgs[]  = {
-			"-h", "-o", "outfile", "infile"
-		};
-		process(goodArgChars, goodArgs);
-	}
-
-	private static void process(String argChars, String[] args) {
-
-		System.out.println("** START ** " + argChars + '(' + args.length + ')');
-
-		GetOpt go = new GetOpt(argChars);
-
-		char c;
-		while ((c =go.getopt(args)) != 0) {
-			System.out.print("Found " + c);
-			if (go.optarg() != null)
-				System.out.print("; Option " + go.optarg());
-			System.out.println();
-		}
-		for (int i=go.optind(); i<args.length; i++)
-			System.out.println("Filename-like arg " + args[i]);
-	}
 }
