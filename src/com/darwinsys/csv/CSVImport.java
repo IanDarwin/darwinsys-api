@@ -1,5 +1,6 @@
-import com.darwinsys.util.*;
 import java.util.*;
+
+import com.darwinsys.util.Debug;
 
 /** Parse comma-separated values (CSV), a common Windows file format.
  * Sample input: "LU",86.25,"11/4/1998","2:19PM",+4.0625

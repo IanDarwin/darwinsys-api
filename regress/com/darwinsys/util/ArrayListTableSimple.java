@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-/** Simple demo of the com.darwinsys.util.ArrayListTable{Model,Panel}.
+/** Simple demo of the com.darwinsys.swingui.ArrayListTable{Model,Panel}.
  * The "data" is an ArrayList made from the System Properties
  */
 public class ArrayListTableSimple extends JFrame {

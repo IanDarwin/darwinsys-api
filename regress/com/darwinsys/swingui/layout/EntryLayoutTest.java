@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import com.darwinsys.util.WindowCloser;
-
 /** Testbed for EntryLayout layout manager.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
@@ -24,7 +22,7 @@ public class EntryLayoutTest {
 		cp.add(new JTextField(20));
 		// cp.add(new JLabel("Monkey wrench in works"));
 		f.pack();
-		f.addWindowListener(new WindowCloser(f, true));
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocation(200, 200);
 		f.setVisible(true);
 	}

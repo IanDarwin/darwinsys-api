@@ -1,5 +1,5 @@
 import java.awt.*;
-import com.darwinsys.util.WindowCloser;
+import com.darwinsys.swingui.WindowCloser;
 
 /**
  * Simple class to non-exhaustively test out TabLayout layout manager.

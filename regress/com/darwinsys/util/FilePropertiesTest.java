@@ -1,9 +1,9 @@
 package regress;
 
-import com.darwinsys.util.FileProperties;
-
 import java.io.*;
 import java.util.*;
+
+import com.darwinsys.util.FileProperties;
 
 public class FilePropertiesTest {
     public static void main(String[] av) throws IOException {

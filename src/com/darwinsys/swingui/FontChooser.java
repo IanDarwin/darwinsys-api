@@ -1,5 +1,3 @@
-import com.darwinsys.util.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -202,6 +200,6 @@ public class FontChooser extends JDialog {
 
 		f.pack();
 		f.setVisible(true);
-		f.addWindowListener(new WindowCloser(f, true));
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

@@ -1,6 +1,7 @@
-import com.darwinsys.util.Debug;
 import java.io.*;
+
 import org.apache.regexp.*;
+import com.darwinsys.util.Debug;
 
 /* Simple demo of CSV matching using Regular Expressions.
  * Does NOT use the "CSV" class defined in the Java CookBook.
