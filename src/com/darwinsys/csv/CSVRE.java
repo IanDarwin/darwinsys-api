@@ -3,12 +3,12 @@ import org.apache.regexp.*;
 
 /* Simple demo of CSV matching using Regular Expressions.
  * Does NOT use the "CSV" class defined in the book.
- * CSV_PATTERN from Chapter 7, Mastering Regular Expressions
+ * Pattern from Chapter 7, Mastering Regular Expressions (p. 205, first edn.)
  */
 public class CSVRE {	
 	/** The rather involved pattern used to match CSV's */
 	public static final String CSV_PATTERN =
-		"\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\",?|([^,]+),?|,";
+		"(\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\",?|([^,]+),?|,)+";
 
 	public static void main(String[] argv)
 		throws IOException, RESyntaxException
