@@ -1,3 +1,5 @@
+package regress;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -5,7 +7,7 @@ import java.awt.event.*;
 /**
  * Simple class to non-exhaustively test out RelLayout layout manager.
  */
-public class Test extends JFrame {
+public class ColumnLayoutTest extends JFrame {
 	JButton adButton;	// adjust (dummy here)
 	JButton qb;			// quit
 
@@ -14,15 +16,15 @@ public class Test extends JFrame {
 	 * Invoke directly from Java interpreter.
 	 */
 	public static void main(String[] av) {
-		new Test(ColumnLayout.X_AXIS, 0, 0).setVisible(true);
-		new Test(ColumnLayout.Y_AXIS, 0, 0).setVisible(true);
-		new Test(ColumnLayout.X_AXIS, 10, 10).setVisible(true);
-		new Test(ColumnLayout.Y_AXIS, 10, 10).setVisible(true);
+		new ColumnLayoutTest(ColumnLayout.X_AXIS, 0, 0).setVisible(true);
+		new ColumnLayoutTest(ColumnLayout.Y_AXIS, 0, 0).setVisible(true);
+		new ColumnLayoutTest(ColumnLayout.X_AXIS, 10, 10).setVisible(true);
+		new ColumnLayoutTest(ColumnLayout.Y_AXIS, 10, 10).setVisible(true);
 	}
 
 	/** Construct a Test test program. */
-	Test(int alignment, int hpad, int vpad) {
-		super("Layout Tester");
+	ColumnLayoutTest(int alignment, int hpad, int vpad) {
+		super("Column Layout Tester");
 		Container cp = getContentPane();
 		ColumnLayout cl = new ColumnLayout(alignment, hpad, vpad);
 		cp.setLayout(cl);

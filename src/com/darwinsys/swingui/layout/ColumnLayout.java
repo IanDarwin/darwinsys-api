@@ -1,3 +1,5 @@
+package com.darwinsys.swingui.columnlayout;
+
 import java.awt.*;
 import java.util.*;
 
