@@ -21,6 +21,7 @@ public class GetOpt {
 	public int getOptInd() {
 		return optind;
 	}
+
 	/** The option argument, if there is one. */
 	protected String optarg;
 
@@ -52,7 +53,7 @@ public class GetOpt {
 			return DONE;
 		}
 
-		// Pick off the next command line argument, look if it starts "-".
+		// Pick off the next command line argument, check if it starts "-".
 		// If so look it up in the list.
 		String thisArg = argv[optind++];
 		if (thisArg.startsWith("-")) {
