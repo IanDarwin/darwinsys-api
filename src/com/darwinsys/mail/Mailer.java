@@ -146,12 +146,26 @@ public class Mailer {
 	 * Is also called by doSend for verification.
 	 */
 	public boolean isComplete() {
-		if (from == null    || from.length()==0 ||
-		    subject == null || subject.length()==0 ||
-		    toList.size()==0 ||
-		    body == null || body.length()==0 ||
-		    mailHost == null || mailHost.length()==0 )
+		if (from == null    || from.length()==0) {
+			System.err.println("doSend: no FROM");
 			return false;
+		}
+		if (subject == null || subject.length()==0) {
+			System.err.println("doSend: no SUBJECT");
+			return false;
+		}
+		if (toList.size()==0) {
+			System.err.println("doSend: no recipients");
+			return false;
+		}
+		if (body == null || body.length()==0) {
+			System.err.println("doSend: no body");
+			return false;
+		}
+		if (mailHost == null || mailHost.length()==0) {
+			System.err.println("doSend: no server host");
+			return false;
+		}
 		return true;
 	}
 
@@ -227,9 +241,9 @@ public class Mailer {
 	/** Convenience method that does it all with one call. */
 	public static void send(String mailhost, 
 		String recipient, String sender, String subject, String message) 
-	throws MailException {
+	throws MessagingException {
 		Mailer m = new Mailer();
-		m.setSMTPhost(mailhost);
+		m.setServer(mailhost);
 		m.addTo(recipient);
 		m.setFrom(sender);
 		m.setSubject(subject);
