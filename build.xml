@@ -83,12 +83,15 @@
 		</exec>
 	</target>
 
+	<!-- Don't change this w/o changing FileIOTest.java -->
+	<property name="${fileiotest.dat}" value="fileiotest.dat"/>
+
 	<!-- Simple Regression Tests -->
 	<!-- Some are pretty lame, re-do ALL with JUnit -->
 	<target name="regress" depends="build">
 		<!-- Tests using JUnit -->
-		<!-- Don't change this message w/o changing FileIOTest.java -->
-		<echo file="fileiotest.dat" message="This is a one-line file."/>
+		<!-- Don't change this w/o changing FileIOTest.java -->
+		<echo file="${fileiotest.dat}" message="This is a one-line file."/>
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 				<classpath>
 						<pathelement location="${build}"/>
@@ -156,6 +159,8 @@
 	</target>
 
 	<target name="clean">
+		<delete file="${fileiotest.dat}"/>
+		<delete file="${fileiotest.dat}.bak"/>
 		<delete dir="build"/>
 		<delete dir="docs"/>
 	</target>
