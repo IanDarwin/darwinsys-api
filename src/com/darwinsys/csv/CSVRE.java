@@ -25,7 +25,7 @@ public class CSVRE {
 
 		while ((line = is.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
-			while (csv.match(line)) {
+			if (csv.match(line)) {
 				int n = csv.getParenCount();
 				System.out.println("Count = " + n);
 
@@ -33,7 +33,8 @@ public class CSVRE {
 					System.out.println("fields[" + i + "] = `" +
 						csv.getParen(i) + "'");
 				}
-				break;	// until we increment line
+			} else {
+				System.err.println("NO MATCH: " + line);
 			}
 		}
 	}
