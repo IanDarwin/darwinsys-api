@@ -3,7 +3,7 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*; 
 
-/** Mailer -- send an email message.
+/** Mailer. No relation to Norman. Sends an email message.
  * My old Sender class, recast as a Bean for use in JSP's & elsewhere.
  * @author Ian F. Darwin
  * @version $Id$
