@@ -1,3 +1,5 @@
+package JDBC;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Types;

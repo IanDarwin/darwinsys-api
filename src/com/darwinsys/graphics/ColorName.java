@@ -1,3 +1,5 @@
+package graphics;
+
 import java.awt.Color;
 
 /** A simple class for looking up Java AWT Color Names; I got tired

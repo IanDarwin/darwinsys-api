@@ -1,3 +1,5 @@
+package strings;
+
 import java.util.*;
 
 /* Simple demo of CSV parser class.
