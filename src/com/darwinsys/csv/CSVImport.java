@@ -1,3 +1,4 @@
+import com.darwinsys.util.*;
 import java.util.*;
 
 /** Parse comma-separated values (CSV), a common Windows file format.
@@ -25,7 +26,7 @@ public class CSV {
 	}
 
 	/** Construct a CSV parser with a given separator. Must be
-	 * exactly the string that is the separator; not a list of
+	 * exactly the string that is the separator, not a list of
 	 * separator characters!
 	 */
 	public CSV(String sep) {
@@ -78,7 +79,7 @@ public class CSV {
 			// found end of field if find unescaped quote.
 			if (s.charAt(j) == '"' && s.charAt(j-1) != '\\') {
 				int k = s.indexOf(fieldsep, j);
-				// System.out.println("j = "+j+", k = "+k);
+				Debug.println("csv", "j = " + j + ", k = " + k);
 				if (k == -1) {	// no separator found after this field
 					k += s.length();
 					for (k -= j; k-- > 0; ) {
@@ -99,17 +100,17 @@ public class CSV {
 	}
 
 	/** advplain: unquoted field; return index of next separator */
-	protected int advplain(String s, StringBuffer fld, int i)
+	protected int advplain(String s, StringBuffer sb, int i)
 	{
 		int j;
 
 		j = s.indexOf(fieldsep, i); // look for separator
-		// System.out.println("i = "+i+", j = "+j);
+		Debug.println("csv", "i = " + i + ", j = " + j);
 		if (j == -1) {               	// none found
-			fld.append(s.substring(i));
+			sb.append(s.substring(i));
 			return s.length();
 		} else {
-			fld.append(s.substring(i, j));
+			sb.append(s.substring(i, j));
 			return j;
 		}
 	}
