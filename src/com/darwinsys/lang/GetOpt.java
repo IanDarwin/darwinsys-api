@@ -11,6 +11,86 @@ import java.util.Iterator;
 /** A class to implement UNIX-style (single-character) command line argument
  * parsing. Originally patterned after (but not using code from) the UNIX 
  * getopt(3) program, this has been redesigned to be more Java-friendly.
+ * As a result, there are two ways of using it.
+ * <ol><li>Original model:
+ * <pre>
+        GetOpt go = new GetOpt("hno:");
+        boolean numeric_option = false;
+        String outFileName = "(standard output)";
+        char c;
+        while ((c = go.getopt(args)) != GetOpt.DONE) {
+            switch(c) {
+            case 'h':
+                doHelp(0);
+                break;
+            case 'n':
+                numeric_option = true;
+                break;
+            case 'o':
+                outFileName = go.optarg();
+                break;
+            default:
+                System.err.println("Unknown option character " + c);
+                doHelp(1);
+            }
+        }
+        System.out.print("Options: ");
+        System.out.print("Numeric: " + numeric_option + ' ');
+        System.out.print("Output: " + outFileName + "; ");
+        System.out.print("Inputs: ");
+        if (go.getOptInd() == args.length) {
+            doFile("(standard input)");
+        } else for (int i = go.getOptInd(); i < args.length; i++) {
+            doFile(args[i]);
+        }
+ * </pre>
+ * <ol><li>Newer model, which allows long-named options:
+ * <pre>
+        boolean numeric_option = false;
+        boolean errs = false;
+        String outputFileName = null;
+
+        GetOptDesc options[] = {
+            new GetOptDesc('n', "numeric", false),
+            new GetOptDesc('o', "output-file", true),
+        };
+        GetOpt parser = new GetOpt(options);
+        Map optionsFound = parser.parseArguments(argv);
+        Iterator it = optionsFound.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String)it.next();
+            char c = key.charAt(0);
+            switch (c) {
+                case 'n':
+                    numeric_option = true;
+                    break;
+                case 'o':
+                    outputFileName = (String)optionsFound.get(key);
+                    break;
+                case '?':
+                    errs = true;
+                    break;
+                default:
+                    throw new IllegalStateException(
+                    "Unexpected option character: " + c);
+            }
+        }
+        if (errs) {
+            System.err.println("Usage: GetOptDemo [-n][-o file][file...]");
+        }
+        System.out.print("Options: ");
+        System.out.print("Numeric: " + numeric_option + ' ');
+        System.out.print("Output: " + outputFileName + "; ");
+        System.out.print("Input files: ");
+        List files = parser.getFilenameList();
+        while (files.hasNext()) {
+            System.out.print(files.next());
+            System.out.print(' ');
+        }
+        System.out.println();
+	}
+ * </pre>
+ * </ul>
  * <p>
  * This is <em>not</em> threadsafe; it is expected to be used only from main().
  * <p>
