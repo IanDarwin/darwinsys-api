@@ -34,10 +34,10 @@ public class I18N {
 		try { key = b.getString(menu + "." + name + ".key"); }
 		catch (MissingResourceException e) { key=null; }
 
-		// if (key == null)
+		if (key == null)
 			return new JMenuItem(miLabel);
-		// else
-			// return new JMenuItem(miLabel, new MenuShortcut(key.charAt(0)));
+		else
+			return new JMenuItem(miLabel, key.charAt(0));
 	}
 
 	/** Show a JOptionPane message dialog */
