@@ -24,7 +24,7 @@ public class IndexList implements List {
 	}
 	public IndexList(int startSize) {
 		data = new Object[startSize];
-		hwm = data.length;
+		hwm = 0;
 	}
 
 	public void ensureCapacity(int i) {
@@ -76,7 +76,9 @@ public class IndexList implements List {
 	}
 
     public Iterator iterator() {
-		return new ArrayIterator(data);
+		Object newData = new Object[hwm];
+		System.arraycopy(data, 0, newData, 0, hwm);
+		return new ArrayIterator(newData);
 	}
 
 	/** Return the collection as an Array of Object */
@@ -123,7 +125,7 @@ public class IndexList implements List {
 
     public void clear() {
 		data = new Object[DEFAULT_START_SIZE];
-		hwm = data.length;
+		hwm = 0;
 	}
 
     public int hashCode() {
