@@ -15,8 +15,10 @@ import java.util.*;
  *
  * The class of things in the list must have a no-argument constructor.
  *
- * <BR>XXX TODO -- add constructor options for 
- *		Add, Remove, MoveUp/MoveDown buttons
+ * <BR>XXX TODO <ul>
+ * <li>1. Implement MoveUp/MoveDown!
+ * <li>2. add constructor options for Add, Remove, MoveUp/MoveDown buttons
+ * </ul>
  *		N.B. model.invalidateCache() when adding/moving/removing!
  *
  * @author	Ian Darwin, ian@darwinsys.com
