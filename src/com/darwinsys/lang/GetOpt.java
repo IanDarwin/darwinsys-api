@@ -88,15 +88,14 @@ public class GetOpt {
 	 * and whose values are (null) for non-value options and the found value
 	 * for value options. Normally followed by a call to getFileArguments().
 	 */
-	public Map parseOpts(String[] argv) {
+	public Map parseArguments(String[] argv) {
 		Map optionsAndValues = new Properties();
+		fileNameArguments = new ArrayList();
 		for (int i = 0; i < argv.length; i++) {
 			char c = getopt(argv);
-			if (c == '?')
-				throw new IllegalArgumentException(
-				"Illegal argument in input");	// xxx do better
 			if (c != DONE)
-				optionsAndValues.put(new Character(c), optarg);
+				optionsAndValues.put(new Character(c), 
+					(optarg != null ? optarg : ""));
 			else
 				fileNameArguments.add(optarg);
 		}
@@ -104,7 +103,7 @@ public class GetOpt {
 	}
 
 	/** Get the list of filename-like arguments after options */
-	public List getFileArguments() {
+	public List getFilenameArguments() {
 		if (fileNameArguments == null) {
 			throw new IllegalArgumentException(
 				"Illegal call to getFileArguments() before parseOptions()");

@@ -1,5 +1,7 @@
 package regress;
 
+import java.util.*;
+
 import com.darwinsys.util.GetOpt;
 
 /** Some test cases for GetOpt.
@@ -49,6 +51,28 @@ public class GetOptTest {
 		// Process any filename-like arguments.
 		for (int i=go.getOptInd(); i<args.length; i++)
 			System.out.println("Filename-like arg " + args[i]);
+
+		System.out.println("** START NEW WAY ** " + argChars);
+		GetOpt go2 = new GetOpt(argChars);
+		Map m = go2.parseArguments(args);
+		if (m.size() == 0)
+			System.out.println("NO ARGS MATCHED");
+		Iterator it = m.keySet().iterator();
+		while (it.hasNext()) {
+			Object key = it.next();
+			c = ((Character)key).charValue();
+			if (c == '?')
+				errs++;
+			String val = (String)m.get(key);
+			System.out.print("Found " + c);
+			if (!val.equals(""))
+				System.out.print("; Option " + val);
+			System.out.println();
+		}
+		List filenames = go2.getFilenameArguments();
+		for (int i = 0; i < filenames.size(); i++) {
+			System.out.println("Filename: " + filenames.get(i));
+		}
 
 		if (shouldFail) {
 			if (errs != 0)
