@@ -77,7 +77,7 @@ public class EntryLayout implements LayoutManager {
 	 * given the components in the specified parent container. */
 	public Dimension preferredLayoutSize(Container parent)  {
 		// System.out.println("preferredLayoutSize");
-		return computelayoutSize(parent, hpad, vpad);
+		return computeLayoutSize(parent, hpad, vpad);
 	}
 
 	/** Find the minimum Dimension for the 
@@ -85,7 +85,7 @@ public class EntryLayout implements LayoutManager {
 	 */
 	public Dimension minimumLayoutSize(Container parent)  {
 		// System.out.println("minimumLayoutSize");
-		return computelayoutSize(parent, 0, 0);
+		return computeLayoutSize(parent, 0, 0);
 	}
 
 	/** The width of each column, as found by computLayoutSize(). */
@@ -96,7 +96,7 @@ public class EntryLayout implements LayoutManager {
 	/** Compute the size of the whole mess. Serves as the guts of 
 	 * preferredLayoutSize() and minimumLayoutSize().
 	 */
-	protected Dimension computelayoutSize(Container parent, int hpad, int vpad) {
+	protected Dimension computeLayoutSize(Container parent, int hpad, int vpad) {
 		if (!validWidths)
 			return null;
 		Component[] components = parent.getComponents();
