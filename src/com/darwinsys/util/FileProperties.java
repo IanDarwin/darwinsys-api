@@ -21,6 +21,8 @@ import java.util.*;
 public class FileProperties extends Properties {
 	/** The name of the file this FileProperties represents. */
 	protected String fileName = null;
+	/** True if the file represented by fileName exists */
+	private boolean exists = false;
 
 	/** Construct a FileProperties given a fileName. */
 	public FileProperties(String loadsaveFileName)
@@ -40,17 +42,19 @@ public class FileProperties extends Properties {
 		load();
 	}
 
-	/** Save the fileName. If it exists not, but it+".properties" does,
+	/** Set the fileName. If it exists not, but it+".properties" does,
 	 * save the full name.
 	 */
 	void setFileName(String newName) {
 		fileName = newName;
 		if (new File(fileName).exists()) {
+			exists = true;
 			return;
 		}
 		if (!newName.endsWith(".properties")) {
 			File f2 = new File(newName + ".properties");
 			if (f2.exists()) {
+				exists = true;
 				fileName = newName + ".properties";
 				return;
 			}
@@ -65,6 +69,9 @@ public class FileProperties extends Properties {
 	 * If that fails, try again, tacking on the .properties extension
 	 */
 	public Properties load() throws IOException {
+
+		if (!exists)
+			return this;
 
 		// Sorry it's an InputStream not a Reader, but that's what
 		// the superclass load method still requires (as of 1.4 at least).
