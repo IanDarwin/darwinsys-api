@@ -73,7 +73,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param	target	Container whose components are to be laid out.
 	 */
 	public void layoutContainer(Container target) {
-		System.out.println("ColumLayout.layoutContainer() called.");
+		//System.out.println("ColumnLayout.layoutContainer() called.");
 		doLayout(target);
 	}
 
