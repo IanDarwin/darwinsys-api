@@ -6,6 +6,10 @@ import java.util.*;
 /**
  * PropertiesMap -- a Map that loads from a Properties file, but unlike
  * Properties, preserves the ordering of the original file.
+ * <p>
+ * Written mainly as a demonstration of building a simple Map implementation
+ * from scratch, but useful when order matters and yet you want the 
+ * convenience of Map acccess.
  * @author  Ian F. Darwin
  * @version $Id$
  */
@@ -32,18 +36,27 @@ public class PropertiesMap implements Map {
 		rdr.close();
 	}
 
+	/** Return the number of entries in the Map */
     public int size() {
 		return names.size();
 	}
+
+	/** Return true if the Map is empty */
     public boolean isEmpty() {
 		return names.isEmpty();
 	}
+
+	/** Return true if the given object is contained as a Key */
     public boolean containsKey(Object obj) {
 		return names.contains(obj);
 	}
+
+	/** Return true if the given object is contained as a Value */
     public boolean containsValue(Object obj) {
 		return values.contains(obj);
 	}
+
+	/** Get a given object */
     public Object get(Object obj) {
 		return values.get(names.indexOf(obj));
 	}
@@ -92,6 +105,8 @@ public class PropertiesMap implements Map {
     public java.util.Collection values() {
 		return values;
 	}
+
+	/** EntrySet (not implemented, returns null) */
     public java.util.Set entrySet() {
 		return null;
 	}
