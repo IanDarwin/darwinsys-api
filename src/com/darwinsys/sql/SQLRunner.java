@@ -262,12 +262,18 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	/**
 	 * Process an escape like \ms; for mode=sql.
 	 */
-	private void doEscape(String str) throws IOException {
+	private void doEscape(String str) throws IOException, SQLException  {
 		String rest = null;
 		if (str.length() > 2) {
 			rest = str.substring(2);
 		}
-		if (str.startsWith("\\m")) {	// MODE
+		
+		if (str.startsWith("\\d")) {	// Display
+			if (rest == null){
+				throw new IllegalArgumentException("\\d needs display arg");
+			}
+			display(rest);
+		} else if (str.startsWith("\\m")) {	// MODE
 			if (rest == null){
 				throw new IllegalArgumentException("\\m needs output mode arg");
 			}
@@ -283,6 +289,32 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 			throw new IllegalArgumentException("Unknown escape: " + str);
 		}
 		
+	}
+
+	/**
+	 * Display - something
+	 * @param rest - what to display
+	 * XXX: Move formatting to ResultsDecorator: listTables(rs), listColumns(rs)
+	 */
+	private void display(String rest) throws SQLException {
+		if (rest.equals("t")) {
+			// Display list of tables
+			DatabaseMetaData md = conn.getMetaData();
+			ResultSet rs = md.getTables(null, null, "%", null);
+			while (rs.next()) {
+				System.out.println(rs.getString(3));
+			}
+		} else if (rest.startsWith("t")) {
+			// Display one table
+			String tableName = rest.substring(1).trim();
+			System.out.println("# Display table " + tableName);
+			DatabaseMetaData md = conn.getMetaData();
+			ResultSet rs = md.getColumns(null, null, tableName, "%");
+			while (rs.next()) {
+				System.out.println(rs.getString(4));
+			}
+		} else
+			throw new IllegalArgumentException("\\d"  + rest + " invalid");
 	}
 
 	/** Set the output to the given filename.
@@ -393,7 +425,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		return debug;
 	}
 	/**
-	 * @param debug The debug to set.
+	 * @param debug True to enable debug, false to disable.
 	 */
 	public void setDebug(boolean debug) {
 		this.debug = debug;
