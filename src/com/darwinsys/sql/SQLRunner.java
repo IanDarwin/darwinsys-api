@@ -58,8 +58,10 @@ public class SQLRunner {
 		db_password = password;
 
 		// Load the database driver
+		System.out.println("SQLRunner: Loading driver " + db_driver);
 		Class.forName(db_driver);
 
+		System.out.println("SQLRunner: Connecting to DB " + db_url);
 		conn = DriverManager.getConnection(
 			db_url, user, password);
 
@@ -83,6 +85,7 @@ public class SQLRunner {
 
 		runScript(is);
 	}
+
 	public void runScript(BufferedReader is)
 	throws IOException {
 
