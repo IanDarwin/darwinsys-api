@@ -57,9 +57,11 @@ public class FilterGUI extends JComponent {
 			addable.add(filters[i]);
 
 		toAddList = new JList(addable);
+		toAddList.setBorder(BorderFactory.createEtchedBorder());
 		// toAddList.setText("Addable");
 		currentList = new JList(current);
 		// currentList.setText("Current");
+		currentList.setBorder(BorderFactory.createEtchedBorder());
 
 		current.add(filters[1]);
 		add(BorderLayout.WEST, toAddList);
