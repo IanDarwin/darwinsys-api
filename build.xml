@@ -61,7 +61,7 @@
 	<target name="jar" depends="docs,regress">
 		<jar jarfile="${build}/${obj.jar}" 
 			manifest="manifest.stub"
-			basedir="${build}" includes="META-INF/*,com/**/*.class,docs">
+			basedir="${build}" includes="META-INF/*,com/**/*.class,docs/**">
 		</jar>
 	</target>
 
