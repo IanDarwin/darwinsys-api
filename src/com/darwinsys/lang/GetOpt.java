@@ -11,7 +11,7 @@ public class GetOpt {
 	/** Where we are in the options */
 	protected int optind = 0;
 	/** Retreive the option index */
-	public int optind() {
+	public int getOptInd() {
 		return optind;
 	}
 	/** The option argument, if there is one. */

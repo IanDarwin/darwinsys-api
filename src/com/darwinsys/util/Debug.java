@@ -12,7 +12,7 @@ public class Debug {
 	 	System.out.println("Starting to read file " + fileName);
 	 */
 	public static boolean isEnabled(String category) {
-		return System.getProperties().getProperty("debug." + category)!=null;
+		return System.getProperty("debug." + category) != null;
 	}
 
 	/** Static method to println a given message if the
