@@ -24,51 +24,81 @@ public class ConnectionUtil {
 	private static String configFileName =
 		System.getProperty("user.home") + File.separator + DEFAULT_NAME;
 
-	/** Get a Connection for the given config using the default or set property file name */
-	public static Connection getConnection(String config) throws DataBaseException {
+	/** Get a Configuration for the given config using the default or set property file name */
+	public static  Configuration getConfiguration(String config) throws DataBaseException {
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream(configFileName));
-			return getConnection(p, config);
+			return getConfiguration(p, config);
+		} catch (IOException ex) {
+			throw new DataBaseException(ex.toString());
+		}
+	}
+	
+	/**
+	 * @param p The Properties file
+	 * @param config The name of the wanted configuration
+	 * @return The matching configuration
+	 */
+	private static Configuration getConfiguration(Properties p, String config) {
+		String db_driver = p.getProperty(config  + "." + "DBDriver");
+		String db_url = p.getProperty(config  + "." + "DBURL");
+		String db_user = p.getProperty(config  + "." + "DBUser");
+		String db_password = p.getProperty(config  + "." + "DBPassword");
+		if (db_driver == null || db_url == null) {
+			throw new DataBaseException("Driver or URL null: " + config);
+		}
+		return new Configuration(db_url, db_driver, db_user, db_password);
+	}
+
+	/** Get a Connection for the given config using the default or set property file name */
+	public static Connection getConnection(String configName) throws DataBaseException {
+		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream(configFileName));
+			return getConnection(p, configName);
 		} catch (IOException ex) {
 			throw new DataBaseException(ex.toString());
 		}
 	}
 	
 	/** Get a Connection for the given config name from a provided Properties */
-	public static Connection getConnection(Properties p,  String config) throws DataBaseException {
-
-			String db_driver = p.getProperty(config  + "." + "DBDriver");
-			String db_url = p.getProperty(config  + "." + "DBURL");
-			String db_user = p.getProperty(config  + "." + "DBUser");
-			String db_password = p.getProperty(config  + "." + "DBPassword");
+	public static Connection getConnection(Properties p,  String configName) throws DataBaseException {
+		try {
+			String db_driver = p.getProperty(configName  + "." + "DBDriver");
+			String db_url = p.getProperty(configName  + "." + "DBURL");
+			String db_user = p.getProperty(configName  + "." + "DBUser");
+			String db_password = p.getProperty(configName  + "." + "DBPassword");
 			if (db_driver == null || db_url == null) {
-				throw new IllegalStateException("Driver or URL null: " + config);
+				throw new DataBaseException("Driver or URL null: " + configName);
 			}
 			return getConnection(db_driver, db_url, db_user, db_password);
-	}
-
-	public static Connection getConnection(String db_driver, String db_url,
-			String db_user, String db_password) throws DataBaseException {
-
-		try {
-			// Load the database driver
-			System.out.println("Loading driver " + db_driver);
-			Class.forName(db_driver);
-
-			System.out.println("Connecting to DB " + db_url);
-			return DriverManager.getConnection(db_url, db_user, db_password);
 		} catch (ClassNotFoundException ex) {
 			throw new DataBaseException(ex.toString());
-
+	
 		} catch (SQLException ex) {
 			throw new DataBaseException(ex.toString());
 		}
 	}
+
+	public static Connection getConnection(String dbUrl, String dbDriver, 
+					String dbUserName, String dbPassword)
+			throws ClassNotFoundException, SQLException {
+
+		// Load the database driver
+		System.out.println("Loading driver " + dbDriver);
+		Class.forName(dbDriver);
+
+		System.out.println("Connecting to DB " + dbUrl);
+		return DriverManager.getConnection(
+			dbUrl, dbUserName, dbPassword);
+	}
 	
-	/**
-	 * Returns the full path of the configuration file being used.
-	 * 
+	public static Connection getConnection(Configuration c) throws ClassNotFoundException, SQLException {
+		return getConnection(c.dbDriverName, c.dbURL, c.dbUserName, c.dbPassword);
+	}
+	
+	/** Returns the full path of the configuration file being used.
 	 * @return Returns the configFileName.
 	 */
 	public static String getConfigFileName() {
