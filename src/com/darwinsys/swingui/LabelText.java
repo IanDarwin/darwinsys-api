@@ -4,7 +4,7 @@ import javax.swing.*;
 
 /** A label and text combination, inspired by
  * the LabelText control in Guy Eddon's ActiveX Components book
- * (2nd Edition, p. 203). But done honestly, without using a GUI builder
+ * (2nd Edition, p. 203). But done more simply, without using a GUI builder
  * just to create a (captiveX) project and then typing 100 lines of code.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
@@ -15,18 +15,25 @@ public class LabelText extends JComponent implements java.io.Serializable {
 	/** The label component */
 	protected JTextField theTextField;
 
+	/** Construct the object with no initial values.
+	 * To be usable as a JavaBean there MUST be a no-argument constructor.
+	 */
+	public LabelText() {
+		this("(LabelText)",  12);
+	}
+
 	/** Construct the object with the label and a default textfield size */
 	public LabelText(String label) {
-		this(label, 10);
+		this(label, 12);
 	}
 
 	/** Construct the object with given label and textfield size */
-	public LabelText(String label, int nch) {
+	public LabelText(String label, int numChars) {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		theLabel = new JLabel(label);
 		add(theLabel);
-		theTextField = new JTextField(nch);
+		theTextField = new JTextField(numChars);
 		add(theTextField);
 	}
 

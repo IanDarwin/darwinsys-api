@@ -1,4 +1,7 @@
+import java.awt.*;
 import javax.swing.*;
+
+import com.darwinsys.util.WindowCloser;
 
 /** Simple test for LabelText.
  * @version $Id$
@@ -24,13 +27,7 @@ public class LabelTextTest {
 		comp.setText("Entry area");
 		cp.add(comp);
 
-		f.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				f.setVisible(false);
-				f.dispose();
-				System.exit(0);
-			}
-		});
+		f.addWindowListener(new WindowCloser(f));
 		f.pack();
 		f.setLocation(200, 200);
 		f.setVisible(true);
