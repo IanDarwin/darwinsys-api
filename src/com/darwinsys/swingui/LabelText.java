@@ -6,8 +6,7 @@ import javax.swing.*;
 
 /** A label and text combination, inspired by
  * the LabelText control in Guy Eddon's ActiveX Components book
- * (2nd Edition, p. 203). But done more simply, without using a GUI builder
- * just to create a (captiveX) project and then typing 100 lines of code.
+ * (2nd Edition, p. 203). But done more simply.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
  */
