@@ -19,9 +19,9 @@ all build:	$(JAR)
 # The explicit dependancy upon "docs" is commented out so I don't have
 # to wait for javadoc whenever I tweak a file. You should probably
 # remove the '#' on the following line:
-$(JAR):	$(SRC) # docs
+jar $(JAR):	$(SRC) # docs
 		$(JAVAC) -d . $(SRC)
-		jar -cfm $(JAR) manifest.stub com docs Makefile $(SRC)
+		jar -cfm $(JAR) manifest.stub com docs Makefile # $(SRC)
 
 doc docs:	docs/index.html
 docs/index.html: $(SRC)
