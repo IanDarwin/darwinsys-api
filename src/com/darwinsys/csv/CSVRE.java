@@ -5,9 +5,11 @@ import org.apache.regexp.*;
  */
 public class CSVRE {	
 	/** The rather involved pattern used to match CSV's */
-	public static final String CSV_PATTERN = "([^\"\\\\]*(\\\\.[^\"\\\\])*)*\",?)|([^,]+),?|,";
+	public static final String CSV_PATTERN =
+		"\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\",?|([^,]+),?|,";
 
-	public static void main(String[] argv) throws IOException
+	public static void main(String[] argv)
+		throws IOException, RESyntaxException
 	{
 		String line;
 	
@@ -22,11 +24,13 @@ public class CSVRE {
 			System.out.println("line = `" + line + "'");
 			int i = 0;
 			while (csv.match(line)) {
-				int start = csv.getParenStart();
-				int end   = csv.getParenEnd();
+				// int start = csv.getParenStart();
+				// int end   = csv.getParenEnd();
 
 				System.out.println("fields[" + i++ + "] = `" +
-					fields[i] + "'");
+					csv.getParen(0) + "'");
+				break;
+			}
 		}
 	}
 }
