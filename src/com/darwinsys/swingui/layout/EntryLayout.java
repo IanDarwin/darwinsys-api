@@ -2,6 +2,8 @@ package com.darwinsys.swingui.layout;
 
 import java.awt.*;
 
+import com.darwinsys.util.Debug;
+
 /** A simple layout manager, for "Entry" areas ith e.g., a list of labels
  * and their corresponding JTextFields. These typically look like:
  * <PRE>
@@ -129,25 +131,28 @@ public class EntryLayout implements LayoutManager {
 		return new Dimension(preferredWidth, preferredHeight);
 	}
 
-	/** Lays out the container in the specified panel. */
+	/** Lays out the container in the specified panel. This is a row-column
+	 * type layout; find x, y, width and height of each Component.
+	 * @param parent The Container whose children we are laying out.
+	 */
 	public void layoutContainer(Container parent) {
-		// System.out.println("layoutContainer:");
+		Debug.println("layout","layoutContainer:");
 		if (!validWidths)
 			return;
 		Component[] components = parent.getComponents();
 		Dimension contSize = parent.getSize();
+		int x = 0;
 		for (int i=0; i<components.length; i++) {
 			int row = i / COLUMNS;
 			int col = i % COLUMNS;
 			Component c = components[i];
 			Dimension d = c.getPreferredSize();
 			int colWidth = (int)(contSize.width * widthPercentages[col]);
-			Rectangle r = new Rectangle(
-				col == 0 ? 0 :
-				hpad * (col-1) + (int)(contSize.width * widthPercentages[col-1]),
-				vpad * (row) + (row * heights[row]) + (heights[row]-d.height),
-				colWidth, d.height);
-			// System.out.println(c.getClass() + "-->" + r);
+			
+			x += col == 0 ? hpad :
+				hpad * (col-1) + (int)(contSize.width * widthPercentages[col-1]);
+			int y = vpad * (row) + (row * heights[row]) + (heights[row]-d.height),
+			Rectangle r = new Rectangle(x, y, colWidth, d.height);
 			c.setBounds(r);
 		}
 	}
