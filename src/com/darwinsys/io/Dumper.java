@@ -1,40 +1,63 @@
 import java.io.*;
 
 /**
- * Read a file and print, using BufferedReader and System.out
+ * Read a file and decode, using DataInputStream and System.out
  */
 public class DumpFile {
 
-    public static void main(String av[]) {
-        DumpFile c = new DumpFile();
-        switch(av.length) {
-            case 0: c.process(new DataInputStream(System.in));
-				break;
-            default:
-				for (int i=0; i<av.length; i++)
-                    try {
-                        c.process(new DataInputStream(new FileInputStream(av[i])));
-                    } catch (FileNotFoundException e) {
-                        System.err.println(e);
-                    }
-        }
-    }
+	public static void main(String av[]) {
+		DumpFile c = new DumpFile();
+		switch(av.length) {
+		case 0: c.process(System.in);
+			break;
+		default:
+			for (int i=0; i<av.length; i++)
+				try {
+					c.process(new FileInputStream(av[i]));
+				} catch (FileNotFoundException e) {
+					System.err.println(e);
+				}
+		}
+	}
 
-    /** print one file, given an open BufferedReader */
-    public void process(DataInputStream is) {
-        try {
-            int b = 0;
-			int bnum = 0;
+	/** The numberof items per line */
+	public final static int PERLINE = 15;
 
-            while ((b=is.read()) != -1) {
-                System.out.print(b + " ");
-				if (++bnum%10 == 0)
-					System.out.print("\n");
-            }
+	protected StringBuffer num = new StringBuffer();
+	protected StringBuffer txt = new StringBuffer();
+
+	protected void dump() {
+		System.out.print(num);
+		System.out.print( );
+		System.out.print(txt);
+		num.setLength(0);
+		txt.setLength(0);
+	}
+
+	/** print one file, given an open InputStream */
+	public void process(InputStream ois) {
+		BufferedInputStream is = new BufferedInputStream(ois);
+		num.setLength(0);
+		txt.setLength(0);
+		
+		try {
+			int b = 0;
+			int column = 0;
+
+			while ((b=is.read()) != -1) {
+				num.append(b);
+				num.append( );
+				txt.append(Character.isPrintable((char)b)?
+					(char)b : .);
+
+				if (++column%PERLINE == 0) {
+					dump();
+				}
+			}
 			System.out.print("\n");
-            is.close();
-        } catch (IOException e) {
-            System.out.println("IOException: " + e);
-        }
-    }
+			is.close();
+		} catch (IOException e) {
+			System.out.println("IOException: " + e);
+		}
+	}
 }
