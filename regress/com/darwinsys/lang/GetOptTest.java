@@ -1,24 +1,14 @@
 import com.darwinsys.util.GetOpt;
-import junit.framework.*;
 
 /** Some test cases for GetOpt.
  * @author Ian F. Darwin, ian@darwinsys.com
  * @version $Id$
  */
-public class GetOptTest extends TestCase {
+public class GetOptTest {
 
-	/** JUnit test classes require this constructor */
-	public GetOptTest(String name) {
-		super(name);
-	}
-
-	public void testgoodArgChars() {
+	public static void main(String[] args) {
 		process(goodArgChars, goodArgs);
-	}
-	public void testBadArgChars() {
 		process(badArgChars, goodArgs);
-	}
-	public void testBadArgsAndChars() {
 		process(badArgChars, badArgs);
 	}
 
@@ -39,13 +29,26 @@ public class GetOptTest extends TestCase {
 		GetOpt go = new GetOpt(argChars);
 
 		char c;
+		int errs = 0;
+
 		while ((c =go.getopt(args)) != 0) {
-			System.out.print("Found " + c);
-			if (go.optarg() != null)
-				System.out.print("; Option " + go.optarg());
+			if (c == '?') {
+				System.out.print("Bad option");
+				++errs;
+			} else {
+				System.out.print("Found " + c);
+				if (go.optarg() != null)
+					System.out.print("; Option " + go.optarg());
+			}
 			System.out.println();
 		}
-		for (int i=go.optind(); i<args.length; i++)
+
+		// Process any filename-like arguments.
+		for (int i=go.getOptInd(); i<args.length; i++)
 			System.out.println("Filename-like arg " + args[i]);
+
+		if (errs != 0) {
+			System.out.println("At least one user error found");
+		}
 	}
 }
