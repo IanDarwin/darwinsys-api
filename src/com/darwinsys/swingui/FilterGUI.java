@@ -1,28 +1,16 @@
-import com.darwinsys.util.WindowCloser;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/** Demo for MyFilter
+/** FilterGUI implements a back-and-forth list, i.e., two columns
+ * and items can be moved back and forth between them with "Add" and "Del"
+ * buttons.
+ * <p>
+ * TODO: fix balancing (have main pack() then call adjustWidths()?).
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
  */
 public class FilterGUI extends JComponent {
-	boolean unsavedChanges = false;
-	JButton quitButton;
-
-	/** "main program" method - construct and show */
-	public static void main(String[] av) {
-		// create a this object, tell it to show up
-		final JFrame f = new JFrame("Filter FilterGUI");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FilterGUI comp = new FilterGUI();
-		f.getContentPane().add(comp);
-		f.addWindowListener(new WindowCloser(f));
-		f.pack();
-		f.setLocation(200, 200);
-		f.setVisible(true);
-	}
 
 	JList addableList;
 	MyListModel addableListModel;
@@ -30,28 +18,9 @@ public class FilterGUI extends JComponent {
 	MyListModel currentListModel;
 
 	/** Construct the object including its GUI */
-	public FilterGUI() {
+	public FilterGUI(Object[] data, int defaultIndex) {
 		super();
 
-		/** Inner class to represent real MyFilter implementations */
-		class BasicFilter extends MyFilter {
-			String title;
-			BasicFilter(String s) {
-				title = s;
-			}
-			public String toString() {
-				return title;
-			}
-			public void write(byte[] data) throws MyFilterException {
-				next.write(data);
-			}
-		}
-		MyFilter[] filters = { 
-			new BasicFilter("Basic Copy"),
-			new BasicFilter("Noise Reduction"),
-			new BasicFilter("RLE")
-		};
-		int DEFAULT_FILTER = 1;	// i.e., filters[DEFAULT_FILTER] is default
 		setLayout(new BorderLayout(5, 5));
 
 		addableList = new JList();
@@ -59,16 +28,17 @@ public class FilterGUI extends JComponent {
 		addableList.setModel(addableListModel);
 		addableList.setBorder(BorderFactory.createEtchedBorder());
 		// addableList.setText("Addable");
-		for (int i=0; i<filters.length; i++)
-			if (i != DEFAULT_FILTER)
-			addableListModel.add(filters[i]);
+		for (int i=0; i<data.length; i++)
+			if (i != defaultIndex)
+			addableListModel.add(data[i]);
 
 		currentList = new JList();
 		currentListModel = new MyListModel(currentList);
 		currentList.setModel(currentListModel);
 		// currentList.setText("Current");
 		currentList.setBorder(BorderFactory.createEtchedBorder());
-		currentListModel.add(filters[DEFAULT_FILTER]);
+		if (defaultIndex >= 0)
+			currentListModel.add(data[defaultIndex]);
 
 		add(BorderLayout.WEST, addableList);
 		JPanel c = new JPanel();
@@ -106,8 +76,8 @@ public class FilterGUI extends JComponent {
 		add(BorderLayout.EAST, currentList);
 
 		// Balance Widths
+		// Should get longest toString() from list.
 		addableList.setPrototypeCellValue("Some Filter Name");
 		currentList.setPrototypeCellValue("Some Filter Name");
 	}
-
 }
