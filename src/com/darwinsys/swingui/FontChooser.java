@@ -67,7 +67,7 @@ public class FontChooser extends Frame {
 
 		Button pvButton = new Button("Preview");
 		cp.add(pvButton);
-		okButton.addActionListener(new ActionListener() {
+		pvButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				previewFont();
 			}
@@ -93,8 +93,8 @@ public class FontChooser extends Frame {
 		String resultName = fNameChoice.getSelectedItem();
 		String resultSizeName = fSizeChoice.getSelectedItem();
 		int resultSize = Integer.parseInt(resultSizeName);
-		resultFont = new Font(resultName, resultSize, Font.BOLD);
-		System.out.println("previewFont(): resultFont = " + resultFont);
+		resultFont = new Font(resultName, Font.BOLD, resultSize);
+		// System.out.println("previewFont(): resultFont = " + resultFont);
 		previewArea.setFont(resultFont);
 		previewArea.repaint();
 	}
