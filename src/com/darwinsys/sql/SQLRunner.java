@@ -2,7 +2,7 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
-/** Class to run an SQL script, like psql(1) or similar programs.
+/** Class to run an SQL script, like psql(1), SQL*Plus, or similar programs.
  * Command line interface hard-codes sample driver and dburl,
  * expects script file name in argv[0].
  * Can be used from within servlet, etc.
@@ -11,12 +11,12 @@ import java.util.*;
 public class SQLRunner {
 
 	/** The database driver */
-	protected String db_driver;
+	protected static String db_driver;
 
 	/** The database URL. */
-	protected String db_url;
+	protected static String db_url;
 
-	protected String user, password;
+	protected static String db_user, db_password;
 
 	/** Database connection */
 	protected Connection conn;
@@ -26,17 +26,21 @@ public class SQLRunner {
 
 	public static void main(String[] args)
 	throws ClassNotFoundException, SQLException, IOException {
-		String DB_DRIVER;
-		// DB_DRIVER = "jdbc.idbDriver";
-		DB_DRIVER = "org.hsqldb.jdbcDriver";
-		String DB_URL;
-		//DB_URL = "jdbc:idb:orders.prp";
-		DB_URL = "jdbc:hsqldb:ordersdb";
+		Properties p = new Properties();
+		p.load(new FileInputStream("db.properties"));
+		db_driver = p.getProperty("db.driver");
+		db_url = p.getProperty("db.url");
+		db_user = p.getProperty("db.user");
+		db_password = p.getProperty("db.password");
 
 		try {
-			SQLRunner prog = new SQLRunner(DB_DRIVER, DB_URL,
-				"sa", "");
-			prog.runScript(args[0]);
+			SQLRunner prog = new SQLRunner(db_driver, db_url,
+				db_user, db_password);
+			if (args.length == 0)
+				prog.runScript(new BufferedReader(
+					new InputStreamReader(System.in)));
+			else
+				prog.runScript(args[0]);
 			prog.close();
 		} catch (Exception ex) {
 			System.out.println("** ERROR **");
@@ -50,14 +54,18 @@ public class SQLRunner {
 	throws ClassNotFoundException, SQLException {
 		db_driver = driver;
 		db_url = dbUrl;
-		this.user = user;
-		this.password = password;
+		db_user = user;
+		db_password = password;
 
 		// Load the database driver
 		Class.forName(db_driver);
 
 		conn = DriverManager.getConnection(
 			db_url, user, password);
+
+		DatabaseMetaData dbm = conn.getMetaData();
+		String dbName = dbm.getDatabaseProductName();
+		System.out.println("SQLRunner: Connected to " + dbName);
 
 		stmt = conn.createStatement();
 	}
@@ -66,12 +74,17 @@ public class SQLRunner {
 	 * or from user code.
 	 */
 	public void runScript(String scriptFile)
-	throws SQLException, IOException {
+	throws IOException {
 
 		BufferedReader is;
 
 		// Load the script file first, it's the most likely error
 		is = new BufferedReader(new FileReader(scriptFile));
+
+		runScript(is);
+	}
+	public void runScript(BufferedReader is)
+	throws IOException {
 
 		String str;
 		int i = 0;
@@ -85,11 +98,22 @@ public class SQLRunner {
 	 * Called from runScript or from user code.
 	 */
 	public void runStatement(String str)
-	throws SQLException, IOException {
-		System.out.println("Executing update : <<" + str + ">>");
+	throws IOException {
+		System.out.println("Executing : <<" + str.trim() + ">>");
 		System.out.flush();
-		int ret = stmt.executeUpdate(str);
-		System.out.println("Return code: " + ret);
+		try {
+			boolean ret = stmt.execute(str);
+			if (!ret)
+				System.out.println("OK: " + stmt.getUpdateCount());
+			else {
+				ResultSet rs = stmt.getResultSet();
+				while (rs.next()) {
+					System.out.println(rs.getString(1));
+				}
+			}
+		} catch (SQLException ex) {
+			System.out.println("ERROR: " + ex.toString());
+		}
 		System.out.println();
 	}
 
@@ -97,7 +121,7 @@ public class SQLRunner {
 	 * Ignore comments and null lines.
 	 */
 	public static String getStatement(BufferedReader is)
-	throws SQLException, IOException {
+	throws IOException {
 		String ret="";
 		String line;
 		boolean found = false;
@@ -110,7 +134,7 @@ public class SQLRunner {
 				found = true;
 			}
 			if (line.endsWith(";")) {
-				ret = ret.substring(0, ret.length());
+				ret = ret.substring(0, ret.length()-1);
 				return ret;
 			}
 		}
