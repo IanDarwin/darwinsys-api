@@ -247,7 +247,6 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	throws IOException, SQLException {
 
 		String stmt;
-		int i = 0;
 		System.out.println("SQLRunner: ready.");
 		while ((stmt = getStatement(is)) != null) {
 			stmt = stmt.trim();
@@ -365,14 +364,12 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	throws IOException {
 		String ret="";
 		String line;
-		boolean found = false;
 		while ((line = is.readLine()) != null) {
 			if (line == null || line.length() == 0) {
 				continue;
 			}
 			if (!(line.startsWith("#") || line.startsWith("--"))) {
 				ret += ' ' + line;
-				found = true;
 			}
 			if (line.endsWith(";")) {
 				// Kludge, kill off empty statements (";") by itself, continue scanning.
