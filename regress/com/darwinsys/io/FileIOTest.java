@@ -10,7 +10,7 @@ public class FileIOTest extends TestCase {
 	/** Test File name. This file is created in build.xml */
 	public static final String FILENAME="fileiotest.dat";
 	/** Test string. */
-	public static finale String MESSAGE=
+	public static final String MESSAGE =
 		"The quick brown fox jumps over the lazy dog.";
 
 	/** Constructor sets up initial state data file state for testing */
