@@ -10,12 +10,12 @@ public class Dumper {
 	public static void main(String[] av) throws IOException {
 		Dumper c = new Dumper();
 		switch(av.length) {
-		case 0: c.dump(new StreamGetter(System.in));
+		case 0: c.dump(new StreamDumpGetter(System.in));
 			break;
 		default:
 			for (int i=0; i<av.length; i++)
 				try {
-					c.dump(new StreamGetter(new FileInputStream(av[i])));
+					c.dump(new StreamDumpGetter(new FileInputStream(av[i])));
 				} catch (FileNotFoundException e) {
 					System.err.println(e);
 				}
@@ -45,7 +45,7 @@ public class Dumper {
 	}
 
 	/** print one file, given an open InputStream */
-	public void dump(Getter g) {
+	public void dump(DumpGetter g) {
 		num.setLength(0);
 		txt.setLength(0);
 
@@ -72,9 +72,8 @@ public class Dumper {
 				endOfLine();
 			}
 			System.out.println();
-			is.close();
-		} catch (IOException e) {
-			System.out.println("IOException: " + e);
+		} catch (IOException ex) {
+			System.out.println("Dumper: " + ex.toString());
 		}
 	}
 }
