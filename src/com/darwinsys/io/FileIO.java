@@ -3,13 +3,14 @@ package com.darwinsys.util;
 import java.io.*;
 
 /**
- * Some simple file I-O primitives reimplemented in Java
- * @version
+ * Some simple file I-O primitives reimplemented in Java.
+ * All methods are static, since there is no state.
+ * @version $Id$
  */
 public class FileIO {
 
     /** Copy a file from one filename to another */
-    public void copyFile(String inName, String outName)
+    public static void copyFile(String inName, String outName)
 	throws FileNotFoundException, IOException {
 		BufferedInputStream is = 
 			new BufferedInputStream(new FileInputStream(inName));
@@ -19,7 +20,7 @@ public class FileIO {
 	}
 
 	/** Copy a file from an opened InputStream to opened OutputStream */
-	public void copyFile(InputStream is, OutputStream os) 
+	public static void copyFile(InputStream is, OutputStream os) 
 	throws IOException {
 		int b;				// the byte read from the file
 		while ((b = is.read()) != -1) {
@@ -30,7 +31,7 @@ public class FileIO {
     }
 
 	/** Copy a file from an opened Reader to opened Writer */
-	public void copyFile(Reader is, Writer os) 
+	public static void copyFile(Reader is, Writer os) 
 	throws IOException {
 		int b;				// the byte read from the file
 		while ((b = is.read()) != -1) {
@@ -41,14 +42,14 @@ public class FileIO {
     }
 
 	/** Copy a file from a filename to a PrintWriter. */
-	public void copyFile(String inName, PrintWriter pw) 
+	public static void copyFile(String inName, PrintWriter pw) 
 	throws FileNotFoundException, IOException {
 		BufferedReader is = new BufferedReader(new FileReader(inName));
 		copyFile(is, pw);
 	}
 
 	/** Open a file and read the first line from it. */
-	public String readLine(String inName)
+	public static String readLine(String inName)
 	throws FileNotFoundException, IOException {
 		BufferedReader is = new BufferedReader(new FileReader(inName));
 		String line = null;
