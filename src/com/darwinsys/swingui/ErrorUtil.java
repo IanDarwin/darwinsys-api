@@ -30,6 +30,8 @@ import java.io.PrintWriter;
  */
 public class ErrorUtil {
 
+	// static { System.out.println("ErrorUtil loaded"); }
+
 	/** The button options for the ultimate (or only) Excepton */
 	final static String[] choicesNoMore = { "OK", "Details..." };
 
@@ -42,6 +44,7 @@ public class ErrorUtil {
 	/** Public no-arg constructor for those who like simple instantiation. */
 	public ErrorUtil() {
 	}
+
 	/** Convenience routine for use with AWT's dispatch thread. Usage:
 	 * <pre>
 	 * System.setProperty("sun.awt.exception.handler",
@@ -49,6 +52,7 @@ public class ErrorUtil {
 	 * </pre>
 	 */
 	public void handle(Throwable th) {
+		//System.out.println("handle() called with " + th.getClass().getName());
 		showExceptions(null, th);
 	}
 		
@@ -67,7 +71,7 @@ public class ErrorUtil {
 				message += "; code=" + sexc.getErrorCode();
 				next = sexc.getNextException();
 			}
-			else next = theExc.getCause();   // Comment out if < JDK 1.4
+			// else next = theExc.getCause();   // Comment out if < JDK 1.4
 
 			String[] choices = next != null ? choicesMore : choicesNoMore;
 
