@@ -114,8 +114,12 @@ public class GetOpt {
 	/** The current option argument. */
 	protected String optarg;
 
-	/** Retrieve the current option argument */
+	/** Retrieve the current option argument; UNIX variant spelling. */
 	public String optarg() {
+		return optarg;
+	}
+	/** Retrieve the current option argument; Java variant spelling. */
+	public String optArg() {
 		return optarg;
 	}
 
@@ -130,15 +134,20 @@ public class GetOpt {
 	 * This is a legacy constructor for backwards compatibility.
 	 */
 	public GetOpt(String patt) {
+		if (patt == null) {
+			throw new IllegalArgumentException("Pattern may not be null");
+		}
+
 		// Pass One: just count the letters
 		int n = 0;
 		for (int i = 0; i<patt.length(); i++) {
 			if (patt.charAt(i) != ':')
 				++n;
 		}
-		if (n == 0)
+		if (n == 0) {
 			throw new IllegalArgumentException(
 				"No option letters found in " + patt);
+		}
 
 		// Pass Two: construct an array of GetOptDesc opjects.
 		options = new GetOptDesc[n];
@@ -149,9 +158,10 @@ public class GetOpt {
 				argTakesValue = true;
 				++i;
 			}
-			options[ix++] = new GetOptDesc(c, null, argTakesValue);
+			options[ix] = new GetOptDesc(c, null, argTakesValue);
 			Debug.println("getopt",
 				"CONSTR: options[" + ix + "] = " + c + ", " + argTakesValue);
+			++ix;
 		}
 	}
 
@@ -209,7 +219,7 @@ public class GetOpt {
 		Debug.println("getopt",
 			"optind=" + optind + ", argv.length="+argv.length);
 
-		if (optind == (argv.length)-1) {
+		if (optind >= (argv.length)-1) {
 			done = true;
 		}
 
