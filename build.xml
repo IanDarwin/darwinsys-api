@@ -117,7 +117,7 @@
 	</target>
 
 	<!-- Simple Regression Tests -->
-	<!-- Some are pretty lame, re-do ALL with JUnit -->
+	<!-- In process: re-do ALL with JUnit -->
 	<target name="regress" depends="build">
 		<!-- Tests using JUnit -->
 
@@ -172,6 +172,9 @@
 			fork="yes"/>
 		<echo           message="ColumnLayoutTest"/>
 		<java className="regress.ColumnLayoutTest" classpath="build"
+			fork="yes"/>
+		<echo           message="EntryLayoutTest"/>
+		<java className="regress.EntryLayoutTest" classpath="build"
 			fork="yes"/>
 		<echo           message="RelativeLayoutTest"/>
 		<java className="regress.RelativeLayoutTest" classpath="build"
