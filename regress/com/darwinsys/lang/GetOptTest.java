@@ -9,9 +9,9 @@ import com.darwinsys.util.GetOpt;
 public class GetOptTest {
 
 	public static void main(String[] args) {
-		process(goodArgChars, goodArgs);
-		process(badArgChars, goodArgs);
-		process(badArgChars, badArgs);
+		process(goodArgChars, goodArgs, false);
+		process(badArgChars, goodArgs, true);
+		process(badArgChars, badArgs, true);
 	}
 
 	static String goodArgChars = "o:h";
@@ -24,9 +24,10 @@ public class GetOptTest {
 	};
 
 	/** Private function, for testing. */
-	private static void process(String argChars, String[] args) {
+	private static void process(
+		String argChars, String[] args, boolean shouldFail) {
 
-		System.out.println("** START ** " + argChars + '(' + args.length + ')');
+		System.out.println("** START ** " + argChars);
 
 		GetOpt go = new GetOpt(argChars);
 
@@ -49,8 +50,16 @@ public class GetOptTest {
 		for (int i=go.getOptInd(); i<args.length; i++)
 			System.out.println("Filename-like arg " + args[i]);
 
-		if (errs != 0) {
-			System.out.println("At least one user error found");
+		if (shouldFail) {
+			if (errs != 0)
+				System.out.println("Expected error(s) found");
+			else
+				System.out.println("** FAILURE ** Expected errors not found");
+		} else {
+			if (errs == 0)
+				System.out.println("Expected error(s) found");
+			else
+				System.out.println("** FAILURE ** Expected errors not found");
 		}
 	}
 }

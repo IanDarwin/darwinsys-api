@@ -48,4 +48,9 @@
 		-windowtitle "com.darwinsys.util - Java Cookbook Utilities" \
 		-->
 	</target>
+
+	<target name="regress" depends="build">
+		<java className="regress.GetOptTest"
+			classpath="build:${servletapi.jar}:${mail.jar}:${activation.jar}"/>
+	</target>
 </project>
