@@ -25,6 +25,7 @@ public class ScaledNumberFormatTest extends TestCase {
 		new data("1.5M", 1572864),		// fractions
 		new data("-2K",	-2048),	// negatives
 		new data("-2.2k", -2252),
+		new data("0.5G", 536870912),
 		new data("1G", 1073741824),
 		new data("G", 0),
 		new data("931G", 999653638144L),
@@ -63,6 +64,21 @@ public class ScaledNumberFormatTest extends TestCase {
 				System.out.println("ERROR IN FORMAT CASE " + i);
 				System.out.println(ddata[i] + " threw " + ex);
 			}
+		}
+	}
+	
+	public void testFormatThreeArgs() throws Exception {
+		StringBuffer sb = new StringBuffer();
+		assertEquals("sb return", sb, sf.format("999999999", sb, null));
+		assertEquals("format3Args", "953M", sb.toString());
+		System.out.println("Format 3 args => " + sb.toString());
+		sb.setLength(0);
+		sf.format("", sb, null);
+		assertEquals("format3Args", "0B", sb.toString());
+		try {
+			sf.format(null, sb, null);
+		} catch (IllegalArgumentException ex) {
+			System.out.println("Caught expected IAE on null input");
 		}
 	}
 }
