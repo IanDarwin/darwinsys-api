@@ -32,7 +32,7 @@
 
 	<target name="jar" depends="compile">
 		<jar jarfile="${build}/${obj.jar}" basedir="${build}"
-			includes="META-INF/*,**/*.class">
+			includes="META-INF/*,com/**/*.class,demo/**/*.class">
 		</jar>
 	</target>
 

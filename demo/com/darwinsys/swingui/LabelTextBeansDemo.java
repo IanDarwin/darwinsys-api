@@ -1,3 +1,5 @@
+package demo;
+
 import javax.swing.*;
 
 import com.darwinsys.util.LabelText;
