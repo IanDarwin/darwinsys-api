@@ -6,7 +6,6 @@ import com.darwinsys.security.PassPhrase;
 
 /**
  * Test the PassPhrase class.
- * $Id$
  */
 public class PassPhraseTest extends TestCase {
 
