@@ -1,7 +1,9 @@
+package com.darwinsys.util;
+
 import java.util.*;
 
-/** De-mystify the Iterator interface (new in 1.2), showing how
- * to write an Iterator for an Array of Objects.
+/** De-mystify the Iterator interface, showing how
+ * to write a simple Iterator for an Array of Objects.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version	$Id$
  */
