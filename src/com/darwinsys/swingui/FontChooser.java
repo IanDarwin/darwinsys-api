@@ -1,5 +1,5 @@
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.*; import java.awt.event.*;
+import javax.swing.*;
 
 /** Canonical font selection dialog. AWT version.
  * @author	Ian Darwin
@@ -30,14 +30,16 @@ public class FontChooser extends Dialog {
 		"8", "10", "11", "12", "14", "16", "18", "20", "24",
 		"30", "36", "40", "48", "60", "72"
 		};
-	/** The display area */
-	protected Label previewArea;
+	/** The display area. Use a JLabel as the AWT label doesn't always
+	 * honor setFont() in a timely fashion :-)
+	 */
+	protected JLabel previewArea;
 
 	/** Construct a FontChooser -- Sets title and gets 
 	 * array of fonts on the system. Builds a GUI to let
 	 * the user choose one font at one size.
 	 */
-	public FontChooser(Frame f) {
+	public FontChooser(JFrame f) {
 		super(f, "Font Chooser", true);
 
 		Container cp = this;	// or getContentPane() in Swing
@@ -52,7 +54,8 @@ public class FontChooser extends Dialog {
 		// For JDK 1.1: returns about 10 names (Serif, SansSerif, etc.)
 		// fontList = toolkit.getFontList();
 		// For JDK 1.2: a much longer list; most of the names that come
-		// with your OS (e.g., Arial, Lucida, Lucida Bright, Lucida Sans...)
+		// with your OS (e.g., Arial), plus the Sun/Java ones (Lucida, 
+		// Lucida Bright, Lucida Sans...)
 		fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
 			getAvailableFontFamilyNames();
 
@@ -75,7 +78,7 @@ public class FontChooser extends Dialog {
 		attrs.add(bold  =new Checkbox("Bold", false));
 		attrs.add(italic=new Checkbox("Italic", false));
 
-		previewArea = new MyLabel("Qwerty Yuiop", Label.CENTER);
+		previewArea = new JLabel("Qwerty Yuiop", JLabel.CENTER);
 		previewArea.setSize(200, 50);
 		cp.add(BorderLayout.CENTER, previewArea);
 
@@ -134,7 +137,7 @@ public class FontChooser extends Dialog {
 		isItalic = italic.getState();
 		int attrs = Font.PLAIN;
 		if (isBold) attrs = Font.BOLD;
-		if (isItalic) attrs += Font.ITALIC;
+		if (isItalic) attrs |= Font.ITALIC;
 		resultFont = new Font(resultName, attrs, resultSize);
 		System.out.println("resultName = " + resultName + "; " +
 				"resultFont = " + resultFont);
@@ -158,31 +161,10 @@ public class FontChooser extends Dialog {
 
 	/** Simple main program to start it running */
 	public static void main(String args[]) {
-		Frame f = new Frame("Dummy");
+		JFrame f = new JFrame("Dummy");
 		FontChooser fc = new FontChooser(f);
 		fc.setVisible(true);
 		System.out.println("You chose " + fc.getSelectedFont());
 		System.exit(0);
-	}
-
-	/** This tiny inner class just extends Label to allow for
-	 * setSize() to control the results of getPreferredSize().
-	 */
-	class MyLabel extends Label {
-		protected int wid = 0, ht = 0;
-
-		public MyLabel(String labStr, int align) {
-			super(labStr, align);
-		}
-
-		public void setSize(int w, int h) {
-			super.setSize(wid = w, ht = h);
-		}
-
-		public Dimension getPreferredSize() {
-			if (wid == 0 || ht == 0)
-				return super.getPreferredSize();
-			return new Dimension(wid, ht);
-		}
 	}
 }
