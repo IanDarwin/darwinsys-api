@@ -84,11 +84,21 @@
 	</target>
 
 	<!-- Simple Regression Tests -->
-	<!-- Pretty lame, should re-do with JUnit -->
+	<!-- Some are pretty lame, re-do ALL with JUnit -->
 	<target name="regress" depends="build">
-		<property name="file" value="${build}/com/darwinsys/io/FileIO.class"/>
-
+		<!-- Tests using JUnit -->
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+				<classpath>
+						<pathelement location="${build}"/>
+						<pathelement location="${junit.jar}"/>
+				</classpath>
+				<formatter type="plain"/>
+				<test name="regress.ArrayIteratorTest"/>
+				<test name="regress.IndexListTest"/>
+				<test name="regress.StringFormatTest"/>
+		</junit>
 		<!-- FileIOTest copies its $av[0] to $av[0].bak; check w/ checksum -->
+		<property name="file" value="${build}/com/darwinsys/io/FileIO.class"/>
 		<java className="regress.FileIOTest" classpath="build">
 			<arg value="${file}"/>
 			</java>
@@ -96,9 +106,10 @@
 			<checksum file="${file}.bak" property="${sum}"
 				verifyProperty="isEqual"/>
 
-		<!-- Test out GetOpt -->
+		<!-- Test GetOpt -->
 		<java className="regress.GetOptTest" classpath="build"/>
-		<java className="regress.StringFormatTest" classpath="build"/>
+
+
 	</target>
 
 	<!-- These regressions require manual intervention, so not default -->
