@@ -1,7 +1,6 @@
 package com.darwinsys.swingui.layout;
 
 import java.awt.*;
-import java.util.*;
 
 /** A simple layout manager, for "Entry" areas ith e.g., a list of labels
  * and their corresponding JTextFields. These typically look like:

@@ -3,7 +3,6 @@ package com.darwinsys.swingui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.*;
 import javax.swing.event.*;
 import java.util.*;
 
@@ -21,7 +20,7 @@ import java.util.*;
  * <li>add constructor options for Add, Remove, MoveUp/MoveDown buttons
  * </ul>
  *
- * @author	Ian Darwin, ian@darwinsys.com
+ * @author	Ian Darwin, http://www.darwinsys.com/
  * @version	$Id$
  */
 public class ArrayListTablePanel extends JPanel {

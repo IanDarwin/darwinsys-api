@@ -1,13 +1,12 @@
 package regress;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 import com.darwinsys.swingui.layout.EntryLayout;
 
 /** Testbed for EntryLayout layout manager.
- * @author	Ian Darwin, ian@darwinsys.com
+ * @author	Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class EntryLayoutTest {

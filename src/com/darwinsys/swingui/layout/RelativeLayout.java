@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.*;
 
 /** 
+ * <p>
  * RelativeLayout, a Relative Layout Manager for Java J2SE.
  * Mainly for porting tired old code that uses x,y locations.
  * You really can't just assign x,y locations to components 
@@ -12,25 +13,25 @@ import java.util.*;
  * on UI design for <em>that</em> little discussion -- and can also look
  * bad due to resolution independance.  Symantec Cafe 1.x, for example,
  * used to spit out unfortunate (and unmaintainable) code like this:
-<PRE>
+ * <pre>
  *       setLayout(null);
  *       setSize(331,241);
  *       label1=new Label("Info Applet", Label.CENTER);
  *       add(label1);
  *       label1.setBounds(91,19,107,15);
- * <EM>Bleaarrgghh!!!</EM>
-</PRE>
+ * </pre>
+ * </p> <p>
+ * <em>Bleaarrgghh!!!</em>
  * To make it work properly at all resolutions and survive
  * user-initiated resize actions, change it to
-<PRE>
+ * <pre>
  *	setLayout(new RelativeLayout(331,241,false);
  *	label1=new Label("Info Applet", Label.CENTER);
  *	add("91,19", label1);
-</PRE>
+ * </pre>
  * Note that it's actually <EM>less</EM> work to get it right.
- * Symantec, Microsoft, and others, please take note!
- *
- * @author Ian Darwin, http://www.darwinsys.com/contact.html
+ * Symantec, Microsoft, and others, please take note!</p>
+ * @author Ian Darwin, http://www.darwinsys.com/
  */
 
 public class RelativeLayout implements LayoutManager {

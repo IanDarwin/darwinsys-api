@@ -1,7 +1,5 @@
 package regress.filtergui;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 import com.darwinsys.swingui.*;

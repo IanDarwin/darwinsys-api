@@ -1,6 +1,5 @@
 package com.darwinsys.mail;
 
-import java.io.*;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*; 
@@ -279,8 +278,8 @@ public class Mailer {
 	/** Convert a list of addresses to an ArrayList. This will work
 	 * for simple names like "tom, mary@foo.com, 123.45@c$.com"
 	 * but will fail on certain complex (but RFC-valid) names like
-	 * "(Darwin, Ian) <ian@darwinsys.com>".
-	 * Or even "Ian Darwin <ian@darwinsys.com>".
+	 * "(Darwin, Ian) <http://www.darwinsys.com/>".
+	 * Or even "Ian Darwin <http://www.darwinsys.com/>".
 	 */
 	protected ArrayList tokenize(String s) {
 		ArrayList al = new ArrayList();

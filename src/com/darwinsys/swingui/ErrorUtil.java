@@ -35,7 +35,7 @@ public class ErrorUtil {
 	/** The button options for the ultimate (or only) Excepton */
 	final static String[] choicesNoMore = { "OK", "Details..." };
 
-	/** The button options for the any non-ultimate) Excepton */
+	/** The button options for any non-ultimate Exception */
 	final static String[] choicesMore = { "OK", "Details...", "Next" };
 
 	/** Secondary dialog for the "Details..." button */
@@ -112,7 +112,7 @@ public class ErrorUtil {
 			Container cp = getContentPane();
 			text = new JTextArea(40, 40);
 			cp.add(text, BorderLayout.CENTER);
-			ok = new JButton();
+			ok = new JButton("Close");
 			cp.add(ok, BorderLayout.SOUTH);
 			ok.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {

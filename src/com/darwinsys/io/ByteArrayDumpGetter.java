@@ -1,7 +1,5 @@
 package com.darwinsys.io;
 
-import java.io.*;
-
 /** A Getter that reads from an in-memory array of bytes */
 class ByteArrayDumpGetter implements DumpGetter {
 

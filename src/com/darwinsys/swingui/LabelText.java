@@ -7,7 +7,7 @@ import javax.swing.*;
 /** A label and text combination, inspired by
  * the LabelText control in Guy Eddon's ActiveX Components book
  * (2nd Edition, page 203). But done more simply.
- * @author	Ian Darwin, ian@darwinsys.com
+ * @author	Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class LabelText extends JPanel implements java.io.Serializable {

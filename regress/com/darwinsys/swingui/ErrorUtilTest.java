@@ -1,9 +1,6 @@
 package regress;
 
 import java.sql.SQLException;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-
 import com.darwinsys.swingui.ErrorUtil;
 
 public class ErrorUtilTest {

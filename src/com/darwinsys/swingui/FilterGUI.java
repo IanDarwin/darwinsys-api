@@ -3,7 +3,6 @@ package com.darwinsys.swingui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
 
 /** FilterGUI implements a back-and-forth list, ie, two columns of items,
  * and items can be moved back and forth between them with "Add" and "Del"

@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 /** Test program for LabelText class.
- * @author	Ian Darwin, ian@darwinsys.com
+ * @author	Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class LabelTextTest extends JPanel {

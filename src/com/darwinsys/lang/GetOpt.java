@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /** A class to implement UNIX-style (single-character) command line argument
  * parsing. Originally patterned after (but not using code from) the UNIX 
@@ -97,7 +96,7 @@ import java.util.Iterator;
  * For another way of dealing with command lines, see the
  * <a href="http://jakarta.apache.org/commons/cli/">Jakarta Commons
  * Command Line Interface</a>.
- * @author Ian F. Darwin, ian@darwinsys.com
+ * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class GetOpt {

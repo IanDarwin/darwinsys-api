@@ -2,7 +2,6 @@ package regress;
 
 import com.darwinsys.swingui.*;
 import javax.swing.*;
-import java.awt.*;
 import java.util.*;
 
 /** Simple demo of the com.darwinsys.swingui.ArrayListTable{Model,Panel}.
@@ -80,7 +79,7 @@ public class ArrayListTableSimple extends JFrame {
 		setContentPane(new JScrollPane(v));
 		pack();
 
-		addWindowListener(new WindowCloser(this, true));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public static void main(String[] args) {

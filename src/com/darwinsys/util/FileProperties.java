@@ -15,7 +15,7 @@ import java.util.*;
  * "defaults"; this second property list is searched if
  * the property key is not found in the original property list.
  *
- * @author Ian F. Darwin, ian@darwinsys.com
+ * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class FileProperties extends Properties {

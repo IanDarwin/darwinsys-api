@@ -5,9 +5,14 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-/** A general-purpose List, in which objects keep their identity (index),
+/**
+ * <p>
+ * A general-purpose List, in which objects keep their identity (index),
  * that is, insert() operations do not renumber remaining objects.
  * Hence, more like a real array than an ArrayList is(!).
+ * </p><p>
+ * Not necessarily for production use; written as an example of
+ * implementing the List interface.
  */
 public class IndexList implements List {
 	/** high water mark */

@@ -1,19 +1,19 @@
 package com.darwinsys.swingui.layout;
 
 import java.awt.*;
-import java.util.*;
 
 /** 
+ * <p>
  * ColumnLayout, a Columnar Layout Manager for AWT/Swing.
  * Sort of a cross between BoxLayout and GridLayout(0, x).
  * Displays components in a single row or column based on the
- * alignment given to the constructor, with optional padding.
+ * alignment given to the constructor, with optional padding.</p>
  * <p>
  * There is a utility method for adding space between the previous
  * and next components, which (like Menu.addSeparator()) adds a
- * fixed-size non-visible component between two added components.
+ * fixed-size non-visible component between two added components.</p>
  * <p>
- * Note: The current version of ColumnLayout doesn't resize.
+ * Note: The current version of ColumnLayout doesn't resize.</p>
  *
  * @author Ian Darwin, http://www.darwinsys.com/
  * @version $Id$

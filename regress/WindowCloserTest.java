@@ -3,7 +3,6 @@ package regress;
 import com.darwinsys.swingui.*;
 
 import java.awt.*;
-import java.awt.event.*;
 
 /* Show an example of closing a Window.
  * @author Ian Darwin

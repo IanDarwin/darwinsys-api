@@ -6,7 +6,7 @@ import com.darwinsys.swingui.LabelText;
 
 /**
  * Demo of LabelText JavaBean
- * @author  Ian Darwin, ian@darwinsys.com
+ * @author  Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class LabelTextBeansDemo extends javax.swing.JFrame {

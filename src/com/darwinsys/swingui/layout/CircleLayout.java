@@ -1,14 +1,13 @@
 package com.darwinsys.swingui.layout;
 
 import java.awt.*;
-import java.util.*;
-
 import com.darwinsys.util.Debug;
 
 /** A simplistic CircleLayout implementation of the LayoutManager interface.
  * Components are drawn at their preferred size.
  * <br/>
- * Bugs:<ul>
+ * Bugs:
+ * <ul>
  * <li>Only works well if the container is approximately square.
  * </ul>
  * @author Ian F. Darwin, http://www.darwinsys.com/
@@ -67,6 +66,7 @@ public class CircleLayout implements LayoutManager {
 	protected Dimension computelayoutSize(Container parent) {
 
 		// Pass the sums back as the actual size.
+		// XXX finish this!
 		return new Dimension(300, 300); // width == height!
 	}
 

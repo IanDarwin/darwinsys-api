@@ -1,10 +1,6 @@
 package com.darwinsys.swingui;
 
 import javax.swing.table.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 
 /** JTable model for ArrayList of heterogeneous objects.

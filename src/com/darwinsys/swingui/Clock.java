@@ -1,7 +1,6 @@
 package com.darwinsys.swingui;
 
 import java.awt.*;
-import javax.swing.*;
 import java.text.*;
 import java.util.*;
 

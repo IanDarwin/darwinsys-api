@@ -4,7 +4,7 @@ import java.util.*;
 
 /** De-mystify the Iterator interface, showing how
  * to write a simple Iterator for an Array of Objects.
- * @author	Ian Darwin, ian@darwinsys.com
+ * @author	Ian Darwin, http://www.darwinsys.com/
  * @version	$Id$
  */
 public class ArrayIterator implements Iterator {
