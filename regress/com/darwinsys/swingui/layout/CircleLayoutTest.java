@@ -9,7 +9,7 @@ import javax.swing.*;
 public class CircleLayoutTest {
 
 	/** "main program" method - construct and show */
-	public static void main(String av[]) {
+	public static void main(String[] av) {
 		final JFrame f = new JFrame("CircleLayout Demonstration");
 		Container cp = f.getContentPane();
 		cp.setLayout(new CircleLayout());

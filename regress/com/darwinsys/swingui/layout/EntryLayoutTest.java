@@ -9,7 +9,7 @@ import javax.swing.*;
 public class EntryLayoutTest {
 
 	/** "main program" method - construct and show */
-	public static void main(String av[]) {
+	public static void main(String[] av) {
 		final JFrame f = new JFrame("EntryLayout Demonstration");
 		Container cp = f.getContentPane();
 		double widths[] = { .33, .66 };

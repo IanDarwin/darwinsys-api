@@ -96,7 +96,7 @@ protected int advplain(String s, StringBuffer fld, int i)
 }
 
 	/** Canonical main program - test lines from a file and print. */
-	public static void main(String argv[]) throws IOException
+	public static void main(String[] argv) throws IOException
 	{
 		String line;
 		CSV csv = new CSV();

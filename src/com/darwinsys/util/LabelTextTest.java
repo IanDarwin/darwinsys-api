@@ -5,7 +5,7 @@ import javax.swing.*;
  */
 public class LabelTextTest {
 	/** "main program" for testing - construct and show */
-	public static void main(String av[]) {
+	public static void main(String[] av) {
 		// create a LabelText object, tell it to show up
 		final JFrame f = new JFrame("LabelText");
 		Container cp = f.getContentPane();

@@ -5,7 +5,7 @@ import java.io.*;
  */
 public class DumpFile {
 
-	public static void main(String av[]) {
+	public static void main(String[] av) {
 		DumpFile c = new DumpFile();
 		switch(av.length) {
 		case 0: c.process(System.in);

@@ -13,7 +13,7 @@ public class Test extends JFrame {
 	 * Simple main program to test out RelLayout.
 	 * Invoke directly from Java interpreter.
 	 */
-	public static void main(String av[]) {
+	public static void main(String[] av) {
 		new Test(ColumnLayout.X_AXIS, 0, 0).setVisible(true);
 		new Test(ColumnLayout.Y_AXIS, 0, 0).setVisible(true);
 		new Test(ColumnLayout.X_AXIS, 10, 10).setVisible(true);

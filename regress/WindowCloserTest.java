@@ -8,7 +8,7 @@ import java.awt.event.*;
 public class WindowCloserDemo {
 
 	/* Main method */
-	public static void main(String argv[]) {
+	public static void main(String[] argv) {
 		Frame f = new Frame("Close Me");
 		f.add(new Label("Try Titlebar Close", Label.CENTER));
 		f.setSize(100, 100);

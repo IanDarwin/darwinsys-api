@@ -12,7 +12,7 @@ public class RelLayTest extends Frame {
 	 * Simple main program to test out RelLayout.
 	 * Invoke directly from Java interpreter.
 	 */
-	public static void main(String av[]) {
+	public static void main(String[] av) {
 		RelLayTest f = new RelLayTest();
 		f.setVisible(true);
 	}

@@ -38,7 +38,7 @@ public class ColorName {
 	}
 
 	/** Just a test */
-	public static void main(String a[]) {
+	public static void main(String[] a) {
 		test("WhItE");
 		test("Ucky Purple Pink Spots");
 		test(null);

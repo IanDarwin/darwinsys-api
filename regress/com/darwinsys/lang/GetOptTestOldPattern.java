@@ -3,7 +3,7 @@
  * @version $Id$
  */
 public class GetOptTest {
-	public static void main(String argv[]) {
+	public static void main(String[] argv) {
 		String goodArgChars = "o:h", goodArgs[]  = {
 			"-h", "-o", "outfile", "infile"
 		};

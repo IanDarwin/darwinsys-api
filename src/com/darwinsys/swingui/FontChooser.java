@@ -161,7 +161,7 @@ public class FontChooser extends Dialog {
 	}
 
 	/** Simple main program to start it running */
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		final JFrame f = new JFrame("Dummy");
 		final FontChooser fc = new FontChooser(f);
 		final Container cp = f.getContentPane();

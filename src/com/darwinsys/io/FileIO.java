@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class FileIO {
 
-    public static void main(String av[]) {
+    public static void main(String[] av) {
         FileIO f = new FileIO();
 		try {
 			f.copyFile("FileIO.java", "FileIO.bak");
