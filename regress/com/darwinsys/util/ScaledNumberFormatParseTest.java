@@ -32,15 +32,10 @@ public class ScaledNumberFormatTest extends TestCase {
 		new data("G", 0),
 	};
 
-	public void testParseGood() {
+	public void testParseGood() throws Exception {
 		for (int i = 0; i<sdata.length; i++) {
-			try {
-				Object o = sf.parseObject(sdata[i].string, null);
-				assertTrue(((Long)o).longValue() == sdata[i].number);
-			} catch (Exception ex) {
-				System.out.println("ERROR IN PARSE CASE " + i);
-				System.out.println(sdata[i] + " threw " + ex);
-			}
+			Object o = sf.parseObject(sdata[i].string, null);
+			assertTrue(((Long)o).longValue() == sdata[i].number);
 		}
 	}
 
