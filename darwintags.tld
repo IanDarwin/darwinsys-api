@@ -3,8 +3,8 @@
 <taglib>
    <tlibversion>1.0</tlibversion>
    <jspversion>1.1</jspversion>
-   <shortname>TCPWebDev TLD</shortname>
-   <info>TCPWebDev TLD</info>
+   <shortname>Ian Darwin JSP Tags TLD</shortname>
+   <info>Ian Darwin JSP Tags TLD</info>
  
    	<!-- backref tag generates a "Back" tag for e.g., use in help pages -->
    	<tag>
