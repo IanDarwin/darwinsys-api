@@ -45,5 +45,4 @@ public class ArrayIterator implements Iterator {
 		throw new UnsupportedOperationException(
 			"This demo does not implement the remove method");
 	}
-
 }
