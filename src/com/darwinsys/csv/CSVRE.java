@@ -1,6 +1,7 @@
 import java.io.*;
 
-import org.apache.regexp.*;
+import java.util.*;
+import java.util.regex.*;
 import com.darwinsys.util.Debug;
 
 /* Simple demo of CSV matching using Regular Expressions.
@@ -14,34 +15,47 @@ public class CSVRE {
 	 */
 	public static final String CSV_PATTERN =
 		"\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\",?|([^,]+),?|,";
+	private static Pattern csvRE;
 
-	public static void main(String[] argv) throws IOException, RESyntaxException
-	{
-		String line;
+	public static void main(String[] argv) throws IOException {
+		new CSVRE().process();
+	}
 	
+	public void process() throws IOException {
+		String line;
+
 		// Construct a new Regular Expression parser.
 		Debug.println("regexp", "PATTERN = " + CSV_PATTERN); // debug
-		RE csv = new RE(CSV_PATTERN);
-
-		BufferedReader is = new BufferedReader(new InputStreamReader(System.in));
+		csvRE = Pattern.compile(CSV_PATTERN);
+		BufferedReader is =
+			new BufferedReader(new InputStreamReader(System.in));
 
 		// For each line...
 		while ((line = is.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
-
-			// For each field
-			for (int fieldNum = 0, offset = 0; csv.match(line, offset); fieldNum++) {
-
-				// Print the field (0=null, 1=quoted, 3=unquoted).
-				int n = csv.getParenCount()-1;
-				if (n==0)	// null field
-					System.out.println("field[" + fieldNum + "] = `'");
-				else
-					System.out.println("field[" + fieldNum + "] = `" + csv.getParen(n) + "'");
-
-				// Skip what already matched.
-				offset += csv.getParen(0).length();
+			List l = parse(line);
+			for (int i = 0; i < l.size(); i++) {
+				System.out.println(l.get(i) + ",");
 			}
+			System.out.println();
 		}
 	}
+	
+	public List parse(String line) {
+		List list = new ArrayList();
+		Matcher m = csvRE.matcher(line);
+		// For each field
+		for (int fieldNum = 0; m.matches(); fieldNum++) {
+
+			// Print the field (0=null, 1=quoted, 3=unquoted).
+			int n = m.groupCount();
+			if (n == 0) // null field
+				System.out.println("field[" + fieldNum + "] = `'");
+			else
+				System.out.println(
+					"field[" + fieldNum + "] = `" + m.group(n) + "'");
+		}
+		return list;
+	}
+	
 }
