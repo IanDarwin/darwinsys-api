@@ -71,11 +71,7 @@ public class ErrorUtil {
 
 			String[] choices = next != null ? choicesMore : choicesNoMore;
 
-			/* Use the form:<br>
-			 * showOptionDialog(Component parentComponent, Object message, 
-			 * String title, int optionType, int messageType, Icon icon, 
-			 * Object[] options, Object initialValue) 
-			 */
+			/* Show the Dialog! */
 			int response = JOptionPane.showOptionDialog(
 				parent,
 				message,
