@@ -22,7 +22,7 @@ public class AllTestsNonGUI {
 		suite.addTestSuite(FilePropertiesTest.class);
 		suite.addTestSuite(IndexListTest.class);
 		suite.addTestSuite(StringUtilTest.class);
-		suite.addTestSuite(ArrayIteratorTest.class);
+		suite.addTestSuite(ScaledNumberFormatTest.class);
 		//$JUnit-END$
 		return suite;
 	}
