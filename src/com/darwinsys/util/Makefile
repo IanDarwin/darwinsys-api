@@ -16,9 +16,14 @@ JAR=		com-darwinsys-util.jar
 
 all:		$(JAR)
 
-$(JAR):	$(SRC)
+$(JAR):	$(SRC) doc
 		$(JAVAC) -d . $(SRC)
-		jar -cfm $(JAR) manifest.stub com
+		jar -cfm $(JAR) manifest.stub com doc
+
+docs:	doc/index.html
+docs/index.html: $(SRC)
+		-@mkdir docs 2>/dev/null	# ensure dir exists, ok if already there
+		javadoc -d docs *.java
 
 src-jar:
 		jar cvf darwinsys-util-src.jar $(SRC) Makefile
