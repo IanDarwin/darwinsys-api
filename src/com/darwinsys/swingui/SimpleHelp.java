@@ -10,7 +10,7 @@ import javax.swing.text.*;
  * Simple Help Frame based on JFC JEditorPane
  * May someday rewrite using JavaHelp API.
  */
-public class MyHelp extends JFrame implements HyperlinkListener {
+public class SimpleHelp extends JFrame implements HyperlinkListener {
 	/** The contentpane */
 	protected Container cp;
 	/** The editorpane */
@@ -19,7 +19,7 @@ public class MyHelp extends JFrame implements HyperlinkListener {
 	/* Construct a Help object. Just construct a JEditorPane
 	 * with a URL, and it does all the help from there.
 	 */
-    public MyHelp(String name) {
+    public SimpleHelp(String name) {
 		super(name + " Help Window");
 		cp = getContentPane();
 		getAccessibleContext().setAccessibleName(name + " Help Window");
@@ -42,8 +42,8 @@ public class MyHelp extends JFrame implements HyperlinkListener {
 				cp.add(BorderLayout.CENTER, scroller);
 				addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) {
-						MyHelp.this.setVisible(false);
-						MyHelp.this.dispose();
+						SimpleHelp.this.setVisible(false);
+						SimpleHelp.this.dispose();
 					}
 				});
 				setSize(500,400);

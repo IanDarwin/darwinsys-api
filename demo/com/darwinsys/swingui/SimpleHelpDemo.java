@@ -1,6 +1,6 @@
-public class MyHelpTest {
+public class SimpleHelpDemo {
 	/** Main */
 	public static void main(String a[]) {
-		new MyHelp().setVisible(true);
+		new SimpleHelp().setVisible(true);
 	}
 }
