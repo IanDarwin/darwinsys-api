@@ -84,7 +84,7 @@ public class FontChooser extends JDialog {
 			fontSizeChoice.add(fontSizes[i]);
 		fontSizeChoice.select(DEFAULT_SIZE);
 
-		cp.add(BorderLayout.NORTH, top);
+		cp.add(top, BorderLayout.NORTH);
 
 		Panel attrs = new Panel();
 		top.add(attrs);
@@ -94,7 +94,7 @@ public class FontChooser extends JDialog {
 
 		previewArea = new JLabel(displayText, JLabel.CENTER);
 		previewArea.setSize(200, 50);
-		cp.add(BorderLayout.CENTER, previewArea);
+		cp.add(previewArea, BorderLayout.CENTER);
 
 		Panel bot = new Panel();
 
@@ -132,7 +132,7 @@ public class FontChooser extends JDialog {
 			}
 		});
 
-		cp.add(BorderLayout.SOUTH, bot);
+		cp.add(bot, BorderLayout.SOUTH);
 
 		previewFont(); // ensure view is up to date!
 
