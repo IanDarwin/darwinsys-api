@@ -14,13 +14,14 @@
 
 	<property name="deploy.dir" value="${user.home}/lib"/>
 
-	<!-- If Ant 1.5 barfs on this, just comment it out -->
+	<!-- If Ant 1.5 barfs on this, just comment it out
 	<condition property="isMacOSX">
 		<and>
 			<os family="mac"/>
 			<os family="unix"/>
 		</and>
 	</condition>
+	-->
 
 	<target name="init">
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
