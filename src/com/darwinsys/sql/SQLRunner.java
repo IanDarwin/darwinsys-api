@@ -2,7 +2,7 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
-/** Class to run an SQL script.
+/** Class to run an SQL script, like psql(1) or similar programs.
  * Command line interface hard-codes sample driver and dburl,
  * expects script file name in argv[0].
  * Can be used from within servlet, etc.

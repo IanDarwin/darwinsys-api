@@ -73,6 +73,7 @@ public class GetOpt {
 			return '?';
 		} else {
 			// Found non-argument non-option word in argv: end of options.
+			optind--;
 			done = true;
 			return DONE;
 		}
