@@ -65,7 +65,7 @@ public class ConnectionUtil {
 	}
 	
 	/** Sets the full path of the config file to read.
-	 * @param configFileName The configFileName to set.
+	 * @param configFileNam The FileName of the configuration file to use.
 	 */
 	public static void setConfigFileName(String configFileNam) {
 		configFileName = configFileNam;

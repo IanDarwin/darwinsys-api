@@ -15,6 +15,7 @@ public class BackRefTag extends TagSupport {
 	private String surroundingtag;
 	private String label;
 
+	/** Invoked at the end tag boundary, does the work */
 	public int doEndTag() throws JspException {
 		final String myLabel = label == null ? DEFAULT_LABEL : label;
 		try {
@@ -42,18 +43,16 @@ public class BackRefTag extends TagSupport {
 	}
 
 	/**
-	 * @param label The label to print (e.g., "Back");
+	 * @param lab The label to print (e.g., "Back");
 	 */
 	public void setLabel(String lab) {
 		label = lab;
 	}
 	
 	/**
-	 * @param surroundingtag The HTML tag to surrounding the link (e.g., "h6").
+	 * @param surround The HTML tag to surrounding the link (e.g., "h6").
 	 */
 	public void setSurroundingtag(String surround) {
 		surroundingtag = surround;
 	}
-
-
 }

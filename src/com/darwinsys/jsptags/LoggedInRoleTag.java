@@ -11,6 +11,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 public class LoggedInRoleTag extends BodyTagSupport {
 	private String role;
 
+	/** Invoked at the start tag boundary; does the work. */
 	public int doStartTag() throws JspException {
 		String myLabel = null;
 
@@ -20,7 +21,7 @@ public class LoggedInRoleTag extends BodyTagSupport {
 	}
 
 	/**
-	 * @param role The role to check for (e.g., "admin");
+	 * @param r The role to check for (e.g., "admin");
 	 */
 	public void setRole(String r) {
 		role = r;

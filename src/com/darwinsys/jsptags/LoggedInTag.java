@@ -11,6 +11,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 public class LoggedInTag extends BodyTagSupport {
 	private String userName;
 
+	/** Invoked at the tag start boundary; does the work */
 	public int doStartTag() throws JspException {
 		String myLabel = null;
 
