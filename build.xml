@@ -63,8 +63,8 @@
 		<copy file="html/index.html" todir="${build}/docs"/>
 	</target>
 
-	<target name="install-docs" depends="init"><!--DOCS-->
-	<!-- jsch scp is too slow and unreliable, at least IMHO. -->
+	<target name="install-docs" depends="docs">
+	<!-- jsch scp is not reliable, it always locks up on this scp.
 		<input
 			message="Please enter ssh password:"
 			addproperty="ssh.password"
@@ -74,13 +74,12 @@
 			password="${ssh.password}">
 			<fileset dir="${build}/docs"/>
 		</scp>
-	<!--
+	-->
 		<exec executable="/usr/bin/scp">
 			<arg value="-r"/>
 			<arg value="${build}/docs"/>
 			<arg value="ian@www.darwinsys.com:/www/javacook/"/>
 		</exec>
-	-->
 	</target>
 
 	<!-- Simple Regression Tests -->
