@@ -6,6 +6,8 @@ import java.awt.event.*;
  * @version $Id$
  */
 public class FontChooser extends Frame {
+	/** The font the user has chosen */
+	Font resultFont;
 	/** The list of Fonts */
 	protected String fontList[];
 	/** The file name chooser */
@@ -17,10 +19,11 @@ public class FontChooser extends Frame {
 		"6", "8", "10", "11", "12", "14", "16", "18", "20", "24",
 		"30", "36", "40", "48", "60", "72"
 		};
-	protected Label show;
+	protected Label previewArea;
 
 	/** Construct a FontChooser -- Sets title and gets 
-	 * array of fonts on the system
+	 * array of fonts on the system. Builds a GUI to let
+	 * the user choose one font at one size.
 	 */
 	public FontChooser() {
 		super("Font Chooser");
@@ -48,10 +51,57 @@ public class FontChooser extends Frame {
 		for (int i=0; i<fontSizes.length; i++)
 			fSizeChoice.add(fontSizes[i]);
 
-		show = new Label("Qwerty Yuiop");
+		previewArea = new Label("Qwerty Yuiop");
+		cp.add(previewArea);
+		previewArea.setSize(200, 50);
+
+		Button okButton = new Button("Apply");
+		cp.add(okButton);
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				previewFont();
+				dispose();
+				setVisible(false);
+			}
+		});
+
+		Button pvButton = new Button("Preview");
+		cp.add(pvButton);
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				previewFont();
+			}
+		});
+
+		Button canButton = new Button("Cancel");
+		cp.add(canButton);
+		canButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				setVisible(false);
+			}
+		});
+
+		pack();
+		setLocation(100, 100);
 	}
 
-	public void actionPerformed(actionEvent e) {
+	/** Called from the action handlers to get the font info,
+	 * build a font, and set it.
+	 */
+	protected void previewFont() {
+		String resultName = fNameChoice.getSelectedItem();
+		String resultSizeName = fSizeChoice.getSelectedItem();
+		int resultSize = Integer.parseInt(resultSizeName);
+		resultFont = new Font(resultName, resultSize, Font.BOLD);
+		System.out.println("previewFont(): resultFont = " + resultFont);
+		previewArea.setFont(resultFont);
+		previewArea.repaint();
+	}
+
+	/** Retrieve the selected font, or null */
+	public Font getSelectedFont() {
+		return resultFont;
 	}
 
 	/** Simple main program to start it running */
