@@ -59,4 +59,24 @@ public class FileIO {
 		is.close();
 		return line;
 	}
+
+	/** The size of blocking to use */
+	protected static final int BLKSIZ = 8192;
+
+	/** Copy a data file from one filename to another, alternate method.
+	 * As the name suggests, use my own buffer instead of letting
+	 * the BufferedReader allocate and use the buffer.
+	 */
+	public void copyFileBuffered(String inName, String outName) throws
+			FileNotFoundException, IOException {
+		InputStream is = new FileInputStream(inName);
+		OutputStream os = new FileOutputStream(outName);
+		int count = 0;		// the byte count
+		byte b[] = new byte[BLKSIZ];	// the bytes read from the file
+		while ((count = is.read(b)) != -1) {
+			os.write(b, 0, count);
+		}
+		is.close();
+		os.close();
+	}
 }
