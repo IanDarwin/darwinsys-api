@@ -16,7 +16,7 @@ public class IdMapping {
 		return id;
 	}
 
-	public String getname() {
+	public String getName() {
 		return name;
 	}
 }
