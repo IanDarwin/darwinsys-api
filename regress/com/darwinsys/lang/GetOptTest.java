@@ -1,19 +1,35 @@
+import com.darwinsys.util.GetOpt;
+import junit.framework.*;
+
 /** Some test cases for GetOpt.
  * @author Ian F. Darwin, ian@darwinsys.com
  * @version $Id$
  */
-public class GetOptTest {
-	public static void main(String[] argv) {
-		String goodArgChars = "o:h", goodArgs[]  = {
-			"-h", "-o", "outfile", "infile"
-		};
-		String badArgChars = "f1o", badArgs[]  = {
-			"-h", "-o", "outfile", "infile"
-		};
+public class GetOptTest extends TestCase {
+
+	/** JUnit test classes require this constructor */
+	public GetOptTest(String name) {
+		super(name);
+	}
+
+	public void testgoodArgChars() {
 		process(goodArgChars, goodArgs);
+	}
+	public void testBadArgChars() {
 		process(badArgChars, goodArgs);
+	}
+	public void testBadArgsAndChars() {
 		process(badArgChars, badArgs);
 	}
+
+	static String goodArgChars = "o:h";
+	static String goodArgs[]  = {
+			"-h", "-o", "outfile", "infile"
+	};
+	static 	String badArgChars = "f1o";
+	static String badArgs[]  = {
+			"-h", "-o", "outfile", "infile"
+	};
 
 	/** Private function, for testing. */
 	private static void process(String argChars, String[] args) {
