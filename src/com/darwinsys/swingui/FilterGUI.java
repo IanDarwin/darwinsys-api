@@ -7,6 +7,7 @@ import javax.swing.*;
  * buttons.
  * <p>
  * TODO: fix balancing (have main pack() then call adjustWidths()?).
+ * And find a more standard name for this thing.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
  */
@@ -79,5 +80,10 @@ public class FilterGUI extends JComponent {
 		// Should get longest toString() from list.
 		addableList.setPrototypeCellValue("Some Filter Name");
 		currentList.setPrototypeCellValue("Some Filter Name");
+	}
+
+	/** Retrieve the list of currently-selected objects */
+	public List getCurrent() {
+		return current;
 	}
 }
