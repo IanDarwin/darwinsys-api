@@ -2,42 +2,89 @@ package regress;
 
 import java.util.*;
 
+import junit.framework.*;
+
 import com.darwinsys.lang.GetOpt;
+import com.darwinsys.lang.GetOptDesc;
 
 /** Some test cases for GetOpt.
- * <br/>XXX REWRITE USING JUNIT
- * @author Ian F. Darwin, ian@darwinsys.com
+ * <br/>XXX TODO - compare with expected 'c' values.
+ * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
-public class GetOptTest {
+public class GetOptTest extends TestCase {
 
-	public static void main(String[] args) {
-		process(goodArgChars, goodArgs, false);
-		process(badArgChars, goodArgs, true);
-		process(badArgChars, badArgs, true);
+	private String goodArgChars = "o:h";
+	private String goodArgs[]  = {
+			"-h", "-o", "outfile", "infile"
+	};
+	private char[] goodArgsExpectChars = { 'h', 'o' };
+
+	private 	String badArgChars = "f1o";
+	private String badArgs[]  = {
+			"-h", "-o", "outfile", "infile"
+	};
+	private char[] badArgsExpectChars = { '?', 'o' };
+
+	private GetOptDesc[] options = {
+		new GetOptDesc('o', "output-file", true),
+		new GetOptDesc('h', "help", false),
+	};
+
+	public void testOldwayGood() {
+		process1(goodArgChars, goodArgs, false);
+		process2(goodArgChars, goodArgs, false);
+	}
+	public void testOldwayBadCharsGoodArgs() {
+		process1(badArgChars, goodArgs, true);
+		process2(badArgChars, goodArgs, true);
+	}
+	public void testOldwayBadCharsBadArgs() {
+		process1(badArgChars, badArgs, true);
+		process2(badArgChars, badArgs, true);
 	}
 
-	static String goodArgChars = "o:h";
-	static String goodArgs[]  = {
-			"-h", "-o", "outfile", "infile"
-	};
-	static 	String badArgChars = "f1o";
-	static String badArgs[]  = {
-			"-h", "-o", "outfile", "infile"
-	};
+	public void testNewWay() {
+		GetOpt go = new GetOpt(options);
+		Map map = go.parseArguments(goodArgs);
+		// assertNotEquals(map.size(), 0);
+		if (map.size() == 0) {
+			throw new IllegalArgumentException(
+				"Unexpected empty map");
+		}
+		int errs = 0;
+		Iterator it = map.keySet().iterator();
+		while (it.hasNext()) {
+			String key = (String)it.next();
+			char c = key.charAt(0);
+			String val = (String)map.get(key);
+			switch(c) {
+				case '?':
+					errs++; break;
+				case 'o': assertEquals(val, "outfile"); break;
+				case 'f':
+				case 'h':
+				case '1':
+					 //assertEquals(val, null);
+					break;
+				default:
+					throw new IllegalArgumentException(
+						"Unexpected c value " + c);
+			}
+		}
+		assertEquals(1, go.getFilenameList().size());
+	}
 
-	/** Private function, for testing. */
-	private static void process(
-		String argChars, String[] args, boolean shouldFail) {
+	void process1(String argChars, String[] args, boolean shouldFail) {
 
-		// System.out.println("** START ** " + argChars);
+		System.out.println("** START ** " + argChars);
 
 		GetOpt go = new GetOpt(argChars);
 
-		char c;
-		int errs = 0;
+		int errs = 0, ix = 0;
 
-		while ((c =go.getopt(args)) != 0) {
+		char c;
+		while ((c = go.getopt(args)) != 0) {
 			if (c == '?') {
 				System.out.print("Bad option");
 				++errs;
@@ -50,10 +97,15 @@ public class GetOptTest {
 		}
 
 		// Process any filename-like arguments.
-		for (int i=go.getOptInd(); i<args.length; i++)
+		for (int i=go.getOptInd(); i<args.length; i++) {
 			System.out.println("Filename-like arg " + args[i]);
+		}
+	}
 
-		// System.out.println("** START NEW WAY ** " + argChars);
+	void process2(String argChars, String[] args, boolean shouldFail) {
+		int errs = 0;
+
+		System.out.println("** START NEW WAY ** " + argChars);
 		GetOpt go2 = new GetOpt(argChars);
 		Map m = go2.parseArguments(args);
 		if (m.size() == 0)
@@ -61,7 +113,7 @@ public class GetOptTest {
 		Iterator it = m.keySet().iterator();
 		while (it.hasNext()) {
 			Object key = it.next();
-			c = ((Character)key).charValue();
+			char c = ((String)key).charAt(0);
 			System.out.print("Found " + c);
 			if (c == '?')
 				errs++;
@@ -73,7 +125,7 @@ public class GetOptTest {
 			System.out.println();
 		}
 
-		List filenames = go2.getFilenameArguments();
+		List filenames = go2.getFilenameList();
 		for (int i = 0; i < filenames.size(); i++) {
 			System.out.println("Filename-like arg " + filenames.get(i));
 		}
