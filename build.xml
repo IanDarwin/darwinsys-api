@@ -8,7 +8,6 @@
 	<!-- other properties -->
 	<property name="src" value="."/>
 	<property name="build" value="./build"/>
-	<property name="build.compiler" value="jikes"/>
 
 	<property name="obj.jar" value="com-darwinsys-util.jar"/>
 	<property name="src.jar" value="com-darwinsys-util-src.jar"/>
