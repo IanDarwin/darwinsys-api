@@ -59,7 +59,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	protected Connection conn;
 
 	/** SQL Statement */
-	protected Statement stmt;
+	protected Statement statement;
 	
 	/** Where the output is going */
 	protected PrintWriter out;
@@ -169,7 +169,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		DatabaseMetaData dbm = conn.getMetaData();
 		String dbName = dbm.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
-		stmt = conn.createStatement();
+		statement = conn.createStatement();
 		
 		if (outputFileName == null) {
 			out = new PrintWriter(System.out);
@@ -339,11 +339,11 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		System.out.println("Executing : <<" + str.trim() + ">>");
 		System.out.flush();
 		try {
-			boolean hasResultSet = stmt.execute(str);
+			boolean hasResultSet = statement.execute(str);
 			if (!hasResultSet)
-				currentDecorator.write(stmt.getUpdateCount());
+				currentDecorator.write(statement.getUpdateCount());
 			else {
-				ResultSet rs = stmt.getResultSet();
+				ResultSet rs = statement.getResultSet();
 				currentDecorator.write(rs);
 			}
 		} catch (SQLException ex) {
@@ -386,7 +386,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	}
 
 	public void close() throws SQLException {
-		stmt.close();
+		statement.close();
 		conn.close();
 		out.flush();
 		out.close();
@@ -427,7 +427,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	/**
 	 * @param debug True to enable debug, false to disable.
 	 */
-	public void setDebug(boolean debug) {
-		this.debug = debug;
+	public void setDebug(boolean d) {
+		debug = d;
 	}
 }
