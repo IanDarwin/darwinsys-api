@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,14 +7,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 
 import com.darwinsys.database.DataBaseException;
 import com.darwinsys.lang.GetOpt;
+import com.darwinsys.sql.ConnectionUtil;
 
 /** Class to run an SQL script, like psql(1), SQL*Plus, or similar programs.
  * Command line interface accepts options -c config [-f configFile] [scriptFile].
@@ -30,6 +28,7 @@ import com.darwinsys.lang.GetOpt;
  * <li> \o output-file, redirects output.
  * <li> \q quit the program
  * </ul>
+ * TODO: Fix parsing so escapes don't need to end with SQL semi-colon.
  * <p>This class can also be used from within programs such as servlets, etc.
  * <p>TODO: knobs to set debug mode (interactively & from getopt!)
  * <p>For example, this command and input:</pre>
@@ -44,19 +43,8 @@ import com.darwinsys.lang.GetOpt;
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class SQLRunner implements ResultsDecoratorPrinter {
-
-	/** The default configuration file */
-	public static String DEFAULT_FILE = "db.properties";
-
-	/** The database driver */
-	protected static String db_driver;
-
-	/** The database URL. */
-	protected static String db_url;
-
-	protected static String db_user, db_password;
 	
-	// TODO: This is an OBVIOUS candidate for a 1.5 "enum"
+	// TODO: This is an obvious candidate for a 1.5 "enum" (fixed in the 1.5 branch)
 	
 	/** The mode for textual output */
 	public static final String MODE_TXT = "t";
@@ -64,6 +52,8 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	public static final String MODE_HTML = "h";
 	/** The mode for SQL output */
 	public static final String MODE_SQL = "s";
+	/** The mode for XML output */
+	public static final String MODE_XML = "x";
 
 	/** Database connection */
 	protected Connection conn;
@@ -82,8 +72,11 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	
 	private ResultsDecorator htmlDecorator;
 	
+	private ResultsDecorator xmlDecorator;
+	
 	boolean debug = false;
 
+	/** print help; called from several places in main */
 	private static void doHelp(int i) {
 		System.out.println(
 		"Usage: SQLRunner [-f configFile] [-c config] [SQLscript[ ...]");
@@ -95,26 +88,32 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 * @throws SQLException if anything goes wrong.
 	 * @throws DatabaseException if anything goes wrong.
 	 */
-	public static void main(String[] args) throws SQLException {
-		String configFileName = System.getProperty("user.home", "/") +
-			File.separator + "." + DEFAULT_FILE;
+	public static void main(String[] args)  {
 		String config = "default";
 		String outputMode = MODE_TXT;
-		GetOpt go = new GetOpt("f:c:m:");
+		String outputFile = null;
+		boolean debug = false;
+		GetOpt go = new GetOpt("df:c:m:o:");
 		char c;
 		while ((c = go.getopt(args)) != GetOpt.DONE) {
 			switch(c) {
 			case 'h':
 				doHelp(0);
 				break;
+			case 'd':
+				debug = true;
+				break;
 			case 'f':
-				configFileName = go.optarg();
+				ConnectionUtil.setConfigFileName(go.optarg());
 				break;
 			case 'c':
 				config = go.optarg();
 				break;
 			case 'm':
 				outputMode = go.optarg();
+				break;
+			case 'o':
+				outputFile = go.optarg();
 				break;
 			default:
 				System.err.println("Unknown option character " + c);
@@ -123,29 +122,20 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		}
 
 		try {
-			Properties p = new Properties();
-			p.load(new FileInputStream(configFileName));
-			db_driver = p.getProperty(config  + "." + "DBDriver");
-			db_url = p.getProperty(config  + "." + "DBURL");
-			db_user = p.getProperty(config  + "." + "DBUser");
-			db_password = p.getProperty(config  + "." + "DBPassword");
-			if (db_driver == null || db_url == null) {
-				throw new IllegalStateException("Driver or URL null: " + config);
-			}
 
-			SQLRunner prog = new SQLRunner(db_driver, db_url,
-				db_user, db_password, outputMode);
+			Connection conn = ConnectionUtil.getConnection(config);
+
+			SQLRunner prog = new SQLRunner(conn, outputFile, outputMode);
+			prog.setDebug(debug);
 			
 			if (go.getOptInd() == args.length) {
 				prog.runScript(new BufferedReader(
 					new InputStreamReader(System.in)));
-			} else for (int i = go.getOptInd(); i < args.length; i++) {
+			} else for (int i = go.getOptInd()-1; i < args.length; i++) {
 				prog.runScript(args[i]);
 			}
 			prog.close();
-		// } catch (SQLException ex) {
-		// 	throw new DataBaseException(ex.toString());
-		} catch (ClassNotFoundException ex) {
+		} catch (SQLException ex) {
 			throw new DataBaseException(ex.toString());
 		} catch (IOException ex) {
 			throw new DataBaseException(ex.toString());
@@ -163,30 +153,30 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 * @throws SQLException
 	 */
 	public SQLRunner(String driver, String dbUrl, String user, String password,
-			String outputMode)
-			throws ClassNotFoundException, SQLException {
-		conn = createConnection(driver, dbUrl, user, password);
-		finishSetup(outputMode);
+			String outputFile, String outputMode)
+			throws IOException, ClassNotFoundException, SQLException {
+		conn = ConnectionUtil.createConnection(driver, dbUrl, user, password);
+		finishSetup(outputFile, outputMode);
 	}
 	
-	public SQLRunner(Connection c, String outputMode) throws SQLException {
+	public SQLRunner(Connection c, String outputFile, String outputMode) throws IOException, SQLException {
 		// set up the SQL input
 		conn = c;
-		finishSetup(outputMode);
+		finishSetup(outputFile, outputMode);
 	}
 	
-	void finishSetup(String outputMode) throws SQLException {
+	void finishSetup(String outputFileName, String outputMode) throws IOException, SQLException {
 		DatabaseMetaData dbm = conn.getMetaData();
 		String dbName = dbm.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
 		stmt = conn.createStatement();
 		
-		out = new PrintWriter(System.out);
+		if (outputFileName == null) {
+			out = new PrintWriter(System.out);
+		} else {
+			out = new PrintWriter(new FileWriter(outputFileName));
+		}
 		
-		// Set up the output modes.
-		textDecorator = new ResultsDecoratorText(this);
-		sqlDecorator = new ResultsDecoratorSQL(this);
-		htmlDecorator = new ResultsDecoratorHTML(this);
 		setOutputMode(outputMode);
 	}
 	
@@ -195,49 +185,49 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 * @throws IllegalArgumentException if the mode is not valid.
 	 */
 	void setOutputMode(String outputMode) {
-		if (outputMode.length() == 0) {
-			throw new IllegalArgumentException(
-					"invalid mode: " + outputMode + "; must be t, h or s");
-		}
-		
+		if (outputMode.length() == 0) { throw new IllegalArgumentException(
+			"invalid mode: " + outputMode + "; must be t, h or s"); }
+
+		// Assign the correct ResultsDecorator, creating them on the fly
+		// using the lazy evaluation pattern.
 		ResultsDecorator newDecorator = null;
-		switch( outputMode.charAt(0)) {
+		switch (outputMode.charAt(0)) {
 			case 't':
+				if (textDecorator == null) {
+					textDecorator = new ResultsDecoratorText(this);
+				}
 				newDecorator = textDecorator;
 				break;
 			case 'h':
+				if (htmlDecorator == null) {
+					htmlDecorator = new ResultsDecoratorHTML(this);
+				}
 				newDecorator = htmlDecorator;
 				break;
 			case 's':
+				if (sqlDecorator == null) {
+					sqlDecorator = new ResultsDecoratorSQL(this);
+				}
 				newDecorator = sqlDecorator;
 				break;
-			default: throw new IllegalArgumentException(
-					"invalid mode: " + outputMode + "; must be t, h or s");
+			case 'x':
+				if (xmlDecorator == null) {
+					xmlDecorator = new ResultsDecoratorXML(this);
+				}
+				newDecorator = sqlDecorator;
+				break;
+			default:
+				throw new IllegalArgumentException("invalid mode: "
+								+ outputMode + "; must be t, h or s");
 		}
 		if (currentDecorator != newDecorator) {
 			currentDecorator = newDecorator;
-			System.out.println("Mode set to  " + currentDecorator.getName());
+			System.out.println("Mode set to  "
+					+ currentDecorator.getName());
 		}
 
 	}
 	
-	public Connection createConnection(String driver, String dbUrl, String user, String password)
-			throws ClassNotFoundException, SQLException {
-		db_driver = driver;
-		db_url = dbUrl;
-		db_user = user;
-		db_password = password;
-
-		// Load the database driver
-		System.out.println("SQLRunner: Loading driver " + db_driver);
-		Class.forName(db_driver);
-
-		System.out.println("SQLRunner: Connecting to DB " + db_url);
-		return DriverManager.getConnection(
-			db_url, user, password);
-	}
-	
-
 	/** Run one script file, by name. Called from cmd line main
 	 * or from user code.
 	 */
@@ -376,15 +366,18 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	public void print(String line) throws IOException {
 		out.print(line);
 	}
+	
 	public void println(String line) throws IOException {
 		out.println(line);
+		out.flush();
 	}
 
 	/* (non-Javadoc)
 	 * @see DatabaseWriterImpl#println()
 	 */
 	public void println() throws IOException {
-		out.println();		
+		out.println();
+		out.flush();
 	}
 
 	/* (non-Javadoc)
@@ -392,5 +385,17 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 */
 	public PrintWriter getPrintWriter() {
 		return out;
+	}
+	/**
+	 * @return Returns the debug.
+	 */
+	public boolean isDebug() {
+		return debug;
+	}
+	/**
+	 * @param debug The debug to set.
+	 */
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 }
