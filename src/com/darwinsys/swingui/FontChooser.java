@@ -5,13 +5,18 @@ import java.awt.event.*;
  * @author	Ian Darwin
  * @version $Id$
  */
-public class FontChooser extends Frame {
+public class FontChooser extends Dialog {
 	/** The font the user has chosen */
 	protected Font resultFont;
 	/** The resulting font name */
 	protected String resultName;
 	/** The resulting font size */
 	protected int resultSize;
+	/** The resulting boldness */
+	protected boolean isBold;
+	/** The resulting italicness */
+	protected boolean isItalic;
+
 	/** The list of Fonts */
 	protected String fontList[];
 	/** The file name chooser */
@@ -32,15 +37,15 @@ public class FontChooser extends Frame {
 	 * array of fonts on the system. Builds a GUI to let
 	 * the user choose one font at one size.
 	 */
-	public FontChooser() {
-		super("Font Chooser");
+	public FontChooser(Frame f) {
+		super(f, "Font Chooser", true);
 
 		Container cp = this;	// or getContentPane() in Swing
 
 		Panel top = new Panel();
 		top.setLayout(new FlowLayout());
 
-		fNameChoice = new List();
+		fNameChoice = new List(8);
 		top.add(fNameChoice);
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -55,12 +60,12 @@ public class FontChooser extends Frame {
 			fNameChoice.add(fontList[i]);
 		fNameChoice.select(0);
 
-		fSizeChoice = new List();
+		fSizeChoice = new List(8);
 		top.add(fSizeChoice);
 
 		for (int i=0; i<fontSizes.length; i++)
 			fSizeChoice.add(fontSizes[i]);
-		fSizeChoice.select(0);
+		fSizeChoice.select(5);
 
 		cp.add(BorderLayout.NORTH, top);
 
@@ -98,12 +103,21 @@ public class FontChooser extends Frame {
 		bot.add(canButton);
 		canButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Set all values to null. Better: restore previous.
+				resultFont = null;
+				resultName = null;
+				resultSize = 0;
+				isBold = false;
+				isItalic = false;
+
 				dispose();
 				setVisible(false);
 			}
 		});
 
 		cp.add(BorderLayout.SOUTH, bot);
+
+		previewFont(); // ensure view is up to date!
 
 		pack();
 		setLocation(100, 100);
@@ -116,8 +130,8 @@ public class FontChooser extends Frame {
 		resultName = fNameChoice.getSelectedItem();
 		String resultSizeName = fSizeChoice.getSelectedItem();
 		int resultSize = Integer.parseInt(resultSizeName);
-		boolean isBold = bold.getState();
-		boolean isItalic = italic.getState();
+		isBold = bold.getState();
+		isItalic = italic.getState();
 		int attrs = Font.PLAIN;
 		if (isBold) attrs = Font.BOLD;
 		if (isItalic) attrs += Font.ITALIC;
@@ -144,7 +158,11 @@ public class FontChooser extends Frame {
 
 	/** Simple main program to start it running */
 	public static void main(String args[]) {
-		new FontChooser().setVisible(true);
+		Frame f = new Frame("Dummy");
+		FontChooser fc = new FontChooser(f);
+		fc.setVisible(true);
+		System.out.println("You chose " + fc.getSelectedFont());
+		System.exit(0);
 	}
 
 	/** This tiny inner class just extends Label to allow for
