@@ -156,7 +156,7 @@ public class RelLayout implements LayoutManager {
 	 * @param	c	Component to be removed
 	 */
 	public void  removeLayoutComponent(Component c) {
-		curComps.removeElement(t);
+		curComps.removeElement(c);
 	}
 }
 
