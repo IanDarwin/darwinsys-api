@@ -27,9 +27,10 @@ public class FileIO {
 	/** Copy a file from an opened InputStream to opened OutputStream */
 	public static void copyFile(InputStream is, OutputStream os, boolean close) 
 	throws IOException {
-		int b;				// the byte read from the file
-		while ((b = is.read()) != -1) {
-			os.write(b);
+		byte[] b = new byte[BLKSIZ];				// the byte read from the file
+		int i;
+		while ((i = is.read(b)) != -1) {
+			os.write(b, 0, i);
 		}
 		is.close();
 		if (close)
@@ -40,6 +41,7 @@ public class FileIO {
 	public static void copyFile(Reader is, Writer os, boolean close) 
 	throws IOException {
 		int b;				// the byte read from the file
+		BufferedReader bis = new BufferedReader(is);
 		while ((b = is.read()) != -1) {
 			os.write(b);
 		}
@@ -66,7 +68,7 @@ public class FileIO {
 	}
 
 	/** The size of blocking to use */
-	protected static final int BLKSIZ = 8192;
+	protected static final int BLKSIZ = 16384;
 
 	/** Copy a data file from one filename to another, alternate method.
 	 * As the name suggests, use my own buffer instead of letting
