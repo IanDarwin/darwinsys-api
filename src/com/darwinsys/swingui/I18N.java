@@ -41,12 +41,23 @@ public class I18N {
 	}
 
 	/** Show a JOptionPane message dialog */
-	public static void mkDialog(JFrame parent,
+	public static void mkDialog(ResourceBundle b,JFrame parent,
 		String dialogTag, String titleTag, int messageType) {
 			JOptionPane.showMessageDialog(
 				parent,
-				rb.getString(dialogTag),
-				rb.getString(titleTag),
+				getString(b, dialogTag, "DIALOG TEXT MISSING " + dialogTag),
+				getString(b, titleTag, "DIALOG TITLE MISSING"  + titleTag),
 				messageType);
+	}
+
+	/** Just get a String (for dialogs, labels, etc.) */
+	public static String getString(ResourceBundle b, String name, String dflt) {
+		String result;
+		try {
+			result = b.getString(name);
+		} catch (MissingResourceException e) {
+			result = dflt;
+		}
+		return result;
 	}
 }
