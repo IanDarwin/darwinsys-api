@@ -1,3 +1,4 @@
+public class StringFormatTest {
 	/** Simple test cases; try even and odd lengths */
 	public static void main(String[] argv) {
 		String[] mesg = {"JavaFun", "JavaFun!" };
@@ -24,3 +25,4 @@
 		System.out.print('"');
 		System.out.println();
 	}
+}
