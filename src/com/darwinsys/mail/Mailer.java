@@ -1,4 +1,4 @@
-package com.darwinsys.lang;
+package com.darwinsys.mail;
 
 import java.io.*;
 import java.util.*;

@@ -1,6 +1,6 @@
 package regress;
 
-import com.darwinsys.util.StringFormat;
+import com.darwinsys.lang.StringFormat;
 
 public class StringFormatTest {
 	/** Simple test cases; try even and odd lengths */

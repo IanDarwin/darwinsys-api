@@ -1,7 +1,6 @@
 package regress;
 
-import com.darwinsys.util.FileIO;
-
+import com.darwinsys.io.FileIO;
 import java.io.*;
 
 public class FileIOTest {

@@ -1,6 +1,6 @@
 package regress;
 
-import com.darwinsys.util.*;
+import com.darwinsys.swingui.*;
 
 import java.awt.*;
 import java.awt.event.*;

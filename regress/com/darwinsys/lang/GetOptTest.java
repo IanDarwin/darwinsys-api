@@ -2,7 +2,7 @@ package regress;
 
 import java.util.*;
 
-import com.darwinsys.util.GetOpt;
+import com.darwinsys.lang.GetOpt;
 
 /** Some test cases for GetOpt.
  * @author Ian F. Darwin, ian@darwinsys.com

@@ -25,9 +25,9 @@
 			/>
 	</target>
 
-	<target name="jar" depends="build">
+	<target name="jar" depends="docs">
 		<jar jarfile="${build}/${obj.jar}" basedir="${build}"
-			includes="META-INF/*,com/**/*.class,demo/**/*.class">
+			includes="META-INF/*,com/**/*.class,demo/**/*.class,docs">
 		</jar>
 	</target>
 

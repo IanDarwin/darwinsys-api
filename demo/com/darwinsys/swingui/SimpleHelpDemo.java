@@ -1,8 +1,10 @@
 package regress;
 
+import com.darwinsys.swingui.SimpleHelp;
+
 public class SimpleHelpDemo {
 	/** Main */
 	public static void main(String a[]) {
-		new com.darwinsys.util.SimpleHelp("TESTING").setVisible(true);
+		new SimpleHelp("TESTING").setVisible(true);
 	}
 }
