@@ -7,18 +7,23 @@ import java.awt.event.*;
  */
 public class FontChooser extends Frame {
 	/** The font the user has chosen */
-	Font resultFont;
+	protected Font resultFont;
+	/** The resulting font name */
+	protected String resultName;
+	/** The resulting font size */
+	protected int resultSize;
 	/** The list of Fonts */
 	protected String fontList[];
 	/** The file name chooser */
-	protected Choice fNameChoice;
+	protected List fNameChoice;
 	/** The file size chooser */
-	protected Choice fSizeChoice;
+	protected List fSizeChoice;
 	/** The list of font sizes */
 	protected String fontSizes[] = {
-		"6", "8", "10", "11", "12", "14", "16", "18", "20", "24",
+		"8", "10", "11", "12", "14", "16", "18", "20", "24",
 		"30", "36", "40", "48", "60", "72"
 		};
+	/** The display area */
 	protected Label previewArea;
 
 	/** Construct a FontChooser -- Sets title and gets 
@@ -29,10 +34,12 @@ public class FontChooser extends Frame {
 		super("Font Chooser");
 
 		Container cp = this;	// or getContentPane() in Swing
-		cp.setLayout(new FlowLayout());
 
-		fNameChoice = new Choice();
-		cp.add(fNameChoice);
+		Panel top = new Panel();
+		top.setLayout(new FlowLayout());
+
+		fNameChoice = new List();
+		top.add(fNameChoice);
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		// For JDK 1.1: returns about 10 names (Serif, SansSerif, etc.)
@@ -43,20 +50,27 @@ public class FontChooser extends Frame {
 		//	getAvailableFontFamilyNames();
 
 		for (int i=0; i<fontList.length; i++)
-			fNameChoice.add(fontList[i]);
+			fNameChoice.addItem(fontList[i]);
+		fNameChoice.select(0);
 
-		fSizeChoice = new Choice();
-		cp.add(fSizeChoice);
+		fSizeChoice = new List();
+		top.add(fSizeChoice);
 
 		for (int i=0; i<fontSizes.length; i++)
-			fSizeChoice.add(fontSizes[i]);
+			fSizeChoice.addItem(fontSizes[i]);
+		fSizeChoice.select(0);
 
-		previewArea = new MyLabel("Qwerty Yuiop");
+		cp.add(BorderLayout.NORTH, top);
+
+		previewArea = new MyLabel("Qwerty Yuiop", Label.CENTER);
 		previewArea.setSize(200, 50);
-		cp.add(previewArea);
+		cp.add(BorderLayout.CENTER, previewArea);
+
+		Panel bot = new Panel();
+		bot.setLayout(new FlowLayout());
 
 		Button okButton = new Button("Apply");
-		cp.add(okButton);
+		bot.add(okButton);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				previewFont();
@@ -66,7 +80,7 @@ public class FontChooser extends Frame {
 		});
 
 		Button pvButton = new Button("Preview");
-		cp.add(pvButton);
+		bot.add(pvButton);
 		pvButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				previewFont();
@@ -74,13 +88,15 @@ public class FontChooser extends Frame {
 		});
 
 		Button canButton = new Button("Cancel");
-		cp.add(canButton);
+		bot.add(canButton);
 		canButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				setVisible(false);
 			}
 		});
+
+		cp.add(BorderLayout.SOUTH, bot);
 
 		pack();
 		setLocation(100, 100);
@@ -90,13 +106,23 @@ public class FontChooser extends Frame {
 	 * build a font, and set it.
 	 */
 	protected void previewFont() {
-		String resultName = fNameChoice.getSelectedItem();
+		resultName = fNameChoice.getSelectedItem();
 		String resultSizeName = fSizeChoice.getSelectedItem();
 		int resultSize = Integer.parseInt(resultSizeName);
 		resultFont = new Font(resultName, Font.BOLD, resultSize);
-		// System.out.println("previewFont(): resultFont = " + resultFont);
+		// System.out.println("resultName = " + resultName + "; " +
+		//		"resultFont = " + resultFont);
 		previewArea.setFont(resultFont);
 		previewArea.repaint();
+	}
+
+	/** Retrieve the selected font name. */
+	public String getSelectedName() {
+		return resultName;
+	}
+	/** Retrieve the selected size */
+	public int getSelectedSize() {
+		return resultSize;
 	}
 
 	/** Retrieve the selected font, or null */
@@ -114,8 +140,9 @@ public class FontChooser extends Frame {
 	 */
 	class MyLabel extends Label {
 		protected int wid = 0, ht = 0;
-		public MyLabel(String s) {
-			super(s);
+
+		public MyLabel(String labStr, int align) {
+			super(labStr, align);
 		}
 
 		public void setSize(int w, int h) {
