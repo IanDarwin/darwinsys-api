@@ -118,8 +118,4 @@ public class MyHelp extends JFrame implements HyperlinkListener {
 		}
     }
 
-	/** Test case */
-	public static void main(String a[]) {
-		new MyHelp().setVisible(true);
-	}
 }
