@@ -12,7 +12,7 @@ STR_SRC=	StrSubs.java
 SRC=		$(FMT_SRC) $(GUI_SRC) $(IO_SRC) $(STR_SRC) \
 			Debug.java GetOpt.java MutableInteger.java
 
-JAR=		darwinsys-util.jar
+JAR=		com-darwinsys-util.jar
 
 all:		$(JAR)
 
