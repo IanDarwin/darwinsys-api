@@ -30,6 +30,7 @@ public class CSVRE {
 		csvRE = Pattern.compile(CSV_PATTERN);
 	}
 	
+	/** Process one file. Delegates to parse() a line at a time */
 	public void process(BufferedReader in) throws IOException {
 		String line;
 
