@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+   <tlibversion>1.0</tlibversion>
+   <jspversion>1.1</jspversion>
+   <shortname>TCPWebDev TLD</shortname>
+   <info>TCPWebDev TLD</info>
+
+ 
+   	<!-- backref tag generates a "Back" tag for e.g., use in help pages -->
+   	<tag>
+        <name>backref</name>
+        <tagclass>com.darwinsys.jsptags.BackRefTag</tagclass>
+	    <bodycontent>empty</bodycontent>
+	    
+	    <!-- surroundingtag (all l/c name) is a single HTML tag to surround
+	    	the <a> tag with, e.g. "h6" -->
+        <attribute>
+	        <name>surroundingtag</name>
+	        <required>false</required>
+        </attribute>
+        
+        <!-- label is the label to print, e.g., "Back" -->
+        <attribute>
+	        <name>label</name>
+	        <required>false</required>
+        </attribute>
+
+    </tag>
+    
+    <!-- loggedinuser tag skips body if you're not logged in as "user" -->
+   	<tag>
+        <name>inrole</name>
+        <tagclass>com.darwinsys.jsptags.LoggedInRoleTag</tagclass>
+	    <bodycontent>JSP</bodycontent>
+	    
+		<!-- role is the role to print, e.g., "admin" -->
+        <attribute>
+	        <name>user</name>
+	        <required>true</required>
+	        <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    
+    <!-- loggedinrole tag skips body if user is not in role -->
+   	<tag>
+        <name>inrole</name>
+        <tagclass>com.darwinsys.jsptags.LoggedInRoleTag</tagclass>
+	    <bodycontent>JSP</bodycontent>
+	    
+		<!-- role is the role to print, e.g., "admin" -->
+        <attribute>
+	        <name>role</name>
+	        <required>true</required>
+	        <!-- should not need twizzling at runtime -->
+	        <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+</taglib>
+

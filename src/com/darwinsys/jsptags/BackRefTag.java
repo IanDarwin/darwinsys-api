@@ -1,0 +1,59 @@
+package com.darwinsys.jsptags;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+
+
+/**
+ * BackRefTag - generate a href back to the referrer, initially for use on help.
+ * @version $Id$
+ */
+public class BackRefTag extends TagSupport {
+	private final static String DEFAULT_LABEL = "Back";
+	private String surroundingtag;
+	private String label;
+
+	public int doEndTag() throws JspException {
+		String myLabel = label == null ? DEFAULT_LABEL : label;
+		try {
+			HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+			JspWriter out = pageContext.getOut();
+			String whereFrom = request.getHeader("referer");
+			if (whereFrom == null) {
+				System.out.println("Warning: BackRefTag: no referer");
+				return SKIP_BODY;
+			}
+			if (surroundingtag != null) {
+				out.println("<" + surroundingtag + ">");
+			}
+			out.println("<a href=" + whereFrom + ">" + 
+							(label == null ? DEFAULT_LABEL : label) + "</a>");
+			if (surroundingtag != null) {
+				out.println("<" + "/" + surroundingtag + ">");
+			}
+			out.flush();
+			return SKIP_BODY;
+		} catch (Throwable t) {
+			System.err.println("Tag caught: " + t);
+			throw new JspException(t.toString());
+		}
+	}
+
+	/**
+	 * @param label The label to print (e.g., "Back");
+	 */
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
+	/**
+	 * @param surroundingtag The HTML tag to surrounding the link (e.g., "h6").
+	 */
+	public void setSurroundingtag(String surroundingtag) {
+		this.surroundingtag = surroundingtag;
+	}
+
+
+}
