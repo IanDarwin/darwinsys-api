@@ -7,6 +7,7 @@ import java.io.FilenameFilter;
  * the Visitor pattern to process each chosen file.
  * @author Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
+ * @see regress.io.CrawlerTest for a concrete usage example.
  */
 public class Crawler implements Checkpointer {
 	
