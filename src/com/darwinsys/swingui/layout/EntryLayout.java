@@ -1,4 +1,4 @@
-// package com.darwinsys.entrylayout;
+package com.darwinsys.swingui.layout;
 
 import java.awt.*;
 import java.util.*;
