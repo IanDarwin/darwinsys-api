@@ -22,13 +22,7 @@ public class EntryLayoutTest {
 		cp.add(new JTextField(20));
 		// cp.add(new JLabel("Monkey wrench in works"));
 		f.pack();
-		f.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				f.setVisible(false);
-				f.dispose();
-				System.exit(0);
-			}
-		});
+		f.addWindowListener(new WindowCloser(f, true));
 		f.setLocation(200, 200);
 		f.setVisible(true);
 	}
