@@ -20,17 +20,21 @@ public class FileProperties extends Properties {
 	protected String fileName = null;
 
 	/** Construct a FileProperties given a fileName. */
-	public FileProperties(String loadsaveFileName) {
+	public FileProperties(String loadsaveFileName)
+	throws IOException {
 		super();
 		fileName = loadsaveFileName;
+		load();
 	}
 
 	/** Construct a FileProperties given a fileName and 
 	 * a list of default properties.
 	 */
-	public FileProperties(String loadsaveFileName, Properties defProp) {
+	public FileProperties(String loadsaveFileName, Properties defProp)
+	throws IOException {
 		super(defProp);
 		fileName = loadsaveFileName;
+		load();
 	}
 
 	/** The InputStream for loading */
@@ -52,6 +56,6 @@ public class FileProperties extends Properties {
 		if (outStr==null) {
 			outStr = new FileOutputStream(fileName);
 		}
-		load(inStr);
+		store(outStr, "# Written by FileProperties.save() at " + new Date());
 	}
 }
