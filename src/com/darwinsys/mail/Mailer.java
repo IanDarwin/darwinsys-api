@@ -4,7 +4,7 @@ import javax.mail.*;
 import javax.mail.internet.*; 
 
 /** Mailer -- send an email message.
- * My old Sender class, recast as a Bean for use in JSP's.
+ * My old Sender class, recast as a Bean for use in JSP's & elsewhere.
  * @author Ian F. Darwin
  * @version $Id$
  */
@@ -141,7 +141,10 @@ public class Mailer {
 		verbose = v;
 	}
 
-	/** Check if all required fields have been set before sending */
+	/** Check if all required fields have been set before sending.
+	 * Normally called e.g., by a JSP before calling doSend.
+	 * Is also called by doSend for verification.
+	 */
 	public boolean isComplete() {
 		if (from == null    || from.length()==0 ||
 		    subject == null || subject.length()==0 ||
