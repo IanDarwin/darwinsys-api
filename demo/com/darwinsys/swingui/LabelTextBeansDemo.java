@@ -1,5 +1,7 @@
 import javax.swing.*;
 
+import com.darwinsys.util.LabelText;
+
 /**
  * Demo of LabelText JavaBean
  * @author  Ian Darwin, ian@darwinsys.com

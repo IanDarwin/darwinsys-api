@@ -32,11 +32,25 @@
 
 	<target name="jar" depends="compile">
 		<jar jarfile="${build}/${deploy.jar}" basedir="${build}"
-			includes="META-INF/*,com/**">
+			includes="META-INF/*,com/**.class">
 		</jar>
 	</target>
 
 	<target name="deploy" depends="jar">
-	<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
+		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
+	</target>
+
+	<target name="src-jar" depends="compile">
+		<jar jarfile="${build}/${src.jar}"
+			basedir="${build}" includes="META-INF/*,*/**.java">
+		</jar>
+	</target>
+
+	<target name="docs" depends="compile">
+		<!-- Rewrite this Make command as an Ant task.
+		javadoc -J-Xmx32m -d docs -version -author \
+		-overview overview.html \
+		-windowtitle "com.darwinsys.util - Java Cookbook Utilities" \
+		-->
 	</target>
 </project>
