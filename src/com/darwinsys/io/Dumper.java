@@ -28,7 +28,7 @@ public class DumpFile {
 
 	protected void dump() {
 		System.out.print(num);
-		System.out.print( );
+		System.out.print(' ');
 		System.out.print(txt);
 		num.setLength(0);
 		txt.setLength(0);
@@ -46,9 +46,8 @@ public class DumpFile {
 
 			while ((b=is.read()) != -1) {
 				num.append(b);
-				num.append( );
-				txt.append(Character.isPrintable((char)b)?
-					(char)b : .);
+				num.append(' ');
+				txt.append(Character.isLetterOrDigit((char)b) ? (char)b : '.');
 
 				if (++column%PERLINE == 0) {
 					dump();
