@@ -43,8 +43,8 @@ import java.util.Iterator;
         } else for (int i = go.getOptInd(); i < args.length; i++) {
             doFile(args[i]);
         }
- * </pre>
- * <ol><li>Newer model, which allows long-named options:
+ * </pre></li>
+ * <li>Newer model, which allows long-named options:
  * <pre>
         boolean numeric_option = false;
         boolean errs = false;
@@ -89,8 +89,8 @@ import java.util.Iterator;
         }
         System.out.println();
 	}
- * </pre>
- * </ul>
+ * </pre></li>
+ * </ol>
  * <p>
  * This is <em>not</em> threadsafe; it is expected to be used only from main().
  * <p>
