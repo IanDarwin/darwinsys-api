@@ -1,7 +1,7 @@
 package jabacart;
 
 /** Checked exception for failed insertions */
-public class InsertException extends java.lang.RuntimeException {
+public class InsertException extends DataBaseException {
 	public InsertException() {
 		super();
 	}

@@ -1,11 +1,13 @@
 package jabacart;
 
-public class DatabaseException extends RuntimeException {
-
-	public DatabaseException() {
+/** Checked exception DataBase Failures (so most of code does not
+ * need to import SQLException).
+ */
+public class DataBaseException extends RuntimeException {
+	public DataBaseException() {
 		super();
 	}
-	public DatabaseException(String message) {
-		super(message);
+	public DataBaseException(String msg) {
+		super(msg);
 	}
 }
