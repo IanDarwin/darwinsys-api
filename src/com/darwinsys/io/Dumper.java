@@ -8,7 +8,6 @@ import java.io.*;
 public class Dumper {
 
 	public static void main(String[] av) {
-System.out.println("DUMPING 4");
 		Dumper c = new Dumper();
 		switch(av.length) {
 		case 0: c.dump(System.in);
