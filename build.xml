@@ -92,7 +92,7 @@
 				<include name="com/darwinsys/**" />
 				<exclude name="regress/**"/>
 			</packageset>
-			<bottom><![CDATA[<i>Copyright &#169; 2000-2003 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
+			<bottom><![CDATA[<i>Copyright &#169; 1996-2004 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
 		</javadoc>
 		<copy file="html/index.html" todir="${build}/docs"/>
 	</target>
