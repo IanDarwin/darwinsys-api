@@ -14,17 +14,45 @@
 
 	<property name="deploy.dir" value="${user.home}/lib"/>
 
+	<!-- If Ant 1.5 barfs on this, just comment it out -->
+	<condition property="isMacOSX">
+		<and>
+			<os family="mac"/>
+			<os family="unix"/>
+		</and>
+	</condition>
+
 	<target name="init">
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
 		<mkdir dir="${build}"/> <!-- Ensure build directory exists -->
 	</target>
 
-	<target name="build" depends="init">
-		<javac srcdir="${src}" destdir="${build}"
+	<target name="build" depends="build-core,build-macosx,build-regress"/>
+
+	<target name="build-core" depends="init">
+		<javac destdir="${build}" srcdir="${src}"
 			classpath="${servletapi.jar}:${mail.jar}:${activation.jar}"
-			debug="true" deprecation="true" fork="false"
-			/>
-		<echo message="You must run 'ant jar' to update the Docs and Jar"/>
+			debug="true" deprecation="true" fork="false">
+			<exclude name="regress/**"/>
+			<exclude name="com/darwinsys/ant/**"/>
+			<exclude name="com/darwinsys/macosui/**"/>
+		</javac>
+	</target>
+
+	<target name="build-macosx" depends="init" if="isMacOSX">
+		<javac destdir="${build}" srcdir="${src}"
+			classpath="${build}"
+			debug="true" deprecation="true" fork="false">
+			<include name="com/darwinsys/macosui/**"/>
+		</javac>
+	</target>
+
+	<target name="build-regress" depends="init">
+		<javac destdir="${build}" srcdir="${src}"
+			classpath="${build}:${junit.jar}"
+			debug="true" deprecation="true" fork="false">
+			<include name="regress/**"/>
+		</javac>
 	</target>
 
 	<target name="dist" depends="jar,src-jar"/>
@@ -47,8 +75,12 @@
 		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
 	</target>
 
-	<target name="docs" depends="build">
+	<!-- Docs now depends on regress: no point waiting for javadoc
+	 *** if the tests don't run!
+	 -->
+	<target name="docs" depends="regress">
 		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
+			classpath="${build}:${darwinsys.jar}:${mail.jar}"
 			packagenames="com.darwinsys.*"
 			maxmemory="32m" 
 			windowtitle="com.darwinsys.* - Java Cookbook Utilities"
@@ -87,6 +119,10 @@
 	<!-- Some are pretty lame, re-do ALL with JUnit -->
 	<target name="regress" depends="build">
 		<!-- Tests using JUnit -->
+
+		<taskdef name="junit" 
+			classname="org/apache/tools/ant/taskdefs/optional/junit/JUnitTask"
+			classpath="${ant-junit.jar}:${junit.jar}"/>
 
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 				<classpath>
@@ -137,9 +173,6 @@
 			fork="yes"/>
 		<echo           message="RelativeLayoutTest"/>
 		<java className="regress.RelativeLayoutTest" classpath="build"
-			fork="yes"/>
-		<echo           message="TabLayoutTest"/>
-		<java className="regress.TabLayoutTest" classpath="build"
 			fork="yes"/>
 	</target>
 
