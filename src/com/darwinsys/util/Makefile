@@ -4,7 +4,8 @@
 #JAVAC=		javac
 JAVAC=		jikes +E
 
-SRC=		Debug.java FileProperties.java GetOpt.java MutableInteger.java
+SRC=		Debug.java FileIO.java FileProperties.java \
+			GetOpt.java MutableInteger.java
 
 all:		jar
 

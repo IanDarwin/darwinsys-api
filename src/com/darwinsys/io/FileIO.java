@@ -1,3 +1,5 @@
+package com.darwinsys.util;
+
 import java.io.*;
 
 /**
