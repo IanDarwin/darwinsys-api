@@ -36,7 +36,7 @@ public class ScaledNumberFormatTest extends TestCase {
 		for (int i = 0; i<sdata.length; i++) {
 			try {
 				Object o = sf.parseObject(sdata[i].string, null);
-				assert(((Long)o).longValue() == sdata[i].number);
+				assertTrue(((Long)o).longValue() == sdata[i].number);
 			} catch (Exception ex) {
 				System.out.println("ERROR IN PARSE CASE " + i);
 				System.out.println(sdata[i] + " threw " + ex);
