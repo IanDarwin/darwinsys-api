@@ -13,21 +13,29 @@ public class MutableInteger {
 	public MutableInteger(int i) {
 		value = i;
 	}
+	
+	public MutableInteger() {
+		this(0);
+	}
 
-	public void incr() {
+	public int incr() {
 		value++;
+		return value;
 	}
 
-	public void incr(int amt) {
+	public int incr(int amt) {
 		value += amt;
+		return value;
 	}
 
-	public void decr() {
+	public int decr() {
 		value--;
+		return value;
 	}
 
-	public void setValue(int i) {
+	public int setValue(int i) {
 		value = i;
+		return value;
 	}
 
 	public int getValue() {
