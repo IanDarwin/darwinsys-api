@@ -11,7 +11,7 @@ import java.util.*;
  * 
  * Rewritten in Java in January, 2001.
  *
- * @author Ian F. Darwin, ian@darwinsys.com
+ * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
 public class ScaledNumberFormat extends Format {

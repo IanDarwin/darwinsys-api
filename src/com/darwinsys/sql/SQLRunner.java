@@ -2,12 +2,13 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 import com.darwinsys.lang.*;	// for getopt
+import com.darwinsys.database.*;
 
 /** Class to run an SQL script, like psql(1), SQL*Plus, or similar programs.
  * Command line interface hard-codes sample driver and dburl,
  * expects script file name in argv[0].
  * Can be used from within servlet, etc.
- * @author	Ian Darwin, ian@darwinsys.com
+ * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class SQLRunner {
 
@@ -34,8 +35,7 @@ public class SQLRunner {
 		System.exit(i);
 	}
 
-	public static void main(String[] args)
-	throws ClassNotFoundException, SQLException, IOException {
+	public static void main(String[] args) {
 		String fileName = DEFAULT_FILE;
 		String config = "default";
 		GetOpt go = new GetOpt("f:c:");
@@ -57,18 +57,17 @@ public class SQLRunner {
 			}
 		}
 
-		Properties p = new Properties();
-		p.load(new FileInputStream(fileName));
-		db_driver = p.getProperty(config  + "." + "db.driver");
-		db_url = p.getProperty(config  + "." + "db.url");
-		db_user = p.getProperty(config  + "." + "db.user");
-		db_password = p.getProperty(config  + "." + "db.password");
-		if (db_driver == null || db_url == null) {
-			throw new IllegalStateException("Driver or URL null: " + config);
-		}
-
-
 		try {
+			Properties p = new Properties();
+			p.load(new FileInputStream(fileName));
+			db_driver = p.getProperty(config  + "." + "db.driver");
+			db_url = p.getProperty(config  + "." + "db.url");
+			db_user = p.getProperty(config  + "." + "db.user");
+			db_password = p.getProperty(config  + "." + "db.password");
+			if (db_driver == null || db_url == null) {
+				throw new IllegalStateException("Driver or URL null: " + config);
+			}
+
 			SQLRunner prog = new SQLRunner(db_driver, db_url,
 				db_user, db_password);
 			if (go.getOptInd() == args.length) {
@@ -79,12 +78,11 @@ public class SQLRunner {
 			}
 			prog.close();
 		} catch (SQLException ex) {
-			System.out.println("** ERROR **");
-			System.out.println(ex.toString());
-			System.exit(1);
-		} catch (Throwable ex) {
-			ex.printStackTrace();
-			System.exit(1);
+			throw new DataBaseException(ex.toString());
+		} catch (ClassNotFoundException ex) {
+			throw new DataBaseException(ex.toString());
+		} catch (IOException ex) {
+			throw new DataBaseException(ex.toString());
 		}
 		System.exit(0);
 	}
