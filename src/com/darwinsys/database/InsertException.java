@@ -1,6 +1,6 @@
-package jabacart;
+package com.darwinsys.database;
 
-/** Checked exception for failed insertions */
+/** Checked Exception for failed insertions */
 public class InsertException extends DataBaseException {
 	public InsertException() {
 		super();

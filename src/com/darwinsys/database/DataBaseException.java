@@ -1,6 +1,6 @@
-package jabacart;
+package com.darwinsys.database;
 
-/** Checked exception DataBase Failures (so most of code does not
+/** Checked Exception DataBase Failures (so most of code does not
  * need to import SQLException).
  */
 public class DataBaseException extends RuntimeException {
