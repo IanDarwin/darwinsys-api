@@ -71,6 +71,7 @@ public class FileProperties extends Properties {
 		if (outStr==null) {
 			outStr = new FileOutputStream(fileName);
 		}
+		// Get the superclass to do most of the work for us.
 		store(outStr, "# Written by FileProperties.save() at " + new Date());
 	}
 

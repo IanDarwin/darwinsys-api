@@ -13,7 +13,7 @@ import java.util.*;
  * Subclass should call getTable() and set any
  * desired Renderers or Editors.
  *
- * The class of things in the list must have a no-argument constructor.
+ * The class of things in the list must have a public, no-argument constructor.
  *
  * <BR>XXX TODO <ul>
  * <li>1. Implement MoveUp/MoveDown!
@@ -25,7 +25,7 @@ import java.util.*;
  * @version	$Id$
  * @copyright See file LEGAL_NOTICE.txt in the source directory.
  */
-public abstract class ArrayListTablePanel extends JPanel {
+public class ArrayListTablePanel extends JPanel {
 
 	/** The list of objects we are viewing */
 	protected ArrayList list;
