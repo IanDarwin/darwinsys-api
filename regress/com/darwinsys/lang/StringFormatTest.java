@@ -22,7 +22,7 @@ public class StringFormatTest extends TestCase {
 	public void testRight() {
 		assertEquals("JavaF",
 			new StringFormat(5, StringFormat.JUST_RIGHT).format(mesg));
-		assertEquals("  JavaFun",
+		assertEquals("   JavaFun",
 			new StringFormat(10, StringFormat.JUST_RIGHT).format(mesg));
 	}
 }
