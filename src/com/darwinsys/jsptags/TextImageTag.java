@@ -21,6 +21,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  * to it would be visible in the HTML (think about it...).
  */
 public class TextImageTag extends TagSupport {
+
+	private static final long serialVersionUID = 3257567299946231088L;
 	private static int W = 300, H = 200;
 	private static String imgDir = "imagetmp";
 	private String text;

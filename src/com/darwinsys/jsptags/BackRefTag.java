@@ -11,6 +11,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @version $Id$
  */
 public class BackRefTag extends TagSupport {
+	
+	private static final long serialVersionUID = 3689065140741748793L;
 	private final static String DEFAULT_LABEL = "Back";
 	private String surroundingtag;
 	private String label;

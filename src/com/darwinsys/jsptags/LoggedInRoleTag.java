@@ -9,6 +9,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * @version $Id$
  */
 public class LoggedInRoleTag extends BodyTagSupport {
+
+	private static final long serialVersionUID = 3617860767676774450L;
 	private String role;
 
 	/** Invoked at the start tag boundary; does the work. */

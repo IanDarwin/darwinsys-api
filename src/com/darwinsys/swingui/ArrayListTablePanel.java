@@ -25,6 +25,7 @@ import java.util.*;
  */
 public class ArrayListTablePanel extends JPanel {
 
+	private static final long serialVersionUID = 3688786964249719347L;
 	/** The list of objects we are viewing */
 	protected ArrayList list;
 	/** The kind of thing that is in the list. */

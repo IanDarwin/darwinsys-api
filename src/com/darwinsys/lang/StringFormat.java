@@ -6,6 +6,8 @@ import java.text.*;
  * maximum length with left, centre, or right justification.
  */
 public class StringFormat extends Format {
+
+	private static final long serialVersionUID = 3257571702421402417L;
 	/* Constant for left justification. */
 	public static final int JUST_LEFT = 'l';
 	/* Constant for centering. */

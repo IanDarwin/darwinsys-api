@@ -24,6 +24,8 @@ import javax.swing.event.DocumentListener;
  * @version $Id$
  */
 public class REDemo extends JPanel {
+
+	private static final long serialVersionUID = 3257563988576317490L;
 	protected Pattern pattern;
 	protected Matcher matcher;
 	protected JTextField patternTF, stringTF;

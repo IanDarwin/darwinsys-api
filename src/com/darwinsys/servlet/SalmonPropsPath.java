@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
  */
 public class SalmonPropsPath extends HttpServlet {
 	
+	private static final long serialVersionUID = 3978421403932571703L;
 	/** Where to look in the Context Properties for the salmon path.
 	 * This should be kept in sync with the property of the same name
 	 * in class com.salmonllc.properties.Props. It was copied here

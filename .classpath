@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/JavaCookJars"/>
+	<classpathentry kind="lib" path="/Users/ian/lib/junit.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

@@ -37,7 +37,7 @@ public class ConnectionUtil {
 	
 	/** Get a Connection for the given config name from a provided Properties */
 	public static Connection getConnection(Properties p,  String config) throws DataBaseException {
-		try {
+
 			String db_driver = p.getProperty(config  + "." + "DBDriver");
 			String db_url = p.getProperty(config  + "." + "DBURL");
 			String db_user = p.getProperty(config  + "." + "DBUser");
@@ -45,30 +45,30 @@ public class ConnectionUtil {
 			if (db_driver == null || db_url == null) {
 				throw new IllegalStateException("Driver or URL null: " + config);
 			}
-			return createConnection(db_driver, db_url, db_user, db_password);
+			return getConnection(db_driver, db_url, db_user, db_password);
+	}
+
+	public static Connection getConnection(String db_driver, String db_url,
+			String db_user, String db_password) throws DataBaseException {
+
+		try {
+			// Load the database driver
+			System.out.println("Loading driver " + db_driver);
+			Class.forName(db_driver);
+
+			System.out.println("Connecting to DB " + db_url);
+			return DriverManager.getConnection(db_url, db_user, db_password);
 		} catch (ClassNotFoundException ex) {
 			throw new DataBaseException(ex.toString());
-	
+
 		} catch (SQLException ex) {
 			throw new DataBaseException(ex.toString());
 		}
 	}
-
-	public static Connection createConnection(String db_driver, String db_url, 
-					String db_user, String db_password)
-			throws ClassNotFoundException, SQLException {
-
-
-		// Load the database driver
-		System.out.println("Loading driver " + db_driver);
-		Class.forName(db_driver);
-
-		System.out.println("Connecting to DB " + db_url);
-		return DriverManager.getConnection(
-			db_url, db_user, db_password);
-	}
 	
-	/** Returns the full path of the configuration file being used.
+	/**
+	 * Returns the full path of the configuration file being used.
+	 * 
 	 * @return Returns the configFileName.
 	 */
 	public static String getConfigFileName() {

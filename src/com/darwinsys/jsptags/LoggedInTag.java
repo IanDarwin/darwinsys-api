@@ -9,6 +9,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * @version $Id$
  */
 public class LoggedInTag extends BodyTagSupport {
+
+	private static final long serialVersionUID = 1028271617838262L;
 	private String userName;
 
 	/** Invoked at the tag start boundary; does the work */

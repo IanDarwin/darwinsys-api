@@ -4,6 +4,9 @@ package com.darwinsys.mail;
  * need to import javax.mail).
  */
 public class MailException extends RuntimeException {
+
+	private static final long serialVersionUID = 3979271360864661817L;
+
 	public MailException() {
 		super();
 	}
