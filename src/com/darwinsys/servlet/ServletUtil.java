@@ -1,3 +1,5 @@
+package com.darwinsys.util;
+
 import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
