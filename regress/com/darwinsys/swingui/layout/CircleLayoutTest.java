@@ -19,13 +19,7 @@ public class CircleLayoutTest {
 		cp.add(new JButton("Four"));
 		cp.add(new JButton("Five"));
 		f.pack();
-		f.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				f.setVisible(false);
-				f.dispose();
-				System.exit(0);
-			}
-		});
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocation(200, 200);
 		f.setVisible(true);
 	}

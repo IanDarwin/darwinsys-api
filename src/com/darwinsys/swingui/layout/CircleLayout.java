@@ -65,14 +65,18 @@ public class CircleLayout implements LayoutManager {
 		int PAD = 10;
 		int radius = centreX - PAD;
 
-		int i;
-		for (i=0; i<numComps; i++) {
+		int i, angle;
+		for (i=0, angle = degreesPer/2; i<numComps; i++, angle += degreesPer) {
 			Component c = components[i];
 			Dimension d = c.getPreferredSize();
-			int angle = i * degreesPer;
 			double angleRad = Math.toRadians(angle);
-			double tan = Math.tan(angleRad);
-			System.out.println(c.getClass() + " " + angle + ", " + tan);
+			int x = centreX + (int)(Math.tan(angleRad) * radius);
+			int y = centreY + (int)(Math.cos(angleRad) * radius);
+			System.out.println(c.getClass().getName() + 
+				" " + angle + ", " + angleRad +
+				", x=" + x + ", y=" + y);
+			c.setLocation(x,y);
+			c.repaint();
 		}
 	}
 }
