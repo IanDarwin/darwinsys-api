@@ -17,7 +17,7 @@ public class FileIOTest extends TestCase {
 	public FileIOTest() {
 		try {
 			PrintWriter out = new PrintWriter(new FileWriter(FILENAME));
-			out.println(MESSAGE);
+			out.print(MESSAGE);	// NOT println; FileToString doesn't handle.
 			out.close();
 		} catch (IOException ex) {
 			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
