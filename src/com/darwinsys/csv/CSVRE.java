@@ -51,7 +51,7 @@ public class CSVRE {
 		// For each field
 		for (int fieldNum = 0; fieldNum < m.groupCount(); fieldNum++) {
 			System.out.println(
-					"field[" + fieldNum + "] = `" + m.group(0) + "'");
+					"field[" + fieldNum + "] = `" + m.group(fieldNum) + "'");
 		}
 		return list;
 	}
