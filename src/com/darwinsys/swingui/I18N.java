@@ -47,8 +47,8 @@ public class I18N {
 		String dialogTag, String titleTag, int messageType) {
 			JOptionPane.showMessageDialog(
 				parent,
-				getString(b, dialogTag, "DIALOG TEXT MISSING " + dialogTag),
-				getString(b, titleTag, "DIALOG TITLE MISSING"  + titleTag),
+				getString(b, dialogTag, "DIALOG TEXT MISSING: " + dialogTag),
+				getString(b, titleTag, "DIALOG TITLE MISSING: "  + titleTag),
 				messageType);
 	}
 
