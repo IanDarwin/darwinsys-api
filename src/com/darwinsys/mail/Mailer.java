@@ -9,11 +9,17 @@ import javax.mail.internet.*;
  * @version $Id$
  */
 public class Mailer {
-	String from;
-	String subject;
-	String to;
-	String message;
-	boolean verbose;
+	/** The sender's email address */
+	protected String from;
+	/** The subject of the message. */
+	protected String subject;
+	/** The recipient ("To:"). */
+	protected String to;
+	/** The text of the message. */
+	protected String message;
+	/** The SMTP relay host */
+	protected String mailHost;
+	protected boolean verbose;
 
 	/** Get from */
 	public String getFrom() {
@@ -70,20 +76,19 @@ public class Mailer {
 		if (from == null    || from.length()==0 ||
 		    subject == null || subject.length()==0 ||
 		    to == null      || to.length()==0 ||
-		    message == null || message.length()==0 )
+		    message == null || message.length()==0 ||
+		    mailHost == null || mailHost.length()==0 )
 			return false;
 		return true;
 	}
 
-	/** Send the message.
-	 * @param mailHost The SMTP relay host
-	 * @param from The sender's email address
-	 * @param subject The subject of the message.
-	 * @param recip The recipient ("To:").
-	 * @param message The text of the message.
-	 */
-	public void send(String mailHost) throws MessagingException {
+	public void setMailhost(String s) {
+		mailHost = s;
+	}
 
+	/** Send the message.
+	 */
+	public void send() throws MessagingException {
 		/** Properties object used to pass props into the MAIL API */
 		Properties props = new Properties();
 		props.put("mail.smtp.host", mailHost);
