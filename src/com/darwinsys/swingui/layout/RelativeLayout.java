@@ -4,12 +4,12 @@ import java.awt.*;
 import java.util.*;
 
 /** 
- * RelativeLayout, a Relative Layout Manager for AWT.
+ * RelativeLayout, a Relative Layout Manager for Java J2SE.
  * Mainly for porting tired old code that uses x,y locations.
  * You really can't just assign x,y locations to components 
- * in Java AWT - it breaks badly when the user resizes (and you can
- * <EM>not</EM> mandate that the user can't resize you -- see any book
- * on UI design for *that* little discussion -- and can also look
+ * in Java Java J2SE - it breaks badly when the user resizes (and you can
+ * <em>not</em> mandate that the user can't resize you -- see any book
+ * on UI design for <em>that</em> little discussion -- and can also look
  * bad due to resolution independance.  Symantec Cafe 1.x, for example,
  * used to spit out unfortunate (and unmaintainable) code like this:
 <PRE>
