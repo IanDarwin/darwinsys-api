@@ -18,7 +18,7 @@ public class CSVFile {
 			Iterator e = csv.parse(line);
 			int i = 0;
 			while (e.hasNext()) 
-				System.out.println("fields[" + i++ + "] = `" +
+				System.out.println("field[" + i++ + "] = `" +
 					e.next() + "'");
 		}
 	}

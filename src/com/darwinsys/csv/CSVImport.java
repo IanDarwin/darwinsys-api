@@ -19,12 +19,12 @@ public class CSV {
 
 	public static final String SEP = ",";
 
-	/** Construct a CSV parser, with the default separator. */
+	/** Construct a CSV parser, with the default separator (`,'). */
 	public CSV() {
 		this(SEP);
 	}
 
-	/** Construct a CSV parser with the given separator. Must be
+	/** Construct a CSV parser with a given separator. Must be
 	 * exactly the string that is the separator; not a list of
 	 * separator characters!
 	 */
@@ -71,15 +71,26 @@ public class CSV {
 	{
 		int j;
 
+		// Loop through input s, handling escaped quotes
+		// and looking for the ending " or , or end of line.
+
 		for (j = i; j < s.length(); j++) {
 			// found end of field if find unescaped quote.
 			if (s.charAt(j) == '"' && s.charAt(j-1) != '\\') {
 				int k = s.indexOf(fieldsep, j);
-				// System.out.println("j="+j+", k="+k);
-				if (k == -1)	// no separator found after this field
+				// System.out.println("j = "+j+", k = "+k);
+				if (k == -1) {	// no separator found after this field
 					k += s.length();
-				for (k -= j; k-- > 0; )
-					sb.append(s.charAt(j++));
+					for (k -= j; k-- > 0; ) {
+						sb.append(s.charAt(j++));
+					}
+				} else {
+					--k;	// omit quote from copy
+					for (k -= j; k-- > 0; ) {
+						sb.append(s.charAt(j++));
+					}
+					++j;	// skip over quote
+				}
 				break;
 			}
 			sb.append(s.charAt(j));	// regular character.
@@ -93,7 +104,7 @@ public class CSV {
 		int j;
 
 		j = s.indexOf(fieldsep, i); // look for separator
-		// System.out.println("i="+i+", j="+j);
+		// System.out.println("i = "+i+", j = "+j);
 		if (j == -1) {               	// none found
 			fld.append(s.substring(i));
 			return s.length();
