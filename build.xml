@@ -3,11 +3,7 @@
 	<!-- $Id$ -->
 
 	<!-- dependancies -->
-	<property name="mail.jar" value="${user.home}/classes/ext/mail.jar"/>
-	<property name="activation.jar"
-		value="${user.home}/classes/ext/activation.jar"/>
-	<property name="servletapi.jar"
-		value="${user.home}/classes/ext/servlet.jar"/>
+	<property file="../build.properties"/>
 
 	<!-- other properties -->
 	<property name="src" value="."/>

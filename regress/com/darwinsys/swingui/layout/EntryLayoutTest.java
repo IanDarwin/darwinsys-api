@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import com.darwinsys.util.WindowCloser;
+
 /** Testbed for EntryLayout layout manager.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$

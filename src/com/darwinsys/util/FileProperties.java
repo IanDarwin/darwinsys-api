@@ -48,7 +48,7 @@ public class FileProperties extends Properties {
 	/** Load the properties from the saved filename.
 	 * If that fails, try again, tacking on the .properties extension
 	 */
-	public void load() throws IOException {
+	public Properties load() throws IOException {
 		try {
 			if (inStr==null) {
 				inStr = new FileInputStream(fileName);
@@ -64,9 +64,12 @@ public class FileProperties extends Properties {
 		}
 		// now message the superclass code to load the file.
 		load(inStr);
+
+		// Return "this" for convenience
+		return this;
 	}
 
-	/** Save the properties for later loading. */
+	/** Save the properties to disk for later loading. */
 	public void save() throws IOException {
 		if (outStr==null) {
 			outStr = new FileOutputStream(fileName);
