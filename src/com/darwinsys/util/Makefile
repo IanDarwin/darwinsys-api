@@ -6,7 +6,7 @@ JAVAC=		jikes +E
 
 FMT_SRC=	QuickTimeFormat.java StringFormat.java
 GUI_SRC=	ArrayListTableModel.java ArrayListTablePanel.java \
-			SimpleHelp.java UtilGUI.java WindowCloser.java 
+			I18N.java SimpleHelp.java UtilGUI.java WindowCloser.java 
 IO_SRC=		FileIO.java FileProperties.java
 STR_SRC=	StrSubs.java 
 MISC_SRC=	Debug.java GetOpt.java Mailer.java MutableInteger.java
