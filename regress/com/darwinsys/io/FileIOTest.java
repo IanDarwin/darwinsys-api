@@ -9,9 +9,20 @@ import java.io.*;
 public class FileIOTest extends TestCase {
 	/** Test File name. This file is created in build.xml */
 	public static final String FILENAME="fileiotest.dat";
-	/** Test string. Must agree with 'message' in build.xml! */
+	/** Test string. */
 	public static finale String MESSAGE=
-		"This one-line file is created by com.darwinsys/build.xml.";
+		"The quick brown fox jumps over the lazy dog.";
+
+	/** Constructor sets up initial state data file state for testing */
+	public FileIOTest() {
+		try {
+			PrintWriter out = new PrintWriter(new FileWriter(FILENAME));
+			out.println(MESSAGE);
+			out.close();
+		} catch (IOException ex) {
+			throw new IllegalStateException("FileIOTest: can't create " + fileName);
+		}
+	}
 
 	public void testReaderToString() {
 		try {

@@ -83,16 +83,10 @@
 		</exec>
 	</target>
 
-	<!-- Don't change this w/o changing FileIOTest.java -->
-	<property name="fileiotest.dat" value="fileiotest.dat"/>
-
 	<!-- Simple Regression Tests -->
 	<!-- Some are pretty lame, re-do ALL with JUnit -->
 	<target name="regress" depends="build">
 		<!-- Tests using JUnit -->
-		<!-- Don't change this w/o changing FileIOTest.java -->
-		<echo file="${fileiotest.dat}" 
-		message="This one-line file is created by com.darwinsys/build.xml."/>
 
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 				<classpath>
@@ -107,10 +101,6 @@
 				<test name="regress.StringFormatTest"/>
 				<test name="regress.StringUtilTest"/>
 		</junit>
-		<!-- check up on FileIOTest -->
-		<checksum file="${fileiotest.dat}" property="sum"/>
-		<checksum file="${fileiotest.dat}.bak" property="${sum}"
-			verifyProperty="isEqual"/>
 
 	</target>
 
