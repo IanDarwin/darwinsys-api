@@ -12,18 +12,18 @@ public class ExecAndPrint {
 	protected static Runtime r = Runtime.getRuntime();
 
 	/** Run the command given as a String, printing its output to System.out */
-	protected static int run(String cmd) throws IOException { 
+	public static int run(String cmd) throws IOException { 
 		return run(cmd, new OutputStreamWriter(System.out));
 	}
 
 	/** Run the command given as a String, print its output to "out" */
-	protected static int run(String cmd, Writer out) throws IOException { 
+	public static int run(String cmd, Writer out) throws IOException { 
 
 		String line;
 		
 		Process p = r.exec(cmd);
 
-		FileIO.copyFile(new InputStreamReader(p.getInputStream()), out, false);
+		FileIO.copyFile(new InputStreamReader(p.getInputStream()), out, true);
 		try {
 			p.waitFor();	// wait for process to complete
 		} catch (InterruptedException e) {
@@ -33,18 +33,18 @@ public class ExecAndPrint {
 	}
 
 	/** Run the command given as a String[], print its output to System.out */
-	protected static int run(String[] cmd) throws IOException { 
+	public static int run(String[] cmd) throws IOException { 
 		return run(cmd, new OutputStreamWriter(System.out));
 	}
 
 	/** Run the command given as a String[], print its output to "out" */
-	protected static int run(String[] cmd, Writer out) throws IOException { 
+	public static int run(String[] cmd, Writer out) throws IOException { 
 
 		String line;
 		
 		Process p = r.exec(cmd);
 
-		FileIO.copyFile(new InputStreamReader(p.getInputStream()), out, false);
+		FileIO.copyFile(new InputStreamReader(p.getInputStream()), out, true);
 
 		try {
 			p.waitFor();	// wait for process to complete

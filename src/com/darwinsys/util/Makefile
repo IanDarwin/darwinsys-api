@@ -14,11 +14,14 @@ SRC=		$(FMT_SRC) $(GUI_SRC) $(IO_SRC) $(STR_SRC) $(MISC_SRC)
 
 JAR=		com-darwinsys-util.jar
 
-all build:	$(JAR) docs
+all build:	$(JAR)
 
-$(JAR):	$(SRC) doc
+# The explicit dependancy upon "docs" is commented out so I don't have
+# to wait for javadoc whenever I tweak a file. You should probably
+# remove the '#' on the following line:
+$(JAR):	$(SRC) # docs
 		$(JAVAC) -d . $(SRC)
-		jar -cfm $(JAR) manifest.stub com doc
+		jar -cfm $(JAR) manifest.stub com docs
 
 doc docs:	docs/index.html
 docs/index.html: $(SRC)
