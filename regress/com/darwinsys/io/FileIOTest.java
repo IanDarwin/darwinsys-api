@@ -20,7 +20,7 @@ public class FileIOTest extends TestCase {
 			out.println(MESSAGE);
 			out.close();
 		} catch (IOException ex) {
-			throw new IllegalStateException("FileIOTest: can't create " + fileName);
+			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
 		}
 	}
 
