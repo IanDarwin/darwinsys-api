@@ -27,6 +27,7 @@ public class CircleLayout implements LayoutManager {
 	/** Construct a CircleLayout with default values.
 	 */
 	public CircleLayout() {
+		// Nothing to do
 	}
 
 	/** Adds the specified component with the specified constraint 

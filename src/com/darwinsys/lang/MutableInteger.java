@@ -10,9 +10,6 @@ package com.darwinsys.lang;
 public class MutableInteger {
 	private int value = 0;
 
-	public MutableInteger() {
-	}
-
 	public MutableInteger(int i) {
 		value = i;
 	}

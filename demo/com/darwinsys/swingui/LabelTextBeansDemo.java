@@ -102,7 +102,7 @@ public class LabelTextBeansDemo extends javax.swing.JFrame {
 
 
   public static void main(java.lang.String[] args) {
-    new LabelTextBeansDemo().show();
+    new LabelTextBeansDemo().setVisible(true);
   }
 
 }

@@ -100,5 +100,6 @@ public class FileProperties extends Properties {
 	 * @deprecated No longer needed.
 	 */
 	public void close() {
+		// Nothing to do
 	}
 }

@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 
 /** MkAccessors is a utility to make a series of Java "accessors"
  * (set/get methods a la JavaBeans pattern). 
+ * You're probably better off using an IDE!
+ * <p>
  * Primarily meant for command-line use, but can be used from within
  * other tools (note that all methods are static).
  * I use it (with a shell script mkAccessors, which is
@@ -18,8 +20,9 @@ import java.io.PrintWriter;
  */
 public class MkAccessors {
 
-	/** Private constructor, since no instances are necessary */
+	/** Private constructor, since no instances are allowed */
 	private MkAccessors() {
+		// Null
 	}
 
 	/** make an accessor for each field named in the command line */

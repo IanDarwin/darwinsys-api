@@ -10,7 +10,9 @@ import java.io.*;
 public class FileIO {
 
 	/** Nobody should need to create an instance; all methods are static */
-	private FileIO() { }
+	private FileIO() {
+		// Nothing to do
+	}
 
     /** Copy a file from one filename to another */
     public static void copyFile(String inName, String outName)

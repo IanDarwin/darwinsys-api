@@ -13,5 +13,7 @@ public class ArrayListTableDatum {
 		name = n; value = v;
 	}
 	/** public no-arg constructor, req'd for Add operation */
-	public ArrayListTableDatum() { }
+	public ArrayListTableDatum() {
+		// Nothing
+	}
 }

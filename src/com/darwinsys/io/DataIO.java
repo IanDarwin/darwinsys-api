@@ -10,7 +10,9 @@ import java.io.*;
 public class DataIO {
 
 	/** Nobody should need to create an instance; all methods are static */
-	private DataIO() { }
+	private DataIO() { 
+		// nothing to do
+	}
 
     /** Read an unsigned int from a DataInput
 	 * @param is DataInput (DataInputStream, RandomAccessFile, etc).

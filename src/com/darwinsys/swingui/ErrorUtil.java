@@ -43,6 +43,7 @@ public class ErrorUtil {
 
 	/** Public no-arg constructor for those who like simple instantiation. */
 	public ErrorUtil() {
+		// Nothing to do
 	}
 
 	/** Convenience routine for use with AWT's dispatch thread. Usage:
