@@ -1,4 +1,4 @@
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -9,28 +9,33 @@ import java.sql.SQLException;
  */
 class ResultsDecoratorText extends ResultsDecorator {
 	
-	ResultsDecoratorText(PrintWriter out) {
-		super(out);
+	ResultsDecoratorText(ResultsDecoratorPrinter pt) {
+		super(pt);
 	}
 	
-	public void write(ResultSet rs) throws SQLException {
+	public void write(ResultSet rs) throws IOException,SQLException {
 		ResultSetMetaData md = rs.getMetaData();
 		int cols = md.getColumnCount();
 		for (int i = 1; i <= cols; i++) {
-			out.print(md.getColumnName(i) + "\t");
+			print(md.getColumnName(i) + "\t");
 		}
-		out.println();
+		println();
 		while (rs.next()) {
 			for (int i = 1; i <= cols; i++) {
-				out.print(rs.getString(i) + "\t");
+				print(rs.getString(i) + "\t");
 			}
-			out.println();
+			println();
 		}
-		out.flush();
 	}
 
-	void write(int rowCount) throws SQLException {
-		out.println("OK: " + rowCount);
-		out.flush();
+	void write(int rowCount) throws IOException {
+		println("OK: " + rowCount);
+	}
+
+	/* (non-Javadoc)
+	 * @see ResultsDecorator#getName()
+	 */
+	String getName() {
+		return "Plain text";
 	}
 }

@@ -1,4 +1,4 @@
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -6,11 +6,27 @@ import java.sql.SQLException;
  * @version $Id$
  */
 public abstract class ResultsDecorator {
-	ResultSet rs;
-	PrintWriter out;
-	ResultsDecorator(PrintWriter out){
-		this.out = out;
+	ResultsDecoratorPrinter parent;
+
+	ResultsDecorator(ResultsDecoratorPrinter wr){
+		this.parent = wr;
 	}
-	abstract void write(ResultSet rs) throws SQLException;
-	abstract void write(int rowCount) throws SQLException;
+	/** Print the name of this Decorator's output format */
+	abstract String getName();
+	
+	/** Print the contents of a ResultSet */
+	abstract void write(ResultSet rs) throws IOException, SQLException;
+	
+	/** Print the results of an operation as a Count */
+	abstract void write(int rowCount) throws IOException;
+	
+	void println(String line) throws IOException {
+		parent.println(line);
+	}
+	void println() throws IOException {
+		parent.println();
+	}
+	void print(String lineSeg) throws IOException {
+		parent.print(lineSeg);
+	}
 }

@@ -1,4 +1,4 @@
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -7,38 +7,44 @@ import java.sql.SQLException;
  */
 class ResultsDecoratorHTML extends ResultsDecorator {
 	
-	ResultsDecoratorHTML(PrintWriter out) {
+	ResultsDecoratorHTML(ResultsDecoratorPrinter out) {
 		super(out);
 	}
 	
-	public void write(ResultSet rs) throws SQLException {
+	public void write(ResultSet rs) throws IOException, SQLException {
 
 		ResultSetMetaData md = rs.getMetaData();
 		int count = md.getColumnCount();
-		out.println("<table border=1>");
-		out.print("<tr>");
+		println("<table border=1>");
+		print("<tr>");
 		for (int i=1; i<=count; i++) {
-			out.print("<th>");
-			out.print(md.getColumnName(i));
+			print("<th>");
+			print(md.getColumnLabel(i));
 		}
-		out.println("</tr>");
+		println("</tr>");
 		while (rs.next()) {
-			out.print("<tr>");
+			print("<tr>");
 			for (int i=1; i<=count; i++) {
-				out.print("<td>");
-				out.print(rs.getString(i));
+				print("<td>");
+				print(rs.getString(i));
 			}
-			out.println("</tr>");
+			println("</tr>");
 		}
-		out.println("</table>");
-		out.flush();
+		println("</table>");
 	}
 
 	/* (non-Javadoc)
 	 * @see ResultSetDecorator#write(int)
 	 */
-	void write(int updateCount) throws SQLException {
-		out.println("<br/>RowCount: updateCount = <b>" + 
+	void write(int updateCount) throws IOException {
+		println("<p>RowCount: updateCount = <b>" + 
 					updateCount + "</p>");
+	}
+
+	/** Return a printable name for this decorator
+	 * @see ResultsDecorator#getName()
+	 */
+	String getName() {
+		return "HTML";
 	}
 }

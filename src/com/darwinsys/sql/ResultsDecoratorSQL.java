@@ -1,19 +1,19 @@
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.Types;
+import java.io.*;
+import java.sql.*;
 
 /**
  * Print an SQL ResultSet in SQL-import format.
- * TODO: Don't quote numeric fields.
- * TODO: Check all escaped characters needed! Test on PGSQL and DB2 at least...
+ * TODO: check all escaped characters needed! Test on PGSQL and DB2 at least...
  * @version $Id$
  */
 public class ResultsDecoratorSQL extends ResultsDecorator {
-	ResultsDecoratorSQL(PrintWriter out) {
+	ResultsDecoratorSQL(ResultsDecoratorPrinter out) {
 		super(out);
 	}
-	public void write(ResultSet rs) throws SQLException {
+	public void write(ResultSet rs) throws IOException, SQLException {
 		ResultSetMetaData md = rs.getMetaData();
 		// This assumes you're not using a Join!!
 		String tableName = md.getTableName(1);
@@ -28,26 +28,43 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 		sb.append(") values (");
 		String insertCommand = sb.toString();
 		while (rs.next()) {
-			out.println(insertCommand);		
+			println(insertCommand);		
 			for (int i = 1; i <= cols; i++) {
 				String tmp = rs.getString(i);
 				if (rs.wasNull()) {
-					out.print("null");
+					print("null");
 				} else {
-					tmp = tmp.replaceAll("'", "''");
-					out.print("'" + tmp + "'");
+					int type = md.getColumnType(i);
+					// Don't quote numeric types; quote all others for now.
+					switch (type) {
+						case Types.BIGINT:
+						case Types.DECIMAL:
+						case Types.DOUBLE:
+						case Types.FLOAT:
+						case Types.INTEGER:
+							print(tmp);
+							break;
+						default:	
+							tmp = tmp.replaceAll("'", "''");
+							print("'" + tmp + "'");
+					}
 				}
 				if (i != cols) {
-					out.print( ", ");
+					print( ", ");
 				}
 			}
-			out.println(");");
+			println(");");
 		}
-		out.flush();
 	}
 
-	void write(int rowCount) throws SQLException {
-		System.out.println("RowCount: " + rowCount);
+	void write(int rowCount) throws IOException {
+		println("RowCount: " + rowCount);
 		
+	}
+	/* (non-Javadoc)
+	 * @see ResultsDecorator#getName()
+	 */
+	String getName() {
+		return "SQL";
 	}
 }
