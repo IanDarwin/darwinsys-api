@@ -9,12 +9,14 @@ import java.util.*;
  * Password: _______________
  * </PRE>
  * Basically two (or more) columns of different, but constant, widths.
+ * <b>Note: all columns must be the same height!</b>.
  * <P>
  * Construct instances by passing an array of the column width percentages
  * (as doubles, fractions from 0.1 to 0.9, so 40%,60% would be {0.4, 0.6}).
  * The length of this array uniquely determines the number of columns.
  * Columns are forced to be the relevant widths.
- * As with GridLayout, the number of items added <B>must</B> be an even
+ * <b>Note:</b> As with GridLayout, the number of items 
+ * added <B>must</B> be an even
  * multiple of the number of columns. If not, exceptions may be thrown!
  * @author Ian F. Darwin, ian@darwinsys.com
  * @version $Id$
