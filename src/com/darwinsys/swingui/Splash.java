@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.swingui;
 
 import javax.swing.*;
 import javax.swing.border.*;

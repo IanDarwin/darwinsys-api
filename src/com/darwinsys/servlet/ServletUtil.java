@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.servlet;
 
 import java.sql.*;
 import javax.servlet.*;

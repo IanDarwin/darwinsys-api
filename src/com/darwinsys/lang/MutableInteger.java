@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.lang;
 
 /** A MutableInteger is like an Integer but mutable, to avoid the
  * excess object creation involved in 

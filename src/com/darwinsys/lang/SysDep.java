@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.lang;
 
 /** Some things that are System Dependent.
  * All methods are static, like java.lang.Math.

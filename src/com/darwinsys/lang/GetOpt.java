@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.lang;
 
 import java.util.Map;
 import java.util.Properties;

@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.swingui;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.io;
 
 import java.io.*;
 

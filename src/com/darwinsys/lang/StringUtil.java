@@ -1,4 +1,4 @@
-package com.darwinsys.util;
+package com.darwinsys.lang;
 
 /** Miscellaneous string utilities
  * XX I18N
