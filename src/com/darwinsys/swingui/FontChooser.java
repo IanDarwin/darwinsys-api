@@ -33,7 +33,7 @@ public class FontChooser extends JDialog {
 	/** The font name chooser */
 	protected List fNameChoice;
 	/** The font size chooser */
-	protected List fSizeChoice;
+	protected List fontSizeChoice;
 	/** The bold and italic choosers */
 	Checkbox bold, italic;
 
@@ -77,12 +77,12 @@ public class FontChooser extends JDialog {
 			fNameChoice.add(fontList[i]);
 		fNameChoice.select(0);
 
-		fSizeChoice = new List(8);
-		top.add(fSizeChoice);
+		fontSizeChoice = new List(8);
+		top.add(fontSizeChoice);
 
 		for (int i=0; i<fontSizes.length; i++)
-			fSizeChoice.add(fontSizes[i]);
-		fSizeChoice.select(DEFAULT_SIZE);
+			fontSizeChoice.add(fontSizes[i]);
+		fontSizeChoice.select(DEFAULT_SIZE);
 
 		cp.add(BorderLayout.NORTH, top);
 
@@ -145,7 +145,7 @@ public class FontChooser extends JDialog {
 	 */
 	protected void previewFont() {
 		resultName = fNameChoice.getSelectedItem();
-		String resultSizeName = fSizeChoice.getSelectedItem();
+		String resultSizeName = fontSizeChoice.getSelectedItem();
 		int resultSize = Integer.parseInt(resultSizeName);
 		isBold = bold.getState();
 		isItalic = italic.getState();
