@@ -21,11 +21,20 @@ public class ConnectionUtil {
 	private static String configFileName =
 		System.getProperty("user.home") + File.separator + DEFAULT_NAME;
 
-	/** Get a Connection from a config. */
+	/** Get a Connection for the given config using the default or set property file name */
 	public static Connection getConnection(String config) throws DataBaseException {
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream(configFileName));
+			return getConnection(p, config);
+		} catch (IOException ex) {
+			throw new DataBaseException(ex.toString());
+		}
+	}
+	
+	/** Get a Connection for the given config name from a provided Properties */
+	public static Connection getConnection(Properties p,  String config) throws DataBaseException {
+		try {
 			String db_driver = p.getProperty(config  + "." + "DBDriver");
 			String db_url = p.getProperty(config  + "." + "DBURL");
 			String db_user = p.getProperty(config  + "." + "DBUser");
@@ -36,8 +45,7 @@ public class ConnectionUtil {
 			return createConnection(db_driver, db_url, db_user, db_password);
 		} catch (ClassNotFoundException ex) {
 			throw new DataBaseException(ex.toString());
-		} catch (IOException ex) {
-			throw new DataBaseException(ex.toString());
+	
 		} catch (SQLException ex) {
 			throw new DataBaseException(ex.toString());
 		}
