@@ -35,6 +35,8 @@ public class GetOpt {
 	/** Return one argument.
 	 */
 	public char getopt(String argv[]) {
+		if (optind == (argv.length))
+			done = true;
 		if (done)
 			return 0;
 		String thisArg = argv[optind++];
