@@ -18,6 +18,7 @@ public class RelativeLayoutTest extends Frame {
 	 */
 	public static void main(String[] av) {
 		RelativeLayoutTest f = new RelativeLayoutTest();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
 
