@@ -41,19 +41,17 @@ public class CSVRE {
 		}
 	}
 	
+	/** Parse one line. Overkill for this program, but factored out
+	 * to be similar to original CSV class.
+	 */
 	public List parse(String line) {
 		List list = new ArrayList();
 		Matcher m = csvRE.matcher(line);
+		m.matches();
 		// For each field
-		for (int fieldNum = 0; m.matches(); fieldNum++) {
-
-			// Print the field (0=null, 1=quoted, 3=unquoted).
-			int n = m.groupCount();
-			if (n == 0) // null field
-				System.out.println("field[" + fieldNum + "] = `'");
-			else
-				System.out.println(
-					"field[" + fieldNum + "] = `" + m.group(n) + "'");
+		for (int fieldNum = 0; fieldNum < m.groupCount(); fieldNum++) {
+			System.out.println(
+					"field[" + fieldNum + "] = `" + m.group(0) + "'");
 		}
 		return list;
 	}
