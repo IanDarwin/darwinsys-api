@@ -6,7 +6,17 @@ import java.util.*;
  * @version $Id$
  */
 public class CircleLayout implements LayoutManager {
-	/** Construct a CircleLayout 
+
+	/** True to start at 12:00 position; false to start 1/2 way */
+	boolean startAtTop = false;
+
+	/** Construct a CircleLayout
+	 */
+	public CircleLayout(boolean startAtTop) {
+		this.startAtTop = startAtTop;
+	}
+
+	/** Construct a CircleLayout with default valuse.
 	 */
 	public CircleLayout() {
 	}
@@ -15,7 +25,8 @@ public class CircleLayout implements LayoutManager {
 	 * to the layout; required by LayoutManager but not used.
 	 */
 	public void addLayoutComponent(String name, Component comp) {
-		// nothing to do
+		throw new IllegalArgumentException(
+			"Don't use add(component, constraint) with CircleLayout");
 	}
 
 	/** Removes the specified component from the layout;
@@ -57,26 +68,28 @@ public class CircleLayout implements LayoutManager {
 		Component[] components = parent.getComponents();
 		int numComps = components.length;
 		points = new Point[numComps];
-		Dimension contSize = parent.getSize();
+		Dimension totalSize = parent.getSize();
+
+		int dx = totalSize.width / 2;
+		int dy = totalSize.height / 2;
+		int PAD = 10;
+		int radius = dx - PAD;
+
 
 		int degreesPer = 360 / numComps;
-		int centreX = contSize.width / 2;
-		int centreY = contSize.height / 2;
-		int PAD = 10;
-		int radius = centreX - PAD;
+		int angle = startAtTop ? 0 : degreesPer/2;
 
-		int i, angle;
-		for (i=0, angle = degreesPer/2; i<numComps; i++, angle += degreesPer) {
+		for (int i=0; i<numComps; i++, angle += degreesPer) {
 			Component c = components[i];
 			Dimension d = c.getPreferredSize();
-			double angleRad = Math.toRadians(angle);
-			int x = centreX + (int)(Math.tan(angleRad) * radius);
-			int y = centreY + (int)(Math.cos(angleRad) * radius);
+			double theta = Math.toRadians(angle);
+			int x = (int)(Math.sin(theta) * radius);
+			int y = (int)(Math.cos(theta) * radius);
 			System.out.println(c.getClass().getName() + 
-				" " + angle + ", " + angleRad +
+				" " + angle + ", " + theta +
 				", x=" + x + ", y=" + y);
-			c.setLocation(x,y);
-			c.repaint();
+			c.setBounds(dx + x + (d.width/2), dy + y + (d.height/2),
+				d.width, d.height);
 		}
 	}
 }
