@@ -7,7 +7,7 @@ import java.awt.event.*;
  * follow them up with setVisible(false), dispose(), and optionally
  * ends (it all) with a System.exit(0).
  * <p>
- * @deprecated Use JFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE).
+ * @deprecated For simple closing, just use JFrame.setDefaultCloseOperation().
  * @author Ian F. Darwin
  * @version $Id$
  */

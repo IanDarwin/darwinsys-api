@@ -6,8 +6,8 @@
 	<property file="../build.properties"/>
 
 	<!-- other properties -->
-	<property name="src" value="."/>
-	<property name="build" value="./build"/>
+	<property name="src" value="src"/>
+	<property name="build" value="build"/>
 
 	<property name="obj.jar" value="com-darwinsys-util.jar"/>
 	<property name="src.jar" value="com-darwinsys-util-src.jar"/>
@@ -42,14 +42,14 @@
 	</target>
 
 	<target name="docs" depends="build">
-		<javadoc sourcepath="com/darwinsys/util" destdir="docs/api"
+		<javadoc sourcepath="${src}" destdir="docs/api"
 			packagenames="com.darwinsys.*"
 			maxmemory="32m" 
 			windowtitle="com.darwinsys.util - Java Cookbook Utilities"
 			Version="true" Author="true" Use="true"
-			Overview="com/darwinsys/util/overview.html"
+			Overview="${src}/com/darwinsys/util/overview.html"
 			>
-			<packageset dir="." defaultexcludes="yes">
+			<packageset dir="${src}" defaultexcludes="yes">
 				<include name="com/darwinsys/util/**" />
 				<exclude name="regress/**"/>
 			</packageset>
