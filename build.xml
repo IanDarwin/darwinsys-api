@@ -131,12 +131,7 @@
 						<pathelement location="${junit.jar}"/>
 				</classpath>
 				<formatter type="plain"/>
-				<test name="regress.ArrayIteratorTest"/>
-				<test name="regress.FileIOTest"/>
-				<test name="regress.GetOptTest"/>
-				<test name="regress.IndexListTest"/>
-				<test name="regress.StringFormatTest"/>
-				<test name="regress.StringUtilTest"/>
+				<test name="regress.AllTestsNonGUI"/>
 		</junit>
 
 	</target>
