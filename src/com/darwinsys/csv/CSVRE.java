@@ -21,7 +21,7 @@ public class CSVRE {
 
 	public static void main(String[] argv) throws IOException {
 		System.out.println(CSV_PATTERN);
-		new CSVRE().process();
+		new CSVRE().process(new BufferedReader(new InputStreamReader(System.in)));
 	}
 	
 	public CSVRE() {
@@ -30,14 +30,11 @@ public class CSVRE {
 		csvRE = Pattern.compile(CSV_PATTERN);
 	}
 	
-	public void process() throws IOException {
+	public void process(BufferedReader in) throws IOException {
 		String line;
 
-		BufferedReader is =
-			new BufferedReader(new InputStreamReader(System.in));
-
 		// For each line...
-		while ((line = is.readLine()) != null) {
+		while ((line = in.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
 			List l = parse(line);
 			System.out.println("Found " + l.size() + " items.");
