@@ -5,7 +5,6 @@
    <jspversion>1.1</jspversion>
    <shortname>TCPWebDev TLD</shortname>
    <info>TCPWebDev TLD</info>
-
  
    	<!-- backref tag generates a "Back" tag for e.g., use in help pages -->
    	<tag>
@@ -35,7 +34,7 @@
 	    <bodycontent>JSP</bodycontent>
 	</tag>
 	  
-    <!-- loggedinuser tag skips body if you're not logged in as "user" -->
+    <!-- inrole tag skips body if you're not logged in as user in "role" -->
    	<tag>
         <name>inrole</name>
         <tagclass>com.darwinsys.jsptags.LoggedInRoleTag</tagclass>
@@ -48,7 +47,7 @@
 	        <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
-    
+
     <!-- loggedinrole tag skips body if user is not in role -->
    	<tag>
         <name>inrole</name>
@@ -58,6 +57,20 @@
 		<!-- role is the role to print, e.g., "admin" -->
         <attribute>
 	        <name>role</name>
+	        <required>true</required>
+	        <!-- should not need twizzling at runtime -->
+	        <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+    
+    <!-- textimage tag outputs an image for the "text" attribute -->
+   	<tag>
+        <name>textimage</name>
+        <tagclass>com.darwinsys.jsptags.TextImageTag</tagclass>
+	    <bodycontent>JSP</bodycontent>
+	    
+        <attribute>
+	        <name>text</name>
 	        <required>true</required>
 	        <!-- should not need twizzling at runtime -->
 	        <rtexprvalue>false</rtexprvalue>
