@@ -1,10 +1,10 @@
-import com.sun.java.swing.*;
-import com.sun.java.swing.event.*;
-import com.sun.java.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
 import java.io.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.text.*;
 
 /*
  * Simple Help Frame based on JFC JEditorPane
