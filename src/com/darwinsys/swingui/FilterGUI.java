@@ -7,6 +7,7 @@ import javax.swing.*;
  * buttons.
  * <p>
  * TODO: fix balancing (have main pack() then call adjustWidths()?).
+ * Set single-selection mode on the scrolling lists.
  * And find a more standard name for this thing.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
