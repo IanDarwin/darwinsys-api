@@ -16,6 +16,8 @@ public class PassPhrase {
 	 * I, L and O are good to leave out, as are numeric zero and one.
 	 */
 	protected static char[] goodChar = {
+		// Comment out next two lines to make upper-case-only, then
+		// use String toUpper() on the user's input before validating.
 		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n',
 		'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N',
@@ -26,16 +28,18 @@ public class PassPhrase {
 
 	/* Generate a Password object with a random password. */
 	public static String getNext() {
+		return getNext(MIN_LENGTH);
+	}
+	
+	/* Generate a Password object with a random password. */
+	public static String getNext(int length) {
+		if (length < 1) {
+			throw new IllegalArgumentException("Ridiculous password length " + length);
+		}
 		StringBuffer sb = new StringBuffer();
-		for (int i=0; i < MIN_LENGTH; i++) {
+		for (int i=0; i < length; i++) {
 			sb.append(goodChar[r.nextInt(goodChar.length)]);
 		}
 		return sb.toString();
-	}
-
-	public static void main(String[] argv) {
-		for (int i=0; i<20; i++) {
-			System.out.println(PassPhrase.getNext());
-		}
 	}
 }
