@@ -1,3 +1,5 @@
+package com.darwinsys.util;
+
 /** A class to implement UNIX-style (single-character) command arguments
  * @author Ian F. Darwin, ian@darwinsys.com
  * based on the standard UNIX getopt(3) program.

@@ -1,3 +1,5 @@
+package com.darwinsys.util;
+
 /** Utilities for debugging
  * @author	Ian Darwin, ian@darwinsys.com
  * @version	$Id$
