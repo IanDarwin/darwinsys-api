@@ -11,8 +11,9 @@ GUI_SRC=	ArrayListTableModel.java ArrayListTablePanel.java \
 IO_SRC=		DataIO.java FileIO.java FileProperties.java \
 			Tag.java ExecAndPrint.java
 STR_SRC=	StrSubs.java StringUtil.java
+J2EE_SRC=	ServletUtil.java
 MISC_SRC=	Debug.java GetOpt.java Mailer.java MutableInteger.java
-SRC=		$(FMT_SRC) $(GUI_SRC) $(IO_SRC) $(STR_SRC) $(MISC_SRC) $(DOC_SRC)
+SRC=		$(FMT_SRC) $(GUI_SRC) $(IO_SRC) $(STR_SRC) $(J2EE_SRC) $(MISC_SRC)
 DOC_AUX=	overview.html
 AUX=		$(DOC_AUX)
 
