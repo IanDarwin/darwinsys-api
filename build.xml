@@ -1,4 +1,4 @@
-<project name="com.darwinsys.util package" default="jar" basedir=".">
+<project name="com.darwinsys.util package" default="regress" basedir=".">
 
 	<!-- $Id$ -->
 
@@ -42,14 +42,22 @@
 	</target>
 
 	<target name="docs" depends="build">
-		<!-- Rewrite this Make command as an Ant task.
-		javadoc -J-Xmx32m -d docs -version -author \
-		-overview overview.html \
-		-windowtitle "com.darwinsys.util - Java Cookbook Utilities" \
-		-->
+		<javadoc sourcepath="com/darwinsys/util" destdir="docs/api"
+			packagenames="com.darwinsys.*"
+			maxmemory="32m" 
+			windowtitle="com.darwinsys.util - Java Cookbook Utilities"
+			Version="true" Author="true" Use="true"
+			Overview="com/darwinsys/util/overview.html"
+			>
+			<packageset dir="." defaultexcludes="yes">
+				<include name="com/darwinsys/util/**" />
+				<exclude name="regress/**"/>
+			</packageset>
+			<bottom><![CDATA[<i>Copyright &#169; 2000-2003 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
+		</javadoc>
 	</target>
 
-	<target name="regress" depends="build">
+	<target name="regress" depends="jar">
 		<java className="regress.GetOptTest"
 			classpath="build:${servletapi.jar}:${mail.jar}:${activation.jar}"/>
 	</target>

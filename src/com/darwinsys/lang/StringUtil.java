@@ -1,9 +1,10 @@
 package com.darwinsys.util;
 
-/* Miscellaneous string utilities
+/** Miscellaneous string utilities
  * XX I18N
  */
 public class StringUtil {
+
 	/** Format an array of Object as a list with commas,
 	 * like "apples, oranges, and bananas");
 	 */
@@ -24,6 +25,7 @@ public class StringUtil {
 		return sb.toString();
 	}
 
+	/** Simple demo/test program */
 	public static void main(String[] args) {
 		String[] list = { "apples", "oranges", "pumpkins", "bananas" };
 		System.out.println(arrayToCommaList(list));

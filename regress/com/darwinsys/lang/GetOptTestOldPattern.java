@@ -61,17 +61,20 @@ public class GetOptTest {
 		while (it.hasNext()) {
 			Object key = it.next();
 			c = ((Character)key).charValue();
+			System.out.print("Found " + c);
 			if (c == '?')
 				errs++;
 			String val = (String)m.get(key);
-			System.out.print("Found " + c);
 			if (!val.equals(""))
 				System.out.print("; Option " + val);
+			else
+				System.out.print("; (no option)");
 			System.out.println();
 		}
+
 		List filenames = go2.getFilenameArguments();
 		for (int i = 0; i < filenames.size(); i++) {
-			System.out.println("Filename: " + filenames.get(i));
+			System.out.println("Filename-like arg " + filenames.get(i));
 		}
 
 		if (shouldFail) {

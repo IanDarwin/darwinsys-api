@@ -3,9 +3,9 @@ package com.darwinsys.util;
 import java.io.*;
 import java.util.*;
 
-/*
- * PropertiesMap -- a Map that loads from a Properties file,
- * preserving its order!
+/**
+ * PropertiesMap -- a Map that loads from a Properties file, but unlike
+ * Properties, preserves the ordering of the original file.
  * @author  Ian F. Darwin
  * @version $Id$
  */

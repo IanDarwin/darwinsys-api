@@ -7,22 +7,22 @@ import javax.swing.table.*;
 import javax.swing.event.*;
 import java.util.*;
 
-/*
- * ArrayListTablePanel - Bean/GUI panel for ArrayListTableModel
- *
+/**
+ * ArrayListTablePanel - Bean/GUI panel for ArrayListTableModel.
+ * <p>
  * Subclass should call getTable() and set any
  * desired Renderers or Editors.
- *
+ * <p>
  * The class of things in the list must have a public, no-argument constructor.
  *
- * <BR>XXX TODO <ul>
- * <li>1. Debug MoveUp/MoveDown!
- * <li>2. add constructor options for Add, Remove, MoveUp/MoveDown buttons
+ * <p>TODO
+ * <ul>
+ * <li>Debug MoveUp/MoveDown!
+ * <li>add constructor options for Add, Remove, MoveUp/MoveDown buttons
  * </ul>
  *
  * @author	Ian Darwin, ian@darwinsys.com
  * @version	$Id$
- * @copyright See file LEGAL_NOTICE.txt in the source directory.
  */
 public class ArrayListTablePanel extends JPanel {
 

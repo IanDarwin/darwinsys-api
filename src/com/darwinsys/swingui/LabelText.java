@@ -6,7 +6,7 @@ import javax.swing.*;
 
 /** A label and text combination, inspired by
  * the LabelText control in Guy Eddon's ActiveX Components book
- * (2nd Edition, p. 203). But done more simply.
+ * (2nd Edition, page 203). But done more simply.
  * @author	Ian Darwin, ian@darwinsys.com
  * @version $Id$
  */
