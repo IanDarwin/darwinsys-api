@@ -1,3 +1,5 @@
+package regress;
+
 import com.darwinsys.util.LabelText;
 import java.awt.*;
 import javax.swing.*;

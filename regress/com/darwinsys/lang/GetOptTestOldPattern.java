@@ -1,3 +1,5 @@
+package regress;
+
 import com.darwinsys.util.GetOpt;
 
 /** Some test cases for GetOpt.

@@ -1,3 +1,5 @@
+package regress;
+
 import com.darwinsys.util.StringFormat;
 
 public class StringFormatTest {
