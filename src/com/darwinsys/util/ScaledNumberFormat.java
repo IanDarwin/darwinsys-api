@@ -3,6 +3,7 @@ package com.darwinsys.util;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.ParsePosition;
 
 /**
@@ -53,7 +54,10 @@ public class ScaledNumberFormat extends Format {
 	/* To prevent numeric overflow (Java doesn't need a "long long") */
 	static final int MAX_DIGITS = 10;
 
-	/** Parse a generic object, returning an Object
+	
+	/** Parse a String expected to contain a number in Human Scaled Form.
+	 * @param str - String to be parsed.
+	 * @param where Ignored - required by API
 	 * @return a Long containing the value (value is always
 	 * integral, even though has a fractional part before scaling).
 	  */
@@ -155,12 +159,29 @@ public class ScaledNumberFormat extends Format {
 		throw new IllegalArgumentException("invalid scale factor " + b[p]);	
 	}
 
+	/* Parse a String containing a Human Scaled Number.
+	 * @see ScaledNumberFormat#parseObject(java.lang.String)
+	 */
+	public Object parseObject(String arg0) throws ParseException {
+		return parseObject(arg0, null);
+	}
+	
 	/* Format the given Number as a Scaled Numeral, returning the
-	 * Stringbuffer (updated), and updating the FieldPosition.
+	 * Stringbuffer (updated), and <em>ignoring</em> the FieldPosition.
 	 * Method signature is overkill, but required as a subclass of Format.
 	 */
 	public StringBuffer format(Object on, StringBuffer sb, FieldPosition fp) {
-		long n = 0 /* ((Number)on).getLongValue(); */;
+		if (on instanceof String) {
+			String son = (String)on;
+			if (son.length() == 0) {
+				return sb.append("0B");
+			}
+			on = parseObject(son, null);
+		}
+		if (!(on instanceof Long)) {
+			throw new IllegalArgumentException("Argument " + on + " must be String or Long");
+		}
+		long n = ((Long)on).longValue();
 		sb.append(format(n));
 		return sb;
 	}
