@@ -7,5 +7,7 @@ import java.io.IOException;
  * @version $Id$
  */
 public interface FileHandler {
+	public void init() throws IOException;
 	public void visit(File f) throws IOException;
+	public void destroy() throws IOException;
 }

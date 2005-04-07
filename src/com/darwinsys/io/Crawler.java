@@ -14,7 +14,7 @@ import java.util.TreeSet;
  */
 public class Crawler implements Checkpointer {
 	
-	/** The visitor to send all or chosen files to */
+	/** The visitor to send all our chosen files to */
 	private FileHandler visitor;
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;

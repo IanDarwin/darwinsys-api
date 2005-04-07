@@ -2,6 +2,7 @@ package regress.io;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 
 import com.darwinsys.io.Crawler;
 import com.darwinsys.io.FileHandler;
@@ -28,6 +29,12 @@ public class CrawlerTest extends TestCase {
 			public void visit(File f) {
 				seenAnyFiles = true;
 				System.out.println(f.getAbsolutePath());
+			}
+
+			public void init() throws IOException {
+			}
+
+			public void destroy() throws IOException {
 			}
 			
 		};
