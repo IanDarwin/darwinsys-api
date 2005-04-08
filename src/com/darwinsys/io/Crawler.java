@@ -18,6 +18,8 @@ public class Crawler implements Checkpointer {
 	private FileHandler visitor;
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;
+	/** An Error Handler */
+	private CrawlerCaller eHandler;
 	
 	public Crawler(FilenameFilter chooser, FileHandler fileVisitor) {
 		this.chooser = chooser;
@@ -48,12 +50,16 @@ public class Crawler implements Checkpointer {
 				checkpoint(next);
 				crawl(next);			// Crawl the directory
 			} else if (next.isFile()) {
-				if (chooser != null) {
-					if (chooser.accept(startDir, next.getName())){
-						visitor.visit(next); // Process file based on name.
+				try {
+					if (chooser != null) {
+						if (chooser.accept(startDir, next.getName())){
+							visitor.visit(next); // Process file based on name.
+						}
+					} else {
+						visitor.visit(next);	// Process file unconditionally
 					}
-				} else {
-					visitor.visit(next);	// Process file unconditionally
+				} catch (IOException ex) {
+					System.err.println("Caught exception: " + ex); // XXX callback
 				}
 			} else {
 				System.err.println("Warning:" + next + " neither file nor directory");
@@ -82,4 +88,12 @@ public class Crawler implements Checkpointer {
 	private void checkpoint(File next) {
 		// TODO Auto-generated method stub		
 	}
+	public CrawlerCaller getEHandler() {
+		return eHandler;
+	}
+	
+	public void setEHandler(CrawlerCaller handler) {
+		eHandler = handler;
+	}
+	
 }
