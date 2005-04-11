@@ -1,6 +1,9 @@
 package regress;
 
+import com.darwinsys.database.DataBaseException;
 import com.darwinsys.sql.ConnectionUtil;
+
+import java.sql.Connection;
 import java.util.*;
 
 import junit.framework.TestCase;
@@ -21,5 +24,20 @@ public class ConnectionUtilTest extends TestCase {
 			hasConfigNames = true;
 		}
 		assertTrue(hasConfigNames);
+	}
+	
+	public void testGetConnection() throws Exception {
+		try {
+			Connection c = ConnectionUtil.getConnection("url", "mydriver", 
+					"operator", "secret");
+			fail("getConnection w/ bad params Did not throw exception");
+		} catch (ClassNotFoundException nfe) {
+			String m = nfe.getMessage();
+			assertEquals("failing driver class name", "mydriver", m);
+			System.out.println("Caught expected ClassNotFoundException");
+		} catch (DataBaseException dbe) {		
+			fail("Caught wrong exception " + dbe + "; check order of params");
+			
+		}
 	}
 }

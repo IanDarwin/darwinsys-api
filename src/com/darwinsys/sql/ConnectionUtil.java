@@ -72,7 +72,7 @@ public class ConnectionUtil {
 			if (db_driver == null || db_url == null) {
 				throw new DataBaseException("Driver or URL null: " + configName);
 			}
-			return getConnection(db_driver, db_url, db_user, db_password);
+			return getConnection(db_url, db_driver, db_user, db_password);
 		} catch (ClassNotFoundException ex) {
 			throw new DataBaseException(ex.toString());
 	
