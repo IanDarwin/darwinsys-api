@@ -4,6 +4,7 @@ import com.darwinsys.database.DataBaseException;
 import com.darwinsys.sql.ConnectionUtil;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 import junit.framework.TestCase;
@@ -13,6 +14,9 @@ import junit.framework.TestCase;
  * @version $Id$
  */
 public class ConnectionUtilTest extends TestCase {
+	
+	final String MOCK_JBDB_DRIVER = "mock.MockJdbcDriver";
+	
 	public void testList() throws Exception {
 		System.out.println("ConnectionUtilTest.testList()");
 		Set configs = ConnectionUtil.list();
@@ -26,7 +30,7 @@ public class ConnectionUtilTest extends TestCase {
 		assertTrue(hasConfigNames);
 	}
 	
-	public void testGetConnection() throws Exception {
+	public void testGetConnectionBadDriver() throws Exception {
 		try {
 			Connection c = ConnectionUtil.getConnection("url", "mydriver", 
 					"operator", "secret");
@@ -35,9 +39,19 @@ public class ConnectionUtilTest extends TestCase {
 			String m = nfe.getMessage();
 			assertEquals("failing driver class name", "mydriver", m);
 			System.out.println("Caught expected ClassNotFoundException");
-		} catch (DataBaseException dbe) {		
-			fail("Caught wrong exception " + dbe + "; check order of params");
-			
+		} catch (DataBaseException e) {		
+			fail("Caught wrong exception " + e + "; check order of params");			
+		}
+	}
+	
+	public void testGetConnectionBadURL() throws Exception {
+		try {
+			Connection c = ConnectionUtil.getConnection("url", 
+					MOCK_JBDB_DRIVER, 
+					"operator", "secret");
+			fail("getConnection w/ bad params did not throw exception");
+		} catch (SQLException e) {		
+			System.out.println("Caught expected Exception " + e);
 		}
 	}
 }
