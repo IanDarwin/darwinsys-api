@@ -50,6 +50,8 @@ public class Crawler implements Checkpointer {
 				checkpoint(next);
 				crawl(next);			// Crawl the directory
 			} else if (next.isFile()) {
+				// Intentionally put try/catch around just one call, so we keep going,
+				// assuming that it's something that only affects one file...
 				try {
 					if (chooser != null) {
 						if (chooser.accept(startDir, next.getName())){
