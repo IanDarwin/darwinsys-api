@@ -58,8 +58,12 @@ public class Crawler implements Checkpointer {
 					} else {
 						visitor.visit(next);	// Process file unconditionally
 					}
-				} catch (IOException ex) {
-					System.err.println("Caught exception: " + ex); // XXX callback
+				} catch (IOException e) {
+					if (eHandler != null) {
+						eHandler.handleException(e);
+					} else {
+						System.err.println("Caught exception: " + e); // callback
+					}
 				}
 			} else {
 				System.err.println("Warning:" + next + " neither file nor directory");
