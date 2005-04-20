@@ -19,13 +19,13 @@ public class Crawler implements Checkpointer {
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;
 	/** An Error Handler that just prints the exception */
-	public static final CrawlerCaller JUST_PRINT = new CrawlerCaller() {
+	public static final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable th) {
 			System.err.println("Caught exception: " + th);
 		}
 	};
 	/** The current Error Handler */
-	private CrawlerCaller eHandler = JUST_PRINT;
+	private CrawlerCallback eHandler = JUST_PRINT;
 	
 	public Crawler(FilenameFilter chooser, FileHandler fileVisitor) {
 		this.chooser = chooser;
@@ -94,13 +94,14 @@ public class Crawler implements Checkpointer {
 	}
 	
 	private void checkpoint(File next) {
-		// TODO Auto-generated method stub		
+		// TODO Need some functionality here...	
 	}
-	public CrawlerCaller getEHandler() {
+	
+	public CrawlerCallback getEHandler() {
 		return eHandler;
 	}
 	
-	public void setEHandler(CrawlerCaller handler) {
+	public void setEHandler(CrawlerCallback handler) {
 		eHandler = handler;
 	}
 	
