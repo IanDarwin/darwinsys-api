@@ -41,7 +41,7 @@ public class FileIO {
 	public static void copyFile(Reader is, Writer os, boolean close) 
 	throws IOException {
 		int b;				// the byte read from the file
-		BufferedReader bis = new BufferedReader(is);
+
 		while ((b = is.read()) != -1) {
 			os.write(b);
 		}
