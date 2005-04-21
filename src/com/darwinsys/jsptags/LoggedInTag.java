@@ -11,7 +11,6 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 public class LoggedInTag extends BodyTagSupport {
 
 	private static final long serialVersionUID = 1028271617838262L;
-	private String userName;
 
 	/** Invoked at the tag start boundary; does the work */
 	public int doStartTag() throws JspException {
