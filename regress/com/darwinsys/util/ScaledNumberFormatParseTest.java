@@ -7,7 +7,7 @@ import junit.framework.*;
 
 public class ScaledNumberFormatTest extends TestCase {
 
-	class data {
+	static class data {
 		long number;
 		String string;
 		data(long n, String s) { number = n; string = s; }
