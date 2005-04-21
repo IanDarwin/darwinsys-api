@@ -21,13 +21,11 @@ public class GetOptTest extends TestCase {
 	private String goodLongArgs[]  = {
 			"-help", "-output-file", "outfile", "infile"
 	};
-	private char[] goodArgsExpectChars = { 'h', 'o' };
 
 	private 	String badArgChars = "f1o";
 	private String badArgs[]  = {
 			"-h", "-o", "outfile", "infile"
 	};
-	private char[] badArgsExpectChars = { '?', 'o' };
 
 	private GetOptDesc[] options = {
 		new GetOptDesc('o', "output-file", true),
