@@ -1,6 +1,7 @@
 package com.darwinsys.util;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /** De-mystify the Iterator interface, showing how
  * to write a simple Iterator for an Array of Objects.
@@ -42,7 +43,7 @@ public class ArrayIterator implements Iterator {
 		if (hasNext()) {
 			return data[index++];
 		}
-		throw new IndexOutOfBoundsException("only " + data.length + " elements");
+		throw new NoSuchElementException("only " + data.length + " elements");
 	}
 
 	/** Remove the object that next() just returned.
