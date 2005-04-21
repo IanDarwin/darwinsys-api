@@ -238,7 +238,7 @@ public class GetOpt {
 			for (int i=0; i<options.length; i++) {
 				if ( options[i].argLetter == thisArg.charAt(1) ||
 					(options[i].argName != null &&
-					 options[i].argName == thisArg.substring(1))) { // found it
+					 options[i].argName.equals(thisArg.substring(1)))) { // found it
 					// If it needs an option argument, get it.
 					if (options[i].takesArgument) {
 						if (optind < argv.length) {
