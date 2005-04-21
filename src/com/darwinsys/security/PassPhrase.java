@@ -8,14 +8,14 @@ public class PassPhrase {
 	public static final int MIN_LENGTH = 10;
 
 	/** The random number generator. */
-	protected static java.util.Random r = new java.util.Random();
+	protected static final java.util.Random r = new java.util.Random();
 
 	/* Set of characters that is valid. Must be printable, memorable,
 	 * and "won't break HTML" (i.e., not '<', '>', '&', '=', ...).
  	 * or break shell commands (i.e., not '<', '>', '$', '!', ...).
 	 * I, L and O are good to leave out, as are numeric zero and one.
 	 */
-	protected static char[] goodChar = {
+	final static char[] goodChar = {
 		// Comment out next two lines to make upper-case-only, then
 		// use String toUpper() on the user's input before validating.
 		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n',
