@@ -55,7 +55,10 @@ public class Crawler implements Checkpointer {
 			if (next.isDirectory()  && !seen(next)) {
 				checkpoint(next);
 				crawl(next);			// Crawl the directory
-			} else if (next.isFile()) {
+			} else
+				// See if we want file by name then, if isFile() process, else ignore quietly
+				// (this squelches lots of natterings about borked symlinks, which are not our worry).
+				if (chooser.accept(startDir, next.getName()) && next.isFile()) {
 				// Intentionally put try/catch around just one call, so we keep going,
 				// assuming that it's something that only affects one file...
 				try {
@@ -69,8 +72,6 @@ public class Crawler implements Checkpointer {
 				} catch (IOException e) {
 					eHandler.handleException(e);
 				}
-			} else {
-				System.err.println("Warning:" + next + " neither file nor directory");
 			}
 		}
 	}
