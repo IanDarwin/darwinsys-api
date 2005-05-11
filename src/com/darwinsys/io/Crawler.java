@@ -22,6 +22,10 @@ public class Crawler implements Checkpointer {
 	public static final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable th) {
 			System.err.println("Caught exception: " + th);
+			Throwable t2 = th.getCause();
+			if (t2 != null) {
+				System.err.println("Cause: " + t2);
+			}
 		}
 	};
 	/** The current Error Handler */
