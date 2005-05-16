@@ -1,5 +1,7 @@
 package regress;
 
+import java.util.NoSuchElementException;
+
 import junit.framework.*;
 
 import com.darwinsys.util.ArrayIterator;
@@ -22,11 +24,10 @@ public class ArrayIteratorTest extends TestCase {
 			assertEquals(TESTDATA[i++], it.next());
 		}
 
-		// XXX read up on writing JUnit tests that should throw exceptions
 		try {
 			it.next();		// EXPECT RUNTIME ERROR
-			System.err.println("ERROR - DID NOT GET EXPECTED EXCEPTION");
-		} catch (IndexOutOfBoundsException e) {
+			fail("DID NOT GET EXPECTED EXCEPTION");
+		} catch (NoSuchElementException e) {
 			System.err.println("Got expected exception -- OK!");
 		}
 	}
