@@ -20,11 +20,15 @@ public class Crawler implements Checkpointer {
 	private FilenameFilter chooser;
 	/** An Error Handler that just prints the exception */
 	public static final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
-		public void handleException(Throwable th) {
-			System.err.println("Caught exception: " + th);
-			Throwable t2 = th.getCause();
-			if (t2 != null) {
-				System.err.println("Cause: " + t2);
+		public void handleException(Throwable t) {
+			try {
+				System.err.println("Caught exception: " + t);
+				Throwable t2 = t.getCause();
+				if (t2 != null) {
+					System.err.println("Cause: " + t2);
+				}
+			} catch (Throwable h) {
+				// Error handlers should neither fail, nor complain if they do.
 			}
 		}
 	};
