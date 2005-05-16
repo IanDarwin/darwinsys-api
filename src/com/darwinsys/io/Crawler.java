@@ -67,19 +67,19 @@ public class Crawler implements Checkpointer {
 				// See if we want file by name then, if isFile() process, else ignore quietly
 				// (this squelches lots of natterings about borked symlinks, which are not our worry).
 				if (chooser.accept(startDir, next.getName()) && next.isFile()) {
-				// Intentionally put try/catch around just one call, so we keep going,
-				// assuming that it's something that only affects one file...
-				try {
-					if (chooser != null) {
-						if (chooser.accept(startDir, next.getName())){
-							visitor.visit(next); // Process file based on name.
+					// Intentionally put try/catch around just one call, so we keep going,
+					// assuming that it's something that only affects one file...
+					try {
+						if (chooser != null) {
+							if (chooser.accept(startDir, next.getName())){
+								visitor.visit(next); // Process file based on name.
+							}
+						} else {
+							visitor.visit(next);	// Process file unconditionally
 						}
-					} else {
-						visitor.visit(next);	// Process file unconditionally
+					} catch (Throwable e) {
+						eHandler.handleException(e);
 					}
-				} catch (IOException e) {
-					eHandler.handleException(e);
-				}
 			}
 		}
 	}
