@@ -25,28 +25,28 @@ public class SmtpUtils {
 	public boolean verifySender(String user, String host) throws IOException{
 		PrintWriter out = null;
 		try {
-		String mxHost = new DNSUtils(myDnsServer).findMX(host);
-
-		Socket s = new Socket(mxHost, SMTP_PORT);
-		BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		out = new PrintWriter(s.getOutputStream(), true);
-		String greeting = readLine(in);
-		send(out, "HELO " + myHostName);
-		String heloResp = readLine(in);
-		send(out, "MAIL From:<smtp_verifier@" + myHostName + ">");
-		String mailResp = readLine(in);
-		user="postmaster";
-		send(out, "RCPT To:<" + user + "@" + host + ">");
-		String vrfyResp = readLine(in);
-		
-		if (vrfyResp.startsWith("550")) {
-			return false;
-		}
-		
-		send(out, "QUIT");
-		String quitResp = readLine(in);
-
-		return true;
+			String mxHost = new DNSUtils(myDnsServer).findMX(host);
+			
+			Socket s = new Socket(mxHost, SMTP_PORT);
+			BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			out = new PrintWriter(s.getOutputStream(), true);
+			String greeting = readLine(in);
+			send(out, "HELO " + myHostName);
+			String heloResp = readLine(in);
+			send(out, "MAIL From:<smtp_verifier@" + myHostName + ">");
+			String mailResp = readLine(in);
+			user="postmaster";
+			send(out, "RCPT To:<" + user + "@" + host + ">");
+			String vrfyResp = readLine(in);
+			
+			if (vrfyResp.startsWith("550")) {
+				return false;
+			}
+			
+			send(out, "QUIT");
+			String quitResp = readLine(in);
+			
+			return true;
 		} catch (UnknownHostException e) {
 			return false;
 		} catch (NoRouteToHostException e) {
@@ -56,7 +56,7 @@ public class SmtpUtils {
 			return false; // Should be trinary, for "unknown"?
 		} finally {
 			if (out != null)
-			out.close();
+				out.close();
 		}
 	}
 	public static void send(PrintWriter out, String mesg) {
