@@ -1,7 +1,14 @@
 package com.darwinsys.swingui.layout;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /** 
  * <p>
@@ -46,7 +53,7 @@ public class RelativeLayout implements LayoutManager {
 	protected int curHgt;
 
 	/** to track Components added by named add form. */
-	protected Vector curComps = new Vector();
+	protected List<Tracker> curComps = new ArrayList<Tracker>();
 
 	/**
 	 * Constructs an RelativeLayout, given original hard-coded size of panel.
@@ -77,7 +84,7 @@ public class RelativeLayout implements LayoutManager {
 		// System.out.println("Adding: Name " + name +"; obj " + c
 		//	 + "; x " + x + "; y " + y);
 		Tracker t = new Tracker(x, y, c);
-		curComps.addElement(t);
+		curComps.add(t);
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class RelativeLayout implements LayoutManager {
 		float hgtRatio = (float)curHgt / (float)reqHgt;
 		for (int i = 0; i<curComps.size(); i++) {
 			int px, py, pw, ph;
-			Tracker t = (Tracker)curComps.elementAt(i);
+			Tracker t = curComps.get(i);
 			Component tc = t.getComponent();
 			Dimension d = tc.getPreferredSize();
 			px = ins.right+(int)(t.getRequestedLoc().x * widRatio);
@@ -120,7 +127,7 @@ public class RelativeLayout implements LayoutManager {
 	public Dimension minimumLayoutSize(Container target) {
 		int minw = 0, minh = 0;
 		for (int i = 0; i<curComps.size(); i++) {
-			Tracker t = (Tracker)curComps.elementAt(i);
+			Tracker t = curComps.get(i);
 			Component tc = t.getComponent();
 			Dimension d = tc.getMinimumSize();
 			Point rl = t.getRequestedLoc();
@@ -141,7 +148,7 @@ public class RelativeLayout implements LayoutManager {
 	public Dimension preferredLayoutSize(Container target) {
 		int prefw = 0, prefh = 0;
 		for (int i = 0; i<curComps.size(); i++) {
-			Tracker t = (Tracker)curComps.elementAt(i);
+			Tracker t = curComps.get(i);
 			Component tc = t.getComponent();
 			Dimension d = tc.getMinimumSize();
 			Point rl = t.getRequestedLoc();
@@ -159,7 +166,7 @@ public class RelativeLayout implements LayoutManager {
 	 * @param	c	Component to be removed
 	 */
 	public void  removeLayoutComponent(Component c) {
-		curComps.removeElement(c);
+		curComps.remove(c);
 	}
 
 	/**
