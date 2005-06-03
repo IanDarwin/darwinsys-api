@@ -7,19 +7,19 @@ import java.util.Enumeration;
  * behave like new Iterator interface, so we only have to deal
  * with one well-defined implementation of the Iterator pattern.
  */
-public class EnumerationIterator implements Iterator {
+public class EnumerationIterator<T> implements Iterator {
 
 	/** The Enumeration being delegated to */
-	private final Enumeration oldEnum;
+	private final Enumeration<T> oldEnum;
 
 	/** Construct an EnumerationIterator from an old-style Enumeration.
 	 * @param  old The Enumeration to be adapted.
 	 */
-	public EnumerationIterator(final Enumeration old) {
+	public EnumerationIterator(final Enumeration<T> old) {
 		oldEnum = old;
 	}
 
-	/** Fulfuls the general contract of Iterator.hasNext(), that is,
+	/** Fulfills the general contract of Iterator.hasNext(), that is,
 	 * return true as long as there is at least one more item in
 	 * the Iterator.
 	 */
