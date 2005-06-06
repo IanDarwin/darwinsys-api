@@ -84,7 +84,7 @@ public class Crawler implements Checkpointer {
 		}
 	}
 
-	private Set seen = new TreeSet();
+	private Set<String> seen = new TreeSet<String>();
 	
 	/**
 	 * Keep track of whether we have seen this directory, to avoid looping
