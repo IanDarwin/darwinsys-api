@@ -74,19 +74,26 @@ public class RelativeLayout implements LayoutManager {
 	 * <BR>add("320,100", new Button("Quit").
 	 * <BR>This adds the Button at x=320, y=100 when the Panel is 
 	 * at its original full size.
-	 * @param	c	Component to be added.
+	 * @param	comp	Component to be added.
 	 */
-	public void addLayoutComponent(String name, Component c) {
+	public void addLayoutComponent(String name, Component comp) {
 		int x, y;
 		StringTokenizer st = new StringTokenizer(name, ",");
 		x = Integer.parseInt(st.nextToken());
 		y = Integer.parseInt(st.nextToken());
-		// System.out.println("Adding: Name " + name +"; obj " + c
-		//	 + "; x " + x + "; y " + y);
-		Tracker t = new Tracker(x, y, c);
-		curComps.add(t);
+		addLayoutComponent(comp, new Dimension(x, y));
 	}
 
+	/** This version is here in preparation for implementing LayoutManager2 */
+	public void addLayoutComponent(Component comp, Object constraint) {
+		Dimension d = (Dimension)constraint;
+		int x = d.width, y = d.height;
+		// System.out.println("Adding: Name " + name +"; obj " + c
+		//	 + "; x " + x + "; y " + y);
+		Tracker t = new Tracker(x, y, comp);
+		curComps.add(t);
+	}
+	
 	/**
 	 * Called by AWT to lay out the components 
 	 * in the target Container at its current size.
