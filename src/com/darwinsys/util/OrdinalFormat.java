@@ -6,6 +6,7 @@ import java.text.ParsePosition;
 
 
 /**
+ * Ordinal formatted numbers: 1st, 2nd, 3rd, 4th, etc.
  * @author ian
  *
  */

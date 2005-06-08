@@ -2,23 +2,22 @@ package com.darwinsys.util;
 
 /**
  * Identify the Operating System.
- * XXX In 1.5, rewrite using enums.
  */
-public class SystemType {
+public enum SystemType {
 	/** A constant for "can't figure out this system type" */
-	public final int SYS_UNKNOWN = -1;
+	SYS_UNKNOWN,
 	/** A constant for "System is UNIX or Linux" */
-	public final int SYS_NIX = 1;
+	SYS_NIX,
 	/** A constant for "System is Mac OS X" */
-	public final int SYS_MACOSX = 2;
+	SYS_MACOSX,
 	/** A constant for "System is Microsoft Windows" */
-	public final int SYS_MSWIN = 3;
+	SYS_MSWIN,
 	/** A constant for being run under the J2ME */
-	public final int SYS_J2ME = 4;
+	SYS_J2ME;
 	
 	String system = System.getProperty("os.name").toLowerCase();
 			
-	int type() {
+	SystemType type() {
 		if (system.indexOf("mac") > 0) {
 			return SYS_MACOSX;
 		}
