@@ -1,7 +1,16 @@
 package com.darwinsys.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * PropertiesMap -- a Map that loads from a Properties file, but unlike
@@ -13,10 +22,10 @@ import java.util.*;
  * @author  Ian F. Darwin
  * @version $Id$
  */
-public class PropertiesMap implements Map {
+public class PropertiesMap implements Map<String,String> {
 
-	private List names = new ArrayList();
-	private List values = new ArrayList();
+	private List<String> names = new ArrayList<String>();
+	private List<String> values = new ArrayList<String>();
 
 	public void load(String fileName) throws IOException {
 		if (fileName == null) {
@@ -57,33 +66,34 @@ public class PropertiesMap implements Map {
 	}
 
 	/** Get a given object */
-    public Object get(Object obj) {
+	public String get(Object 	obj) {
 		return values.get(names.indexOf(obj));
 	}
 
 	/** Add a given object into this Map. */
-    public Object put(Object n, Object v) {
+    public String put(String n, String v) {
 		names.add(n);
 		values.add(v);
 		return n;
 	}
 
 	/** Remove a given object */
-    public Object remove(Object obj) {
-		int i = values.indexOf(obj);
+    public String remove(Object obj) {
+    		String o = obj.toString();
+		int i = values.indexOf(o);
 		if (i < 0) 
 			throw new IllegalArgumentException("remove(" + obj + ") not found");
 		names.remove(i);
 		values.remove(i);
-		return obj;
+		return o;
 	}
 
 	/** Merge all the values from another map into this map. */
-    public void putAll(java.util.Map map) {
+    public void putAll(Map map) {
 		Iterator k = map.keySet().iterator();
 		while (k.hasNext()) {
-			Object key = k.next();
-			Object val = map.get(key);
+			String key = (String)k.next();
+			String val = (String)map.get(key);
 			put(key, val);
 		}
 	}
@@ -97,17 +107,17 @@ public class PropertiesMap implements Map {
 	}
 
 	/** Return the set of keys */
-    public java.util.Set keySet() {
-		return new HashSet(names);
+    public java.util.Set<String> keySet() {
+		return new HashSet<String>(names);
 	}
 
 	/** Return a Collection containing the values */
-    public java.util.Collection values() {
+    public java.util.Collection<String> values() {
 		return values;
 	}
 
 	/** EntrySet (not implemented, returns null) */
-    public java.util.Set entrySet() {
+    public Set<Entry<String, String>> entrySet() {
 		return null;
 	}
 }
