@@ -3,7 +3,7 @@
 	<!-- $Id$ -->
 
 	<!-- dependancies -->
-	<property file="../javasrc/build.properties"/>
+	<property file="build.properties"/>
 
 	<!-- other properties -->
 	<property name="src" value="src"/>
@@ -95,25 +95,6 @@
 			<bottom><![CDATA[<i>Copyright &#169; 1996-2004 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
 		</javadoc>
 		<copy file="html/index.html" todir="${build}/docs"/>
-	</target>
-
-	<target name="install-docs" depends="docs">
-	<!-- jsch scp is not reliable, it always locks up on this scp.
-		<input
-			message="Please enter ssh password:"
-			addproperty="ssh.password"
-			/>
-		<exec executable="clear"/>
-		<scp todir="ian@www.darwinsys.com:/www/javacook/docs"
-			password="${ssh.password}">
-			<fileset dir="${build}/docs"/>
-		</scp>
-	-->
-		<exec executable="/usr/bin/scp">
-			<arg value="-r"/>
-			<arg value="${build}/docs"/>
-			<arg value="ian@www.darwinsys.com:/www/javacook/"/>
-		</exec>
 	</target>
 
 	<!-- Simple Regression Tests -->
