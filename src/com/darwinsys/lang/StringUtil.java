@@ -29,6 +29,11 @@ public class StringUtil {
 		return sb.toString();
 	}
 
+	/** Reverse a String */
+	public static String reverse(String str) {
+		return new StringBuffer(str).reverse().toString();
+	}
+	
 	/** Simple string substitution (not RE-based). */
 	public static String subst(String oldStr, String newStr, String input) {
 		int where = 0;
@@ -46,7 +51,7 @@ public class StringUtil {
 
 		// Reject the impossible at once
 		if (sb == null || str == null) {
-			throw new IllegalArgumentException(
+			throw new NullPointerException(
 				"input strings may not be null");
 		}
 		if (fromIndex < 0) {
