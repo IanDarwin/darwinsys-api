@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /** 
- * The <CODE>FileProperties</CODE> class extends <CODE>Properties</CODE>,
+ * The <code>FileProperties</code> class extends <code>Properties</code>,
  * "a persistent set of properties [that] can be saved to a stream
  * or loaded from a stream". This subclass attends to all the mundane
  * details of opening the Stream(s) for actually saving and loading
@@ -19,6 +19,7 @@ import java.util.*;
  * @version $Id$
  */
 public class FileProperties extends Properties {
+	private static final long serialVersionUID = 3760847843971053111L;
 	/** The name of the file this FileProperties represents. */
 	protected String fileName = null;
 	/** True if the file represented by fileName exists */
@@ -101,5 +102,9 @@ public class FileProperties extends Properties {
 	 */
 	public void close() {
 		// Nothing to do
+	}
+
+	public Iterator<String> iterator() {
+		return new EnumerationIterator(keys());
 	}
 }
