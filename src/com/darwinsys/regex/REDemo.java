@@ -1,5 +1,6 @@
 package com.darwinsys.regex;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +34,10 @@ public class REDemo extends JPanel {
 	protected JRadioButton match, find, findAll;
 	protected JTextField matchesTF;
 	protected JTextArea logTextArea;
+	private static final Color[] Colors = {
+		Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.LIGHT_GRAY, 
+		Color.MAGENTA, Color.ORANGE, Color.PINK, Color.WHITE
+	};
 
 	/** "main program" method - construct and show */
 	public static void main(String[] av) {
@@ -192,5 +197,9 @@ public class REDemo extends JPanel {
 		public void removeUpdate(DocumentEvent ev) {
 			tryMatch();
 		}
+	}
+	
+	public Color getColor(int n) {
+		return Colors[n%Colors.length];
 	}
 }
