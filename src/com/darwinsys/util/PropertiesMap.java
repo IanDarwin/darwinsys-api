@@ -67,7 +67,11 @@ public class PropertiesMap implements Map<String,String> {
 
 	/** Get a given object */
 	public String get(Object 	obj) {
-		return values.get(names.indexOf(obj));
+		int where = names.indexOf(obj);
+		if (where == -1) {
+			return null;
+		}
+		return values.get(where);
 	}
 
 	/** Add a given object into this Map. */
