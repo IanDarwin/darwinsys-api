@@ -1,4 +1,4 @@
-package 
+package net;
 
 import com.darwinsys.net.DNSUtils;
 import junit.framework.TestCase;

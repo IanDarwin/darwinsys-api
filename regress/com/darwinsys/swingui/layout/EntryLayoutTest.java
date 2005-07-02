@@ -1,7 +1,13 @@
-package 
+package  swingui;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Container;
+
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import com.darwinsys.swingui.layout.EntryLayout;
 

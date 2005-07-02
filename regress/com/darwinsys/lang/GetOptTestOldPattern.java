@@ -1,8 +1,10 @@
-package 
+package util;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 import com.darwinsys.lang.GetOpt;
 import com.darwinsys.lang.GetOptDesc;

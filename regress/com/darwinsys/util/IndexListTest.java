@@ -1,7 +1,9 @@
-package 
+package util;
 
 import java.util.Iterator;
-import junit.framework.*;
+
+import junit.framework.TestCase;
+
 import com.darwinsys.util.IndexList;
 
 public class IndexListTest extends TestCase {

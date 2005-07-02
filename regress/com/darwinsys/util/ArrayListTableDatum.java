@@ -1,4 +1,4 @@
-package 
+package util;
 
 /** Class to hold a name and a value from a Properties; the
  * ArrayList contains one of these per Properties entry.

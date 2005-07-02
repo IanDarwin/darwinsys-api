@@ -1,7 +1,7 @@
-package 
+package util;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 

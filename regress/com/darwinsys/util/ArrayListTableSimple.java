@@ -1,8 +1,16 @@
-package 
+package util;
 
-import com.darwinsys.swingui.*;
-import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.TreeMap;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import com.darwinsys.swingui.ArrayListTableModel;
+import com.darwinsys.swingui.ArrayListTablePanel;
 
 /** Simple demo of the com.darwinsys.swingui.ArrayListTable{Model,Panel}.
  * The "data" is an ArrayList made from the System Properties

@@ -1,4 +1,4 @@
-package 
+package  swingui;
 
 import com.darwinsys.swingui.LabelText;
 import java.awt.*;

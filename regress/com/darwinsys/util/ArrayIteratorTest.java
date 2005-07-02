@@ -1,8 +1,8 @@
-package 
+package util;
 
 import java.util.NoSuchElementException;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 import com.darwinsys.util.ArrayIterator;
 

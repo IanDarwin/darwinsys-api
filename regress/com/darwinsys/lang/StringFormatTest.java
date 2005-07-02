@@ -1,6 +1,6 @@
-package 
+package lang;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 import com.darwinsys.lang.StringFormat;
 
