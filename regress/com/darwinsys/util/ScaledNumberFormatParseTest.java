@@ -1,4 +1,3 @@
-package regress;
 import com.darwinsys.util.ScaledNumberFormat;
 
 import junit.framework.*;

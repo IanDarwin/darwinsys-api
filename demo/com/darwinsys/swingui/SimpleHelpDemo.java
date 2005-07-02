@@ -1,5 +1,3 @@
-package regress;
-
 import javax.swing.JFrame;
 
 import com.darwinsys.swingui.SimpleHelp;

@@ -1,5 +1,3 @@
-package regress;
-
 import com.darwinsys.html.SimpleTagValidator;
 
 import junit.framework.TestCase;

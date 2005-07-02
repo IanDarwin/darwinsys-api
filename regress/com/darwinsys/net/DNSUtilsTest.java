@@ -1,4 +1,4 @@
-package regress;
+package 
 
 import com.darwinsys.net.DNSUtils;
 import junit.framework.TestCase;

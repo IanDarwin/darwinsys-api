@@ -1,5 +1,3 @@
-package regress;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

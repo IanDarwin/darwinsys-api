@@ -1,5 +1,3 @@
-package regress;
-
 import com.darwinsys.mail.SmtpUtils;
 import junit.framework.TestCase;
 

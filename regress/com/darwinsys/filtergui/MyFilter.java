@@ -1,4 +1,4 @@
-package regress.filtergui;
+package filtergui;
 
 /** A trivial filter baseclass used in testing FilterGUI */
 public abstract class MyFilter {

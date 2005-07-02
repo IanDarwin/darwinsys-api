@@ -1,4 +1,4 @@
-package regress;
+package 
 
 import junit.framework.TestCase;
 import com.darwinsys.lang.MutableInteger;

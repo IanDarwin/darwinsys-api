@@ -1,4 +1,4 @@
-package regress.filtergui;
+package filtergui;
 
 import javax.swing.JFrame;
 

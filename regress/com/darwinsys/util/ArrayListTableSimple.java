@@ -1,4 +1,4 @@
-package regress;
+package 
 
 import com.darwinsys.swingui.*;
 import javax.swing.*;

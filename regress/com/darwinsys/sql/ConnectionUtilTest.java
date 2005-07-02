@@ -1,5 +1,3 @@
-package regress;
-
 import com.darwinsys.database.DataBaseException;
 import com.darwinsys.sql.ConnectionUtil;
 

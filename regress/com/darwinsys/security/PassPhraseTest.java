@@ -1,5 +1,3 @@
-package regress;
-
 import junit.framework.TestCase;
 
 import com.darwinsys.security.PassPhrase;

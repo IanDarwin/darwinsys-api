@@ -1,4 +1,4 @@
-package regress.filtergui;
+package filtergui;
 
 /** Simple marker class 
  * */

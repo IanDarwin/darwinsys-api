@@ -1,4 +1,4 @@
-package regress;
+package 
 
 import java.util.Iterator;
 import junit.framework.*;

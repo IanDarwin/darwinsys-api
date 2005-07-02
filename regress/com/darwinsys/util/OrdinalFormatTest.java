@@ -1,5 +1,3 @@
-package regress;
-
 import junit.framework.TestCase;
 
 public class OrdinalFormatTest extends TestCase {

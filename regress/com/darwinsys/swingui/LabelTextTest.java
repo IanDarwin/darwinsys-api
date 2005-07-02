@@ -1,4 +1,4 @@
-package regress;
+package 
 
 import com.darwinsys.swingui.LabelText;
 import java.awt.*;

@@ -1,5 +1,3 @@
-package regress;
-
 import java.sql.SQLException;
 import com.darwinsys.swingui.ErrorUtil;
 
