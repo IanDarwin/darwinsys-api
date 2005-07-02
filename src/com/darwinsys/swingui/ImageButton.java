@@ -13,7 +13,11 @@ import javax.swing.JButton;
 public class ImageButton extends JButton {
 	private static final long serialVersionUID = 3904965248233714485L;
 
-	public ImageButton(ImageIcon icon) {
+    public ImageButton(ImageIcon icon) {
+        this(icon, null);
+    }
+    
+	public ImageButton(ImageIcon icon, String text) {
 		setIcon(icon);
 		setIconTextGap(0);
 		int width = icon.getImage().getWidth(null);
@@ -22,6 +26,6 @@ public class ImageButton extends JButton {
 		setMargin(new Insets(0,0,0,0));
 		setBorderPainted(false);
 		setBorder(null);
-		setText(null);
+		setText(text);
 	}
 }
