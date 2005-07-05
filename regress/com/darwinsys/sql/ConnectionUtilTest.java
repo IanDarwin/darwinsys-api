@@ -33,6 +33,7 @@ public class ConnectionUtilTest extends TestCase {
 			Connection c = ConnectionUtil.getConnection("url", "mydriver", 
 					"operator", "secret");
 			fail("getConnection w/ bad params Did not throw exception");
+			System.out.println(c);
 		} catch (ClassNotFoundException nfe) {
 			String m = nfe.getMessage();
 			assertEquals("failing driver class name", "mydriver", m);
@@ -48,6 +49,7 @@ public class ConnectionUtilTest extends TestCase {
 					MOCK_JBDB_DRIVER, 
 					"operator", "secret");
 			fail("getConnection w/ bad params did not throw exception");
+			System.out.println(c);
 		} catch (SQLException e) {		
 			System.out.println("Caught expected Exception " + e);
 		}
