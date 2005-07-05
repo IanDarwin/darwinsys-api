@@ -83,8 +83,6 @@ public class ColumnLayout implements LayoutManager {
 	 * TODO XXX NEED TO SCALE BY TARGSIZE?
 	 */
 	protected Dimension doLayout(Container target) {
-		Dimension targSize = target.getSize();
-		Insets ins = target.getInsets();
 
 		// Pass 1 - get preferred sizes 
 		minw = minh = 0;

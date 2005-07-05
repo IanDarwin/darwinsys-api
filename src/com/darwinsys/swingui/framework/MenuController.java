@@ -103,7 +103,6 @@ public class MenuController {
 
 		/** Inner class for printing */
 		class PrintListener implements ActionListener {
-			boolean doAnswers;
 			PrintListener(boolean ans) {
 				doAnswers = ans;
 			}

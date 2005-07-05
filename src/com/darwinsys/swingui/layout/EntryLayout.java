@@ -107,7 +107,6 @@ public class EntryLayout implements LayoutManager {
 		if (!validWidths)
 			return null;
 		Component[] components = parent.getComponents();
-		Dimension contSize = parent.getSize();
 		int preferredWidth = 0, preferredHeight = 0;
 		widths = new int[COLUMNS];
 		heights = new int[components.length / COLUMNS];

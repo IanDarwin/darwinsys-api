@@ -26,8 +26,8 @@ public class UtilGUI {
 
 	/** Maximize a window, the hard way. */
 	public static void maximize(Window w) {
-		Dimension us = w.getSize(),
-			them = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension them = 
+			Toolkit.getDefaultToolkit().getScreenSize();
 		w.setBounds(0,0, them.width, them.height);
 	}
 }
