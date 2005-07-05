@@ -101,7 +101,7 @@ import java.util.ArrayList;
  */
 public class GetOpt {
 	/** The List of File Names found after args */
-	protected List fileNameArguments;
+	protected List<String> fileNameArguments;
 	/** The set of characters to look for */
 	protected final GetOptDesc[] options;
 	/** Where we are in the options */
@@ -184,8 +184,8 @@ public class GetOpt {
 	 * containing the value, or null for a non-option argument.
 	 */
 	public Map parseArguments(String[] argv) {
-		Map optionsAndValues = new HashMap();
-		fileNameArguments = new ArrayList();
+		Map<String, String> optionsAndValues = new HashMap<String, String>();
+		fileNameArguments = new ArrayList<String>();
 		for (int i = 0; i < argv.length; i++) {
 			Debug.println("getopt", "parseArg: i=" + i + ": arg " + argv[i]);
 			char c = getopt(argv);

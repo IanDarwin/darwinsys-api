@@ -19,7 +19,6 @@ public class BackRefTag extends TagSupport {
 
 	/** Invoked at the end tag boundary, does the work */
 	public int doEndTag() throws JspException {
-		final String myLabel = label == null ? DEFAULT_LABEL : label;
 		try {
 			final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
 			final JspWriter out = pageContext.getOut();

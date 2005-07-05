@@ -18,9 +18,7 @@ public class ExecAndPrint {
 	}
 
 	/** Run the command given as a String, print its output to "out" */
-	public static int run(String cmd, Writer out) throws IOException { 
-
-		String line;
+	public static int run(String cmd, Writer out) throws IOException {
 		
 		Process p = r.exec(cmd);
 
@@ -39,9 +37,7 @@ public class ExecAndPrint {
 	}
 
 	/** Run the command given as a String[], print its output to "out" */
-	public static int run(String[] cmd, Writer out) throws IOException { 
-
-		String line;
+	public static int run(String[] cmd, Writer out) throws IOException {
 		
 		Process p = r.exec(cmd);
 

@@ -103,7 +103,7 @@ public class GetOptTest extends TestCase {
 
 		GetOpt go = new GetOpt(argChars);
 
-		int errs = 0, ix = 0;
+		int errs = 0;
 
 		char c;
 		while ((c = go.getopt(args)) != 0) {

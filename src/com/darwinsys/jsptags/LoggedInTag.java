@@ -14,7 +14,6 @@ public class LoggedInTag extends BodyTagSupport {
 
 	/** Invoked at the tag start boundary; does the work */
 	public int doStartTag() throws JspException {
-		String myLabel = null;
 
 		HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
 		return request.getRemoteUser().equals(null) ? 
