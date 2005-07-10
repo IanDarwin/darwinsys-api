@@ -103,9 +103,6 @@ public class MenuController {
 
 		/** Inner class for printing */
 		class PrintListener implements ActionListener {
-			PrintListener(boolean ans) {
-				doAnswers = ans;
-			}
 			public void actionPerformed(ActionEvent e) {
 				printJob = Toolkit.getDefaultToolkit().getPrintJob(
 					parentFrame, "Print CrossWord", null);
@@ -120,12 +117,9 @@ public class MenuController {
 				printJob.end();
 			}
 		}
-		// Print With Answers
-		fm.add(mi = mkMenuItem(b, "file", "printwith"));
-		mi.addActionListener(new PrintListener(true));
-		// Print Puzzle (i.e., without answers).
-		fm.add(mi = mkMenuItem(b, "file", "printwithout"));
-		mi.addActionListener(new PrintListener(false));
+		// Print
+		fm.add(mi = mkMenuItem(b, "file", "print"));
+		mi.addActionListener(new PrintListener());
 
 		fm.addSeparator();
 
