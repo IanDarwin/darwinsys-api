@@ -1,7 +1,8 @@
 package com.darwinsys.swingui;
 
-import javax.swing.table.*;
-import java.util.*;
+import java.util.ArrayList;
+
+import javax.swing.table.AbstractTableModel;
 
 /** JTable model for ArrayList of heterogeneous objects.
  * Subclasses must set String columnNames[] and
@@ -55,7 +56,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	}
 
 	/** Get the class of a given column, from the list provided by subclass */
-	public Class getColumnClass(int n) {
+	public Class<?> getColumnClass(int n) {
 		if (columnClasses == null)
 			throw new IllegalStateException("columnClasses not set");
 		int max = columnClasses.length;

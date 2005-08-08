@@ -126,8 +126,8 @@ public class ConnectionUtil {
 	 * from the current configuration file.
 	 * @return Set<String> of the configurations
 	 */
-	public static Set list() {
-		Set configNames = new TreeSet();
+	public static Set<String> list() {
+		Set<String> configNames = new TreeSet<String>();
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream(configFileName));
