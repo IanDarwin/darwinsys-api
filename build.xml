@@ -2,13 +2,15 @@
 
 	<!-- $Id$ -->
 
-	<!-- dependancies -->
-	<property file="build.properties"/>
-
 	<!-- other properties -->
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
 
+	<!-- Misc JAR files -->
+	<property name="servletapi.jar" value="lib/servletapi.jar"/>
+	<property name="mail.jar" value="lib/mail.jar"/>
+
+	<!-- Targets -->
 	<property name="obj.jar" value="darwinsys.jar"/>
 	<property name="src.jar" value="darwinsys-src.jar"/>
 
@@ -32,10 +34,9 @@
 
 	<target name="build-core" depends="init">
 		<javac destdir="${build}" srcdir="${src}"
-			classpath="${servletapi.jar}:${mail.jar}:${activation.jar}"
+			classpath="${servletapi.jar}:${mail.jar}"
 			debug="true" deprecation="true" fork="false">
 			<exclude name="regress/**"/>
-			<exclude name="com/darwinsys/ant/**"/>
 			<exclude name="com/darwinsys/macosui/**"/>
 		</javac>
 	</target>
@@ -53,6 +54,8 @@
 			classpath="${build}:${junit.jar}"
 			debug="true" deprecation="true" fork="false">
 			<include name="regress/**"/>
+			<exclude name="regress/MacOSUITest.java"/>
+			<exclude name="com/**"/>
 		</javac>
 	</target>
 
