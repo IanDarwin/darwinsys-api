@@ -1,4 +1,4 @@
-package JDBC;
+package com.darwinsys.sql;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

@@ -1,4 +1,4 @@
-package JDBC;
+package com.darwinsys.sql;
 
 import java.io.BufferedReader;
 import java.io.File;
