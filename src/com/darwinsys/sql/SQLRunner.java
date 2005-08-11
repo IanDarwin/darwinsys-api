@@ -46,16 +46,13 @@ import com.darwinsys.sql.ConnectionUtil;
  */
 public class SQLRunner implements ResultsDecoratorPrinter {
 	
-	// TODO: This is an obvious candidate for a 1.5 "enum" (fixed in the 1.5 branch)
-	
-	/** The mode for textual output */
-	public static final String MODE_TXT = "t";
-	/** The mode for HTML output */
-	public static final String MODE_HTML = "h";
-	/** The mode for SQL output */
-	public static final String MODE_SQL = "s";
-	/** The mode for XML output */
-	public static final String MODE_XML = "x";
+	/** The set of all valid modes. Short, lowercase names were used
+	 * for simple use in \mX where X is one of the names.
+	 */
+	enum Mode {
+		t, h, s, x;
+	};
+	Mode outputMode = Mode.t;
 
 	/** Database connection */
 	protected Connection conn;
@@ -92,7 +89,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 */
 	public static void main(String[] args)  {
 		String config = "default";
-		String outputMode = MODE_TXT;
+		String outputModeName = "t";
 		String outputFile = null;
 		boolean debug = false;
 		GetOpt go = new GetOpt("df:c:m:o:");
@@ -112,7 +109,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 				config = go.optarg();
 				break;
 			case 'm':
-				outputMode = go.optarg();
+				outputModeName = go.optarg();
 				break;
 			case 'o':
 				outputFile = go.optarg();
@@ -127,7 +124,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 
 			Connection conn = ConnectionUtil.getConnection(config);
 
-			SQLRunner prog = new SQLRunner(conn, outputFile, outputMode);
+			SQLRunner prog = new SQLRunner(conn, outputFile, outputModeName);
 			prog.setDebug(debug);
 			
 			if (go.getOptInd() == args.length) {
@@ -161,13 +158,13 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		finishSetup(outputFile, outputMode);
 	}
 	
-	public SQLRunner(Connection c, String outputFile, String outputMode) throws IOException, SQLException {
+	public SQLRunner(Connection c, String outputFile, String outputModeName) throws IOException, SQLException {
 		// set up the SQL input
 		conn = c;
-		finishSetup(outputFile, outputMode);
+		finishSetup(outputFile, outputModeName);
 	}
 	
-	void finishSetup(String outputFileName, String outputMode) throws IOException, SQLException {
+	void finishSetup(String outputFileName, String outputModeName) throws IOException, SQLException {
 		DatabaseMetaData dbm = conn.getMetaData();
 		String dbName = dbm.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
@@ -186,46 +183,54 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 * @param outputMode Must be a value equal to one of the MODE_XXX values.
 	 * @throws IllegalArgumentException if the mode is not valid.
 	 */
-	void setOutputMode(String outputMode) {
-		if (outputMode.length() == 0) { throw new IllegalArgumentException(
+	void setOutputMode(String outputModeName) {
+		if (outputModeName == null || 
+			outputModeName.length() == 0) { 
+			throw new IllegalArgumentException(
 			"invalid mode: " + outputMode + "; must be t, h or s"); }
 
+		
+		outputMode = Mode.valueOf(outputModeName);
+		setOutputMode(outputMode);
+	}
+	
+	void setOutputMode(Mode outputMode) {
 		// Assign the correct ResultsDecorator, creating them on the fly
-		// using the lazy evaluation pattern.
+		// using lazy evaluation.
 		ResultsDecorator newDecorator = null;
-		switch (outputMode.charAt(0)) {
-			case 't':
+		switch (outputMode) {
+			case t:
 				if (textDecorator == null) {
 					textDecorator = new ResultsDecoratorText(this);
 				}
 				newDecorator = textDecorator;
 				break;
-			case 'h':
+			case h:
 				if (htmlDecorator == null) {
 					htmlDecorator = new ResultsDecoratorHTML(this);
 				}
 				newDecorator = htmlDecorator;
 				break;
-			case 's':
+			case s:
 				if (sqlDecorator == null) {
 					sqlDecorator = new ResultsDecoratorSQL(this);
 				}
 				newDecorator = sqlDecorator;
 				break;
-			case 'x':
+			case x:
 				if (xmlDecorator == null) {
 					xmlDecorator = new ResultsDecoratorXML(this);
 				}
 				newDecorator = sqlDecorator;
 				break;
 			default:
+				String values = Mode.values().toString();
 				throw new IllegalArgumentException("invalid mode: "
-								+ outputMode + "; must be t, h or s");
+								+ outputMode + "; must be " + values);
 		}
 		if (currentDecorator != newDecorator) {
 			currentDecorator = newDecorator;
-			System.out.println("Mode set to  "
-					+ currentDecorator.getName());
+			System.out.println("Mode set to  " + outputMode);
 		}
 
 	}
@@ -249,6 +254,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	throws IOException, SQLException {
 
 		String stmt;
+		int i = 0;
 		System.out.println("SQLRunner: ready.");
 		while ((stmt = getStatement(is)) != null) {
 			stmt = stmt.trim();
@@ -295,7 +301,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	/**
 	 * Display - something
 	 * @param rest - what to display
-	 * XXX: Move formatting to ResultsDecorator: listTables(rs), listColumns(rs)
+	 * XXX: Move more formatting to ResultsDecorator: listTables(rs), listColumns(rs)
 	 */
 	private void display(String rest) throws SQLException {
 		if (rest.equals("t")) {
@@ -366,12 +372,14 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	throws IOException {
 		String ret="";
 		String line;
+		boolean found = false;
 		while ((line = is.readLine()) != null) {
 			if (line == null || line.length() == 0) {
 				continue;
 			}
 			if (!(line.startsWith("#") || line.startsWith("--"))) {
 				ret += ' ' + line;
+				found = true;
 			}
 			if (line.endsWith(";")) {
 				// Kludge, kill off empty statements (";") by itself, continue scanning.
