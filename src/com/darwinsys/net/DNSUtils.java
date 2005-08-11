@@ -32,7 +32,7 @@ public class DNSUtils {
 	 * This implementation returns the first DNS host listed;
 	 * a later version will sort them and pick the best one.
 	 * @param host
-	 * @return
+	 * @return The MX host, or the input if there is no MX.
 	 * @throws NamingException
 	 */
 	public String findMX(String host) throws NamingException {

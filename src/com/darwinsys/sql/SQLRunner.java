@@ -426,7 +426,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		return out;
 	}
 	/**
-	 * @return Returns the debug.
+	 * @return Returns the debug setting.
 	 */
 	public boolean isDebug() {
 		return debug;
@@ -434,7 +434,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	/**
 	 * @param debug True to enable debug, false to disable.
 	 */
-	public void setDebug(boolean d) {
-		debug = d;
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 }
