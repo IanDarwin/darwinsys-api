@@ -30,10 +30,8 @@ import com.darwinsys.sql.ConnectionUtil;
  * <li> \o output-file, redirects output.
  * <li> \q quit the program
  * </ul>
- * TODO: Fix parsing so escapes don't need to end with SQL semi-colon.
  * <p>This class can also be used from within programs such as servlets, etc.
- * <p>TODO: knobs to set debug mode (interactively & from getopt!)
- * <p>For example, this command and input:</pre>
+  * <p>For example, this command and input:</pre>
  * SQLrunner -c testdb
  * \ms;
  * select *from person where person_key=4;
@@ -42,6 +40,8 @@ import com.darwinsys.sql.ConnectionUtil;
  *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... ) 
  * values (4, 'Ian', 'F', 'Darwin', ...);
  * </pre>
+ * <p>TODO: Fix parsing so escapes don't need to end with SQL semi-colon.
+ * <p>TODO: knobs to set debug mode (interactively & from getopt!)
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class SQLRunner implements ResultsDecoratorPrinter {
@@ -188,7 +188,6 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 			outputModeName.length() == 0) { 
 			throw new IllegalArgumentException(
 			"invalid mode: " + outputMode + "; must be t, h or s"); }
-
 		
 		outputMode = Mode.valueOf(outputModeName);
 		setOutputMode(outputMode);
