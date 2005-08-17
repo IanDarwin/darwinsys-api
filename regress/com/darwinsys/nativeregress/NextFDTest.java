@@ -27,21 +27,19 @@ public class NextFDTest extends TestCase {
 		String fileName = COMMON_FILE;
 
 		InputStream is = new FileInputStream(fileName);
-		System.out.printf("File to %s is open.%n", fileName);
+		System.out.printf("File %s is open.%n", fileName);
 
 		int high = NextFD.getNextFD();
 		System.out.println("nextfd returned " + high);
-		if (high != start + 1) {
-			throw new IllegalStateException("high != start + 1");
+		if (start != -1) {
+			assertEquals("opening file adds 1", high, start + 1);
 		}
 
 		is.close();
-		System.out.printf("File to %s is closed.%n", fileName);
+		System.out.printf("File %s is closed.%n", fileName);
 
 		int end = NextFD.getNextFD();
 		System.out.println("nextfd returned " + end);
-		if (end != start) {
-			throw new IllegalStateException("end != start");
-		}
+		assertEquals("back to where we started?", end, start);
 	}
 }
