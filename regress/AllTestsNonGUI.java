@@ -2,7 +2,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Test the non-GUI components (those that don't require interaction)
+ * Test the non-GUI components (those that don't require interaction).
+ * DO NOT INCLUDE the stuff in nativeregress since it must be done by hand.
  * @version $Id$
  */
 public class AllTestsNonGUI {
