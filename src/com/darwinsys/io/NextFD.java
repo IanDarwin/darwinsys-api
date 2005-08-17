@@ -1,12 +1,16 @@
 package com.darwinsys.io;
 
-import java.io.*;
-
-/** Simple demo of nextfd method; nextfd is used to watch filedesc leaks.
+/** Simple wrapper class for native nextfd method; nextfd is used to watch filedesc leaks.
  */
 public class NextFD {
 
+	private static final int INVALID_FD = -1;
+
+	/** The name of the shared library */
 	public static final String LIBRARY_NAME = "darwinsys";
+	
+	/** True if the shared library loaded successfully */
+	private static boolean loaded;
 
 	/** Native method to return the next available file descriptor.
 	 * Obviously this will only work on POSIX-like systems that support the
@@ -14,51 +18,29 @@ public class NextFD {
 	 * tracking file descriptor leaks in APIs used e.g., when indexing
 	 * significant numbers of files.
 	 */
-	public static native int nextfd();
-
-	/** A file that exists on most POSIX systems; it is the file we open
-	 * for reading iff no argument is passed on the command line.
-	 */
-	public static final String COMMON_FILE = "/etc/passwd";
+	private static native int nextfd();
 	
-	/**
-	 * Main: run it, open a file, run it, close the file, run it again.
-	 * <b>Doubles as a regression test</b>
-	 * @param args One optional filename, which must exist and be readable.
+	/** Public method to try to return the next available file descriptor, if available.
+	 * @return the next free system file descriptor, or INVALID_FD (-1) if not available.
 	 */
-	public static void main(String[] args) throws IOException {
-
-		/** Load the .so or dll */
+	public static int getNextFD() {
+		if (loaded) {
+			return nextfd();
+		}
+		return INVALID_FD;
+	}
+	
+	static {
+		/** Load the .so or dll, set loaded = true if it succeeds. */
 		try {
-		System.loadLibrary(LIBRARY_NAME);
+			System.loadLibrary(LIBRARY_NAME);
+			loaded = true;
 		} catch (UnsatisfiedLinkError e) {
 			System.err.printf("*** Could not load the %s library (.so or .dll)%n",
 				LIBRARY_NAME);
-			System.err.println("Check that you have installed the library and");
+			System.err.println("This means that NextFD.getNextFD() will always return -1.");
+			System.err.println("Please check that you have installed the shared library and");
 			System.err.println("if necessary set your LD_LIBRARY_PATH or equivalent.");
-		}
-
-		int start = nextfd();
-		System.out.println("nextfd returned " + start);
-
-		String fileName = args.length > 0 ? args[0] : COMMON_FILE;
-
-		InputStream is = new FileInputStream(fileName);
-		System.out.printf("File to %s is open.%n", fileName);
-
-		int high = nextfd();
-		System.out.println("nextfd returned " + high);
-		if (high != start + 1) {
-			throw new IllegalStateException("high != start + 1");
-		}
-
-		is.close();
-		System.out.printf("File to %s is closed.%n", fileName);
-
-		int end = nextfd();
-		System.out.println("nextfd returned " + end);
-		if (end != start) {
-			throw new IllegalStateException("end != start");
 		}
 	}
 }

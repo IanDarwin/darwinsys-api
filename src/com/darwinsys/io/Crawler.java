@@ -63,15 +63,17 @@ public class Crawler implements Checkpointer {
 			if (next.isDirectory()  && !seen(next)) {
 				checkpoint(next);
 				crawl(next);			// Crawl the directory
-			} else
+			} else {
 				// See if we want file by name then, if isFile() process, else ignore quietly
 				// (this squelches lots of natterings about borked symlinks, which are not our worry).
+				int nextFreeFD = -1;
 				if (chooser.accept(startDir, next.getName()) && next.isFile()) {
 					// Intentionally put try/catch around just one call, so we keep going,
 					// assuming that it's something that only affects one file...
 					try {
 						if (chooser != null) {
 							if (chooser.accept(startDir, next.getName())){
+								nextFreeFD = NextFD.getNextFD();
 								visitor.visit(next); // Process file based on name.
 							}
 						} else {
@@ -79,7 +81,12 @@ public class Crawler implements Checkpointer {
 						}
 					} catch (Throwable e) {
 						eHandler.handleException(e);
+					} finally {
+						if (nextFreeFD != -1 && NextFD.getNextFD() != nextFreeFD) {
+							System.err.println("Hey, that lost a file descriptor!");
+						}
 					}
+				}
 			}
 		}
 	}
