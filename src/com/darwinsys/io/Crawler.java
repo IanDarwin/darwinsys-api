@@ -19,10 +19,11 @@ public class Crawler implements Checkpointer {
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;
 	/** An Error Handler that just prints the exception */
-	public static final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
+	public final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable t) {
 			try {
-				System.err.println("Caught exception: " + t);
+				System.err.printf("File %s caused exception %s%n",
+					visitor.getFile().getAbsolutePath());
 				Throwable t2 = t.getCause();
 				if (t2 != null) {
 					System.err.println("Cause: " + t2);
@@ -43,7 +44,8 @@ public class Crawler implements Checkpointer {
 		this(null, fileVisitor);
 	}
 	
-	/** Crawl one set of directories, starting at startDir
+	/** Crawl one set of directories, starting at startDir.
+	 * Calls itself recursively.
 	 * @param startDir
 	 * @throws IOException if File.getCanonicalPath() does so.
 	 */
@@ -60,7 +62,7 @@ public class Crawler implements Checkpointer {
 				System.err.println("Warning: " + startDir +" contains null filename(s)");
 				continue;
 			}
-			if (next.isDirectory()  && !seen(next)) {
+			if (next.isDirectory() && !seen(next)) {
 				checkpoint(next);
 				crawl(next);			// Crawl the directory
 			} else {
