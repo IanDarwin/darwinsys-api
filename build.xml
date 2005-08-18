@@ -61,7 +61,7 @@
 
 	<target name="dist" depends="jar,src-jar"/>
 
-	<target name="jar" depends="docs,regress">
+	<target name="jar" depends="docs">
 		<jar jarfile="${build}/${obj.jar}" 
 			manifest="manifest.stub"
 			basedir="${build}" includes="META-INF/*,com/**/*.class,docs/**">
@@ -82,7 +82,7 @@
 	<!-- Docs now depends on regress: no point waiting for javadoc
 	 *** if the tests don't run!
 	 -->
-	<target name="docs" depends="regress">
+	<target name="docs">
 		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
 			classpath="${build}:${darwinsys.jar}:${servletapi.jar}:${mail.jar}"
 			packagenames="com.darwinsys.*"
