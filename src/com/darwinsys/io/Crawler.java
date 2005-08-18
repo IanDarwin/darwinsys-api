@@ -23,7 +23,7 @@ public class Crawler implements Checkpointer {
 		public void handleException(Throwable t) {
 			try {
 				System.err.printf("File %s caused exception %s%n",
-					visitor.getFile().getAbsolutePath());
+					visitor.getFile().getAbsolutePath(), t);
 				Throwable t2 = t.getCause();
 				if (t2 != null) {
 					System.err.println("Cause: " + t2);
