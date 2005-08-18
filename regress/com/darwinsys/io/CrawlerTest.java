@@ -25,8 +25,9 @@ public class CrawlerTest extends TestCase {
 			}
 		};
 		FileHandler dummyVisitorJustPrints = new FileHandler() {
-
+			private File file;
 			public void visit(File f) {
+				this.file = f;
 				seenAnyFiles = true;
 				System.out.println(f.getAbsolutePath());
 			}
@@ -35,6 +36,10 @@ public class CrawlerTest extends TestCase {
 			}
 
 			public void destroy() throws IOException {
+			}
+
+			public File getFile() {
+				return file;
 			}
 			
 		};
