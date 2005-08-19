@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class NextFDTest extends TestCase {
 
 	/**
-	 * A file that exists on most POSIX systems; it is the file we open for
+	 * A file that exists on most *NIX systems; it is the file we open for
 	 * reading iff no argument is passed on the command line.
 	 */
 	public static final String COMMON_FILE = "/etc/passwd";
@@ -36,10 +36,9 @@ public class NextFDTest extends TestCase {
 		}
 
 		is.close();
-		System.out.printf("File %s is closed.%n", fileName);
-
+		
 		int end = NextFD.getNextFD();
-		System.out.println("nextfd returned " + end);
+		System.out.println("after close, nextfd returned " + end);
 		assertEquals("back to where we started?", end, start);
 	}
 }
