@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Fighting with External APIs over Resources - from Java</title>
+</head>
+<body>
+<h1>Fighting with External APIs from Java</h1>
+<h3>Abstract</h3>
+<p>
+A typical Java application today may use a dozen or more external
+APIs.
+These typically arrive as JAR files and are installed for use
+without much attention.
+This makes them a perfect vector to sneak in security threats, 
+but that is not the focus of this paper.
+They are also a perfect place for external resource leakage,
+such as operating system-level file descriptors.
+Given that some of them may be using external resources such as
+Java "native code" (see XXX resource links here),
+it is all but impossible to diagnose them using mechanisms
+intrinsic to Java itself.
+This paper looks at one study undertaken to resolve a loss of
+operating system-level file descriptors which was causing a long-running
+application to run completely out of such descriptors.
+</p>
+<h3>The Problem</h3>
+<p>
+Java's Stream, Writer and Channel classes are an abstraction
+over the operating system's basic input/output mechanism.
+UNIX, for example, uses integer "file descriptors" as the handle
+or point of reference between an open resource (file, pipe, or socket)
+known to the operating system kernel and the application program
+running in user space. All programming languages running on UNIX
+must therefore either allow direct use of file descriptors or
+provide a higher level representation of the file.
+Interestingly, the most widely-used UNIX language, The C
+Programming Language, provides both a system-call based level
+of I/O that uses <kbd>int</kbd> variables to directly hold
+system-provided file descriptors, and a higher-level "standard I/O"
+package based on <kbd>FILE *</kbd> structures; the FILE structure
+contains the file descriptor that is the tie-in to the open resource
+in the kernel.
+</p>
+<p>It is also worth considering in passing that each valid file descriptor
+references a kernel data structure representing an open resource
+(and, in simpler implementations, the file descriptor is simply an
+array index into a table of such data structures).
+The UNIX kernel has been under continuous (in the case of the 
+BSD-based kernels at least) development for over thirty-five years.
+At the time UNIX was invented, memory was expensive.
+And indeed, even though you can buy a gigabyte of RAM to put in
+a notebook computer, memory is still considered a finite resource.
+User level programs are not permitted to use up all physical memory,
+as this would imping on other users' processes and on the
+operating system itself.
+Thus, each user is administratively given a finite limit on the
+number of file descriptors that can be opened;
+once this quota has been used up, that user can only open new files
+after closing existing ones.
+A not-uncommon problem, then, has been developers forgetting to
+close file descriptors; such programs may work in testing but will
+fail in production, typically at the most embarassing time possible.
+</p>
+<p>The developers of Java took the sensible approach of providing a
+platform-independent
+I/O model, so Java does not allow direct use of file descriptors on UNIX
+(nor their equivalent on other operating systems).
+Early versions of Java provided just Stream classes for reading
+and writing. Version 1.1 introduced Readers and Writers which are
+similar to Streams but allow for automatic canonicalization between
+external character sets and the internal Unicode character set.
+Java 1.4 further widened the range of possibilities by using
+the "new I/O" package, java.nio, which is designed for greater
+efficiency and is based on "Buffers" and "Channels".
+</p>
+<p>
+At the Toronto Centre for Phenogenomics, I was developing a
+search index, patterned after the world-famous Google search
+but implemented using 
+<a href="http://lucene.apache.org/">Apache Lucene</a>.
+We needed to index many document formats: 
+<a href="http://foo/">MINC</a>, Adobe PDF, OpenOffice.org,
+Microsoft Word, and more.
+Because of the many document types, the index-building application
+used a large collection of API, mostly from open source Java projects
+and provided as JAR files.
+</p>
+<p>After running successfully on a small set of test files, the
+index builder was turned loose on the entire corpus of several
+tens of thousands of files.
+As is often the case in such circumstances,
+the production case diverge significantly from expectations
+formed during the test runs.
+In this case, the program threw a large number of Java
+Exceptions caused by errors detected by the various APIs.
+That is to be expected given the size of the corpus being indexed.
+However, the significant unexpected result was that the program
+soon reported that it was unable to index any new files, becuase
+each attempt failed with the message "Too many open files", a well-known
+UNIX message indicating that the program has exceeded the user's
+allocation of system-level file descriptors.</p>
+<p>
+Being an administrator of my own workstation, I quickly increased 
+the number of file descriptors to 1,000 and tried again.
+It got further, but still failed. 
+I tried 4,096, and it still eventually failed.
+It was clear that one of those APIs that was so convenient for
+reading different file types was failing to close a Stream or Reader
+in the case of error, thus leading to the program eventually
+collapsing with the classic "out of file descriptors" failure.
+</p>
+<p>The problem remained of how to isolate this problem to a paritular
+API. I could have modified the program to exclude particular APIs
+from test runs, which would have taken many hours of re-running.
+Or I could have read the source code exhaustively of all APIs
+(they are open source, after all).
+But that would have taken weeks or months.
+Instead, I chose to develop a general-purpose tool for
+tracking down all such errors in all Java code.
+And I managed to do it with about three lines of C code.
+</p>
+<h3>One Solution</h3> 
+<p>From my knowledge of UNIX I knew a few things about file descriptors.
+First, the system calls that return them, such as "open",
+generally can be expected to return the lowest-available file
+descriptor number
+(although only one system call, "dup(2)", technically guarantees
+to do so).
+Thus, if you open file a and save the fd, then close it,
+then call some API which opens and closes an arbitrary number of
+files,
+then open file a again, you should expect to get back the same fd.
+Second, opening and closing a file on disk is relatively inexpensive.
+</p>
+<p>Java's security model provides reasonably fine-grained access
+to granting or refusing application requests.
+A SecurityManager object can be installed and, if present,
+makes all decisions on what the rest of the application is
+allowed to do.
+The normal security manager will, of course, prevent the
+rest of the app from installing a new security manager.
+A normal desktop application may run without a security manager,
+whereas a downloaded Applet will run under a security manager
+provided by the Web Browser, which will prevent the Applet from
+opening network connections to any host but the Applet's origin,
+prevent it from accessing files on disk, or running native code.
+<p>
+The Native Code mechanism in Java allows access to arbitrary C code.
+I use the term "arbitary" advisedly, since because this totally
+violates Java's security assumptions, reduced-privileged Java code
+(such as Applets and Java Web Start applications)
+require user intervention to enable this.
+But once granted, there are effectively no mechanism for Java
+to control what it does.
+</p>
+<p>
+My native code.
+</p>
+<p>Applying it.
+</p>
+<p>Diagram
+</p>
+<h3>Lessons Learned</h3>
+<p>Tool building soapbox</p>
