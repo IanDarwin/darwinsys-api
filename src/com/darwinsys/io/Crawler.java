@@ -35,7 +35,7 @@ public class Crawler implements Checkpointer {
 		}
 	};
 	/** The current Error Handler */
-	private CrawlerCallback eHandler = JUST_PRINT;
+	private CrawlerCallback eHandler;
 	
 	public Crawler(FilenameFilter chooser, FileHandler fileVisitor) {
 		if (chooser == null) {
@@ -82,11 +82,10 @@ public class Crawler implements Checkpointer {
 						} else {
 							visitor.visit(next);	// Process file unconditionally
 						}
-					} catch (Throwable e) {
-						eHandler.handleException(e);
 					} finally {
 						if (nextFreeFD != -1 && NextFD.getNextFD() != nextFreeFD) {
-							System.err.println("Hey, that lost a file descriptor!");
+							System.err.printf("Hey, processing %s lost a file descriptor!",
+									next);
 						}
 					}
 				}
@@ -122,6 +121,7 @@ public class Crawler implements Checkpointer {
 	
 	public void setEHandler(CrawlerCallback handler) {
 		eHandler = handler;
+		Thread.setDefaultUncaughtExceptionHandler(eHandler);
 	}
 	
 }
