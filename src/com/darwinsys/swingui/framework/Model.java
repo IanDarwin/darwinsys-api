@@ -23,7 +23,7 @@ public interface Model {
 	public void doPrint(Graphics g);
 
 	/**
-	 * @return
+	 * @return The current filename.
 	 */
 	public String getFileName();
 
