@@ -47,4 +47,15 @@ public class CrawlerTest extends TestCase {
 		
 		assertTrue("crawler found at least one file in .", seenAnyFiles);
 	}
+	
+	public void testErrors() throws Exception {
+		try {
+			new Crawler(null, null);
+			fail("Did not throw expected NPE");
+		} catch (NullPointerException e) {
+			// OK
+		} catch (Throwable t) {
+			fail("Caught UNexcpeted exception " + t);
+		}
+	}
 }

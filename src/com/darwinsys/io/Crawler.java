@@ -22,14 +22,14 @@ public class Crawler implements Checkpointer {
 	public final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable t) {
 			try {
-				System.err.printf("File %s caused exception %s%n",
+				System.err.printf("File %s caused exception (%s)%n",
 					visitor.getFile().getAbsolutePath(), t);
 				Throwable t2 = t.getCause();
 				if (t2 != null) {
 					System.err.println("Cause: " + t2);
 				}
 			} catch (Throwable h) {
-				// Error handlers should neither fail, nor complain if they do.
+				System.err.println("ERROR IN ERROR HANDLER: " + h);
 			}
 		}
 	};
@@ -37,6 +37,9 @@ public class Crawler implements Checkpointer {
 	private CrawlerCallback eHandler = JUST_PRINT;
 	
 	public Crawler(FilenameFilter chooser, FileHandler fileVisitor) {
+		if (chooser == null) {
+			throw new NullPointerException("Chooser may not be null");
+		}
 		this.chooser = chooser;
 		this.visitor = fileVisitor;
 	}
