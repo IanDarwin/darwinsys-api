@@ -23,7 +23,7 @@ public class Crawler implements Checkpointer {
 	public final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable t) {
 			try {
-				System.err.printf("File %s caused exception (%s)%n",
+				System.err.printf("File %s caused exception (%s)\n",
 					visitor.getFile().getAbsolutePath(), t);
 				Throwable t2 = t.getCause();
 				if (t2 != null) {
@@ -43,9 +43,6 @@ public class Crawler implements Checkpointer {
 		}
 		this.chooser = chooser;
 		this.visitor = fileVisitor;
-	}
-	public Crawler(FileHandler fileVisitor) {
-		this(null, fileVisitor);
 	}
 	
 	/** Crawl one set of directories, starting at startDir.
@@ -97,7 +94,7 @@ public class Crawler implements Checkpointer {
 		}
 	}
 
-	private Set<String> seen = new TreeSet<String>();
+	private Set<String> seenSet = new TreeSet<String>();
 	
 	/**
 	 * Keep track of whether we have seen this directory, to avoid looping
@@ -108,9 +105,9 @@ public class Crawler implements Checkpointer {
 	 */
 	private boolean seen(File next) throws IOException {
 		String path = next.getCanonicalPath();
-		boolean seen = this.seen.contains(path);
+		boolean seen = seenSet.contains(path);
 		if (!seen) {
-			this.seen.add(path);
+			seenSet.add(path);
 		}
 		return seen;
 	}
