@@ -14,11 +14,12 @@ import java.util.TreeSet;
  * @see regress.io.CrawlerTest
  */
 public class Crawler implements Checkpointer {
-	
+	private static boolean debug = false;
 	/** The visitor to send all our chosen files to */
 	private FileHandler visitor;
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;
+	
 	/** An Error Handler that just prints the exception */
 	public final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable t) {
@@ -82,6 +83,18 @@ public class Crawler implements Checkpointer {
 						} else {
 							visitor.visit(next);	// Process file unconditionally
 						}
+					} catch (Throwable e) {
+						if (eHandler != null) {
+							eHandler.handleException(e);
+						} else {
+							if (e instanceof IOException)
+								throw (IOException)e;
+							else {
+								IOException exception = new IOException("Crawl Error");
+								exception.initCause(e);
+								throw exception;
+							}
+						}
 					} finally {
 						if (nextFreeFD != -1 && NextFD.getNextFD() != nextFreeFD) {
 							System.err.printf("Hey, processing %s lost a file descriptor!",
@@ -121,7 +134,9 @@ public class Crawler implements Checkpointer {
 	
 	public void setEHandler(CrawlerCallback handler) {
 		eHandler = handler;
-		Thread.setDefaultUncaughtExceptionHandler(eHandler);
+		if (debug) {
+			Thread.setDefaultUncaughtExceptionHandler(eHandler);
+		}
 	}
 	
 }
