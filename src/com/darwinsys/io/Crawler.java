@@ -16,12 +16,12 @@ import java.util.TreeSet;
 public class Crawler implements Checkpointer {
 	private static boolean debug = false;
 	/** The visitor to send all our chosen files to */
-	private FileHandler visitor;
+	private static FileHandler visitor;
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;
 	
 	/** An Error Handler that just prints the exception */
-	public final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
+	public static final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable t) {
 			try {
 				System.err.printf("File %s caused exception (%s)\n",
@@ -43,7 +43,7 @@ public class Crawler implements Checkpointer {
 			throw new NullPointerException("Chooser may not be null");
 		}
 		this.chooser = chooser;
-		this.visitor = fileVisitor;
+		Crawler.visitor = fileVisitor;
 	}
 	
 	/** Crawl one set of directories, starting at startDir.
