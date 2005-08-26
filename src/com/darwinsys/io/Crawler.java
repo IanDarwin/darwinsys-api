@@ -60,7 +60,8 @@ public class Crawler implements Checkpointer {
 		//java.util.Arrays.sort(dir);		// Sort it (Data Structuring chapter))
 		for (int i=0; i<dir.length; i++) {
 			File next = dir[i];
-			if (next.getName() == null) {
+			String nextFileName = next.getName();
+			if (nextFileName == null) {
 				System.err.println("Warning: " + startDir +" contains null filename(s)");
 				continue;
 			}
@@ -71,12 +72,15 @@ public class Crawler implements Checkpointer {
 				// See if we want file by name then, if isFile() process, else ignore quietly
 				// (this squelches lots of natterings about borked symlinks, which are not our worry).
 				int nextFreeFD = -1;
-				if (chooser.accept(startDir, next.getName()) && next.isFile()) {
+				if (chooser.accept(startDir, nextFileName) && next.isFile()) {
+					if (!next.canRead()) {
+						System.err.println(nextFileName + " not readable, ignored.");
+					}
 					// Intentionally put try/catch around just one call, so we keep going,
 					// assuming that it's something that only affects one file...
 					try {
 						if (chooser != null) {
-							if (chooser.accept(startDir, next.getName())){
+							if (chooser.accept(startDir, nextFileName)){
 								nextFreeFD = NextFD.getNextFD();
 								visitor.visit(next); // Process file based on name.
 							}
