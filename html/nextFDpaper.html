@@ -5,24 +5,24 @@
 <title>Fighting with External APIs over Resources - from Java</title>
 </head>
 <body>
-<h1>Fighting with External APIs from Java</h1>
+<h1>Low-Budget Instrumentation: Profiling API and Native Code</h1>
 <h3>Abstract</h3>
 <p>
-A typical Java application today may use a dozen or more external
-APIs.
+A typical Java application today may use a dozen or more external APIs.
 These typically arrive as JAR files and are installed for use
 without much attention.
 This makes them a perfect vector to sneak in security threats, 
 but that is not the focus of this paper.
-They are also a perfect place for external resource leakage,
-such as operating system-level file descriptors.
+They are also a perfect place for resource leakage,
+such as memory leaks or operating system-level file descriptors.
 Given that some of them may be using external resources such as
 Java "native code" (see XXX resource links here),
 it is all but impossible to diagnose them using mechanisms
-intrinsic to Java itself.
-This paper looks at one study undertaken to resolve a loss of
+in Java itself.
+This paper looks at studies undertaken to resolve loss of
+memory and an unrelated loss of
 operating system-level file descriptors which was causing a long-running
-application to run completely out of such descriptors.
+application server to run completely out of these resources.
 </p>
 <h3>The Problem</h3>
 <p>
