@@ -25,8 +25,13 @@ public class SmtpUtils {
 	public boolean verifySender(String user, String host) throws IOException{
 		PrintWriter out = null;
 		try {
-			String mxHost = new DNSUtils(myDnsServer).findMX(host);
-			
+			String mxHost = null;
+			try {
+				mxHost = new DNSUtils(myDnsServer).findMX(host);
+			} catch (NamingException e) {
+				System.out.println("verifySender: cannot vrfy MX");
+				return false; // Should be trinary, for "unknown"?
+			}
 			Socket s = new Socket(mxHost, SMTP_PORT);
 			BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = new PrintWriter(s.getOutputStream(), true);
@@ -51,9 +56,7 @@ public class SmtpUtils {
 			return false;
 		} catch (NoRouteToHostException e) {
 			return false;
-		} catch (NamingException e) {
-			e.printStackTrace();
-			return false; // Should be trinary, for "unknown"?
+		
 		} finally {
 			if (out != null)
 				out.close();
