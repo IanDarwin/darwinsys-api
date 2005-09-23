@@ -34,7 +34,7 @@ import com.darwinsys.sql.ConnectionUtil;
   * <p>For example, this command and input:</pre>
  * SQLrunner -c testdb
  * \ms;
- * select *from person where person_key=4;
+ * select * from person where person_key=4;
  * </pre>might produce this output:<pre>
  * Executing : <<select * from person where person_key=4>>
  *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... ) 
@@ -50,7 +50,14 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 * for simple use in \mX where X is one of the names.
 	 */
 	enum Mode {
-		t, h, s, x;
+		/** Mode for Text */
+		t,
+		/** Mode for HTML output */
+		h,
+		/** Mode for SQL output */
+		s,
+		/** Mode for XML output */
+		x;
 	};
 	Mode outputMode = Mode.t;
 
@@ -251,9 +258,8 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	/** Run one script, by name, given a BufferedReader. */
 	public void runScript(BufferedReader is)
 	throws IOException, SQLException {
-
 		String stmt;
-		int i = 0;
+		
 		System.out.println("SQLRunner: ready.");
 		while ((stmt = getStatement(is)) != null) {
 			stmt = stmt.trim();
@@ -311,8 +317,9 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 				System.out.println(rs.getString(3));
 			}
 		} else if (rest.startsWith("t")) {
-			// Display one table
-			String tableName = rest.substring(1).trim();
+			// Display one table. Some DatabaseMetaData implementations
+			// don't do ignorecase so, for now, convert to UPPER CASE.
+			String tableName = rest.substring(1).trim().toUpperCase();
 			System.out.println("# Display table " + tableName);
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getColumns(null, null, tableName, "%");
@@ -326,15 +333,15 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	/** Set the output to the given filename.
 	 * @param fileName
 	 */
-	private void setOutputFile(String fileName) throws IOException{
-		File file = new File(fileName);
-		out = new PrintWriter(new FileWriter(file), true);
-		System.out.println("Output set to " + file.getCanonicalPath());
-	}
-	 
-	/** Set the output file back to System.out */
-	private void setOutputFile() throws IOException{
-		out = new PrintWriter(System.out, true);
+	private void setOutputFile(String fileName) throws IOException {
+		if (fileName == null) {
+			/* Set the output file back to System.out */
+			out = new PrintWriter(System.out, true);
+		} else {
+			File file = new File(fileName);
+			out = new PrintWriter(new FileWriter(file), true);
+			System.out.println("Output set to " + file.getCanonicalPath());
+		}
 	}
 
 	/** Run one Statement, and format results as per Update or Query.
@@ -371,14 +378,12 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	throws IOException {
 		String ret="";
 		String line;
-		boolean found = false;
 		while ((line = is.readLine()) != null) {
 			if (line == null || line.length() == 0) {
 				continue;
 			}
 			if (!(line.startsWith("#") || line.startsWith("--"))) {
 				ret += ' ' + line;
-				found = true;
 			}
 			if (line.endsWith(";")) {
 				// Kludge, kill off empty statements (";") by itself, continue scanning.
