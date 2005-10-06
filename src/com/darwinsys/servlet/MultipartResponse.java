@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MultipartResponse {
 
+	private static final String BOUNDARY_TEXT = "End";
 	HttpServletResponse res;
 	ServletOutputStream out;
 
@@ -27,9 +28,10 @@ public class MultipartResponse {
 		out = res.getOutputStream();
 
 		// Set things up
-		res.setContentType("multipart/x-mixed-replace;boundary=End");
+		res.setContentType("multipart/x-mixed-replace;boundary=" +
+				BOUNDARY_TEXT);
 		out.println();
-		out.println("--End");
+		out.println("--" + BOUNDARY_TEXT);
 	}
 
 	public void startResponse(String contentType) throws IOException {
@@ -46,13 +48,13 @@ public class MultipartResponse {
 	public void endResponse() throws IOException {
 		// End the last response, and flush so the client sees the content
 		out.println();
-		out.println("--End");
+		out.println("--" + BOUNDARY_TEXT);
 		out.flush();
 		endedLastResponse = true;
 	}
 
 	public void finish() throws IOException {
-		out.println("--End--");
+		out.println("--" + BOUNDARY_TEXT + "--");
 		out.flush();
 	}
 }
