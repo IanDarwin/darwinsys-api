@@ -2,13 +2,16 @@ package com.darwinsys.sql;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /** Prompt for a value in a database.
  * Usage: ValuePrompt connection table column "expression"
  * e.g.
- * <br/>
- * java ValuePrompt 
+ * <pre>
+ * java ValuePrompt mydb products location "location is null or location = 0"
+ * </pre>
  * @author ian
  */
 public class ValuePrompt {
