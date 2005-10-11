@@ -16,7 +16,19 @@ import java.sql.Statement;
  */
 public class ValuePrompt {
 
-    public static void main(String args[]) {
+	public static final String USAGE =
+		"ValuePrompt connection-name table-name column-name \"expression\"";
+
+	public static void main(String args[]) {
+    	if (args.length == 1 && args[0].startsWith("-h")) {
+    		System.err.println(USAGE);
+    		System.exit(0);
+    	}
+    	if (args.length != 4) {
+    		System.err.println(USAGE);
+    		System.exit(1);
+    	}
+    	
     	String connection = args[0];
     	String table = args[1];
     	String column = args[2];
