@@ -1,0 +1,49 @@
+package com.darwinsys.sql;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.sql.*;
+
+/** Prompt for a value in a database.
+ * Usage: ValuePrompt connection table column "expression"
+ * e.g.
+ * <br/>
+ * java ValuePrompt 
+ * @author ian
+ */
+public class ValuePrompt {
+
+    public static void main(String args[]) {
+    	String connection = args[0];
+    	String table = args[1];
+    	String column = args[2];
+    	String expression = args[3];
+        
+        try {
+        	Connection con = ConnectionUtil.getConnection(connection);         
+
+        	BufferedReader is = 
+        		new BufferedReader(new InputStreamReader(System.in));
+			Statement stmt = con.createStatement(
+			ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String query = "SELECT * FROM " + table +
+					" where " + expression;
+			ResultSet rs = stmt.executeQuery(query);
+			System.out.println("Starting processing: query = " + query);
+			while (rs.next()) {
+				System.out.println(rs.getObject(1));
+				String resp = is.readLine();
+				if (resp == null || "".equals(resp))
+					continue;
+				rs.updateString(column, resp);
+				rs.updateRow();
+			}
+			System.out.println("All done.");
+			rs.close();
+			stmt.close();
+            con.close();
+        } catch(Exception ex) {
+            System.err.println("Exception: " + ex);
+        }
+	}
+}
