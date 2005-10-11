@@ -5,12 +5,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import com.darwinsys.util.Verbosity;
+
 /** Print ResultSet in HTML
  */
 class ResultsDecoratorHTML extends ResultsDecorator {
 	
-	ResultsDecoratorHTML(ResultsDecoratorPrinter out) {
-		super(out);
+	ResultsDecoratorHTML(ResultsDecoratorPrinter out, Verbosity v) {
+		super(out, v);
 	}
 	
 	public void write(ResultSet rs) throws IOException, SQLException {

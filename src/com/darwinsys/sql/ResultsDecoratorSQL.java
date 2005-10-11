@@ -6,14 +6,16 @@ import java.sql.Types;
 import java.io.*;
 import java.sql.*;
 
+import com.darwinsys.util.Verbosity;
+
 /**
  * Print an SQL ResultSet in SQL-import format.
  * TODO: check all escaped characters needed! Test on PGSQL and DB2 at least...
  * @version $Id$
  */
 public class ResultsDecoratorSQL extends ResultsDecorator {
-	ResultsDecoratorSQL(ResultsDecoratorPrinter out) {
-		super(out);
+	ResultsDecoratorSQL(ResultsDecoratorPrinter out, Verbosity v) {
+		super(out, v);
 	}
 	public void write(ResultSet rs) throws IOException, SQLException {
 		ResultSetMetaData md = rs.getMetaData();

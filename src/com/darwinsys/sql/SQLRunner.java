@@ -16,6 +16,7 @@ import java.sql.Statement;
 import com.darwinsys.database.DataBaseException;
 import com.darwinsys.lang.GetOpt;
 import com.darwinsys.sql.ConnectionUtil;
+import com.darwinsys.util.Verbosity;
 
 /** Class to run an SQL script, like psql(1), SQL*Plus, or similar programs.
  * Command line interface accepts options -c config [-f configFile] [scriptFile].
@@ -40,8 +41,7 @@ import com.darwinsys.sql.ConnectionUtil;
  *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... ) 
  * values (4, 'Ian', 'F', 'Darwin', ...);
  * </pre>
- * <p>TODO: Fix parsing so escapes don't need to end with SQL semi-colon.
- * <p>TODO: knobs to set debug mode (interactively & from getopt!)
+ * <p>TODO: Fix parsing so \\ escapes don't need to end with SQL semi-colon.
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class SQLRunner implements ResultsDecoratorPrinter {
@@ -80,7 +80,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	
 	private ResultsDecorator xmlDecorator;
 	
-	boolean debug = false;
+	static Verbosity verbosity = Verbosity.QUIET;
 
 	/** print help; called from several places in main */
 	private static void doHelp(int i) {
@@ -98,8 +98,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		String config = "default";
 		String outputModeName = "t";
 		String outputFile = null;
-		boolean debug = false;
-		GetOpt go = new GetOpt("df:c:m:o:");
+		GetOpt go = new GetOpt("dvf:c:m:o:");
 		char c;
 		while ((c = go.getopt(args)) != GetOpt.DONE) {
 			switch(c) {
@@ -107,7 +106,10 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 				doHelp(0);
 				break;
 			case 'd':
-				debug = true;
+				setVerbosity(Verbosity.DEBUG);
+				break;
+			case 'v':
+				setVerbosity(Verbosity.VERBOSE);
 				break;
 			case 'f':
 				ConnectionUtil.setConfigFileName(go.optarg());
@@ -132,11 +134,10 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 			Connection conn = ConnectionUtil.getConnection(config);
 
 			SQLRunner prog = new SQLRunner(conn, outputFile, outputModeName);
-			prog.setDebug(debug);
 			
 			if (go.getOptInd() == args.length) {
 				prog.runScript(new BufferedReader(
-					new InputStreamReader(System.in)));
+					new InputStreamReader(System.in)), "(standard input)");
 			} else for (int i = go.getOptInd()-1; i < args.length; i++) {
 				prog.runScript(args[i]);
 			}
@@ -207,25 +208,25 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		switch (outputMode) {
 			case t:
 				if (textDecorator == null) {
-					textDecorator = new ResultsDecoratorText(this);
+					textDecorator = new ResultsDecoratorText(this, verbosity);
 				}
 				newDecorator = textDecorator;
 				break;
 			case h:
 				if (htmlDecorator == null) {
-					htmlDecorator = new ResultsDecoratorHTML(this);
+					htmlDecorator = new ResultsDecoratorHTML(this, verbosity);
 				}
 				newDecorator = htmlDecorator;
 				break;
 			case s:
 				if (sqlDecorator == null) {
-					sqlDecorator = new ResultsDecoratorSQL(this);
+					sqlDecorator = new ResultsDecoratorSQL(this, verbosity);
 				}
 				newDecorator = sqlDecorator;
 				break;
 			case x:
 				if (xmlDecorator == null) {
-					xmlDecorator = new ResultsDecoratorXML(this);
+					xmlDecorator = new ResultsDecoratorXML(this, verbosity);
 				}
 				newDecorator = sqlDecorator;
 				break;
@@ -252,15 +253,15 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		// Load the script file first, it's the most likely error
 		is = new BufferedReader(new FileReader(scriptFile));
 
-		runScript(is);
+		runScript(is, scriptFile);
 	}
 
 	/** Run one script, by name, given a BufferedReader. */
-	public void runScript(BufferedReader is)
+	public void runScript(BufferedReader is, String name)
 	throws IOException, SQLException {
 		String stmt;
 		
-		System.out.println("SQLRunner: ready.");
+		System.out.printf("SQLRunner: starting %s%n", name);
 		while ((stmt = getStatement(is)) != null) {
 			stmt = stmt.trim();
 			if (stmt.startsWith("\\")) {
@@ -269,6 +270,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 				runStatement(stmt);
 			}
 		}
+		System.out.printf("SQLRunner: %s done.%n", name);
 	}
 
 	/**
@@ -349,8 +351,10 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 */
 	public void runStatement(String str) throws IOException, SQLException {
 		
-		System.out.println("Executing : <<" + str.trim() + ">>");
-		System.out.flush();
+		if (verbosity != Verbosity.QUIET) {
+			System.out.println("Executing : <<" + str.trim() + ">>");		
+			System.out.flush();
+		}
 		try {
 			boolean hasResultSet = statement.execute(str);
 			if (!hasResultSet)
@@ -360,13 +364,17 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 				currentDecorator.write(rs);
 			}
 		} catch (SQLException ex) {
-			if (debug){
+			if (verbosity == Verbosity.QUIET) {
+				System.err.println("Failure in : <<" + str.trim() + ">>");
+			}
+			if (verbosity == Verbosity.DEBUG){
 				throw ex;
 			} else {
-				System.out.println("ERROR: " + ex.toString());
+				System.err.println("ERROR: " + ex.toString());
 			}
 		}
-		System.out.println();
+		if (verbosity != Verbosity.QUIET)
+			System.out.println();
 	}
 	
 	/** Extract one statement from the given Reader.
@@ -376,21 +384,26 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	 */
 	public static String getStatement(BufferedReader is)
 	throws IOException {
-		String ret="";
+		StringBuilder sb = new StringBuilder();
 		String line;
 		while ((line = is.readLine()) != null) {
+			if (verbosity == Verbosity.DEBUG) {
+				System.out.println("SQLRunner.getStatement(): LINE " + line);
+			}
 			if (line == null || line.length() == 0) {
 				continue;
 			}
-			if (!(line.startsWith("#") || line.startsWith("--"))) {
-				ret += ' ' + line;
+			if (line.startsWith("#") || line.startsWith("--")) {
+				continue;
 			}
-			if (line.endsWith(";")) {
-				// Kludge, kill off empty statements (";") by itself, continue scanning.
-				if (line.length() == 1)
-					line = "";
-				ret = ret.substring(0, ret.length()-1);
-				return ret;
+			sb.append(line);
+			int nb = sb.length();
+			if (sb.charAt(nb-1) == ';') {
+				if (nb == 1) {
+					return "";
+				}
+				sb.setLength(nb-1);
+				return sb.toString();
 			}
 		}
 		return null;
@@ -429,16 +442,13 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	public PrintWriter getPrintWriter() {
 		return out;
 	}
-	/**
-	 * @return Returns the debug setting.
-	 */
-	public boolean isDebug() {
-		return debug;
+
+	public static Verbosity getVerbosity() {
+		return verbosity;
 	}
-	/**
-	 * @param debug True to enable debug, false to disable.
-	 */
-	public void setDebug(boolean debug) {
-		this.debug = debug;
+
+	public static void setVerbosity(Verbosity verbosity) {
+		SQLRunner.verbosity = verbosity;
 	}
+
 }

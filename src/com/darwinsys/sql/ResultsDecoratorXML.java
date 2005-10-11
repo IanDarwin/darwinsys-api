@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import javax.sql.rowset.WebRowSet;
 
+import com.darwinsys.util.Verbosity;
+
 /**
  * This guy's primary raison d'etre is to generate an XML output file
  * for use in JUnit testing of the ResultsDecoratorSQL!
@@ -14,11 +16,11 @@ import javax.sql.rowset.WebRowSet;
 public class ResultsDecoratorXML extends ResultsDecorator {
 	WebRowSet results;
 	
-	ResultsDecoratorXML(ResultsDecoratorPrinter out) {
-		super(out);
+	ResultsDecoratorXML(ResultsDecoratorPrinter out, Verbosity v) {
+		super(out, v);
+		
 		try {
-			// The name is com.sun.rowset.WebRowSetImpl in rowset.jar,
-			// but sun.rowset.jar in J2SDK1.5. Go figure.
+			// The class name is uncommitted so subject to change.
 			Class c = Class.forName("com.sun.rowset.WebRowSetImpl");
 			results = (WebRowSet)c.newInstance();
 			

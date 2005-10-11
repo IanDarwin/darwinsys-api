@@ -5,14 +5,16 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import com.darwinsys.util.Verbosity;
+
 /**
  * Print a ResultSet in plain text.
  * @version $Id$
  */
 class ResultsDecoratorText extends ResultsDecorator {
 	
-	ResultsDecoratorText(ResultsDecoratorPrinter pt) {
-		super(pt);
+	ResultsDecoratorText(ResultsDecoratorPrinter out, Verbosity v) {
+		super(out, v);
 	}
 	
 	public void write(ResultSet rs) throws IOException,SQLException {
@@ -31,7 +33,8 @@ class ResultsDecoratorText extends ResultsDecorator {
 	}
 
 	void write(int rowCount) throws IOException {
-		println("OK: " + rowCount);
+		if (verbosity != Verbosity.QUIET)
+			println("OK: " + rowCount);
 	}
 
 	/* (non-Javadoc)

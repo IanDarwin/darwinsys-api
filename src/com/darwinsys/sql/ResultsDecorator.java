@@ -4,15 +4,20 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.darwinsys.util.Verbosity;
+
 /** Base class for a series of ResultSet printers.
  * @version $Id$
  */
 public abstract class ResultsDecorator {
 	ResultsDecoratorPrinter parent;
+	Verbosity verbosity;
 
-	ResultsDecorator(ResultsDecoratorPrinter wr){
+	ResultsDecorator(ResultsDecoratorPrinter wr, Verbosity v) {
 		this.parent = wr;
+		this.verbosity = v;
 	}
+	
 	/** Print the name of this Decorator's output format */
 	abstract String getName();
 	
