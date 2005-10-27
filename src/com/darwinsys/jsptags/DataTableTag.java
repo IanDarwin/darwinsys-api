@@ -14,12 +14,12 @@ import javax.sql.DataSource;
 
 import com.darwinsys.sql.SQLUtils;
 
-/** UNCOMMITTED IDEA for a DataTable tag.
+/** EARLY IDEA for a DataTable tag.
  * @author ian
  */
 public class DataTableTag extends BodyTagSupport {
 
-	private static final String J2EE_ENC_ROOT = "java:comp/env/";
+	public static final String J2EE_ENC_ROOT = "java:comp/env/";
 	/** A JNDI name to look up a JDBC DataSource */
 	private String dsName;
 	/** The DataSource that is looked up there */
