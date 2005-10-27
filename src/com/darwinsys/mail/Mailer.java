@@ -31,11 +31,11 @@ public class Mailer {
 	/** The subject of the message. */
 	protected String subject;
 	/** The recipient ("To:"), as Strings. */
-	protected ArrayList toList = new ArrayList();
+	protected List<String> toList = new ArrayList<String>();
 	/** The CC list, as Strings. */
-	protected ArrayList ccList = new ArrayList();
+	protected List<String> ccList = new ArrayList<String>();
 	/** The BCC list, as Strings. */
-	protected ArrayList bccList = new ArrayList();
+	protected List<String> bccList = new ArrayList<String>();
 	/** The text of the message. */
 	protected String body;
 	/** The SMTP relay host */
@@ -66,12 +66,12 @@ public class Mailer {
 	// SETTERS/GETTERS FOR TO: LIST 
 
 	/** Get tolist, as an array of Strings */
-	public ArrayList getToList() {
+	public List<String> getToList() {
 		return toList;
 	}
 
 	/** Set to list to an ArrayList of Strings */
-	public void setToList(ArrayList to) {
+	public void setToList(ArrayList<String> to) {
 		toList = to;
 	}
 
@@ -89,12 +89,12 @@ public class Mailer {
 	// SETTERS/GETTERS FOR CC: LIST 
 
 	/** Get cclist, as an array of Strings */
-	public ArrayList getCcList() {
+	public List<String> getCcList() {
 		return ccList;
 	}
 
 	/** Set cc list to an ArrayList of Strings */
-	public void setCcList(ArrayList cc) {
+	public void setCcList(ArrayList<String> cc) {
 		ccList = cc;
 	}
 
@@ -112,12 +112,12 @@ public class Mailer {
 	// SETTERS/GETTERS FOR BCC: LIST 
 
 	/** Get bcclist, as an array of Strings */
-	public ArrayList getBccList() {
+	public List<String> getBccList() {
 		return bccList;
 	}
 
 	/** Set bcc list to an ArrayList of Strings */
-	public void setBccList(ArrayList bcc) {
+	public void setBccList(List<String> bcc) {
 		bccList = bcc;
 	}
 
@@ -281,8 +281,8 @@ public class Mailer {
 	 * "(Darwin, Ian) <http://www.darwinsys.com/>".
 	 * Or even "Ian Darwin <http://www.darwinsys.com/>".
 	 */
-	protected ArrayList tokenize(String s) {
-		ArrayList al = new ArrayList();
+	protected List<String> tokenize(String s) {
+		List<String> al = new ArrayList<String>();
 		StringTokenizer tf = new StringTokenizer(s, ",");
 		// For each word found in the line
 		while (tf.hasMoreTokens()) {
