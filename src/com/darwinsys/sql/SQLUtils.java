@@ -19,7 +19,8 @@ public class SQLUtils {
 	 */
 	public static void resultSetToHTML(
 			final ResultSet rs, final PrintWriter out,
-			String style1, String style2) 
+			String style1, String style2,
+			String keyColName, String link) 
 	throws SQLException {
 
 		ResultSetMetaData md = rs.getMetaData();
@@ -38,7 +39,12 @@ public class SQLUtils {
 		while (rs.next()) {
 			out.printf("<tr id='%s'>", rowNum++ % 2 == 1 ? style1 : style2);
 			for (int i=1; i<=count; i++) {
-				out.printf("<td>%s</td>", rs.getString(i));
+				String linkText = rs.getString(i);
+				if (md.getColumnName(i).equals(keyColName)) {
+					linkText = String.format(
+						"<a href='%s%s'>%s</a>", link, linkText, linkText);
+				}					
+				out.printf("<td>%s</td>", linkText);
 			}
 			out.println("</tr>");
 		}

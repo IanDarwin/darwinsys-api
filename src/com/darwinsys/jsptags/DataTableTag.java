@@ -32,6 +32,10 @@ public class DataTableTag extends BodyTagSupport {
 	private String style1 = "odd";
 	/** The CSS Style for the data rows 1, 3, 5 ... */
 	private String style2 = "even";
+	/** The name of the primary key column, which must appear in query */
+	private String pkey;
+	/** The link text to make a link from the pkey column to the detail page */
+	private String link;
 
 	@Override
 	public void doInitBody() throws JspException {
@@ -49,7 +53,8 @@ public class DataTableTag extends BodyTagSupport {
 		try {
 			Connection conn = getConnection();
 			ResultSet rs = conn.createStatement().executeQuery(query);
-			SQLUtils.resultSetToHTML(rs, new PrintWriter(out), style1, style2);
+			SQLUtils.resultSetToHTML(rs, new PrintWriter(out), 
+				style1, style2, pkey, link);
 			conn.close();
 		} catch (SQLException e) {
 			throw new JspException("Database error", e);
@@ -146,5 +151,21 @@ public class DataTableTag extends BodyTagSupport {
 
 	public void setDbUsername(String dbUsername) {
 		this.dbUsername = dbUsername;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getPkey() {
+		return pkey;
+	}
+
+	public void setPkey(String pkey) {
+		this.pkey = pkey;
 	}
 }

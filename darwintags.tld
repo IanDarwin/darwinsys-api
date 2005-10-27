@@ -44,6 +44,17 @@
 	        <name>query</name>
 	        <required>true</required>
         </attribute>
+        
+        <!-- The primary key and link URL for linking -->
+        <attribute>
+	        <name>pkey</name>
+	        <required>false</required>
+        </attribute>
+        <attribute>
+	        <name>link</name>
+	        <required>false</required>
+        </attribute>
+        
 		<!-- The CSS Style for the title and rows 2, 4, 6 ... -->
         <attribute>
 	        <name>style1</name>
