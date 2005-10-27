@@ -17,7 +17,8 @@ public class SQLUtils {
 	 * @param style2 CSS style name for data rows 1, 3, 5, ...
 	 * @throws SQLException
 	 */
-	public static void resultSetToHTML(ResultSet rs, PrintWriter out,
+	public static void resultSetToHTML(
+			final ResultSet rs, final PrintWriter out,
 			String style1, String style2) 
 	throws SQLException {
 
@@ -26,18 +27,18 @@ public class SQLUtils {
 		out.println("<table border=1>");
 		
 		// Print a table row with column headings.
-		out.print("<tr>");
+		out.printf("<tr id='%s'>", style1);
 		for (int i=1; i<=count; i++) {
 			out.printf("<th>%s</td>%n", md.getColumnName(i));
 		}
 		out.println("</tr>");
 		
 		// Print one table row of data for each row in the resultset.
+		int rowNum = 0;
 		while (rs.next()) {
-			out.print("<tr>");
+			out.printf("<tr id='%s'>", rowNum++ % 2 == 1 ? style1 : style2);
 			for (int i=1; i<=count; i++) {
-				out.printf("<td id='%s'>%s</td>%n",
-						i%2 == 0 ? style1 : style2, rs.getString(i));
+				out.printf("<td>%s</td>", rs.getString(i));
 			}
 			out.println("</tr>");
 		}

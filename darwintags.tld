@@ -4,6 +4,7 @@
    <tlibversion>1.0</tlibversion>
    <jspversion>1.1</jspversion>
    <shortname>Ian Darwin JSP Tags TLD</shortname>
+   <uri>http://www.darwinsys.com/darwintags</uri>
    <info>Ian Darwin JSP Tags TLD</info>
  
    	<!-- backref tag generates a "Back" tag for e.g., use in help pages -->
@@ -25,6 +26,34 @@
 	        <required>false</required>
         </attribute>
 
+    </tag>
+    
+    <!-- DataTable tag runs a query and makes a table of the results -->
+   	<tag>
+        <name>datatable</name>
+        <tagclass>com.darwinsys.jsptags.DataTableTag</tagclass>
+	    <bodycontent>empty</bodycontent>
+	    
+        <attribute>
+	        <name>dataSourceName</name>
+	        <required>true</required> <!-- may become optional -->
+        </attribute>
+        
+        <!-- query is the SQL Query, e.g., "select title,ISBN from books" -->
+        <attribute>
+	        <name>query</name>
+	        <required>true</required>
+        </attribute>
+		<!-- The CSS Style for the title and rows 2, 4, 6 ... -->
+        <attribute>
+	        <name>style1</name>
+	        <required>false</required>
+        </attribute>
+        <!-- The CSS Style for the data rows 1, 3, 5 ... -->
+        <attribute>
+	        <name>style2</name>
+	        <required>false</required>
+        </attribute>
     </tag>
     
     <!-- loggedintag tag skips body if you're not logged int all -->
