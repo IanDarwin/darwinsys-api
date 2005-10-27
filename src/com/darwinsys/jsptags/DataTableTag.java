@@ -14,7 +14,16 @@ import javax.sql.DataSource;
 
 import com.darwinsys.sql.SQLUtils;
 
-/** EARLY IDEA for a DataTable tag.
+/** A simple DataTable or DataGrip JSP tag.
+ * Sample JSP usage:
+ * <pre>
+ * &lt;h3&gt;Products Apparently In Stock but Location = 0&lt;/h3&gt;
+ * &lt;darwintags:datatable dataSourceName="jdbc/mybooks"
+ * 	style1="odd" style2="even"
+ * 	pkey='sku' link='/productdetails.do?sku='
+ * 	query="select sku, stockCount, title from products \
+ * where stockCount > 0 and location = 0"/&gt;
+ * </pre>
  * @author ian
  */
 public class DataTableTag extends BodyTagSupport {
