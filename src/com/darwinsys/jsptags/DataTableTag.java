@@ -37,7 +37,9 @@ public class DataTableTag extends BodyTagSupport {
 	private String dbURL, dbDriver, dbUsername, dbPassword;
 	/** The Query String */
 	private String query;
-	/** The CSS Style for the title and rows 2, 4, 6 ... */
+	/** The CSS style for the title row */
+	private String titleStyle = "odd";
+	/** The CSS Style for rows 2, 4, 6 ... */
 	private String style1 = "odd";
 	/** The CSS Style for the data rows 1, 3, 5 ... */
 	private String style2 = "even";
@@ -63,7 +65,7 @@ public class DataTableTag extends BodyTagSupport {
 			Connection conn = getConnection();
 			ResultSet rs = conn.createStatement().executeQuery(query);
 			SQLUtils.resultSetToHTML(rs, new PrintWriter(out), 
-				style1, style2, pkey, link);
+				style1, style1, style2, pkey, link);
 			conn.close();
 		} catch (SQLException e) {
 			throw new JspException("Database error", e);
@@ -176,5 +178,13 @@ public class DataTableTag extends BodyTagSupport {
 
 	public void setPkey(String pkey) {
 		this.pkey = pkey;
+	}
+
+	public String getTitleStyle() {
+		return titleStyle;
+	}
+
+	public void setTitleStyle(String titleStyle) {
+		this.titleStyle = titleStyle;
 	}
 }

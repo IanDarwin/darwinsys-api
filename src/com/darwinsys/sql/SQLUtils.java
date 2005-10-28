@@ -15,11 +15,12 @@ public class SQLUtils {
 	 * @param out A PrintWriter to generate HTML to.
 	 * @param style1 CSS style name for title and data rows 2, 4, 6, ...
 	 * @param style2 CSS style name for data rows 1, 3, 5, ...
+	 * @param titleStyle CSS style name for title row (may be same as style1)
 	 * @throws SQLException
 	 */
 	public static void resultSetToHTML(
 			final ResultSet rs, final PrintWriter out,
-			String style1, String style2,
+			String titleStyle, String style1, String style2,
 			String keyColName, String link) 
 	throws SQLException {
 
@@ -28,7 +29,7 @@ public class SQLUtils {
 		out.println("<table border=1>");
 		
 		// Print a table row with column headings.
-		out.printf("<tr id='%s'>", style1);
+		out.printf("<tr id='%s'>", titleStyle);
 		for (int i=1; i<=count; i++) {
 			out.printf("<th>%s</td>%n", md.getColumnName(i));
 		}

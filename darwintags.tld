@@ -57,6 +57,10 @@
         
 		<!-- The CSS Style for the title and rows 2, 4, 6 ... -->
         <attribute>
+	        <name>titleStyle</name>
+	        <required>false</required>
+        </attribute>
+        <attribute>
 	        <name>style1</name>
 	        <required>false</required>
         </attribute>
