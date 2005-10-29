@@ -54,4 +54,8 @@ public class SQLUtils {
 		out.println("</table>");
 		rs.close();
 	}
+
+	public static void resultSetToHTML(ResultSet rs, PrintWriter out) throws SQLException {
+		resultSetToHTML(rs, out, null, null, null, null, null);
+	}
 }
