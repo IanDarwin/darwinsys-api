@@ -25,6 +25,7 @@ import com.darwinsys.sql.SQLUtils;
  * where stockCount > 0 and location = 0
  * &lt;/darwin:datatable&gt;
  * </pre>
+ * XXX TODO: Add setResultSet() to bypass query, for MVC use.
  * @author ian
  */
 public class DataTableTag extends BodyTagSupport {
@@ -33,9 +34,11 @@ public class DataTableTag extends BodyTagSupport {
 	/** A JNDI name to look up a JDBC DataSource */
 	private String dsName;
 	/** The DataSource that is looked up there */
-	private DataSource ds;
+	private DataSource dataSource;
 	/** Non-datasource JDBC Parameters */
 	private String dbURL, dbDriver, dbUsername, dbPassword;
+	/** A ResultSet, either computed or passed in */
+	private ResultSet resultSet;
 	/** The Query String */
 	private String query;
 	/** The CSS style for the title row */
@@ -70,19 +73,32 @@ public class DataTableTag extends BodyTagSupport {
 		}
 			
 		final JspWriter out = pageContext.getOut();
+		Connection conn = null;
 		try {
-			Connection conn = getConnection();
-			ResultSet rs = conn.createStatement().executeQuery(query);
-			SQLUtils.resultSetToHTML(rs, new PrintWriter(out), 
+			if (resultSet == null) {
+				conn = getConnection();
+				resultSet = conn.createStatement().executeQuery(query);
+			}
+			SQLUtils.resultSetToHTML(resultSet, new PrintWriter(out), 
 				style1, style1, style2, pkey, link);
-			conn.close();
+			resultSet.close();
+			if (conn != null) {
+				conn.close();
+			}
 		} catch (SQLException e) {
 			throw new JspException("Database error", e);
 		}
-		query = null;		// reset to avoid accidental reuse
+		resetFields();
 		return EVAL_PAGE;
 	}
 
+	/**
+	 * reset to avoid accidental reuse
+	 */
+	private void resetFields() {
+		query = null;
+		dataSource = null;
+	}
 	
 	/** Get the connection. A tiny method now, but may grow to
 	 * work with dbDriver/dbURL/etc. parameters as well as DataSource.
@@ -90,11 +106,11 @@ public class DataTableTag extends BodyTagSupport {
 	 * @throws SQLException
 	 */
 	private Connection getConnection() throws SQLException {
-		if (ds == null) {
+		if (dataSource == null) {
 			throw new IllegalArgumentException(
 				"Either dataSource or dataSourceName MUST be specified.");
 		}
-		return ds.getConnection();
+		return dataSource.getConnection();
 	}
 
 	public String getDataSourceName() {
@@ -118,11 +134,11 @@ public class DataTableTag extends BodyTagSupport {
 	}
 	
 	public void setDataSource(DataSource dataSource) {
-		ds = dataSource;
+		this.dataSource = dataSource;
 	}
 	
 	public DataSource getDataSource() {
-		return ds;
+		return dataSource;
 	}
 
 	public String getQuery() {
@@ -204,5 +220,13 @@ public class DataTableTag extends BodyTagSupport {
 
 	public void setTitleStyle(String titleStyle) {
 		this.titleStyle = titleStyle;
+	}
+
+	public ResultSet getResultSet() {
+		return resultSet;
+	}
+
+	public void setResultSet(ResultSet resultSet) {
+		this.resultSet = resultSet;
 	}
 }

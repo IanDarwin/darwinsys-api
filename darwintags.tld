@@ -34,7 +34,10 @@
         <tagclass>com.darwinsys.jsptags.DataTableTag</tagclass>
 	    <bodycontent>JSP</bodycontent>
 	    
-	    <!-- One of dataSource OR dataSourceName MUST be specified -->
+	    <!-- resultset or {dataSource OR dataSourceName} + a query
+	     *** MUST be specified. The query can come in the body or as
+	     *** an attribute.
+	     -->
         <attribute>
 	        <name>dataSource</name>
 	        <required>false</required>
@@ -48,6 +51,11 @@
         <attribute>
 	        <name>query</name>
 	        <required>false</required>
+        </attribute>
+        <attribute>
+        	<name>resultSet</name>
+        	<required>false</required>
+        	<rtexprvalue>true</rtexprvalue>
         </attribute>
         
         <!-- The primary key and link URL for linking -->
