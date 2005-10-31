@@ -84,7 +84,7 @@
         </attribute>
     </tag>
     
-    <!-- loggedintag tag skips body if you're not logged int all -->
+    <!-- loggedintag tag skips body if you're not logged in at all -->
    <tag>
         <name>loggedin</name>
         <tagclass>com.darwinsys.jsptags.LoggedInTag</tagclass>
