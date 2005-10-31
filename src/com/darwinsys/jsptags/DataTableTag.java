@@ -61,7 +61,7 @@ public class DataTableTag extends BodyTagSupport {
 	
 	@Override
 	public int doEndTag() throws JspException {
-		if (query == null) {
+		if (query == null && bodyContent != null) {
 			query = bodyContent.getString();
 		}
 		if (query == null || "".equals(query)) {
@@ -79,6 +79,7 @@ public class DataTableTag extends BodyTagSupport {
 		} catch (SQLException e) {
 			throw new JspException("Database error", e);
 		}
+		query = null;		// reset to avoid accidental reuse
 		return EVAL_PAGE;
 	}
 
