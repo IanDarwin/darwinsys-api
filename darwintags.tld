@@ -32,17 +32,22 @@
    	<tag>
         <name>datatable</name>
         <tagclass>com.darwinsys.jsptags.DataTableTag</tagclass>
-	    <bodycontent>empty</bodycontent>
+	    <bodycontent>JSP</bodycontent>
 	    
+	    <!-- One of dataSource OR dataSourceName MUST be specified -->
+        <attribute>
+	        <name>dataSource</name>
+	        <required>false</required>
+	        <rtexprvalue>true</rtexprvalue>
+        </attribute>
         <attribute>
 	        <name>dataSourceName</name>
-	        <required>true</required> <!-- may become optional -->
+	        <required>false</required>
         </attribute>
-        
         <!-- query is the SQL Query, e.g., "select title,ISBN from books" -->
         <attribute>
 	        <name>query</name>
-	        <required>true</required>
+	        <required>false</required>
         </attribute>
         
         <!-- The primary key and link URL for linking -->
