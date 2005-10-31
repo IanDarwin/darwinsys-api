@@ -18,11 +18,12 @@ import com.darwinsys.sql.SQLUtils;
  * Sample JSP usage:
  * <pre>
  * &lt;h3&gt;Products Apparently In Stock but Location = 0&lt;/h3&gt;
- * &lt;darwintags:datatable dataSourceName="jdbc/mybooks"
+ * &lt;darwin:datatable dataSource="${applicationScope.myproject_DATASOURCE}"
  * 	style1="odd" style2="even"
- * 	pkey='sku' link='/productdetails.do?sku='
- * 	query="select sku, stockCount, title from products \
- * where stockCount > 0 and location = 0"/&gt;
+ * 	pkey='sku' link='/productdetails.do?sku='>
+ * 	select sku, stockCount, title from products
+ * where stockCount > 0 and location = 0
+ * &lt;/darwin:datatable&gt;
  * </pre>
  * @author ian
  */
@@ -60,6 +61,14 @@ public class DataTableTag extends BodyTagSupport {
 	
 	@Override
 	public int doEndTag() throws JspException {
+		if (query == null) {
+			query = bodyContent.getString();
+		}
+		if (query == null || "".equals(query)) {
+			throw new IllegalArgumentException(
+			"Query must be provided, as an attribute or as BodyContent.");
+		}
+			
 		final JspWriter out = pageContext.getOut();
 		try {
 			Connection conn = getConnection();
@@ -82,7 +91,7 @@ public class DataTableTag extends BodyTagSupport {
 	private Connection getConnection() throws SQLException {
 		if (ds == null) {
 			throw new IllegalArgumentException(
-				"No DataSource Available");
+				"Either dataSource or dataSourceName MUST be specified.");
 		}
 		return ds.getConnection();
 	}
@@ -99,12 +108,20 @@ public class DataTableTag extends BodyTagSupport {
 	public void setDataSourceName(String dsn) {
 		this.dsName = dsn.startsWith(J2EE_ENC_ROOT) ? dsn : J2EE_ENC_ROOT+dsn;
 		try {
-			ds = (DataSource)new InitialContext().lookup(dsn);
+			setDataSource((DataSource)new InitialContext().lookup(dsn));
 		} catch (NamingException e) {
 			String message = "StrutsDataTableTag.setDataSourceName(): error " + e;
 			System.err.println(message);
 			throw new IllegalArgumentException(message);
 		}
+	}
+	
+	public void setDataSource(DataSource dataSource) {
+		ds = dataSource;
+	}
+	
+	public DataSource getDataSource() {
+		return ds;
 	}
 
 	public String getQuery() {
