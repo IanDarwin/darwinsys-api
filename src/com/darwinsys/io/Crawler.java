@@ -8,10 +8,9 @@ import java.util.TreeSet;
 
 /** Simple directory crawler, using a Filename Filter to select files and
  * the Visitor pattern to process each chosen file.
- * See the linked-to CrawlerTest for a working example.
+ * See the regression test CrawlerTest for a working example.
  * @author Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
- * @see regress.io.CrawlerTest
  */
 public class Crawler implements Checkpointer {
 	private static boolean debug = false;
