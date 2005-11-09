@@ -41,7 +41,7 @@ class ResultsDecoratorHTML extends ResultsDecorator {
 	/* (non-Javadoc)
 	 * @see ResultSetDecorator#write(int)
 	 */
-	void write(int updateCount) throws IOException {
+	public void write(int updateCount) throws IOException {
 		println("<p>RowCount: updateCount = <b>" + 
 					updateCount + "</p>");
 	}
@@ -49,7 +49,7 @@ class ResultsDecoratorHTML extends ResultsDecorator {
 	/** Return a printable name for this decorator
 	 * @see ResultsDecorator#getName()
 	 */
-	String getName() {
+	public String getName() {
 		return "HTML";
 	}
 }

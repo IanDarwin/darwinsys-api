@@ -33,7 +33,7 @@ class ResultsDecoratorText extends ResultsDecorator {
 		}
 	}
 
-	void write(int rowCount) throws IOException {
+	public void write(int rowCount) throws IOException {
 		if (verbosity != Verbosity.QUIET)
 			println("OK: " + rowCount);
 	}
@@ -41,7 +41,7 @@ class ResultsDecoratorText extends ResultsDecorator {
 	/* (non-Javadoc)
 	 * @see ResultsDecorator#getName()
 	 */
-	String getName() {
+	public String getName() {
 		return "Plain text";
 	}
 }

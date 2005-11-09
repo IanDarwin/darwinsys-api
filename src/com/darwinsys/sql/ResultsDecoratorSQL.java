@@ -61,14 +61,14 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 		}
 	}
 
-	void write(int rowCount) throws IOException {
+	public void write(int rowCount) throws IOException {
 		println("RowCount: " + rowCount);
 		
 	}
 	/* (non-Javadoc)
 	 * @see ResultsDecorator#getName()
 	 */
-	String getName() {
+	public String getName() {
 		return "SQL";
 	}
 }

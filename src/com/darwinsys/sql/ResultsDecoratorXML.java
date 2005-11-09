@@ -35,7 +35,7 @@ public class ResultsDecoratorXML extends ResultsDecorator {
 		results.writeXml(rs, parent);
 	}
 
-	void write(int rowCount) throws IOException {
+	public void write(int rowCount) throws IOException {
 		println("RowCount: " + rowCount);
 		
 	}
@@ -43,7 +43,7 @@ public class ResultsDecoratorXML extends ResultsDecorator {
 	/* (non-Javadoc)
 	 * @see ResultsDecorator#getName()
 	 */
-	String getName() {
+	public String getName() {
 		return "XML";
 	}
 }
