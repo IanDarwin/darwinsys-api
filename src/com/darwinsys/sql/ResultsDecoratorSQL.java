@@ -14,26 +14,36 @@ import com.darwinsys.util.Verbosity;
  * @version $Id$
  */
 public class ResultsDecoratorSQL extends ResultsDecorator {
+	
 	public ResultsDecoratorSQL(PrintWriter out, Verbosity v) {
 		super(out, v);
 	}
-	public void write(ResultSet rs) throws IOException, SQLException {
+	
+	@Override
+	public int write(ResultSet rs) throws IOException, SQLException {
 		ResultSetMetaData md = rs.getMetaData();
 		// This assumes you're not using a Join!!
 		String tableName = md.getTableName(1);
-		int cols = md.getColumnCount();
+		if (tableName == null) {
+			tableName = "XXXTABLENAMEXXX";
+			System.err.println("Warning: at least one tablename null");
+		}
+		int colCount = md.getColumnCount();
 		StringBuffer sb = new StringBuffer("insert into ").append(tableName).append("(");
-		for (int i = 1; i <= cols; i++) {
+		for (int i = 1; i <= colCount; i++) {
 			sb.append(md.getColumnName(i));
-			if (i != cols) {
+			if (i != colCount) {
 				sb.append(", ");
 			}
 		}
 		sb.append(") values (");
 		String insertCommand = sb.toString();
+		
+		int rowCount = 0;
 		while (rs.next()) {
+			++rowCount;
 			println(insertCommand);		
-			for (int i = 1; i <= cols; i++) {
+			for (int i = 1; i <= colCount; i++) {
 				String tmp = rs.getString(i);
 				if (rs.wasNull()) {
 					print("null");
@@ -48,26 +58,34 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 						case Types.INTEGER:
 							print(tmp);
 							break;
-						default:	
+						case Types.CHAR:
+						case Types.CLOB:
+						case Types.VARCHAR:
+						case Types.LONGVARCHAR:
 							tmp = tmp.replaceAll("'", "''");
 							print("'" + tmp + "'");
+						default:
+							throw new IllegalArgumentException("Cannot handle data of type " + type + " (sorry!)");
 					}
 				}
-				if (i != cols) {
+				if (i != colCount) {
 					print( ", ");
 				}
 			}
 			println(");");
 		}
+		return rowCount;
 	}
 
-	public void write(int rowCount) throws IOException {
-		println("RowCount: " + rowCount);
+	@Override
+	public void printRowCount(int rowCount) throws IOException {
+		println("-- RowCount: " + rowCount);
 		
 	}
 	/* (non-Javadoc)
 	 * @see ResultsDecorator#getName()
 	 */
+	@Override
 	public String getName() {
 		return "SQL";
 	}

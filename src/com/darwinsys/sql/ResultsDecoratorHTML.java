@@ -16,34 +16,29 @@ class ResultsDecoratorHTML extends ResultsDecorator {
 		super(out, v);
 	}
 	
-	public void write(ResultSet rs) throws IOException, SQLException {
+	public int write(ResultSet rs) throws IOException, SQLException {
 
 		ResultSetMetaData md = rs.getMetaData();
-		int count = md.getColumnCount();
+		int colCount = md.getColumnCount();
 		println("<table border=1>");
 		print("<tr>");
-		for (int i=1; i<=count; i++) {
+		for (int i=1; i<=colCount; i++) {
 			print("<th>");
 			print(md.getColumnLabel(i));
 		}
 		println("</tr>");
+		int rowCount = 0;
 		while (rs.next()) {
+			++rowCount;
 			print("<tr>");
-			for (int i=1; i<=count; i++) {
+			for (int i=1; i<=colCount; i++) {
 				print("<td>");
 				print(rs.getString(i));
 			}
 			println("</tr>");
 		}
 		println("</table>");
-	}
-
-	/* (non-Javadoc)
-	 * @see ResultSetDecorator#write(int)
-	 */
-	public void write(int updateCount) throws IOException {
-		println("<p>RowCount: updateCount = <b>" + 
-					updateCount + "</p>");
+		return rowCount;
 	}
 
 	/** Return a printable name for this decorator

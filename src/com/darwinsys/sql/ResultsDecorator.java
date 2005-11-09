@@ -11,11 +11,11 @@ import com.darwinsys.util.Verbosity;
  * @version $Id$
  */
 public abstract class ResultsDecorator {
-	PrintWriter parent;
+	PrintWriter out;
 	Verbosity verbosity;
 
 	ResultsDecorator(PrintWriter wr, Verbosity v) {
-		this.parent = wr;
+		this.out = wr;
 		this.verbosity = v;
 	}
 	
@@ -23,18 +23,18 @@ public abstract class ResultsDecorator {
 	public abstract String getName();
 	
 	/** Print the contents of a ResultSet */
-	public abstract void write(ResultSet rs) throws IOException, SQLException;
+	public abstract int write(ResultSet rs) throws IOException, SQLException;
 	
-	/** Print the results of an operation as a Count */
-	public abstract void write(int rowCount) throws IOException;
-	
+	public void printRowCount(int n) throws IOException {
+		out.println("Row Count = " + n);
+	}
 	public void println(String line) throws IOException {
-		parent.println(line);
+		out.println(line);
 	}
 	public void println() throws IOException {
-		parent.println();
+		out.println();
 	}
 	public void print(String lineSeg) throws IOException {
-		parent.print(lineSeg);
+		out.print(lineSeg);
 	}
 }

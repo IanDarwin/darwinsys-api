@@ -32,18 +32,22 @@ public class ResultsDecoratorXML extends ResultsDecorator {
 		}
 	}
 	
-	public void write(ResultSet rs) throws SQLException {
-		results.writeXml(rs, parent);
+	@Override
+	public int write(ResultSet rs) throws SQLException {
+		results.writeXml(rs, out);
+		return results.getRow();
 	}
 
-	public void write(int rowCount) throws IOException {
-		println("RowCount: " + rowCount);
+	@Override
+	public void printRowCount(int rowCount) throws IOException {
+		System.err.println("RowCount: " + rowCount);
 		
 	}
 
 	/* (non-Javadoc)
 	 * @see ResultsDecorator#getName()
 	 */
+	@Override
 	public String getName() {
 		return "XML";
 	}

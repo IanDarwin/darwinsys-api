@@ -18,22 +18,27 @@ class ResultsDecoratorText extends ResultsDecorator {
 		super(out, v);
 	}
 	
-	public void write(ResultSet rs) throws IOException,SQLException {
+	@Override
+	public int write(ResultSet rs) throws IOException,SQLException {
 		ResultSetMetaData md = rs.getMetaData();
-		int cols = md.getColumnCount();
-		for (int i = 1; i <= cols; i++) {
+		int colCount = md.getColumnCount();
+		for (int i = 1; i <= colCount; i++) {
 			print(md.getColumnName(i) + "\t");
 		}
 		println();
+		int rowCount = 0;
 		while (rs.next()) {
-			for (int i = 1; i <= cols; i++) {
+			++rowCount;
+			for (int i = 1; i <= colCount; i++) {
 				print(rs.getString(i) + "\t");
 			}
 			println();
 		}
+		return rowCount;
 	}
 
-	public void write(int rowCount) throws IOException {
+	@Override
+	public void printRowCount(int rowCount) throws IOException {
 		if (verbosity != Verbosity.QUIET)
 			println("OK: " + rowCount);
 	}
@@ -41,6 +46,7 @@ class ResultsDecoratorText extends ResultsDecorator {
 	/* (non-Javadoc)
 	 * @see ResultsDecorator#getName()
 	 */
+	@Override
 	public String getName() {
 		return "Plain text";
 	}

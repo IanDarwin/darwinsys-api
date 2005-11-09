@@ -358,10 +358,11 @@ public class SQLRunner {
 		try {
 			boolean hasResultSet = statement.execute(str);
 			if (!hasResultSet)
-				currentDecorator.write(statement.getUpdateCount());
+				currentDecorator.printRowCount(statement.getUpdateCount());
 			else {
 				ResultSet rs = statement.getResultSet();
-				currentDecorator.write(rs);
+				int n = currentDecorator.write(rs);
+				currentDecorator.printRowCount(n);
 			}
 		} catch (SQLException ex) {
 			if (verbosity == Verbosity.QUIET) {
