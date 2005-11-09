@@ -1,6 +1,7 @@
 package com.darwinsys.sql;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ import com.darwinsys.util.Verbosity;
  */
 class ResultsDecoratorText extends ResultsDecorator {
 	
-	ResultsDecoratorText(ResultsDecoratorPrinter out, Verbosity v) {
+	public ResultsDecoratorText(PrintWriter out, Verbosity v) {
 		super(out, v);
 	}
 	

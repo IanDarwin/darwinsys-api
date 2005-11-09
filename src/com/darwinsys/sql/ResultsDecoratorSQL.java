@@ -14,7 +14,7 @@ import com.darwinsys.util.Verbosity;
  * @version $Id$
  */
 public class ResultsDecoratorSQL extends ResultsDecorator {
-	ResultsDecoratorSQL(ResultsDecoratorPrinter out, Verbosity v) {
+	public ResultsDecoratorSQL(PrintWriter out, Verbosity v) {
 		super(out, v);
 	}
 	public void write(ResultSet rs) throws IOException, SQLException {

@@ -44,7 +44,7 @@ import com.darwinsys.util.Verbosity;
  * <p>TODO: Fix parsing so \\ escapes don't need to end with SQL semi-colon.
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
-public class SQLRunner implements ResultsDecoratorPrinter {
+public class SQLRunner {
 	
 	/** The set of all valid modes. Short, lowercase names were used
 	 * for simple use in \mX where X is one of the names.
@@ -80,7 +80,7 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 	
 	private ResultsDecorator xmlDecorator;
 	
-	static Verbosity verbosity = Verbosity.QUIET;
+	private static Verbosity verbosity = Verbosity.QUIET;
 
 	/** print help; called from several places in main */
 	private static void doHelp(int i) {
@@ -208,25 +208,25 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		switch (outputMode) {
 			case t:
 				if (textDecorator == null) {
-					textDecorator = new ResultsDecoratorText(this, verbosity);
+					textDecorator = new ResultsDecoratorText(out, verbosity);
 				}
 				newDecorator = textDecorator;
 				break;
 			case h:
 				if (htmlDecorator == null) {
-					htmlDecorator = new ResultsDecoratorHTML(this, verbosity);
+					htmlDecorator = new ResultsDecoratorHTML(out, verbosity);
 				}
 				newDecorator = htmlDecorator;
 				break;
 			case s:
 				if (sqlDecorator == null) {
-					sqlDecorator = new ResultsDecoratorSQL(this, verbosity);
+					sqlDecorator = new ResultsDecoratorSQL(out, verbosity);
 				}
 				newDecorator = sqlDecorator;
 				break;
 			case x:
 				if (xmlDecorator == null) {
-					xmlDecorator = new ResultsDecoratorXML(this, verbosity);
+					xmlDecorator = new ResultsDecoratorXML(out, verbosity);
 				}
 				newDecorator = sqlDecorator;
 				break;
@@ -418,33 +418,6 @@ public class SQLRunner implements ResultsDecoratorPrinter {
 		conn.close();
 		out.flush();
 		out.close();
-	}
-
-	/* (non-Javadoc)
-	 * @see DatabaseWriterImpl#println(java.lang.String)
-	 */
-	public void print(String line) throws IOException {
-		out.print(line);
-	}
-	
-	public void println(String line) throws IOException {
-		out.println(line);
-		out.flush();
-	}
-
-	/* (non-Javadoc)
-	 * @see DatabaseWriterImpl#println()
-	 */
-	public void println() throws IOException {
-		out.println();
-		out.flush();
-	}
-
-	/* (non-Javadoc)
-	 * @see ResultsDecoratorPrinter#getPrintWriter()
-	 */
-	public PrintWriter getPrintWriter() {
-		return out;
 	}
 
 	public static Verbosity getVerbosity() {

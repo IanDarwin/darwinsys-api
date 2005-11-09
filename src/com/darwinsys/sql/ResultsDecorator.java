@@ -1,6 +1,7 @@
 package com.darwinsys.sql;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -10,10 +11,10 @@ import com.darwinsys.util.Verbosity;
  * @version $Id$
  */
 public abstract class ResultsDecorator {
-	ResultsDecoratorPrinter parent;
+	PrintWriter parent;
 	Verbosity verbosity;
 
-	ResultsDecorator(ResultsDecoratorPrinter wr, Verbosity v) {
+	ResultsDecorator(PrintWriter wr, Verbosity v) {
 		this.parent = wr;
 		this.verbosity = v;
 	}

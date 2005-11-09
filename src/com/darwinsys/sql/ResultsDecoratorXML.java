@@ -1,6 +1,7 @@
 package com.darwinsys.sql;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,7 +17,7 @@ import com.darwinsys.util.Verbosity;
 public class ResultsDecoratorXML extends ResultsDecorator {
 	WebRowSet results;
 	
-	ResultsDecoratorXML(ResultsDecoratorPrinter out, Verbosity v) {
+	public ResultsDecoratorXML(PrintWriter out, Verbosity v) {
 		super(out, v);
 		
 		try {
@@ -31,7 +32,7 @@ public class ResultsDecoratorXML extends ResultsDecorator {
 	}
 	
 	public void write(ResultSet rs) throws SQLException {
-		results.writeXml(rs, parent.getPrintWriter());
+		results.writeXml(rs, parent);
 	}
 
 	void write(int rowCount) throws IOException {
