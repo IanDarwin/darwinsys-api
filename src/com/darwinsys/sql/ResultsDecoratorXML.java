@@ -15,6 +15,7 @@ import com.darwinsys.util.Verbosity;
  * @version $Id$
  */
 public class ResultsDecoratorXML extends ResultsDecorator {
+	private static final String SUN_WEBROWSET_IMPL_CLASS = "com.sun.rowset.WebRowSetImpl";
 	WebRowSet results;
 	
 	public ResultsDecoratorXML(PrintWriter out, Verbosity v) {
@@ -22,12 +23,12 @@ public class ResultsDecoratorXML extends ResultsDecorator {
 		
 		try {
 			// The class name is uncommitted so subject to change.
-			Class c = Class.forName("com.sun.rowset.WebRowSetImpl");
+			Class c = Class.forName(SUN_WEBROWSET_IMPL_CLASS);
 			results = (WebRowSet)c.newInstance();
 			
 		} catch (Exception ex){
 			throw new IllegalArgumentException(
-			"can't load WebRowSetImpl, check CLASSPATH");
+			"can't load " + SUN_WEBROWSET_IMPL_CLASS + ", check CLASSPATH");
 		}
 	}
 	
