@@ -194,7 +194,7 @@ public class SQLRunner {
 	void setOutputMode(String outputModeName) {
 		if (outputModeName == null || 
 			outputModeName.length() == 0) { 
-			throw new IllegalArgumentException(
+			System.err.println(
 			"invalid mode: " + outputMode + "; must be t, h or s"); }
 		
 		outputMode = Mode.valueOf(outputModeName);
@@ -232,7 +232,7 @@ public class SQLRunner {
 				break;
 			default:
 				String values = Mode.values().toString();
-				throw new IllegalArgumentException("invalid mode: "
+				System.err.println("invalid mode: "
 								+ outputMode + "; must be " + values);
 		}
 		if (currentDecorator != newDecorator) {
@@ -284,23 +284,23 @@ public class SQLRunner {
 		
 		if (str.startsWith("\\d")) {	// Display
 			if (rest == null){
-				throw new IllegalArgumentException("\\d needs display arg");
+				System.err.println("\\d needs display arg");
 			}
 			display(rest);
 		} else if (str.startsWith("\\m")) {	// MODE
 			if (rest == null){
-				throw new IllegalArgumentException("\\m needs output mode arg");
+				System.err.println("\\m needs output mode arg");
 			}
 			setOutputMode(rest);
 		} else if (str.startsWith("\\o")){
 			if (rest == null){
-				throw new IllegalArgumentException("\\o needs output file arg");
+				System.err.println("\\o needs output file arg");
 			}
 			setOutputFile(rest);
 		} else if (str.startsWith("\\q")){
 			System.exit(0);
 		} else {
-			throw new IllegalArgumentException("Unknown escape: " + str);
+			System.err.println("Unknown escape: " + str);
 		}
 		
 	}
@@ -329,7 +329,7 @@ public class SQLRunner {
 				System.out.println(rs.getString(4));
 			}
 		} else
-			throw new IllegalArgumentException("\\d"  + rest + " invalid");
+			System.err.println("\\d"  + rest + " invalid");
 	}
 
 	/** Set the output to the given filename.
