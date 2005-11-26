@@ -25,8 +25,7 @@ import com.darwinsys.sql.SQLUtils;
  * where stockCount > 0 and location = 0
  * &lt;/darwin:datatable&gt;
  * </pre>
- * XXX TODO: Add setResultSet() to bypass query, for MVC use.
- * @author ian
+ * @author Ian Darwin
  */
 public class DataTableTag extends BodyTagSupport {
 
