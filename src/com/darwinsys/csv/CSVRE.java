@@ -12,14 +12,22 @@ import java.util.regex.Pattern;
  * Does NOT use the "CSV" class defined in the Java CookBook, but uses
  * a regex pattern simplified from Chapter 7 of <em>Mastering Regular 
  * Expressions</em> (p. 205, first edn.)
+ * Example usage:
+ * <pre>
+ * public static void main(String[] argv) throws IOException {
+ * 	System.out.println(CSV_PATTERN);
+ * 	new CSVRE().process(new BufferedReader(new InputStreamReader(System.in)));
+ * }
+ * </pre>
  * @version $Id$
  */
 public class CSVRE {	
 	/** The rather involved pattern used to match CSV's consists of three
-	 * alternations: the first matches aquoted field, the second unquoted,
+	 * alternations: the first matches a quoted field, the second unquoted,
 	 * the third a null field.
 	 */
-	public static final String CSV_PATTERN = "\"([^\"]+?)\",?|([^,]+),?|,";
+	public static final String CSV_PATTERN = 
+		"\"([^\"]+?)\",?|([^,]+),?|,";
 	private static Pattern csvRE;
 
 	public static void main(String[] argv) throws IOException {
