@@ -1,10 +1,11 @@
 package com.darwinsys.swingui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-/** JTable model for ArrayList of heterogeneous objects.
+/** JTable model for List of heterogeneous objects.
  * Subclasses must set String columnNames[] and
  * Class columnClasses[], which MUST be in the same order.
  * Subclasses need only implement these AbstractTableModel methods:
@@ -22,7 +23,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	protected Class columnClasses[];
 
 	/** The list of Method object */
-	protected ArrayList methods = null;
+	protected List methods = null;
 
 	/** for caching. */
 	private int ROW_INVALID = -1;
@@ -32,7 +33,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	private Object current  = null;
 
 	/** Constructor requires the list of objects */
-	public ArrayListTableModel(ArrayList m) {
+	public ArrayListTableModel(List m) {
 		methods = m;
 	}
 

@@ -2,8 +2,8 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
-import java.util.TreeMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,7 +29,7 @@ public class ArrayListTableSimple extends JFrame {
 		public int getColumnCount() { return 2; }
 
 		/** Construct a Model given the ArrayList */
-		public Model(ArrayList m) {
+		public Model(List<ArrayListTableDatum> m) {
 			super(m);
 			columnNames = myColumnNames;
 			columnClasses = myColumnClasses;
@@ -64,15 +64,15 @@ public class ArrayListTableSimple extends JFrame {
 		super("ArrayListTableSimple");
 
 		// Create empty ArrayList
-		ArrayList data = new ArrayList();
+		List<ArrayListTableDatum> data = new ArrayList<ArrayListTableDatum>();
 
 		// Get the System Properties
 		Properties p = System.getProperties();
 
 		// Get an Iterator for the sorted set of keys in p
-		Iterator it = new TreeMap(p).keySet().iterator();
+		Iterator it = p.keySet().iterator();
 
-		// Copy them into the ArrayList
+		// Copy them into the ArrayList as ArrayListTableDatum entries.
 		while (it.hasNext()) {
 			String key = (String)it.next();
 			String val = p.getProperty(key);

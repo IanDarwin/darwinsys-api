@@ -1,10 +1,16 @@
 package com.darwinsys.swingui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
 
 /**
  * ArrayListTablePanel - Bean/GUI panel for ArrayListTableModel.
@@ -27,7 +33,7 @@ public class ArrayListTablePanel extends JPanel {
 
 	private static final long serialVersionUID = 3688786964249719347L;
 	/** The list of objects we are viewing */
-	protected ArrayList list;
+	protected List list;
 	/** The kind of thing that is in the list. */
 	protected Class objectClass;
 	/** The JTable's data (model) */
@@ -37,7 +43,7 @@ public class ArrayListTablePanel extends JPanel {
 
 	/** Construct new ArrayListTablePanel */
 	public ArrayListTablePanel(Class objClass,
-		ArrayList al, ArrayListTableModel lm) {
+		List al, ArrayListTableModel lm) {
 
 		objectClass = objClass;
 		list = al;
