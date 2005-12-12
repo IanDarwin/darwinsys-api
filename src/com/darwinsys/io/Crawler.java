@@ -14,6 +14,7 @@ import java.util.TreeSet;
  */
 public class Crawler implements Checkpointer {
 	private static boolean debug = false;
+	private static boolean verbose = false;
 	/** The visitor to send all our chosen files to */
 	private static FileHandler visitor;
 	/** The chooser for files by name; may be null! */
@@ -81,10 +82,10 @@ public class Crawler implements Checkpointer {
 						if (chooser != null) {
 							if (chooser.accept(startDir, nextFileName)){
 								nextFreeFD = NextFD.getNextFD();
-								visitor.visit(next); // Process file based on name.
+								visitFile(next); // Process file based on name.
 							}
 						} else {
-							visitor.visit(next);	// Process file unconditionally
+							visitFile(next);	// Process file unconditionally
 						}
 					} catch (Throwable e) {
 						if (eHandler != null) {
@@ -107,6 +108,17 @@ public class Crawler implements Checkpointer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param next
+	 * @throws IOException
+	 */
+	private void visitFile(File next) throws IOException {
+		if (verbose) {
+			System.out.printf("Starting file: %s%n", next.getAbsolutePath());
+		}
+		visitor.visit(next);
 	}
 
 	private Set<String> seenSet = new TreeSet<String>();
@@ -140,6 +152,14 @@ public class Crawler implements Checkpointer {
 		if (debug) {
 			Thread.setDefaultUncaughtExceptionHandler(eHandler);
 		}
+	}
+
+	public static boolean isVerbose() {
+		return verbose;
+	}
+
+	public static void setVerbose(boolean verbose) {
+		Crawler.verbose = verbose;
 	}
 	
 }
