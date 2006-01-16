@@ -26,6 +26,7 @@ public class AllTestsNonGUI {
 		suite.addTestSuite(lang.StringUtilTest.class);
 		suite.addTestSuite(util.GetOptTest.class);
 		suite.addTestSuite(lang.MutableIntegerTest.class);
+		suite.addTestSuite(util.VariableMapTest.class);
 		//$JUnit-END$
 		return suite;
 	}
