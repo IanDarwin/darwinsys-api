@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /**
+ * A simple Preferences Panel
  * @author ian
  */
 public class PrefsPanel extends JPanel implements Serializable {
@@ -33,14 +34,14 @@ public class PrefsPanel extends JPanel implements Serializable {
 	}
 
 	/**
-	 * 
+	 * Construct a PrefsPanel
 	 */
 	public PrefsPanel() {
 		this(false);
 	}
 
 	/**
-	 * @param cont
+	 * @param comp
 	 * @param labelKey
 	 * @param image
 	 */
