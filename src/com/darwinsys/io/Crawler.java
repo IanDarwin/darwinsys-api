@@ -13,8 +13,8 @@ import java.util.TreeSet;
  * @version $Id$
  */
 public class Crawler implements Checkpointer {
-	private static boolean debug = false;
-	private static boolean verbose = false;
+	private boolean debug = false;
+	private boolean verbose = false;
 	/** The visitor to send all our chosen files to */
 	private static FileHandler visitor;
 	/** The chooser for files by name; may be null! */
@@ -154,12 +154,12 @@ public class Crawler implements Checkpointer {
 		}
 	}
 
-	public static boolean isVerbose() {
+	public boolean isVerbose() {
 		return verbose;
 	}
 
-	public static void setVerbose(boolean verbose) {
-		Crawler.verbose = verbose;
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
 	}
 	
 }
