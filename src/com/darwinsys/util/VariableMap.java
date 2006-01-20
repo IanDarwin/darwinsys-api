@@ -55,7 +55,7 @@ public class VariableMap extends HashMap<String, String> {
 		
 		while (m.find()) {
 			String varName = m.group(1);
-			System.out.println("varName = " + varName);
+			// System.out.println("varName = " + varName);
 			String replText = get(varName);
 			if (replText != null) {
 				m.appendReplacement(sb, replText);
