@@ -41,6 +41,11 @@ public class VariableMapTest extends TestCase {
 		System.out.printf("Subst result: %s%n", actual);
 		assertEquals("subst", expect, actual);
 	}
+
+	public void testBadSubst() {
+		String input = "What does ${noSuchVariable} do?";
+		assertEquals("itempotent on bad subst", input, v.substVars(input));
+	}
 	
 	public void testIdemPotent() {
 		v.setVar("foo", "bar");
