@@ -36,10 +36,19 @@ public class SmtpUtils {
 			BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = new PrintWriter(s.getOutputStream(), true);
 			String greeting = readLine(in);
+			if (false) {
+				System.out.println(greeting);
+			}
 			send(out, "HELO " + myHostName);
 			String heloResp = readLine(in);
+			if (false) {
+				System.out.println(heloResp);
+			}
 			send(out, "MAIL From:<smtp_verifier@" + myHostName + ">");
 			String mailResp = readLine(in);
+			if (false) {
+				System.out.println(mailResp);
+			}
 			user="postmaster";
 			send(out, "RCPT To:<" + user + "@" + host + ">");
 			String vrfyResp = readLine(in);
@@ -50,6 +59,9 @@ public class SmtpUtils {
 			
 			send(out, "QUIT");
 			String quitResp = readLine(in);
+			if (false) {
+				System.out.println(quitResp);
+			}
 			
 			return true;
 		} catch (UnknownHostException e) {

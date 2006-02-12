@@ -6,7 +6,7 @@ import javax.swing.event.*;
 
 /** FilterGUIListModel combines an ArrayList with a ListModel for ease of use.
  */
-public class FilterGUIListModel extends ArrayList implements ListModel {
+public class FilterGUIListModel<E> extends ArrayList<E> implements ListModel {
 
 	protected Object source;
 
@@ -22,13 +22,13 @@ public class FilterGUIListModel extends ArrayList implements ListModel {
 		return size();
 	}
 
-	ArrayList listeners = new ArrayList();
+	ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
 
-	public void removeListDataListener(javax.swing.event.ListDataListener l)  { 
+	public void removeListDataListener(ListDataListener l)  { 
 		listeners.remove(l);
 	}
 
-	public void addListDataListener(javax.swing.event.ListDataListener l)  {
+	public void addListDataListener(ListDataListener l)  {
 		listeners.add(l);
 	}
 
@@ -43,20 +43,20 @@ public class FilterGUIListModel extends ArrayList implements ListModel {
 	// REMAINDER ARE OVERRIDES JUST TO CALL NOTIFYLISTENERS
 
 
-	public boolean add(Object o)  {
+	public boolean add(E o)  {
 		boolean b = super.add(o);
 		if (b)
 			notifyListeners();
 		return b;
 	}
 
-	public void add(int index, Object element) {
+	public void add(int index, E element) {
 		super.add(index, element);
 		notifyListeners();
 	}
 
-	public boolean addAll(Collection o)  {
-		boolean b = super.add(o);
+	public boolean addAll(Collection<? extends E> o)  {
+		boolean b = super.addAll(o);
 		if (b)
           notifyListeners();
 		return b;
@@ -67,8 +67,8 @@ public class FilterGUIListModel extends ArrayList implements ListModel {
 		notifyListeners();
 	}
 
-	public Object remove(int i) {
-		Object o = super.remove(i);
+	public E remove(int i) {
+		E o = super.remove(i);
 		notifyListeners();
 		return o;
 	}
@@ -80,8 +80,8 @@ public class FilterGUIListModel extends ArrayList implements ListModel {
 		return b;
 	}
 
-	public Object set(int index, Object element) {
-		Object o = super.set(index, element);
+	public E set(int index, E element) {
+		E o = super.set(index, element);
 		notifyListeners();
 		return o;
 	}
