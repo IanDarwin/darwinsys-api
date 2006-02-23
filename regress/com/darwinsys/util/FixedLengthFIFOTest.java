@@ -1,6 +1,8 @@
 package util;
 
+import java.util.Calendar;
 import java.util.ConcurrentModificationException;
+import java.util.Date;
 import java.util.Iterator;
 
 import com.darwinsys.util.FixedLengthFIFO;
@@ -14,10 +16,10 @@ public class FixedLengthFIFOTest extends TestCase {
 	private static final String[] moreJunk = {
 		JUNKSTRING, "jdklsfj", "abc", "def", "ghi", "jkl", "mno", "pqr", "stuart", "vwx", "zzz", "zzzz"
 	};
-	FixedLengthFIFO ff;
+	FixedLengthFIFO<String> ff;
 	
 	protected void setUp() throws Exception {
-		ff = new FixedLengthFIFO(10);
+		ff = new FixedLengthFIFO<String>(10);
 	}
 
 	public void testBasics() throws Exception {
@@ -79,5 +81,14 @@ public class FixedLengthFIFOTest extends TestCase {
 		} catch (ConcurrentModificationException e) {
 			System.out.println("Did catch expected ConcurrentModificationException");
 		}
+	}
+	
+	public void testTypes() {
+		FixedLengthFIFO<Date> ff = new FixedLengthFIFO<Date>(15);
+		ff.add(new Date());
+		Date today = Calendar.getInstance().getTime();
+		ff.add(today);
+		assertEquals(2, ff.size());
+		assertSame(ff.get(1), today);
 	}
 }
