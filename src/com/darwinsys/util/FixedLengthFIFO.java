@@ -1,6 +1,5 @@
 package com.darwinsys.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -29,7 +28,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	 */
 	public FixedLengthFIFO(int size) {
 		this.size = size;
-		data = (T[])new Object[size];	// XXX not quite right
+		data = (T[])new Object[size];	// You can not get rid of this warning.
 		n = 0;
 	}
 
@@ -60,7 +59,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 				if (!hasNext()) {
 					throw new IllegalStateException("Called next when hasNext is false");
 				}
-				return data[++ix];
+				return (T)data[++ix];
 			}
 
 			public void remove() {
@@ -116,7 +115,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 		}
 		// We are going to remove one element;
 		n--;
-		final T old = data[i];
+		final T old = (T)data[i];
 		// do the two easy cases first.
 		if (i == 0) {
 			System.arraycopy(data, 1, data, 0, n - 1);
