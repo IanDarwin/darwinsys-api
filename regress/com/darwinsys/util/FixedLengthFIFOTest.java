@@ -101,4 +101,13 @@ public class FixedLengthFIFOTest extends TestCase {
 		Object ov = vv.toArray(new String[0]);
 		System.out.println(ov.getClass().getName());
 	}
+	
+	public void testSet() {
+		ff.add("hello");
+		ff.add("goodbye");
+		ff.set(0, "new");
+		assertEquals(2, ff.size());
+		assertEquals("goodbye", ff.get(1));
+		assertEquals("new", ff.get(0));
+	}
 }

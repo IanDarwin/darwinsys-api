@@ -16,6 +16,10 @@ import java.util.ListIterator;
  */
 public class FixedLengthFIFO<T> implements List<T> {
 	private final int size;
+	/** Used to protect against concurrentmodification in iterator;
+	 * must be incremented for any change operation
+	 */
+	private long generation;
 	private final T[] data;
 	private int n = 0;
 	private static final long serialVersionUID = 5887759670059817977L;
@@ -45,7 +49,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 		
 		return new Iterator<T>() {
 			int ix = -1;
-			final int howmany = n;
+			final long gen = generation;
 			public boolean hasNext() {
 				check();
 				return ix < n - 1;
@@ -68,7 +72,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 			}
 			
 			private void check() {
-				if (howmany != n) {
+				if (gen != generation) {
 					throw new ConcurrentModificationException();
 				}
 			}
@@ -88,6 +92,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public boolean add(T o) {
+		++generation;
 		if (n >= size) {
 			remove(data[0]);			
 		}
@@ -96,6 +101,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public boolean remove(Object o) {
+		// generation changed in overload
 		int i = indexOf(o);
 		if (i == -1) {
 			return false;
@@ -103,7 +109,8 @@ public class FixedLengthFIFO<T> implements List<T> {
 		return remove(i) != null;
 	}
 	
-	public T remove(int i) {	
+	public T remove(int i) {
+		++generation;
 		if (i > n) {
 			return null;
 		}
@@ -144,6 +151,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public void clear() {
+		++generation;
 		for (int i = 0; i < n; i++) {
 			data[i] = null;
 		}
@@ -157,7 +165,13 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public T set(int index, T element) {
+		if (index > size)
 		throw new IllegalArgumentException("method not implemented");
+		for (int ix = n; ix < index; ix++) {
+			data[ix] = null;
+		}
+		data[index] = element;
+		return element;
 	}
 
 	public void add(int index, T element) {
@@ -203,6 +217,4 @@ public class FixedLengthFIFO<T> implements List<T> {
 	public int hashCode() {
 		return data.hashCode();
 	}
-	
-	private ArrayList x;
 }
