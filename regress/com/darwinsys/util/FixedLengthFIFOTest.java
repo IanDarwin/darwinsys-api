@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Vector;
 
 import com.darwinsys.util.FixedLengthFIFO;
 
@@ -90,5 +91,14 @@ public class FixedLengthFIFOTest extends TestCase {
 		ff.add(today);
 		assertEquals(2, ff.size());
 		assertSame(ff.get(1), today);
+	}
+	
+	public void testToArrayArrayType() {
+		String[] o = ff.toArray(new String[0]);
+		assertNotNull(o);
+		System.out.println(o.getClass().getName());
+		Vector<String> vv = new Vector<String>();
+		Object ov = vv.toArray(new String[0]);
+		System.out.println(ov.getClass().getName());
 	}
 }

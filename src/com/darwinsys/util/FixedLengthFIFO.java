@@ -1,5 +1,6 @@
 package com.darwinsys.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -78,8 +79,12 @@ public class FixedLengthFIFO<T> implements List<T> {
 		return data;
 	}
 
-	public T[] toArray(Object[] a) {
-		return data;
+	public <T> T[] toArray(T[] a) {
+		if (a.length < size) {
+            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), n);
+		}
+        System.arraycopy(data, 0, a, 0, n);
+		return a;
 	}
 
 	public boolean add(T o) {
@@ -194,4 +199,10 @@ public class FixedLengthFIFO<T> implements List<T> {
 		System.arraycopy(newdata, 0, data, fromIndex, newlen);
 		return Arrays.asList(newdata);
 	}
+
+	public int hashCode() {
+		return data.hashCode();
+	}
+	
+	private ArrayList x;
 }
