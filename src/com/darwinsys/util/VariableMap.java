@@ -50,7 +50,7 @@ public class VariableMap extends HashMap<String, String> {
 	
 	/** Substitute all variables in a given string
 	 * @param inString
-	 * @return
+	 * @return The string after substitution
 	 */
 	public String substVars(String inString) {
 		StringBuffer sb = new StringBuffer();
@@ -59,7 +59,6 @@ public class VariableMap extends HashMap<String, String> {
 		
 		while (m.find()) {
 			String varName = m.group(1);
-			// System.out.println("varName = " + varName);
 			String replText = get(varName);
 			if (replText != null) {
 				m.appendReplacement(sb, replText);
