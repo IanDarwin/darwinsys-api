@@ -11,7 +11,7 @@ import java.util.ListIterator;
  * A Fixed-size FIFO.
  * Development of this program was funded by the Toronto Centre for
  * Phenogenomics (www.phenogenomics.ca).
- * XXX Could reduce size by basing on AbstractList.
+ * XXX Could maybe reduce code size by basing on AbstractList.
  */
 public class FixedLengthFIFO<T> implements List<T> {
 	private final int size;
@@ -24,7 +24,8 @@ public class FixedLengthFIFO<T> implements List<T> {
 	private static final long serialVersionUID = 5887759670059817977L;
 
 	/**
-	 * @param initialCapacity
+	 * Construct a FIFO of a fixed (maximum) length.
+	 * @param size The maximum number of items to hold in the FIFO
 	 */
 	public FixedLengthFIFO(int size) {
 		this.size = size;
@@ -67,7 +68,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 				if (ix == -1) {
 					throw new IllegalStateException("You called remove before next");
 				}
-				throw new IllegalArgumentException("method not implemented");
+				throw new UnsupportedOperationException("iterator.remove");
 			}
 			
 			private void check() {
@@ -90,6 +91,12 @@ public class FixedLengthFIFO<T> implements List<T> {
 		return a;
 	}
 
+	/** Add an element to the FIFO. Unlike a normal List, this FIFO
+	 * will not grow indefinitely, but adding will not make the FIFO
+	 * exceed its fixed size.
+	 * @param o
+	 * @return True, since you can always add one more object.
+	 */
 	public boolean add(T o) {
 		++generation;
 		if (n >= size) {
@@ -99,6 +106,10 @@ public class FixedLengthFIFO<T> implements List<T> {
 		return true;
 	}
 
+	/**
+	 * Remove the given element if it's still in the FIFO.
+	 * @param o The element to be removed.
+	 */
 	public boolean remove(Object o) {
 		// generation changed in overload
 		int i = indexOf(o);
@@ -130,23 +141,23 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public boolean containsAll(Collection c) {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("containsAll");
 	}
 
 	public boolean addAll(Collection c) {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("addAll");
 	}
 
 	public boolean addAll(int index, Collection c) {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("addAll");
 	}
 
 	public boolean removeAll(Collection c) {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("removeAll");
 	}
 
 	public boolean retainAll(Collection c) {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("retainAll");
 	}
 
 	public void clear() {
@@ -165,7 +176,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 
 	public T set(int index, T element) {
 		if (index > size)
-		throw new IllegalArgumentException("method not implemented");
+		throw new IndexOutOfBoundsException(Integer.toString(index));
 		for (int ix = n; ix < index; ix++) {
 			data[ix] = null;
 		}
@@ -174,7 +185,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public void add(int index, T element) {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("add(int, element)");
 	}
 
 	public int indexOf(Object o) {
@@ -196,16 +207,16 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public ListIterator<T> listIterator() {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("listIterator");
 	}
 
 	public ListIterator<T> listIterator(int index) {
-		throw new IllegalArgumentException("method not implemented");
+		throw new UnsupportedOperationException("listIterator(int)");
 	}
 
 	public List<T> subList(int fromIndex, int toIndex) {
 		if (fromIndex < 0 || toIndex > size()) {
-			throw new IllegalArgumentException("index out of range");
+			throw new IndexOutOfBoundsException("must be in 0.." + (size()-1));
 		}
 		int newlen = toIndex - fromIndex + 1;
 		T[] newdata = (T[])new Object[newlen];
