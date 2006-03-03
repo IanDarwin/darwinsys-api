@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import com.darwinsys.util.FixedLengthFIFO;
@@ -42,6 +43,13 @@ public class FixedLengthFIFOTest extends TestCase {
 		assertNotSame(ff.indexOf(JUNKSTRING), ff.lastIndexOf(JUNKSTRING));
 	}
 	
+	public void testOnlyOne() throws Exception {
+		ff = new FixedLengthFIFO<String>(10);
+		String string = "One";
+		ff.add(string);
+		ff.remove(string);
+	}
+	
 	public void testLimits() throws Exception {
 		assertTrue(moreJunk.length > SMALL_TEST_SIZE);
 		for (String d : moreJunk) {
@@ -59,7 +67,7 @@ public class FixedLengthFIFOTest extends TestCase {
 			System.out.println("First element from first iterator: " + it.next());
 			it.remove();
 			fail("Iterator.remove() did not throw expected Exception");
-		} catch (IllegalArgumentException e) {
+		} catch (UnsupportedOperationException e) {
 			// nothing to do
 		}
 		while (it.hasNext()) {
@@ -102,6 +110,14 @@ public class FixedLengthFIFOTest extends TestCase {
 		System.out.println(ov.getClass().getName());
 	}
 	
+	public void testLastIndex() {
+		int where = ff.size();
+		String d = "JKDJFLSJLKDJF";
+		ff.add(d);
+		ff.add(new Date().toString());
+		assertEquals(where, ff.lastIndexOf(d));
+	}
+	
 	public void testSet() {
 		ff.add("hello");
 		ff.add("goodbye");
@@ -109,5 +125,22 @@ public class FixedLengthFIFOTest extends TestCase {
 		assertEquals(2, ff.size());
 		assertEquals("goodbye", ff.get(1));
 		assertEquals("new", ff.get(0));
+	}
+	
+	public void testSubList() {
+		FixedLengthFIFO<Integer> gg = new FixedLengthFIFO<Integer>(10);
+		Integer i1 = 10;
+		Integer i2 = 20;
+		Integer i3 = 30;
+		Integer i4 = 40;
+		gg.add(i1);
+		gg.add(i2);
+		gg.add(i3);
+		gg.add(i4);
+		
+		List<Integer> remnant = gg.subList(1,2);
+		assertEquals(2, remnant.size());
+		assertSame(i2, remnant.get(0));
+		assertSame(i3, remnant.get(1));
 	}
 }

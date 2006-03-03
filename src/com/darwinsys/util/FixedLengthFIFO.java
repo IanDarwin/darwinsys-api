@@ -127,7 +127,11 @@ public class FixedLengthFIFO<T> implements List<T> {
 		// We are going to remove one element;
 		n--;
 		final T old = (T)data[i];
-		// do the two easy cases first.
+		// do some easy cases first.
+		if (size() == 0) { // n == 0 here means length == 1, since we did n-- above.
+			data[0] = null;
+			return old;
+		}
 		if (i == 0) {
 			System.arraycopy(data, 1, data, 0, n - 1);
 			return old;
@@ -198,7 +202,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public int lastIndexOf(Object o) {
-		for (int i = n - 1; i >= 0; i++) {
+		for (int i = n - 1; i >= 0; i--) {
 			if (data[i].equals(o)) {
 				return i;
 			}
@@ -220,7 +224,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 		}
 		int newlen = toIndex - fromIndex + 1;
 		T[] newdata = (T[])new Object[newlen];
-		System.arraycopy(newdata, 0, data, fromIndex, newlen);
+		System.arraycopy(data, fromIndex, newdata, 0, newlen);
 		return Arrays.asList(newdata);
 	}
 
