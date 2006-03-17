@@ -8,6 +8,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import com.darwinsys.util.DateUtils;
+
 /**
  * Calendar JSP Tag, cut down from Java Cookbook CalendarPage.jsp; just displays
  * current, does not have navigator.
@@ -15,18 +17,6 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @version $Id$
  */
 public class CalendarTag extends TagSupport {
-
-	/** The days in each month. */
-	int dom[] = {
-	31, 28, 31, 30, /* jan feb mar apr */
-	31, 30, 31, 31, /* may jun jul aug */
-	30, 31, 30, 31 /* sep oct nov dec */
-	};
-
-	/** The names of the months */
-	String[] months = { "January", "February", "March", "April", "May", "June",
-			"July", "August", "September", "October", "November", "December"
-	};
 
 	/** Invoked at the end tag boundary, does the work */
 	public int doEndTag() throws JspException {
@@ -56,7 +46,7 @@ public class CalendarTag extends TagSupport {
 		int mm = calendar.get(Calendar.MONTH);
 
 		out.println("<table border=1>");
-		out.println("<tr><th colspan=7>" + months[mm] + ", " + yy + "</tr>");
+		out.println("<tr><th colspan=7>" + DateUtils.months[mm] + ", " + yy + "</tr>");
 
 		out.println("<tr><td>Su<td>Mo<td>Tu<td>We<td>Th<td>Fr<td>Sa</tr>");
 
