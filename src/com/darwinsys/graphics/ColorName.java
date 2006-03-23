@@ -5,6 +5,8 @@ import java.awt.Color;
 /** A simple class for looking up Java AWT Color Names; I got tired
  * of including this code in every program that needed it!
  * (yes, this IS a hint to JavaSoft.).
+ * <br/>
+ * TODO: Rewrite XColor from javasrc as a subclass of this.
  * @author	Ian Darwin, delinted by Bill Heinze
  */
 public class ColorName {
@@ -18,6 +20,8 @@ public class ColorName {
 		String colorName;
 		Color  jColor;
 	}
+
+	public static final Color FALLBACK_COLOR = Color.GRAY;
 	
 	/** The list of known color names and their corresponding colors */
 	protected static ColorNameMap map[] = {
