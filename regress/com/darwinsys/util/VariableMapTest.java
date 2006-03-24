@@ -52,4 +52,24 @@ public class VariableMapTest extends TestCase {
 		final String string = "foo bar bleah";
 		assertEquals("idempotent", string, v.substVars(string));
 	}
+	
+	// Tests with BackSlashes
+	public void testBackslashInSubstInputString() {
+		v.setVar("abc", "123");
+		String str = "anaylyse this: ${abc}\\123";	// \1 is special to regex!
+		assertEquals("testBackslashInSubstInputString", 
+			"anaylyse this: 123\\123", v.substVars(str));
+	}
+	
+	public void testBackslashInVarUsedInSubst() {
+		String abcInput = "a\\123";
+		v.setVar("abc", abcInput);
+		String abcOutput = v.getVar("abc");
+		assertEquals(abcInput, abcOutput);
+		// This will not yield 'a\\123\\123' because the first \
+		// is absorbed by regex code as '\1', which yields the first
+		// '1' in the expect string
+		assertEquals("testBackslashInVarUsedInSubst",
+			"a123\\123", v.substVars("${abc}\\123"));
+	}
 }
