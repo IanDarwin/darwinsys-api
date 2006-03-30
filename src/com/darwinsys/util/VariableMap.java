@@ -48,20 +48,33 @@ public class VariableMap extends HashMap<String, String> {
 	 */
 	private final Pattern varsPatt = Pattern.compile("\\$\\{(\\w+)\\}");
 	
-	/** Substitute all variables in a given string
+	/** Substitute all variables in a given string; note that the
+	 * input string MUST NOT contain \ or $ characters (except of course
+	 * in the variable substitution context) unless you
+	 * really understand what you're doing.
+	 * <p>
+	 * Example input: <kbd>lookFor(${USER})</kbd>
+	 * If USER variable in map contains PIE, the result will be
+	 * <kbd>lookFor(PIE)</kbd>.
 	 * @param inString
 	 * @return The string after substitution
 	 */
 	public String substVars(String inString) {
 		StringBuffer sb = new StringBuffer();
-		// System.out.printf("VariableMap.substVars(): patt %s%n", varsPatt);
+		// System.out.printf("VariableMap.substVars(%s)%n", inString);
 		Matcher m = varsPatt.matcher(inString);
 		
 		while (m.find()) {
 			String varName = m.group(1);
 			String replText = get(varName);
+			// System.err.printf("VariableMap.substVars: %s->%s%n", varName, replText);
 			if (replText != null) {
+				try {
 				m.appendReplacement(sb, replText);
+				} catch (IllegalArgumentException e) {
+					System.err.printf("VariableMap.SubstVars: BLOWN BY %s%nInputString %s", replText, inString);
+					sb.append("???");
+				}
 			}
 		}
 		m.appendTail(sb);
