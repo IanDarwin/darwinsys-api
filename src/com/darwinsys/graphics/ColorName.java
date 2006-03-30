@@ -79,7 +79,7 @@ public class ColorName {
 	};
 
 	/** Lookup a given string
-	 * @returns	The java.awt.Color corresponding, or null.
+	 * @return	The java.awt.Color corresponding, or null.
 	 */
 	public static Color getColor(String name) {
 		if (name == null)
