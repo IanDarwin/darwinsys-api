@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
@@ -27,17 +28,19 @@ public class DateRangeUIHelperDemo extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		final Container cp = getContentPane();
 		cp.setLayout(new FlowLayout());
-		final JList jComboBox = new JList();
-		cp.add(jComboBox);
-		jComboBox.setListData(DateRangeUIHelper.dateRanges);
-		JButton jb = new JButton("Action");
+		cp.add(new JLabel("Modified in last:"));
+		final JList jList = new JList();
+		cp.add(jList);
+		jList.setListData(DateRangeUIHelper.dateRanges);
+		jList.setSelectedIndex(0);
+		JButton jb = new JButton("Show starting date:");
 		cp.add(jb);
 		final JTextField tf = new JTextField(30);
 		tf.setEditable(false);
 		cp.add(tf);
 		jb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DateRangeUIHelper.Range r = (DateRangeUIHelper.Range)jComboBox.getSelectedValue();
+				DateRangeUIHelper.Range r = (DateRangeUIHelper.Range)jList.getSelectedValue();
 				Date startDate = DateRangeUIHelper.getDateFromRange(r.getChoiceValue()); 
 				tf.setText(startDate.toString());
 			}
