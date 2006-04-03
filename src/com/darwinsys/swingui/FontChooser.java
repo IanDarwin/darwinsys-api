@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +15,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -70,7 +70,7 @@ public class FontChooser extends JDialog {
 	 * array of fonts on the system. Builds a GUI to let
 	 * the user choose one font at one size.
 	 */
-	public FontChooser(Frame f) {
+	public FontChooser(JFrame f) {
 		super(f, "Font Chooser", true);
 
 		Container cp = getContentPane();
