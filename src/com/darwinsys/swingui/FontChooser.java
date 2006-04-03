@@ -1,26 +1,32 @@
 package com.darwinsys.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.Checkbox;
+
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.List;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-/** A font selection dialog.
- * <p>Note: can take a while to start up on systems
- * with (literally) hundreds of fonts.
- * TODO change list to JList, add a SelectionChangedListener to preview.
+/** A Swing-based Font Selection jdialog.
+ * <p>
+ * Uses Listeners to ensure that Preview button isn't actually needed
+ * (button is left in temporarily, for comfort's sake).
  * @author	Ian Darwin
  * @version $Id$
  */
@@ -29,7 +35,7 @@ public class FontChooser extends JDialog {
 	// Results:
 
 	/** The font the user has chosen */
-	protected Font resultFont;
+	protected Font resultFont = new Font("Serif", Font.PLAIN, 12);
 	/** The resulting font name */
 	protected String resultName;
 	/** The resulting font size */
@@ -43,24 +49,20 @@ public class FontChooser extends JDialog {
 
 	/** Display text */
 	protected String displayText = "Qwerty Yuiop";
-	/** The list of Fonts */
-	protected String fontList[];
 	/** The font name chooser */
-	protected List fontNameChoice;
+	protected JList fontNameChoice;
 	/** The font size chooser */
-	protected List fontSizeChoice;
+	protected JList fontSizeChoice;
 	/** The bold and italic choosers */
-	Checkbox bold, italic;
+	JCheckBox bold, italic;
 
 	/** The list of font sizes */
-	protected String fontSizes[] = {
-		"8", "10", "11", "12", "14", "16", "18", "20", "24",
-		"30", "36", "40", "48", "60", "72"
-		};
+	protected Integer fontSizes[] = {
+			8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 30, 36, 40, 48, 60, 72
+	};
 	/** The index of the default size (e.g., 14 point == 4) */
 	protected static final int DEFAULT_SIZE = 4;
-	/** The display area. Use a JLabel as the AWT label doesn't always
-	 * honor setFont() in a timely fashion :-)
+	/** The font display area.
 	 */
 	protected JLabel previewArea;
 
@@ -73,42 +75,55 @@ public class FontChooser extends JDialog {
 
 		Container cp = getContentPane();
 
-		Panel top = new Panel();
+		JPanel top = new JPanel();
 		top.setLayout(new FlowLayout());
-
-		fontNameChoice = new List(8);
-		top.add(fontNameChoice);
 
 		// This gives a longish list; most of the names that come
 		// with your OS (e.g., Helvetica, Times), plus the Sun/Java ones (Lucida, 
 		// Lucida Bright, Lucida Sans...)
-		fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
+		String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
 			getAvailableFontFamilyNames();
 
-		for (int i=0; i<fontList.length; i++)
-			fontNameChoice.add(fontList[i]);
-		fontNameChoice.select(0);
+		fontNameChoice = new JList(fontList);
+		top.add(new JScrollPane(fontNameChoice));
 
-		fontSizeChoice = new List(8);
+		fontNameChoice.setSelectedValue("Serif", true);
+
+		fontSizeChoice = new JList(fontSizes);
 		top.add(fontSizeChoice);
 
-		for (int i=0; i<fontSizes.length; i++)
-			fontSizeChoice.add(fontSizes[i]);
-		fontSizeChoice.select(DEFAULT_SIZE);
+		fontSizeChoice.setSelectedIndex(10);
+		
 
 		cp.add(top, BorderLayout.NORTH);
 
-		Panel attrs = new Panel();
+		JPanel attrs = new JPanel();
 		top.add(attrs);
 		attrs.setLayout(new GridLayout(0,1));
-		attrs.add(bold  =new Checkbox("Bold", false));
-		attrs.add(italic=new Checkbox("Italic", false));
+		attrs.add(bold  =new JCheckBox("Bold", false));
+		attrs.add(italic=new JCheckBox("Italic", false));
+		
+		// Make sure that any change to the GUI will trigger a font preview.
+		ListSelectionListener waker = new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				previewFont();
+			}			
+		};
+		fontSizeChoice.addListSelectionListener(waker);
+		fontNameChoice.addListSelectionListener(waker);
+		ItemListener waker2 = new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				previewFont();
+			}			
+		};
+		bold.addItemListener(waker2);
+		italic.addItemListener(waker2);
 
 		previewArea = new JLabel(displayText, JLabel.CENTER);
 		previewArea.setSize(200, 50);
 		cp.add(previewArea, BorderLayout.CENTER);
 
-		Panel bot = new Panel();
+		JPanel bot = new JPanel();
 
 		JButton okButton = new JButton("Apply");
 		bot.add(okButton);
@@ -156,11 +171,11 @@ public class FontChooser extends JDialog {
 	 * build a font, and set it.
 	 */
 	protected void previewFont() {
-		resultName = fontNameChoice.getSelectedItem();
-		String resultSizeName = fontSizeChoice.getSelectedItem();
+		resultName = (String)fontNameChoice.getSelectedValue();
+		String resultSizeName = fontSizeChoice.getSelectedValue().toString();
 		int resultSize = Integer.parseInt(resultSizeName);
-		isBold = bold.getState();
-		isItalic = italic.getState();
+		isBold = bold.isSelected();
+		isItalic = italic.isSelected();
 		int attrs = Font.PLAIN;
 		if (isBold) attrs = Font.BOLD;
 		if (isItalic) attrs |= Font.ITALIC;
