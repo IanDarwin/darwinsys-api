@@ -47,6 +47,12 @@ import javax.swing.JOptionPane;
  *			
  *		});
  *		fileMenu.add(recent);
+ *		JMenuItem clearItem = new JMenuItem("Clear Recent Files");
+ *		clearItem.addActionListener(new ActionListener() {
+ *			public void actionPerformed(ActionEvent e) {
+ *				recentFilesMenu.clear();
+ *			}			
+ *		});
  * </pre>
  * @author Ian Darwin
  */
