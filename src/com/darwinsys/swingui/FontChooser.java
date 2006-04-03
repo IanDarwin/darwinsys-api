@@ -1,11 +1,24 @@
-package gui;
+package com.darwinsys.swingui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Checkbox;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
+import java.awt.List;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 /** A font selection dialog.
- * <p>Note: can take a long time to start up on systems
+ * <p>Note: can take a while to start up on systems
  * with (literally) hundreds of fonts.
  * TODO change list to JList, add a SelectionChangedListener to preview.
  * @author	Ian Darwin
