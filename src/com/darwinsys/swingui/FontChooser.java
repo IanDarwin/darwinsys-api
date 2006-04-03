@@ -31,6 +31,8 @@ import javax.swing.event.ListSelectionListener;
  * @version $Id$
  */
 public class FontChooser extends JDialog {
+	
+	public static final String DEFAULT_TEXT = "Lorem ipsem dolor";
 
 	// Results:
 
@@ -48,7 +50,7 @@ public class FontChooser extends JDialog {
 	// Working fields
 
 	/** Display text */
-	protected String displayText = "Qwerty Yuiop";
+	protected String displayText = DEFAULT_TEXT;
 	/** The font name chooser */
 	protected JList fontNameChoice;
 	/** The font size chooser */
@@ -198,5 +200,31 @@ public class FontChooser extends JDialog {
 	/** Retrieve the selected font, or null */
 	public Font getSelectedFont() {
 		return resultFont;
+	}
+
+	public String getDisplayText() {
+		return displayText;
+	}
+
+	public void setDisplayText(String displayText) {
+		this.displayText = displayText;
+		previewArea.setText(displayText);
+		previewFont();
+	}
+
+	public JList getFontNameChoice() {
+		return fontNameChoice;
+	}
+
+	public JList getFontSizeChoice() {
+		return fontSizeChoice;
+	}
+
+	public boolean isBold() {
+		return isBold;
+	}
+
+	public boolean isItalic() {
+		return isItalic;
 	}
 }
