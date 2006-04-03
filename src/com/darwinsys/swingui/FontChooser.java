@@ -66,11 +66,8 @@ public class FontChooser extends JDialog {
 		fontNameChoice = new List(8);
 		top.add(fontNameChoice);
 
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		// For JDK 1.1: returns about 10 names (Serif, SansSerif, etc.)
-		// fontList = toolkit.getFontList();
-		// For JDK 1.2: a much longer list; most of the names that come
-		// with your OS (e.g., Arial), plus the Sun/Java ones (Lucida, 
+		// This gives a longish list; most of the names that come
+		// with your OS (e.g., Helvetica, Times), plus the Sun/Java ones (Lucida, 
 		// Lucida Bright, Lucida Sans...)
 		fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
 			getAvailableFontFamilyNames();
@@ -173,35 +170,5 @@ public class FontChooser extends JDialog {
 	/** Retrieve the selected font, or null */
 	public Font getSelectedFont() {
 		return resultFont;
-	}
-
-	/** Simple main program to start it running */
-	public static void main(String[] args) {
-		final JFrame f = new JFrame("FontChooser Startup");
-		final FontChooser fc = new FontChooser(f);
-		final Container cp = f.getContentPane();
-		cp.setLayout(new GridLayout(0, 1));	// one vertical column
-
-		JButton theButton = new JButton("Change font");
-		cp.add(theButton);
-
-		final JLabel theLabel = new JLabel("Java is great!", JLabel.CENTER);
-		cp.add(theLabel);
-
-		// Now that theButton and theLabel are ready, make the action listener
-		theButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fc.setVisible(true);
-				Font myNewFont = fc.getSelectedFont();
-				System.out.println("You chose " + myNewFont);
-				theLabel.setFont(myNewFont);
-				f.pack();		// adjust for new size
-				fc.dispose();
-			}
-		});
-
-		f.setSize(150, 100);
-		f.setVisible(true);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
