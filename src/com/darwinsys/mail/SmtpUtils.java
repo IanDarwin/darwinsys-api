@@ -22,7 +22,7 @@ public class SmtpUtils {
 		this.myDnsServer= myDnsServer;
 	}
 
-	public boolean verifySender(String user, String host) throws IOException{
+	public boolean verifySender(final String user, final String host) throws IOException{
 		PrintWriter out = null;
 		try {
 			String mxHost = null;
@@ -49,10 +49,12 @@ public class SmtpUtils {
 			if (false) {
 				System.out.println(mailResp);
 			}
-			user="postmaster";
-			send(out, "RCPT To:<" + user + "@" + host + ">");
+			String errorUser="postmaster";
+			send(out, "RCPT To:<" + errorUser + "@" + host + ">");
 			String vrfyResp = readLine(in);
-			
+			if (vrfyResp == null) {
+				throw new IllegalStateException("Read Null Line in middle of SMTP conversation");
+			}
 			if (vrfyResp.startsWith("550")) {
 				return false;
 			}
