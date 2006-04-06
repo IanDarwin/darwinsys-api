@@ -18,7 +18,7 @@ import com.darwinsys.swingui.ArrayListTablePanel;
 public class ArrayListTableSimple extends JFrame {
 
 	/** inner class for TableModel */
-	class Model extends ArrayListTableModel {
+	static class Model extends ArrayListTableModel {
 
 		/** This defines the order of the columns. Must agree with columnClasses */
 		protected String[] myColumnNames = { "Name", "Value" };
@@ -53,8 +53,9 @@ public class ArrayListTableSimple extends JFrame {
 
 			ArrayListTableDatum current = (ArrayListTableDatum)getCached(row);
 			switch(col) {
-				case 0: current.name = (String)val;
-				case 1: current.value = (String)val;
+				case 0: current.name = (String)val; break;
+				case 1: current.value = (String)val; break;
+				default: throw new IllegalStateException("Invalid column number " + col);
 			}
 		}
 	}
