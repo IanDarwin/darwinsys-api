@@ -1,8 +1,8 @@
 package com.darwinsys.diff;
 
 public class DiffChunk<T> {
-	DiffType type;
-	T data;
+	private DiffType type;
+	private T data;
 	
 	/**
 	 * @param data
@@ -12,5 +12,13 @@ public class DiffChunk<T> {
 		super();
 		this.data = data;
 		this.type = type;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public DiffType getType() {
+		return type;
 	}
 } 
