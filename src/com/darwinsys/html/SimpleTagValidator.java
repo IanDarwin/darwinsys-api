@@ -14,7 +14,7 @@ public class SimpleTagValidator {
 	/** The default list of OK tags.
 	 * As of this writing it allows only a, b, br, em, i and p tags.
 	 */
-	public static final String[] OKTAGS = {
+	private static final String[] OKTAGS = {
 			"a", "b", "br", "em", "i", "p"
 	};
 	private final String[] okTags;
@@ -28,8 +28,9 @@ public class SimpleTagValidator {
 	}
 	
 	/** Construct a Validator using a non-default OK list */
-	public SimpleTagValidator(String[] okTagList) {
-		okTags = okTagList;
+	public SimpleTagValidator(final String[] okTagList) {
+		okTags = new String[okTagList.length];
+		System.arraycopy(okTagList, 0, okTags, 0, okTagList.length);
 	}
 	
 	/** Validate a String that may contain HTML to ensure it contains
