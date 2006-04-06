@@ -59,7 +59,7 @@ public class CompressingFilter implements Filter {
 	 * Inner Class is a ServletResponse that does compression
 	 * @author Ian Darwin
 	 */
-	class GZipResponseWrapper extends ServletResponseWrapper {
+	static class GZipResponseWrapper extends ServletResponseWrapper {
 
 		/**
 		 * @param ressponse
@@ -71,7 +71,7 @@ public class CompressingFilter implements Filter {
 		/** Inner inner class that is a ServletOutputStream.
 		 * @author Ian Darwin
 		 */
-		class MyServletOutputStream extends ServletOutputStream {
+		static class MyServletOutputStream extends ServletOutputStream {
 			private OutputStream os;
 
 			MyServletOutputStream(GZIPOutputStream os) {
