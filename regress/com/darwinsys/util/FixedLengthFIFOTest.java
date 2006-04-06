@@ -85,7 +85,8 @@ public class FixedLengthFIFOTest extends TestCase {
 		Iterator it3 = ff.iterator();
 		ff.add("any old thing");
 		try {
-			it3.hasNext();
+			Object o = it3.hasNext();
+			System.out.println(o);	// Not expected to print, but suppresses warnings.
 			fail("did not throw ConcurrentModificationException");
 		} catch (ConcurrentModificationException e) {
 			System.out.println("Did catch expected ConcurrentModificationException");
