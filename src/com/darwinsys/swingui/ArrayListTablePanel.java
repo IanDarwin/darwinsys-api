@@ -20,8 +20,9 @@ import javax.swing.event.TableModelEvent;
  * <p>
  * The class of things in the list must have a public, no-argument constructor.
  *
- * <p>TODO
+ * <p>TODO list:
  * <ul>
+ * <li>Find a way to obviate passing Class when we have <T>
  * <li>Debug MoveUp/MoveDown!
  * <li>add constructor options for Add, Remove, MoveUp/MoveDown buttons
  * </ul>
@@ -29,11 +30,11 @@ import javax.swing.event.TableModelEvent;
  * @author	Ian Darwin, http://www.darwinsys.com/
  * @version	$Id$
  */
-public class ArrayListTablePanel extends JPanel {
+public class ArrayListTablePanel<T> extends JPanel {
 
 	private static final long serialVersionUID = 3688786964249719347L;
 	/** The list of objects we are viewing */
-	protected List list;
+	protected List<T> list;
 	/** The kind of thing that is in the list. */
 	protected Class objectClass;
 	/** The JTable's data (model) */
@@ -43,7 +44,7 @@ public class ArrayListTablePanel extends JPanel {
 
 	/** Construct new ArrayListTablePanel */
 	public ArrayListTablePanel(Class objClass,
-		List al, ArrayListTableModel lm) {
+		List<T> al, ArrayListTableModel lm) {
 
 		objectClass = objClass;
 		list = al;
@@ -61,9 +62,9 @@ public class ArrayListTablePanel extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				int i = table.getSelectedRow();
 				if (i<0) i = list.size();
-				Object newObj = null;
+				T newObj = null;
 				try {
-					newObj = objectClass.newInstance();
+					newObj = (T) objectClass.newInstance();
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null,
 						"Object creation FAILED\n " + ex, "Error",
@@ -83,7 +84,7 @@ public class ArrayListTablePanel extends JPanel {
 				int i = table.getSelectedRow();
 				if (i == -1 || i == 0)
 					return;
-				Object obj = list.get(i);
+				T obj = list.get(i);
 				list.remove(i);
 				list.add(i-1, obj);
 				table.tableChanged(new 
@@ -99,7 +100,7 @@ public class ArrayListTablePanel extends JPanel {
 				int i = table.getSelectedRow();
 				if (i == -1 || i == list.size()-1)
 					return;
-				Object obj = list.get(i);
+				T obj = list.get(i);
 				list.remove(i);
 				list.add(i+1, obj);
 				table.tableChanged(new 

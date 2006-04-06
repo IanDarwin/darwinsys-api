@@ -58,27 +58,29 @@ public class GetOptTest extends TestCase {
 
 	public void testNewWayShort() {
 		GetOpt go = new GetOpt(options);
-		Map map = go.parseArguments(goodArgs);
+		Map<String,String> map = go.parseArguments(goodArgs);
 		newWayInner(go, map);
 	}
 	public void testNewWayLong() {
 		GetOpt go = new GetOpt(options);
-		Map map = go.parseArguments(goodLongArgs);
+		Map<String,String> map = go.parseArguments(goodLongArgs);
 		newWayInner(go, map);
 	}
 
-	protected void newWayInner(GetOpt go, Map map) {
+	protected void newWayInner(GetOpt go, Map<String,String> map) {
 		assertFalse(map.size() == 0);
 		if (map.size() == 0) {
 			throw new IllegalArgumentException(
 				"Unexpected empty map");
 		}
 		int errs = 0;
-		Iterator it = map.keySet().iterator();
-		while (it.hasNext()) {
-			String key = (String)it.next();
+		Iterator<Map.Entry<String,String>> it = map.entrySet().iterator();
+		while (it.hasNext()) 
+			{
+			Map.Entry e = it.next();
+			String key = (String)e.getKey();
+			String val = (String)e.getValue();
 			char c = key.charAt(0);
-			String val = (String)map.get(key);
 			switch(c) {
 				case '?':
 					errs++; break;
@@ -129,17 +131,18 @@ public class GetOptTest extends TestCase {
 
 		System.out.println("** START NEW WAY ** " + argChars);
 		GetOpt go2 = new GetOpt(argChars);
-		Map m = go2.parseArguments(args);
+		Map<String,String> m = go2.parseArguments(args);
 		if (m.size() == 0)
 			System.out.println("NO ARGS MATCHED");
-		Iterator it = m.keySet().iterator();
+		Iterator<Map.Entry<String,String>> it = m.entrySet().iterator();
 		while (it.hasNext()) {
-			Object key = it.next();
-			char c = ((String)key).charAt(0);
+			Map.Entry<String,String> e = it.next();
+			String key = e.getKey();
+			String val = e.getKey();
+			char c = key.charAt(0);
 			System.out.print("Found " + c);
 			if (c == '?')
 				errs++;
-			String val = (String)m.get(key);
 			if (val == null || val.equals(""))
 				System.out.print("; (no option)");
 			else

@@ -30,21 +30,21 @@ import javax.swing.JPanel;
  * @author	Ian Darwin, http://www.darwinsys.com/contact.html
  * @version $Id$
  */
-public class FilterGUI extends JComponent {
+public class FilterGUI<T> extends JComponent {
 
 	protected final JList addableList;
-	protected final FilterGUIListModel addableListModel;
+	protected final FilterGUIListModel<T> addableListModel;
 	protected final JList currentList;
-	protected final FilterGUIListModel currentListModel;
+	protected final FilterGUIListModel<T> currentListModel;
 
 	/** Construct the object including its GUI */
-	public FilterGUI(final Object[] data, final int defaultIndex) {
+	public FilterGUI(final T[] data, final int defaultIndex) {
 		super();
 
 		setLayout(new BorderLayout(5, 5));
 
 		addableList = new JList();
-		addableListModel = new FilterGUIListModel(addableList);
+		addableListModel = new FilterGUIListModel<T>(addableList);
 		addableList.setModel(addableListModel);
 		addableList.setBorder(BorderFactory.createEtchedBorder());
 		// addableList.setText("Addable");
@@ -71,7 +71,7 @@ public class FilterGUI extends JComponent {
 				int i = addableList.getSelectedIndex();
 				if (i < 0 || i >= addableListModel.size())
 					return;
-				Object o = addableList.getSelectedValue();
+				T o = (T)addableList.getSelectedValue();
 				if (o == null)
 					return;
 				addableListModel.remove(o);
@@ -85,7 +85,7 @@ public class FilterGUI extends JComponent {
 				int i = currentList.getSelectedIndex();
 				if (i < 0 || i >= currentListModel.size())
 					return;
-				Object o = currentList.getSelectedValue();
+				T o = (T) currentList.getSelectedValue();
 				if (o == null)
 					return;
 				currentListModel.remove(o);

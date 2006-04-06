@@ -1,11 +1,16 @@
 package filtergui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.List;
 
-import com.darwinsys.swingui.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+import com.darwinsys.swingui.FilterGUI;
 
 /** A simple demo of FilterGUI */
 public class FilterGUIDemo1 {
@@ -24,14 +29,14 @@ public class FilterGUIDemo1 {
 		// create a this object, tell it to show up
 		final JFrame f = new JFrame("FilterGUI Demo 1");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final FilterGUI comp = new FilterGUI(filters, DEFAULT_FILTER);
+		final FilterGUI comp = new FilterGUI<String>(filters, DEFAULT_FILTER);
 		Container cp = f.getContentPane();
 		cp.add(BorderLayout.CENTER, comp);
 		JButton b = new JButton("Show");
 		cp.add(BorderLayout.SOUTH, b);
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				java.util.List l = comp.getSelected();
+				List<String> l = (List<String>)comp.getSelected();
 				Iterator it = l.iterator();
 				while (it.hasNext()) {
 					System.out.println(it.next());
