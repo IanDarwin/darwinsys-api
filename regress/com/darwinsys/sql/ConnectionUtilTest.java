@@ -13,7 +13,7 @@ import junit.framework.TestCase;
  */
 public class ConnectionUtilTest extends TestCase {
 	
-	final String MOCK_JBDB_DRIVER = "mock.MockJdbcDriver";
+	final static String MOCK_JBDB_DRIVER = "mock.MockJdbcDriver";
 	
 	public void testList() throws Exception {
 		System.out.println("ConnectionUtilTest.testList()");
