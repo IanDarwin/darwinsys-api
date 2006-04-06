@@ -10,7 +10,7 @@ import java.io.*;
 public class ExecAndPrint {
 
 	/** Need a Runtime object for any of these methods */
-	protected static Runtime r = Runtime.getRuntime();
+	protected final static Runtime r = Runtime.getRuntime();
 
 	/** Run the command given as a String, printing its output to System.out */
 	public static int run(String cmd) throws IOException { 
