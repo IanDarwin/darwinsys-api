@@ -16,7 +16,7 @@ public class LoggedInTag extends BodyTagSupport {
 	public int doStartTag() throws JspException {
 
 		HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-		return request.getRemoteUser().equals(null) ? 
+		return request.getRemoteUser() == null ? 
 				SKIP_BODY :
 				EVAL_BODY_INCLUDE  ;
 
