@@ -82,7 +82,7 @@ public class LabelTextBeansDemo extends javax.swing.JFrame {
   }//GEN-LAST:event_jButton1ActionPerformed
 
   void jButton2ActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    System.exit(0);
+	  exitForm(null);
   }//GEN-LAST:event_jButton2ActionPerformed
 
   /** Exit the Application */
