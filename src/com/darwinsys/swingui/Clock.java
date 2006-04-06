@@ -1,8 +1,10 @@
 package com.darwinsys.swingui;
 
-import java.awt.*;
-import java.text.*;
-import java.util.*;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.text.DecimalFormat;
+import java.util.Calendar;
 
 /** A simple Clock */
 public class Clock extends javax.swing.JComponent {
@@ -16,7 +18,9 @@ public class Clock extends javax.swing.JComponent {
 					Clock.this.repaint();	// request a redraw
 					try {
 						Thread.sleep(1000);
-					} catch (InterruptedException e){ /* do nothing*/ }
+					} catch (InterruptedException e){ 
+						/* do nothing*/
+					}
 				}
 			}
 		}).start();
