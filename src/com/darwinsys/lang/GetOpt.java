@@ -126,7 +126,7 @@ public class GetOpt {
 	 * in an array of GetOptDesc objects. This is the preferred constructor.
 	 */
 	public GetOpt(final GetOptDesc[] opt) {
-		this.options = opt;
+		this.options = opt.clone();
 	}
 
 	/* Construct a GetOpt parser, storing the set of option characters.
@@ -183,7 +183,7 @@ public class GetOpt {
 	 * from the option that was matched) and whose value is a String
 	 * containing the value, or null for a non-option argument.
 	 */
-	public Map parseArguments(String[] argv) {
+	public Map<String,String> parseArguments(String[] argv) {
 		Map<String, String> optionsAndValues = new HashMap<String, String>();
 		fileNameArguments = new ArrayList<String>();
 		for (int i = 0; i < argv.length; i++) {
