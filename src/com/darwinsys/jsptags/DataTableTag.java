@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -73,19 +74,36 @@ public class DataTableTag extends BodyTagSupport {
 			
 		final JspWriter out = pageContext.getOut();
 		Connection conn = null;
+		Statement createStatement = null;
+		JspException exceptionToThrow = null;
 		try {
 			if (resultSet == null) {
 				conn = getConnection();
-				resultSet = conn.createStatement().executeQuery(query);
+				createStatement = conn.createStatement();
+				resultSet = createStatement.executeQuery(query);
 			}
 			SQLUtils.resultSetToHTML(resultSet, new PrintWriter(out), 
 				style1, style1, style2, pkey, link);
-			resultSet.close();
-			if (conn != null) {
-				conn.close();
-			}
+			
 		} catch (SQLException e) {
-			throw new JspException("Database error", e);
+			exceptionToThrow = new JspException("Database error", e);
+		} finally {
+			try {
+				if (createStatement != null) {
+					createStatement.close();
+				}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Throwable t) {
+				System.err.println(t);
+			}
+			if (exceptionToThrow != null) {
+				throw exceptionToThrow;
+			}
 		}
 		resetFields();
 		return EVAL_PAGE;
