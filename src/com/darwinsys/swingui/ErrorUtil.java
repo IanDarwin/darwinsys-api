@@ -39,7 +39,7 @@ public class ErrorUtil {
 	final static String[] choicesMore = { "OK", "Details...", "Next" };
 
 	/** Secondary dialog for the "Details..." button */
-	protected static DetailsDialog detailsDialog;
+	static DetailsDialog detailsDialog;
 
 	/** Public no-arg constructor for those who like simple instantiation. */
 	public ErrorUtil() {

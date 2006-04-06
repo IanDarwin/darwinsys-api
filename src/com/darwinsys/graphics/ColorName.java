@@ -62,7 +62,7 @@ public class ColorName {
 	public static final Color FALLBACK_COLOR = Color.GRAY;
 	
 	/** The list of known color names and their corresponding colors */
-	protected static ColorNameMap map[] = {
+	final static ColorNameMap map[] = {
 		new ColorNameMap("white", Color.white),
 		new ColorNameMap("yellow", Color.yellow),
 		new ColorNameMap("orange", Color.orange),
