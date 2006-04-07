@@ -3,14 +3,14 @@ package com.darwinsys.util;
 public class DateUtils {
 
 	/** The days in each month. */
-	public static final int dom[] = {
+	private static final int dom[] = {
 	31, 28, 31, 30, /* jan feb mar apr */
 	31, 30, 31, 31, /* may jun jul aug */
 	30, 31, 30, 31 /* sep oct nov dec */
 	};
 
 	/** The names of the months */
-	public static final String[] months = {
+	private static final String[] months = {
 		"January", "February", "March", "April", "May", "June",
 		"July", "August", "September", "October", "November", "December"
 	};
@@ -29,5 +29,13 @@ public class DateUtils {
 			}
 		}
 		return -1;
+	}
+	
+	public static String getMonthName(int monthNumber) {
+		return months[monthNumber];
+	}
+	
+	public int[] getDaysOfMonths() {
+		return dom.clone();
 	}
 }

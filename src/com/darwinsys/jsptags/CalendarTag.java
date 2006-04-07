@@ -46,7 +46,7 @@ public class CalendarTag extends TagSupport {
 		int mm = calendar.get(Calendar.MONTH);
 
 		out.println("<table border=1>");
-		out.println("<tr><th colspan=7>" + DateUtils.months[mm] + ", " + yy + "</tr>");
+		out.println("<tr><th colspan=7>" + DateUtils.getMonthName(mm) + ", " + yy + "</tr>");
 
 		out.println("<tr><td>Su<td>Mo<td>Tu<td>We<td>Th<td>Fr<td>Sa</tr>");
 
