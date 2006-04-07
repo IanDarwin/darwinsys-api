@@ -81,7 +81,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	public Object[] toArray() {
-		return data;
+		return data.clone();
 	}
 
 	public <T> T[] toArray(T[] a) {

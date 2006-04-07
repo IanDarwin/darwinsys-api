@@ -42,4 +42,8 @@ public class MapEntry<K, V> {
 						.getValue()));
 	}
 
+	@Override
+	public int hashCode() {
+		return key.hashCode() ^ value.hashCode();
+	}
 }

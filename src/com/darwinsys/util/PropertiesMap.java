@@ -94,10 +94,12 @@ public class PropertiesMap implements Map<String,String> {
 
 	/** Merge all the values from another map into this map. */
     public void putAll(Map map) {
-		Iterator k = map.keySet().iterator();
+    
+		Iterator<Map.Entry> k = map.entrySet().iterator();
 		while (k.hasNext()) {
-			String key = (String)k.next();
-			String val = (String)map.get(key);
+			Map.Entry<String,String> e = k.next();
+			String key = e.getKey();
+			String val = e.getValue();
 			put(key, val);
 		}
 	}
