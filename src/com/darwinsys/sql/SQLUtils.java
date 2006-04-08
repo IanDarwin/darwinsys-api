@@ -69,7 +69,7 @@ public class SQLUtils {
 	 * @param conn
 	 * @throws DatabaseException if any of the closes catches a SQLException.
 	 */
-	public void cleanup(ResultSet rs, Statement st, Connection conn) {
+	public static void cleanup(ResultSet rs, Statement st, Connection conn) {
 		try {
 			if (rs != null)
 				rs.close();
