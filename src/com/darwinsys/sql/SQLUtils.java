@@ -1,9 +1,13 @@
 package com.darwinsys.sql;
 
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.darwinsys.database.DataBaseException;
 
 /** Miscellaneous utilities for dealing with SQL.
  * @author ian
@@ -57,5 +61,24 @@ public class SQLUtils {
 
 	public static void resultSetToHTML(ResultSet rs, PrintWriter out) throws SQLException {
 		resultSetToHTML(rs, out, null, null, null, null, null);
+	}
+	
+	/** Close a resultset, statement and connection in the correct order.
+	 * @param rs
+	 * @param st
+	 * @param conn
+	 * @throws DatabaseException if any of the closes catches a SQLException.
+	 */
+	public void cleanup(ResultSet rs, Statement st, Connection conn) {
+		try {
+			if (rs != null)
+				rs.close();
+			if (st != null)
+				st.close();
+			if (conn != null)
+				conn.close();
+		} catch (SQLException e) {
+			throw new DataBaseException("Cleanup caught exception: " + e);
+		}
 	}
 }
