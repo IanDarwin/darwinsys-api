@@ -73,16 +73,24 @@ public abstract class RecentMenu extends JMenu {
 	 */
 	public RecentMenu(Object mainClassInstance, int max) {
 		super("Recent Items");		
+
+		prefs = getUserPrefsNode(mainClassInstance);
+
+		maxRecentFiles = max;
+		
+		loadRecentMenu();
+	}
+
+	/**
+	 * @param mainClassInstance
+	 */
+	public static Preferences getUserPrefsNode(Object mainClassInstance) {
 		Class clazz;
 		if (mainClassInstance instanceof Class)
 			clazz = (Class)mainClassInstance;
 		else
 			clazz = mainClassInstance.getClass();
-		prefs = Preferences.userNodeForPackage(clazz);
-
-		maxRecentFiles = max;
-		
-		loadRecentMenu();
+		return Preferences.userNodeForPackage(clazz);
 	}
 	
 	/** Construct a RecentMenu with a given class.
