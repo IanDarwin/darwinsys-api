@@ -1,7 +1,10 @@
 package strings;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Iterator;
 
 /** CSV in action: lines from a file and print. */
 public class CSVFile {
