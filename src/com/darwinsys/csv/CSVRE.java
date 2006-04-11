@@ -28,7 +28,7 @@ public class CSVRE {
 	 */
 	public static final String CSV_PATTERN = 
 		"\"([^\"]+?)\",?|([^,]+),?|,";
-	private static Pattern csvRE;
+	private Pattern csvRE;
 
 	public static void main(String[] argv) throws IOException {
 		System.out.println(CSV_PATTERN);
@@ -59,8 +59,8 @@ public class CSVRE {
 	/** Parse one line.
 	 * @return List of Strings, minus their double quotes
 	 */
-	public List parse(String line) {
-		List list = new ArrayList();
+	public List<String> parse(String line) {
+		List<String> list = new ArrayList<String>();
 		Matcher m = csvRE.matcher(line);
 		// For each field
 		while (m.find()) {
