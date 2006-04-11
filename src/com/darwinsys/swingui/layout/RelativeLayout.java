@@ -181,7 +181,7 @@ public class RelativeLayout implements LayoutManager {
 	 * to track the original "requested" (hard-coded) x,y locations of
 	 * each Component.
 	 */
-	class Tracker {
+	static class Tracker {
 		int absx, absy;
 		Component theComp;
 

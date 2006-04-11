@@ -164,7 +164,7 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/** Class to represent a spacer, like Menubar.separator. */
-	protected class Spacer extends Component {
+	protected static class Spacer extends Component {
 		public Dimension getPreferredSize() {
 			return new Dimension(10, 10);
 		}
