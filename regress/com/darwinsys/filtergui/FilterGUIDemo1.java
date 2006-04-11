@@ -29,14 +29,14 @@ public class FilterGUIDemo1 {
 		// create a this object, tell it to show up
 		final JFrame f = new JFrame("FilterGUI Demo 1");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final FilterGUI comp = new FilterGUI<String>(filters, DEFAULT_FILTER);
+		final FilterGUI<String> comp = new FilterGUI<String>(filters, DEFAULT_FILTER);
 		Container cp = f.getContentPane();
 		cp.add(BorderLayout.CENTER, comp);
 		JButton b = new JButton("Show");
 		cp.add(BorderLayout.SOUTH, b);
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				List<String> l = (List<String>)comp.getSelected();
+				List<String> l = comp.getSelected();
 				Iterator it = l.iterator();
 				while (it.hasNext()) {
 					System.out.println(it.next());
