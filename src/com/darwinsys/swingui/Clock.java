@@ -4,15 +4,18 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 /** A simple Clock */
 public class Clock extends javax.swing.JComponent {
-	protected DecimalFormat tflz, tf;
+	protected NumberFormat tflz = new DecimalFormat("00"),
+		tf = new DecimalFormat("#0");;
 	protected boolean done = false;
+	Thread ticker;
 
 	public Clock() {
-		new Thread(new Runnable() {
+		ticker = new Thread(new Runnable() {
 			public void run() {
 				while (!done) {
 					Clock.this.repaint();	// request a redraw
@@ -23,11 +26,19 @@ public class Clock extends javax.swing.JComponent {
 					}
 				}
 			}
-		}).start();
-		tf = new DecimalFormat("#0");
-		tflz = new DecimalFormat("00");
+		});
 	}
 
+	/**
+	 * Start the Clock running.
+	 */
+	public void start() {
+		ticker.start();
+	}
+
+	/**
+	 * Stop the clock (err, permanently).
+	 */
 	public void stop() {
 		done = true;
 	}
