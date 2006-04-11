@@ -36,17 +36,17 @@ public class SmtpUtils {
 			BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = new PrintWriter(s.getOutputStream(), true);
 			String greeting = readLine(in);
-			if (false) {
+			if (greeting != null) {
 				System.out.println(greeting);
 			}
 			send(out, "HELO " + myHostName);
 			String heloResp = readLine(in);
-			if (false) {
+			if (heloResp != null) {
 				System.out.println(heloResp);
 			}
 			send(out, "MAIL From:<smtp_verifier@" + myHostName + ">");
 			String mailResp = readLine(in);
-			if (false) {
+			if (mailResp != null) {
 				System.out.println(mailResp);
 			}
 			String errorUser="postmaster";
@@ -61,7 +61,7 @@ public class SmtpUtils {
 			
 			send(out, "QUIT");
 			String quitResp = readLine(in);
-			if (false) {
+			if (quitResp != null) {
 				System.out.println(quitResp);
 			}
 			
