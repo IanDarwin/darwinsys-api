@@ -43,7 +43,7 @@ public class Crawler implements Checkpointer {
 			throw new NullPointerException("Chooser may not be null");
 		}
 		this.chooser = chooser;
-		Crawler.visitor = fileVisitor;
+		setVisitor(fileVisitor);
 	}
 	
 	/** Crawl one set of directories, starting at startDir.
@@ -160,6 +160,14 @@ public class Crawler implements Checkpointer {
 
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
+	}
+
+	public static FileHandler getVisitor() {
+		return visitor;
+	}
+
+	public static void setVisitor(FileHandler visitor) {
+		Crawler.visitor = visitor;
 	}
 	
 }
