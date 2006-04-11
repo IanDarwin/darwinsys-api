@@ -25,7 +25,7 @@ public class ArrayIterator implements Iterator {
 	 * @param d The array of objects to be iterated over.
 	 */
 	public void setData(final Object[] d) {
-		this.data = d;
+		this.data = d.clone();
 		index = 0;
 	}
 
