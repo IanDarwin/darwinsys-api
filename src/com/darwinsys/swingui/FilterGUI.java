@@ -64,7 +64,7 @@ public class FilterGUI<T> extends JComponent {
 		add(BorderLayout.WEST, addableList);
 		JPanel c = new JPanel();
 		c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-		JButton addButton, delButton;
+		JButton addButton;
 		c.add(addButton = new JButton("-->"));
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -79,6 +79,7 @@ public class FilterGUI<T> extends JComponent {
 				currentListModel.add(o);
 			}
 		});
+		JButton delButton;
 		c.add(delButton = new JButton("<--"));
 		delButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
