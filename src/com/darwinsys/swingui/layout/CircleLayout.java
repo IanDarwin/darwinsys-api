@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
-import java.awt.Point;
 
 import com.darwinsys.util.Debug;
 
@@ -64,7 +63,6 @@ public class CircleLayout implements LayoutManager {
 		return computelayoutSize(parent);
 	}
 
-	Point[] points;
 
 	/** Compute the size of the whole mess. Serves as the guts of 
 	 * preferredLayoutSize() and minimumLayoutSize().
@@ -79,7 +77,6 @@ public class CircleLayout implements LayoutManager {
 	/** Lays out the container in the specified panel. */
 	public void layoutContainer(Container parent) {
 		Component[] components = parent.getComponents();
-		points = new Point[components.length];
 		Dimension totalSize = parent.getSize();
 
 		int dx = totalSize.width / 2;
