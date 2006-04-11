@@ -103,7 +103,7 @@ public class FilterGUI<T> extends JComponent {
 	}
 
 	/** Retrieve the list of currently-selected objects */
-	public java.util.List getSelected() {
+	public java.util.List<T> getSelected() {
 		return currentListModel;
 	}
 }
