@@ -20,7 +20,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /** Standalone Swing GUI application for demonstrating REs.
- * <br/>
  * @author	Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
