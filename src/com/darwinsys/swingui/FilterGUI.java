@@ -54,7 +54,7 @@ public class FilterGUI<T> extends JComponent {
 		}
 
 		currentList = new JList();
-		currentListModel = new FilterGUIListModel(currentList);
+		currentListModel = new FilterGUIListModel<T>(currentList);
 		currentList.setModel(currentListModel);
 		// currentList.setText("Current");
 		currentList.setBorder(BorderFactory.createEtchedBorder());
