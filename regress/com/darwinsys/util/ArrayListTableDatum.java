@@ -16,4 +16,16 @@ public class ArrayListTableDatum {
 	public ArrayListTableDatum() {
 		// Nothing
 	}
+	public String getName() {
+		return name;
+	}
+	public String getValue() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
 }
