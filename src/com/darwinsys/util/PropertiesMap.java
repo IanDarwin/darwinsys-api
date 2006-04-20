@@ -93,8 +93,8 @@ public class PropertiesMap implements Map<String,String> {
 	}
 
 	/** Merge all the values from another map into this map. */
-    public void putAll(Map map) {
-    
+    @SuppressWarnings("unchecked")
+	public void putAll(Map map) {   
 		Iterator<Map.Entry> k = map.entrySet().iterator();
 		while (k.hasNext()) {
 			Map.Entry<String,String> e = k.next();
