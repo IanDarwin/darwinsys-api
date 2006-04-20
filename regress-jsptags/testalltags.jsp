@@ -15,9 +15,9 @@
 
 <tr><td>Calendar</td><td></td><td><darwintags:calendar/></tr>
 
-<tr><td>DataTable</td></tr>
+<tr><td>DataTable</td><td></td><td></td></tr>
 
-<tr><td>loggedinrole</td>
+<tr><td>loggedinrole</td><td></td><td></td></tr>
 
 <tr><td>loggedinuser</td><td>none</td></tr>
 
