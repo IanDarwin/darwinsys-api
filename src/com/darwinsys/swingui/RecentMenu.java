@@ -29,11 +29,9 @@ import javax.swing.JOptionPane;
  * 		fileMenu.add(open);
  * 		final RecentMenu recent;
  *		recent = new RecentMenu(this) {
- *			@Override
  *			public void loadFile(String fileName) throws IOException {
  *				myModel.openFile(fileName);
  *			}
- *			
  *		};
  *		open.addActionListener(new ActionListener() {		
  *			public void actionPerformed(ActionEvent evt) {

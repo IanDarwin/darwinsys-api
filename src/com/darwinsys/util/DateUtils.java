@@ -19,7 +19,7 @@ public class DateUtils {
 	 * Convert a month name (english names) (or a valid abbreviation) to an int in {1,12}.
 	 * Warning: the current implementation uses startsWith(), so month("J") returns 1.
 	 * @param monthName
-	 * @return
+	 * @return the month number, in the range 1-12.
 	 */
 	public static int month(String monthName) {
 		for (int i = 0; i < months.length; i++) {
