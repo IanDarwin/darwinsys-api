@@ -28,6 +28,19 @@
 
     </tag>
     
+     <!-- DataTable tag runs a query and makes a table of the results -->
+   	<tag>
+        <name>calendar</name>
+        <tagclass>com.darwinsys.jsptags.CalendarTag</tagclass>
+	    <bodycontent>JSP</bodycontent>
+	    
+        <attribute>
+	        <name>dataSource</name>
+	        <required>false</required>
+	        <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    
     <!-- DataTable tag runs a query and makes a table of the results -->
    	<tag>
         <name>datatable</name>
@@ -104,19 +117,18 @@
 	        <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
-
-    <!-- loggedinrole tag skips body if user is not in role -->
+    
+    <!-- commandoutput tag runs a shell command and gets the output. -->
    	<tag>
-        <name>inrole</name>
-        <tagclass>com.darwinsys.jsptags.LoggedInRoleTag</tagclass>
+        <name>commandoutput</name>
+        <tagclass>com.darwinsys.jsptags.CommandOutputTag</tagclass>
 	    <bodycontent>JSP</bodycontent>
 	    
-		<!-- role is the role to print, e.g., "admin" -->
+		<!-- command is the command to run, e.g., "hostname" -->
         <attribute>
-	        <name>role</name>
+	        <name>command</name>
 	        <required>true</required>
-	        <!-- should not need twizzling at runtime -->
-	        <rtexprvalue>false</rtexprvalue>
+	        <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
     
@@ -129,8 +141,7 @@
         <attribute>
 	        <name>text</name>
 	        <required>true</required>
-	        <!-- should not need twizzling at runtime -->
-	        <rtexprvalue>false</rtexprvalue>
+	        <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
 
