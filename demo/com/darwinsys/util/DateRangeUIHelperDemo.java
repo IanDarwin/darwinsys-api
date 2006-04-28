@@ -16,6 +16,8 @@ import com.darwinsys.util.DateRangeUIHelper;
 
 public class DateRangeUIHelperDemo extends JFrame {
 
+	private static final long serialVersionUID = -1621211822931751327L;
+
 	/**
 	 * @param args
 	 */

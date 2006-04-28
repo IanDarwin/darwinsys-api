@@ -6,6 +6,8 @@ import java.awt.event.*;
  */
 public class ErrorUtilCatchTest extends JFrame {
 
+	private static final long serialVersionUID = -3417837022502498981L;
+
 	public ErrorUtilCatchTest() {
 		super("GUI");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

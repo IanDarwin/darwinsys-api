@@ -18,6 +18,8 @@ import com.darwinsys.util.DateUtils;
  */
 public class CalendarTag extends TagSupport {
 
+	private static final long serialVersionUID = -1398213412504718137L;
+
 	/** Invoked at the end tag boundary, does the work */
 	public int doEndTag() throws JspException {
 
@@ -28,7 +30,8 @@ public class CalendarTag extends TagSupport {
 
 			doCal(request, out);
 
-			out.flush();
+			// out.flush();
+			
 			return SKIP_BODY;
 		} catch (IOException t) {
 			System.err.println("Tag caught: " + t);
@@ -78,6 +81,7 @@ public class CalendarTag extends TagSupport {
 
 		out.println("</tr>");
 		out.println("</table>");
+		out.println("<!-- end of output from CalendarTag-->");
 
 	}
 }

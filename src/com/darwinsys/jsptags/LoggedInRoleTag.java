@@ -15,6 +15,10 @@ public class LoggedInRoleTag extends BodyTagSupport {
 
 	/** Invoked at the start tag boundary; does the work. */
 	public int doStartTag() throws JspException {
+		
+		if (role == null) {
+			throw new JspException("LoggedInRoleTag requires the role attribute");
+		}
 
 		HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
 		return request.isUserInRole(role) ? EVAL_BODY_INCLUDE : SKIP_BODY;

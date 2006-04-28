@@ -15,7 +15,9 @@ public class LoggedInUserTag extends BodyTagSupport {
 
 	/** Invoked at the tag start transition; does the work */
 	public int doStartTag() throws JspException {
-
+		if (userName == null) {
+			throw new JspException("LoggedInUserTag requires the 'user' attribute");
+		}
 		HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
 		return request.getRemoteUser().equals(userName) ? EVAL_BODY_INCLUDE : SKIP_BODY;
 

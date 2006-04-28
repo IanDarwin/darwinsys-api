@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="darwintags" uri="http://www.darwinsys.com/darwintags"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Test of DarwinTags</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+	<title>Test of DarwinTags</title>
 </head>
+
 <body>
+
 <table border='1'>
 
 <tr><td colspan='3'>Test of DarwinTags</td></tr>

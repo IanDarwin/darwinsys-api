@@ -41,6 +41,21 @@
         </attribute>
     </tag>
     
+    <!-- commandoutput tag runs a shell command and gets the output. -->
+   	<tag>
+        <name>commandoutput</name>
+        <tagclass>com.darwinsys.jsptags.CommandOutputTag</tagclass>
+	    <bodycontent>JSP</bodycontent>
+	    
+		<!-- command is the command to run, e.g., "hostname" -->
+        <attribute>
+	        <name>command</name>
+	        <required>true</required>
+	        <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    
+    
     <!-- DataTable tag runs a query and makes a table of the results -->
    	<tag>
         <name>datatable</name>
@@ -97,36 +112,30 @@
         </attribute>
     </tag>
     
-    <!-- loggedintag tag skips body if you're not logged in at all -->
+    <!-- loggedin tag skips body if you're not logged in at all -->
    <tag>
         <name>loggedin</name>
         <tagclass>com.darwinsys.jsptags.LoggedInTag</tagclass>
 	    <bodycontent>JSP</bodycontent>
 	</tag>
 	  
-    <!-- inrole tag skips body if you're not logged in as user in "role" -->
+	  
+	<!-- loggedinuser tag prints who you're logged in as -->
+   <tag>
+        <name>loggedinuser</name>
+        <tagclass>com.darwinsys.jsptags.LoggedInUserTag</tagclass>
+	    <bodycontent>JSP</bodycontent>
+	</tag>
+	  
+    <!-- loggedinrole tag skips body if you're not logged in as a user in "role" -->
    	<tag>
-        <name>inrole</name>
+        <name>loggedinrole</name>
         <tagclass>com.darwinsys.jsptags.LoggedInRoleTag</tagclass>
 	    <bodycontent>JSP</bodycontent>
 	    
 		<!-- role is the role to print, e.g., "admin" -->
         <attribute>
-	        <name>user</name>
-	        <required>true</required>
-	        <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
-    
-    <!-- commandoutput tag runs a shell command and gets the output. -->
-   	<tag>
-        <name>commandoutput</name>
-        <tagclass>com.darwinsys.jsptags.CommandOutputTag</tagclass>
-	    <bodycontent>JSP</bodycontent>
-	    
-		<!-- command is the command to run, e.g., "hostname" -->
-        <attribute>
-	        <name>command</name>
+	        <name>role</name>
 	        <required>true</required>
 	        <rtexprvalue>true</rtexprvalue>
         </attribute>

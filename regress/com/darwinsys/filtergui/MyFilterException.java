@@ -4,6 +4,8 @@ package filtergui;
  * */
 public class MyFilterException extends Exception {
 	
+	private static final long serialVersionUID = -7295013334395074021L;
+
 	public MyFilterException() {
 		super();
 		// TODO Auto-generated constructor stub

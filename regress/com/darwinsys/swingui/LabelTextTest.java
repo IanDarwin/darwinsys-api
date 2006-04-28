@@ -10,6 +10,8 @@ import javax.swing.*;
  */
 public class LabelTextTest extends JPanel {
 
+	private static final long serialVersionUID = -100614195508408950L;
+
 	/** "main program" method - construct and show */
 	public static void main(String[] argv) {
 		JFrame f = new JFrame("LabelTextTest");

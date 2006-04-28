@@ -24,13 +24,22 @@
 		</and>
 	</condition>
 	<!-- -->
+	
+	<!-- Test for junit.jar -->
+	<available file="${junit.jar}" 
+		type="file" property="junit.jar.present"/>
+
+	<target name="check" unless="junit.jar.present">
+		<fail>Can not open ${junit.jar}.
+		Please check javasrc.home setting in build.properties.</fail>
+	</target>
 
 	<target name="init">
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
 		<mkdir dir="${build}"/> <!-- Ensure build directory exists -->
 	</target>
 
-	<target name="build" depends="build-core,build-macosx,build-regress"/>
+	<target name="build" depends="check,build-core,build-macosx,build-regress"/>
 
 	<target name="build-core" depends="init">
 		<javac destdir="${build}" srcdir="${src}"
@@ -115,7 +124,7 @@
 
 	</target>
 
-	<!-- These regressions require manual intervention, so not default -->
+	<!-- These regression tests require manual intervention, so not default -->
 	<target name="regress.swingui" depends="build">
 		<echo           message="ErrorUtilCatchTest"/>
 		<java className="regress.ErrorUtilCatchTest" classpath="build"

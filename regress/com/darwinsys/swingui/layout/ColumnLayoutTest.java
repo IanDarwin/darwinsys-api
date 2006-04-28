@@ -13,6 +13,9 @@ import com.darwinsys.swingui.layout.ColumnLayout;
  * Simple class to non-exhaustively test out RelLayout layout manager.
  */
 public class ColumnLayoutTest extends JFrame {
+
+	private static final long serialVersionUID = 5311489466425902707L;
+	
 	JButton adButton;	// adjust (dummy here)
 	JButton qb;			// quit
 

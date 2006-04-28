@@ -10,6 +10,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /** CommandOutputTag - runs an external shell(system) command, and displays the output.
+ * The command may include pipes, redirections, etc., at least on "normal" systems.
  */
 public class CommandOutputTag extends TagSupport {
 
@@ -47,7 +48,7 @@ public class CommandOutputTag extends TagSupport {
 			while ((line = is.readLine()) != null) {	
 				out.println(line);
 			}
-			out.flush();
+			is.close();
 			
 		} catch (IOException ex) {
 			throw new JspException("TextImageServleg.doEndTag: IO Error", ex);
