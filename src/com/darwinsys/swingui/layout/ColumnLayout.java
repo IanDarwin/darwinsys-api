@@ -1,6 +1,9 @@
 package com.darwinsys.swingui.layout;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
 /** 
  * <p>
@@ -165,6 +168,8 @@ public class ColumnLayout implements LayoutManager {
 
 	/** Class to represent a spacer, like Menubar.separator. */
 	protected static class Spacer extends Component {
+		private static final long serialVersionUID = -7583095138638433618L;
+
 		public Dimension getPreferredSize() {
 			return new Dimension(10, 10);
 		}
