@@ -10,7 +10,7 @@ public class IndexListTest extends TestCase {
 
 	String[] TESTDATA = { "one", "two", "three" };
 
-	IndexList victim = new IndexList();
+	IndexList<String> victim = new IndexList<String>();
 
 	/** JUnit test classes require this constructor */
 	public IndexListTest(String name) {
