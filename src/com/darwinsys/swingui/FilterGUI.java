@@ -32,12 +32,14 @@ import javax.swing.JPanel;
  */
 public class FilterGUI<T> extends JComponent {
 
+	private static final long serialVersionUID = -4192901768427017840L;
 	protected final JList addableList;
 	protected final FilterGUIListModel<T> addableListModel;
 	protected final JList currentList;
 	protected final FilterGUIListModel<T> currentListModel;
 
 	/** Construct the object including its GUI */
+	@SuppressWarnings("unchecked")
 	public FilterGUI(final T[] data, final int defaultIndex) {
 		super();
 

@@ -105,6 +105,8 @@ public class ErrorUtil {
 
 	/** Inner class Dialog to display the details of an Exception */
 	protected static class DetailsDialog extends JDialog {
+
+		private static final long serialVersionUID = -4779441441693785664L;
 		JButton ok;
 		JTextArea text;
 		/** Construct a DetailsDialog given a parent (Frame/JFrame) */

@@ -32,6 +32,8 @@ import javax.swing.event.ListSelectionListener;
  */
 public class FontChooser extends JDialog {
 	
+	private static final long serialVersionUID = 5363471384675038069L;
+
 	public static final String DEFAULT_TEXT = "Lorem ipsem dolor";
 
 	// Results:

@@ -9,6 +9,8 @@ import java.util.Calendar;
 
 /** A simple Clock */
 public class Clock extends javax.swing.JComponent {
+
+	private static final long serialVersionUID = -3553831092792561909L;
 	protected NumberFormat tflz = new DecimalFormat("00"),
 		tf = new DecimalFormat("#0");;
 	protected boolean done = false;

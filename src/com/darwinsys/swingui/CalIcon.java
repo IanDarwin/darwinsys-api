@@ -14,6 +14,8 @@ import javax.swing.*;
  * @version $Id$
  */
 public class CalIcon extends JComponent implements Icon {
+
+	private static final long serialVersionUID = -75900943452653673L;
 	/** The size shalle be 64x64. */
 	protected final int SIZE = 64;
 	protected final Dimension d = new Dimension(SIZE, SIZE);

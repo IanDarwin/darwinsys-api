@@ -8,7 +8,9 @@ import javax.swing.event.*;
  */
 public class FilterGUIListModel<E> extends ArrayList<E> implements ListModel {
 
-	protected Object source;
+	private static final long serialVersionUID = 4997952964701465432L;
+	
+	Object source;
 
 	FilterGUIListModel(Object src) {
 		source = src;

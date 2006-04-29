@@ -43,6 +43,7 @@ public class ArrayListTablePanel<T> extends JPanel {
 	protected JTable table;
 
 	/** Construct new ArrayListTablePanel */
+	@SuppressWarnings("unchecked")
 	public ArrayListTablePanel(Class objClass,
 		List<T> al, ArrayListTableModel lm) {
 
