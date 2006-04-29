@@ -11,6 +11,8 @@ import javax.swing.*;
  * @version $Id$
  */
 public class LabelText extends JPanel implements java.io.Serializable {
+
+	private static final long serialVersionUID = -8343040707105763298L;
 	/** The label component */
 	protected JLabel theLabel;
 	/** The text field component */

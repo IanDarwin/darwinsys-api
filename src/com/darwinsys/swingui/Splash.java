@@ -15,6 +15,8 @@ import javax.swing.JWindow;
 
 /** A simple Splash screen. */
 public class Splash extends JWindow {
+
+	private static final long serialVersionUID = 4371807444861948123L;
 	protected ImageIcon im;
 
 	public Splash(JFrame f, String progName, String fileName) {

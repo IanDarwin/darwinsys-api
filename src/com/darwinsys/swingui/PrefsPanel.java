@@ -13,6 +13,8 @@ import javax.swing.JTabbedPane;
  */
 public class PrefsPanel extends JPanel implements Serializable {
 
+	private static final long serialVersionUID = 8721512919301817567L;
+
 	public enum PredefinedPanel {
 		ONE_FONT,
 		ONE_COLOR,

@@ -15,9 +15,8 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class SimpleHelp extends JFrame implements HyperlinkListener {
-	/** The contentpane */
-	protected Container cp;
-	/** The editorpane */
+
+	private static final long serialVersionUID = 5198536352002184299L;
 	JEditorPane help;
 
 	/* Construct a Help object. Just construct a JEditorPane
@@ -25,6 +24,7 @@ public class SimpleHelp extends JFrame implements HyperlinkListener {
 	 */
     public SimpleHelp(String windowName, String helpIndexFileName) {
 		super(windowName + " Help Window");
+		Container cp;
 		cp = getContentPane();
 		getAccessibleContext().setAccessibleName(windowName + " Help Window");
 		getAccessibleContext().setAccessibleDescription(
@@ -33,27 +33,25 @@ public class SimpleHelp extends JFrame implements HyperlinkListener {
 	
 		try {
 			URL url = new File(helpIndexFileName).toURL();
-			// Only create the window once.
-			if (help == null) {
-				// System.out.println("Creat-ing help window for " + url);
-				help = new JEditorPane(url);
-				// System.out.println("Done!");
-				help.setEditable(false);
-				help.addHyperlinkListener(this);
-				JScrollPane scroller = new JScrollPane();
-				scroller.setBorder(BorderFactory.createTitledBorder(windowName + " Help"));
-				scroller.getViewport().add(help);
-				cp.add(BorderLayout.CENTER, scroller);
-				addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent e) {
-						SimpleHelp.this.setVisible(false);
-						SimpleHelp.this.dispose();
-					}
-				});
-				setSize(500,400);
-			} else {
-				System.out.println("Re-using help window!");
-			}
+			
+			// System.out.println("Creat-ing help window for " + url);
+			help = new JEditorPane(url);
+			// System.out.println("Done!");
+			help.setEditable(false);
+			help.addHyperlinkListener(this);
+			JScrollPane scroller = new JScrollPane();
+			scroller.setBorder(BorderFactory.createTitledBorder(windowName + " Help"));
+			scroller.getViewport().add(help);
+			cp.add(BorderLayout.CENTER, scroller);
+			addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {
+					SimpleHelp.this.setVisible(false);
+					SimpleHelp.this.dispose();
+				}
+			});
+			setSize(500,400);
+			
+			
 		} catch (MalformedURLException e) {
 			System.out.println("Malformed URL: " + e);
 		} catch (IOException e) {
@@ -85,7 +83,7 @@ public class SimpleHelp extends JFrame implements HyperlinkListener {
      * Inner class that loads a URL synchronously into the help panel.
 	 * Loads it later than the request so that a cursor change
      * can be done at the very end.
-	 * @author BORROWED FROM SUN'S SWING DEMO, UNTIL JAVAHELP AVAILABLE
+	 * @author Borrowed from Sun'S Swing demo
      */
     class PageLoader implements Runnable {
 		URL url;
