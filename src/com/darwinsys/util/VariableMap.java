@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
  */
 public class VariableMap extends HashMap<String, String> {
 
+	private static final long serialVersionUID = 7830637441984501436L;
+
 	public VariableMap() {
 		super();
 	}

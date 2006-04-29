@@ -14,6 +14,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class CommandOutputTag extends TagSupport {
 
+	private static final long serialVersionUID = -765529312054151714L;
 	private boolean output = true;
 	private boolean error  = false;
 	private String command = null;

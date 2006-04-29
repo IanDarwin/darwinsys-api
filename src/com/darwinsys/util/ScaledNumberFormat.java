@@ -21,6 +21,8 @@ import java.text.ParsePosition;
  */
 public class ScaledNumberFormat extends Format {
 
+	private static final long serialVersionUID = 1030043222640098114L;
+	
 	final static int NONE = 0;		// to become an enum for 1.5
 	final static int KILO = 1;
 	final static int MEGA = 2;

@@ -12,7 +12,7 @@ import java.util.ListIterator;
  * A Fixed-size FIFO.
  * Development of this program was funded by the Toronto Centre for
  * Phenogenomics (www.phenogenomics.ca).
- * XXX Could maybe reduce code size by basing on AbstractList.
+ * XXX Could reduce code size by basing on AbstractList.
  */
 public class FixedLengthFIFO<T> implements List<T> {
 	private final int size;
@@ -28,9 +28,10 @@ public class FixedLengthFIFO<T> implements List<T> {
 	 * Construct a FIFO of a fixed (maximum) length.
 	 * @param size The maximum number of items to hold in the FIFO
 	 */
+	@SuppressWarnings("unchecked")
 	public FixedLengthFIFO(int size) {
 		this.size = size;
-		data = (T[])new Object[size];	// You can not get rid of this warning.
+		data = (T[])new Object[size];	// You can not get rid of this warning without suppresswarnings
 		n = 0;
 	}
 
@@ -84,6 +85,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 		return data.clone();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T[] toArray(T[] a) {
 		if (a.length < size) {
             a = (T[])Array.newInstance(a.getClass().getComponentType(), n);
@@ -219,6 +221,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 		throw new UnsupportedOperationException("listIterator(int)");
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<T> subList(int fromIndex, int toIndex) {
 		if (fromIndex < 0 || toIndex > size()) {
 			throw new IndexOutOfBoundsException("must be in 0.." + (size()-1));

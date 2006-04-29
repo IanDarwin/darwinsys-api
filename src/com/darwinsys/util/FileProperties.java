@@ -1,7 +1,14 @@
 package com.darwinsys.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Properties;
 
 /** 
  * The <code>FileProperties</code> class extends <code>Properties</code>,
@@ -104,6 +111,7 @@ public class FileProperties extends Properties {
 		// Nothing to do
 	}
 
+	@SuppressWarnings("unchecked")
 	public Iterator<String> iterator() {
 		return new EnumerationIterator(keys());
 	}

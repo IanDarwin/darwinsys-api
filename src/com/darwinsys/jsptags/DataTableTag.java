@@ -30,6 +30,7 @@ import com.darwinsys.sql.SQLUtils;
  */
 public class DataTableTag extends BodyTagSupport {
 
+	private static final long serialVersionUID = -378231759603927261L;
 	public static final String J2EE_ENC_ROOT = "java:comp/env/";
 	/** A JNDI name to look up a JDBC DataSource */
 	private String dsName;

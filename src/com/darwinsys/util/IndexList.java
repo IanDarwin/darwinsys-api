@@ -14,12 +14,12 @@ import java.util.ListIterator;
  * Not necessarily for production use; written as an example of
  * implementing the List interface.
  */
-public class IndexList implements List {
+public class IndexList<T> implements List<T> {
 	/** high water mark */
 	private int hwm = 0;
 
 	/** Implementation: data */
-	private Object[] data;
+	private T[] data;
 
 	/** The initial size of an instance's internal store */
 	public static final int DEFAULT_START_SIZE = 42;
@@ -27,8 +27,10 @@ public class IndexList implements List {
 	public IndexList() {
 		this(DEFAULT_START_SIZE);
 	}
+	
+	@SuppressWarnings("unchecked")
 	public IndexList(int startSize) {
-		data = new Object[startSize];
+		data = (T[])new Object[startSize];
 		hwm = 0;
 	}
 
@@ -49,7 +51,7 @@ public class IndexList implements List {
 		return indexOf(o) >= 0;
 	}
 	/** Add the given object to the end of the list */
-    public boolean add(Object o) {
+    public boolean add(T o) {
 		ensureCapacity(hwm);
 		data[hwm++] = o;
 		return true;
@@ -66,8 +68,8 @@ public class IndexList implements List {
 
 	/** remove() simply sets the given value to null.
 	 */
-    public Object remove(int i) {
-		Object old = data[i];
+    public T remove(int i) {
+		T old = data[i];
 		data[i] = null;
 		return old;
 	}
@@ -80,7 +82,7 @@ public class IndexList implements List {
 			"removeAll method not implemented in IndexList");
 	}
 
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
 		Object[] newData = new Object[hwm];
 		System.arraycopy(data, 0, newData, 0, hwm);
 		return new ArrayIterator(newData);
@@ -111,7 +113,7 @@ public class IndexList implements List {
 	}
 
     public boolean addAll(Collection c) {
-		Iterator it = c.iterator();
+		Iterator<T> it = c.iterator();
 		while (it.hasNext()) {
 			add(it.next());
 		}
@@ -129,7 +131,7 @@ public class IndexList implements List {
 	}
 
     public void clear() {
-		data = new Object[DEFAULT_START_SIZE];
+		data = (T[])new Object[DEFAULT_START_SIZE];
 		hwm = 0;
 	}
 
@@ -137,13 +139,13 @@ public class IndexList implements List {
 		return data.hashCode();
 	}
 
-    public Object get(int i) {
+    public T get(int i) {
 		return data[i];
 	}
 
-    public Object set(int i, Object o) {
+    public T set(int i, T o) {
 		ensureCapacity(i);
-		Object old = data[i];
+		T old = data[i];
 		data[i] = o;
 		return old;
 	}
@@ -151,7 +153,7 @@ public class IndexList implements List {
 	/** Unlike the general contract of List, this will replace, not insert
 	 * before, the object at the given index.
 	 */
-    public void add(int i, Object o) {
+    public void add(int i, T o) {
 		ensureCapacity(i);
 		data[i] = o;
 	}
@@ -173,15 +175,15 @@ public class IndexList implements List {
 		}
 		return -1;
 	}
-    public ListIterator listIterator() {
+    public ListIterator<T> listIterator() {
 		throw new IllegalStateException(
 			"listIterator method not implemented in IndexList");
 	}
-    public ListIterator listIterator(int i) {
+    public ListIterator<T> listIterator(int i) {
 		throw new IllegalStateException(
 			"listIterator method not implemented in IndexList");
 	}
-    public List subList(int from, int to) {
+    public List<T> subList(int from, int to) {
 		throw new IllegalStateException(
 			"subList method not implemented in IndexList");
 	}
