@@ -82,6 +82,7 @@ public class IndexList<T> implements List<T> {
 			"removeAll method not implemented in IndexList");
 	}
 
+    @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
 		Object[] newData = new Object[hwm];
 		System.arraycopy(data, 0, newData, 0, hwm);
@@ -94,6 +95,7 @@ public class IndexList<T> implements List<T> {
 	}
 
 	/** Return the collection as an Array of newData's type */
+    @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] newData) {
 		if (newData.length != hwm) {
 			throw new IllegalArgumentException("newData length != current");
@@ -112,7 +114,8 @@ public class IndexList<T> implements List<T> {
 		return true;
 	}
 
-    public boolean addAll(Collection c) {
+    @SuppressWarnings("unchecked")
+	public boolean addAll(Collection c) {
 		Iterator<T> it = c.iterator();
 		while (it.hasNext()) {
 			add(it.next());
@@ -130,6 +133,7 @@ public class IndexList<T> implements List<T> {
 			"removeAll method not implemented in IndexList");
 	}
 
+    @SuppressWarnings("unchecked")
     public void clear() {
 		data = (T[])new Object[DEFAULT_START_SIZE];
 		hwm = 0;
