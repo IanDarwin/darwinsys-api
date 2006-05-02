@@ -20,7 +20,7 @@ public class VariableMapTest extends TestCase {
 	}
 	
 	public void testInts() {
-		v.setVar("my int prop", "42");
+		v.setIntVar("my int prop", 42);
 		assertEquals("get int", 42, v.getIntVar("my int prop"));
 		try {
 			v.setVar("bad int prop", "42 ");
@@ -29,6 +29,14 @@ public class VariableMapTest extends TestCase {
 		} catch (NumberFormatException e) {
 			System.out.println("caught expected NFE");
 		}
+	}
+	
+	public void testDefaults() {
+		assertNull(v.getVar("USER", null));
+		assertEquals("bar", v.getVar("foo", "bar"));
+		v.setVar("num", "42");
+		assertEquals(100, v.getIntVar("NOTnum", 100));
+		assertEquals(42, v.getIntVar("num", 100));
 	}
 	
 	public void testSubst() {

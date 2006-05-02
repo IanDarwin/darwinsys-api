@@ -37,12 +37,28 @@ public class VariableMap extends HashMap<String, String> {
 		return get(key);
 	}
 
+	public void setIntVar(String key, int value) {
+		put(key, Integer.toString(value));
+	}
+	public String getVar(String key, String defaultValue) {
+		return get(key) != null ? get(key) : defaultValue;
+	}
+	
 	public int getIntVar(String key) {
 		final String stringVal = get(key);
 		if (stringVal == null) {
 			throw new IllegalArgumentException("Key " + key + " not found");
 		}
 		return Integer.parseInt(stringVal);
+	}
+	
+	public int getIntVar(String key, int defaultValue) {
+		final String stringVal = get(key);
+		if (stringVal == null) {
+			return defaultValue;
+		} else {
+			return Integer.parseInt(stringVal);
+		}
 	}
 	
 	/** The pattern for matching variables in the command: ${letters}.
