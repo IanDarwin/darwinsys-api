@@ -157,5 +157,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 		}
 	}
 	
-
+	public void clear() {
+		recentFileNames.clear();
+	}
 }
