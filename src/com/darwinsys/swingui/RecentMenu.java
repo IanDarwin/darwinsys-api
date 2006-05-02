@@ -4,13 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
+import com.darwinsys.util.RecentItems;
 
 /**
  * Maintain a "Recent Items" menu component. The caller must override a "template method"
@@ -54,14 +55,12 @@ import javax.swing.JOptionPane;
  * </pre>
  * @author Ian Darwin
  */
-public abstract class RecentMenu extends JMenu {
+public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	
 	public final static int DEFAULT_MAX_RECENT_FILES = 5;
-	private final int maxRecentFiles;
-	private static final String PREFS_KEY = "recentFile";	
-	
+
 	/** The List of recent files */
-	private List<String> recentFileNames = new ArrayList<String>();
+	private RecentItems recentFileNames;
 	
 	final Preferences prefs;
 	
@@ -74,9 +73,8 @@ public abstract class RecentMenu extends JMenu {
 
 		prefs = getUserPrefsNode(mainClassInstance);
 
-		maxRecentFiles = max;
-		
-		loadRecentMenu();
+		recentFileNames = new RecentItems(prefs, this, max);
+		reload(recentFileNames.getList());
 	}
 
 	/**
@@ -104,7 +102,7 @@ public abstract class RecentMenu extends JMenu {
 	 */
 	public void openFile(String fileName) throws IOException {
 		loadFile(fileName);
-		putRecentFileName(fileName);
+		recentFileNames.putRecent(fileName);
 	}
 
 	/**
@@ -129,70 +127,35 @@ public abstract class RecentMenu extends JMenu {
 		}
 	};
 	
-	/**
-	 * Add the given filename to the top of the recent list in Prefs and in menu.
-	 * It is generally <b>not</b> necessary for user code to call this method!
-	 */
-	public void putRecentFileName(String f) {
-		// Trim from back end if too long
-		while (recentFileNames.size() > maxRecentFiles - 1) {
-			recentFileNames.remove(recentFileNames.size()-1);
-		}
-		// Move filename to front: Remove if present, add at front.
-		if (recentFileNames.contains(f)) {
-			recentFileNames.remove(f);
-		}
-		recentFileNames.add(0, f);
-
-		// Now save from List into Prefs
-		for (int i = 0; i < recentFileNames.size(); i++) {
-			String t = recentFileNames.get(i);
-			prefs.put(PREFS_KEY + i, t);
-		}
-
-		// Finally, load menu again.
-		loadRecentMenu();
-	}
 
 	/**
 	 * Lodd or re-load the recentFileMenu
 	 */
-	private void loadRecentMenu() {
+	public void reload(List<String> list) {
 		setEnabled(false);
-		// Clear out both all menu items and List in memory
+		// Clear out all menu items
 		for (int i = getMenuComponentCount() - 1; i >= 0; i--) {
 			remove(0);
 		}
-		recentFileNames.clear();
 
 		// Copy from Prefs into Menu
 		JMenuItem mi;
-		for (int i = 0; i < maxRecentFiles; i++) {
-			String f = prefs.get(PREFS_KEY + i, null);
+		for (String f : list) {
 			if (f == null) {	// Stop on first missing
 				break;
 			}
 			// Drop from list if file has been deleted.
 			if (new File(f).exists()) {
-				// Add to List in memory
-				recentFileNames.add(f);
-				// If at least one item, enable menu
+				// Since at least one item valid, enable menu
 				setEnabled(true);
 				// And add to Menu
 				this.add(mi = new JMenuItem(f));
 				mi.addActionListener(recentOpener);
+			} else {
+				recentFileNames.remove(f);
 			}
 		}
 	}
 	
-	/**
-	 * Clear all saved Recent Items from Preferences, from memory, and from the Menu.
-	 * There is NO UNDO for this so call with care.
-	 */
-	public void clear() {
-		for (int i = 0; i < maxRecentFiles; i++) {
-			prefs.remove(PREFS_KEY + i);
-		}
-		loadRecentMenu();
-	}
+
 }
