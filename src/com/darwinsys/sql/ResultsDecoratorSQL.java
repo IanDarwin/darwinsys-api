@@ -56,6 +56,7 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 						case Types.DOUBLE:
 						case Types.FLOAT:
 						case Types.INTEGER:
+						default:
 							print(tmp);
 							break;
 						case Types.CHAR:
@@ -64,8 +65,7 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 						case Types.LONGVARCHAR:
 							tmp = tmp.replaceAll("'", "''");
 							print("'" + tmp + "'");
-						default:
-							throw new IllegalArgumentException("Cannot handle data of type " + type + " (sorry!)");
+							break;
 					}
 				}
 				if (i != colCount) {
