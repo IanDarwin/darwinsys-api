@@ -51,13 +51,20 @@ public class SQLRunner {
 	 */
 	enum Mode {
 		/** Mode for Text */
-		t,
+		t("Text"),
 		/** Mode for HTML output */
-		h,
+		h("HTML"),
 		/** Mode for SQL output */
-		s,
+		s("SQL"),
 		/** Mode for XML output */
-		x;
+		x("XML");
+		String name;
+		Mode(String n) {
+			name = n;
+		}
+		public String toString() {
+			return name;
+		}
 	};
 	Mode outputMode = Mode.t;
 
@@ -264,11 +271,7 @@ public class SQLRunner {
 		System.out.printf("SQLRunner: starting %s%n", name);
 		while ((stmt = getStatement(is)) != null) {
 			stmt = stmt.trim();
-			if (stmt.startsWith("\\")) {
-				doEscape(stmt);
-			} else {
-				runStatement(stmt);
-			}
+				runStatement(stmt);			
 		}
 		System.out.printf("SQLRunner: %s done.%n", name);
 	}
@@ -306,8 +309,8 @@ public class SQLRunner {
 	}
 
 	/**
-	 * Display - something
-	 * @param rest - what to display
+	 * Display - generate output for \dt and similar escapes
+	 * @param rest - what to display - the argument with the \d stripped off
 	 * XXX: Move more formatting to ResultsDecorator: listTables(rs), listColumns(rs)
 	 */
 	private void display(String rest) throws SQLException {
@@ -349,33 +352,29 @@ public class SQLRunner {
 	/** Run one Statement, and format results as per Update or Query.
 	 * Called from runScript or from user code.
 	 */
-	public void runStatement(String str) throws IOException, SQLException {
+	public void runStatement(final String rawString) throws IOException, SQLException {
+		
+		final String inString = rawString.trim();
 		
 		if (verbosity != Verbosity.QUIET) {
-			System.out.println("Executing : <<" + str.trim() + ">>");		
+			System.out.println("Executing : <<" + inString.trim() + ">>");		
 			System.out.flush();
 		}
-		try {
-			boolean hasResultSet = statement.execute(str);
-			if (!hasResultSet)
-				currentDecorator.printRowCount(statement.getUpdateCount());
-			else {
-				ResultSet rs = statement.getResultSet();
-				int n = currentDecorator.write(rs);
-				currentDecorator.printRowCount(n);
-			}
-		} catch (SQLException ex) {
-			if (verbosity == Verbosity.QUIET) {
-				System.err.println("Failure in : <<" + str.trim() + ">>");
-			}
-			if (verbosity == Verbosity.DEBUG){
-				throw ex;
-			} else {
-				System.err.println("ERROR: " + ex.toString());
-			}
+		
+		if (inString.startsWith("\\")) {
+			doEscape(inString);
+			return;
 		}
-		if (verbosity != Verbosity.QUIET)
-			System.out.println();
+
+		boolean hasResultSet = statement.execute(inString);
+		
+		if (!hasResultSet) {
+			currentDecorator.printRowCount(statement.getUpdateCount());
+		} else {
+			ResultSet rs = statement.getResultSet();
+			int n = currentDecorator.write(rs);
+			currentDecorator.printRowCount(n);
+		}
 	}
 	
 	/** Extract one statement from the given Reader.
@@ -394,8 +393,15 @@ public class SQLRunner {
 			if (line == null || line.length() == 0) {
 				continue;
 			}
+			line = line.trim();
 			if (line.startsWith("#") || line.startsWith("--")) {
 				continue;
+			}
+			if (line.startsWith("\\")) {
+				if (sb.length() == 0) {
+					return line;
+				}
+				throw new IllegalArgumentException("Escape command found inside statement");
 			}
 			sb.append(line);
 			int nb = sb.length();
