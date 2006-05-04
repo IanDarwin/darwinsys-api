@@ -126,11 +126,13 @@ public class ConnectionUtil {
 	 * from the current configuration file.
 	 * @return Set<String> of the configurations
 	 */
-	public static Set<String> list() {
+	public static Set<String> getConfigurations() {
 		Set<String> configNames = new TreeSet<String>();
 		try {
 			Properties p = new Properties();
-			p.load(new FileInputStream(configFileName));
+			FileInputStream is = new FileInputStream(configFileName);
+			p.load(is);
+			is.close();
 			Enumeration enumeration = p.keys();
 			while (enumeration.hasMoreElements()) {
 				String element = (String) enumeration.nextElement();
@@ -138,9 +140,7 @@ public class ConnectionUtil {
 				if ((offset= element.indexOf('.')) == -1)
 					continue;
 				String configName = element.substring(0, offset);
-				//System.out.println(configName);
 				configNames.add(configName);
-				
 			}
 		} catch (IOException ex) {
 			throw new DataBaseException(ex.toString());
