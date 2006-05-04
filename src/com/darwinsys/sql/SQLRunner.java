@@ -304,8 +304,7 @@ public class SQLRunner {
 			System.exit(0);
 		} else {
 			System.err.println("Unknown escape: " + str);
-		}
-		
+		}		
 	}
 
 	/**
@@ -366,7 +365,7 @@ public class SQLRunner {
 			return;
 		}
 
-		boolean hasResultSet = statement.execute(inString);
+		boolean hasResultSet = statement.execute(inString);			// Rrringggg! Rrriinngggg! 
 		
 		if (!hasResultSet) {
 			currentDecorator.printRowCount(statement.getUpdateCount());
