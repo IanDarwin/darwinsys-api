@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.Set;
 import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.darwinsys.swingui.UtilGUI;
@@ -44,10 +46,15 @@ public class SQLRunnerGUI  {
 		final Container cp = new JPanel();
 		jf.add(cp, BorderLayout.CENTER);
 		
+		Set<String> connections = ConnectionUtil.getConfigurations();
+		final JComboBox connectionsList = new JComboBox(connections.toArray(new String[connections.size()]));
+		cp.add(new JLabel("Connection"));
+		cp.add(connectionsList);
+		
 		cp.setLayout(new FlowLayout());
 		cp.add(new JLabel("SQL Command"));
-		final JTextArea tf = new JTextArea(5, 60);
-		cp.add(tf);
+		final JTextArea tf = new JTextArea(4, 50);
+		cp.add(new JScrollPane(tf));
 		
 		final JComboBox modeList = new JComboBox();
 		for (SQLRunner.Mode mode : SQLRunner.Mode.values()) {
@@ -66,10 +73,8 @@ public class SQLRunnerGUI  {
 				new Thread() {
 					
 					public void run() {
-						String config = "lims";
-						
 						try {
-							Connection conn =  ConnectionUtil.getConnection(config);
+							Connection conn =  ConnectionUtil.getConnection((String)connectionsList.getSelectedItem());
 							
 							SQLRunner prog = new SQLRunner(conn, null, "t");	
 							prog.setOutputMode((SQLRunner.Mode) modeList.getSelectedItem());
@@ -80,8 +85,7 @@ public class SQLRunnerGUI  {
 						} catch (Exception e) {
 							seeRed();
 							error("Error: " + e);
-						}
-						
+						}						
 					}
 					
 				}.start();
