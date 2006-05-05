@@ -17,7 +17,7 @@ public class ConnectionUtilTest extends TestCase {
 	
 	public void testList() throws Exception {
 		System.out.println("ConnectionUtilTest.testList()");
-		Set configs = ConnectionUtil.list();
+		Set configs = ConnectionUtil.getConfigurations();
 		Iterator iter = configs.iterator();
 		boolean hasConfigNames = false;
 		while (iter.hasNext()) {
