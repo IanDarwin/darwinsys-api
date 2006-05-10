@@ -57,4 +57,8 @@ public class MultipartResponse {
 		out.println("--" + BOUNDARY_TEXT + "--");
 		out.flush();
 	}
+
+	public ServletOutputStream getOutputStream() {
+		return out;
+	}
 }
