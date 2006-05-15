@@ -1,0 +1,10 @@
+There's obviously lots still to do:
+
+Urgent:
+- UPDATE BUILD.XML FOR NEW STANDALONE PROJECT.
+
+Minor items:
+- remove trailing semicolon if user provides it in GUI version.
+
+Medium items:
+- GUI version should have gui for creating/editing .db.properties.
