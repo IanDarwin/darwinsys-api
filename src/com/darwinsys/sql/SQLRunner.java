@@ -404,7 +404,7 @@ public class SQLRunner {
 			}
 			sb.append(line);
 			int nb = sb.length();
-			if (sb.charAt(nb-1) == ';') {
+			if (nb > 0 && sb.charAt(nb-1) == ';') {
 				if (nb == 1) {
 					return "";
 				}
