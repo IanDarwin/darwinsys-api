@@ -70,6 +70,8 @@ public class SQLRunner {
 
 	/** Database connection */
 	protected Connection conn;
+	
+	protected DatabaseMetaData dbMeta;
 
 	/** SQL Statement */
 	protected Statement statement;
@@ -86,6 +88,12 @@ public class SQLRunner {
 	private ResultsDecorator htmlDecorator;
 	
 	private ResultsDecorator xmlDecorator;
+
+	/** DB2 is the only one I know of today that requires table names
+	 * be given in upper case when getting table metadata
+	 */
+	private boolean upperCaseTableNames = 
+		dbMeta.getDatabaseProductName().indexOf("DB2") >= 0;
 	
 	private static Verbosity verbosity = Verbosity.QUIET;
 
@@ -178,10 +186,10 @@ public class SQLRunner {
 		conn = c;
 		finishSetup(outputFile, outputModeName);
 	}
-	
+
 	void finishSetup(String outputFileName, String outputModeName) throws IOException, SQLException {
-		DatabaseMetaData dbm = conn.getMetaData();
-		String dbName = dbm.getDatabaseProductName();
+		dbMeta = conn.getMetaData();
+		String dbName = dbMeta.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
 		statement = conn.createStatement();
 		
@@ -323,7 +331,8 @@ public class SQLRunner {
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
 			// don't do ignorecase so, for now, convert to UPPER CASE.
-			String tableName = rest.substring(1).trim().toUpperCase();
+			String tableName = rest.substring(1).trim();
+			if (upperCaseTableNames) tableName = tableName.toUpperCase();
 			System.out.println("# Display table " + tableName);
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getColumns(null, null, tableName, "%");
