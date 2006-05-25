@@ -40,10 +40,13 @@ public class UtilGUI {
 	/**	Now save the X and Y */
 	public static void setSavedLocation(final Preferences pNode, final Window w) {
 		Point where = w.getLocation();
-		pNode.putInt("mainwindow.x", (int)where.getX());
-		pNode.putInt("mainwindow.y", (int)where.getY());
+		int x = (int)where.getX();
+		pNode.putInt("mainwindow.x", Math.max(0, x));
+		int y = (int)where.getY();
+		pNode.putInt("mainwindow.y", Math.max(0, y));
 	}
 
+	/** Retrieve the saved X and Y */
 	public static Point getSavedLocation(final Preferences pNode) {
 		int savedX = pNode.getInt("mainwindow.x", -1);
 		int savedY = pNode.getInt("mainwindow.y", -1);
