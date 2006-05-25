@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 /**
  * Packages up the code to let you "print" to a JTextArea.
  */
-public class WriterToJTextArea {
+public final class WriterToJTextArea {
 
 	private PipedInputStream is;
 	private PipedOutputStream os;
