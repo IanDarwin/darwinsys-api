@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.Set;
 import java.util.prefs.Preferences;
@@ -21,6 +23,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.darwinsys.io.TextAreaWriter;
 import com.darwinsys.swingui.UtilGUI;
 import com.darwinsys.util.Verbosity;
 
@@ -37,7 +40,9 @@ public class SQLRunnerGUI  {
 	
 	final JFrame jf;
 	
-	final JTextArea tf;
+	final JTextArea inputTextArea;
+	
+	final PrintWriter out;
 	
 	/**
 	 * Main method; ignores arguments.
@@ -79,10 +84,11 @@ public class SQLRunnerGUI  {
 						try {
 							Connection conn =  ConnectionUtil.getConnection((String)connectionsList.getSelectedItem());
 							SQLRunner.setVerbosity(Verbosity.QUIET);
-							SQLRunner prog = new SQLRunner(conn, null, "t");	
+							SQLRunner prog = new SQLRunner(conn, null, "t");
+							prog.setOutputFile(out);
 							prog.setOutputMode((SQLRunner.Mode) modeList.getSelectedItem());
 							
-							prog.runStatement(tf.getText());
+							prog.runStatement(inputTextArea.getText());
 							seeGreen();	// If no exception thrown
 							
 						} catch (Exception e) {
@@ -96,18 +102,17 @@ public class SQLRunnerGUI  {
 			}
 		});
 		
-		tf = new JTextArea(4, 70);
-		tf.setBorder(BorderFactory.createTitledBorder("SQL Command"));
-		jf.add(new JScrollPane(tf), BorderLayout.CENTER);
+		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
+		inputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Command"));
+		jf.add(new JScrollPane(inputTextArea), BorderLayout.CENTER);		
 		
-//		cp.add(bar, BorderLayout.SOUTH);
-//		bar.setMaximum(1);
-//		bar.setValue(1);
 		seeGreen();
 		
-		JTextArea output = new JTextArea(10, DISPLAY_COLUMNS);
-		output.setBorder(BorderFactory.createTitledBorder("SQL Results"));
-		jf.add(output, BorderLayout.SOUTH);
+		JTextArea outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
+		outputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Results"));
+		jf.add(new JScrollPane(outputTextArea), BorderLayout.SOUTH);
+		
+		out = new PrintWriter(new TextAreaWriter(outputTextArea));
 		
 		jf.pack();
 		UtilGUI.monitorWindowPosition(jf, p);
