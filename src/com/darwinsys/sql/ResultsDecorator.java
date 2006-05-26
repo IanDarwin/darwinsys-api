@@ -41,4 +41,8 @@ public abstract class ResultsDecorator {
 	public void flush() {
 		out.flush();
 	}
+
+	public void setWriter(PrintWriter out) {
+		this.out = out;
+	}
 }
