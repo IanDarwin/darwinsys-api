@@ -37,4 +37,8 @@ public abstract class ResultsDecorator {
 	public void print(String lineSeg) throws IOException {
 		out.print(lineSeg);
 	}
+
+	public void flush() {
+		out.flush();
+	}
 }

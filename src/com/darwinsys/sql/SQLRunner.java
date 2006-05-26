@@ -5,17 +5,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.darwinsys.database.DataBaseException;
-import com.darwinsys.lang.GetOpt;
-import com.darwinsys.sql.ConnectionUtil;
 import com.darwinsys.util.Verbosity;
 
 /** Class to run an SQL script, like psql(1), SQL*Plus, or similar programs.
@@ -31,8 +29,9 @@ import com.darwinsys.util.Verbosity;
  * <li> \o output-file, redirects output.
  * <li> \q quit the program
  * </ul>
- * <p>This class can also be used from within programs such as servlets, etc.
-  * <p>For example, this command and input:</pre>
+ * <p>This class can also be used from within programs such as servlets, etc.;
+ * see SQLRunnerGUI for an example of how to call.
+ * <p>For example, this command and input:</pre>
  * SQLrunner -c testdb
  * \ms;
  * select * from person where person_key=4;
@@ -69,15 +68,15 @@ public class SQLRunner {
 	Mode outputMode = Mode.t;
 
 	/** Database connection */
-	protected Connection conn;
+	private Connection conn;
 	
-	protected DatabaseMetaData dbMeta;
+	private DatabaseMetaData dbMeta;
 
 	/** SQL Statement */
-	protected Statement statement;
+	private Statement statement;
 	
 	/** Where the output is going */
-	protected PrintWriter out;
+	private PrintWriter out;
 	
 	private ResultsDecorator currentDecorator;
 
@@ -88,82 +87,15 @@ public class SQLRunner {
 	private ResultsDecorator htmlDecorator;
 	
 	private ResultsDecorator xmlDecorator;
+	
+	private boolean debug;
 
 	/** DB2 is the only one I know of today that requires table names
 	 * be given in upper case when getting table metadata
 	 */
-	private boolean upperCaseTableNames = 
-		dbMeta.getDatabaseProductName().indexOf("DB2") >= 0;
+	private boolean upperCaseTableNames;
 	
 	private static Verbosity verbosity = Verbosity.QUIET;
-
-	/** print help; called from several places in main */
-	private static void doHelp(int i) {
-		System.out.println(
-		"Usage: SQLRunner [-f configFile] [-c config] [SQLscript[ ...]");
-		System.exit(i);
-	}
-
-	/**
-	 * main - parse arguments, construct SQLRunner object, open file(s), run scripts.
-	 * @throws SQLException if anything goes wrong.
-	 * @throws DatabaseException if anything goes wrong.
-	 */
-	public static void main(String[] args)  {
-		String config = "default";
-		String outputModeName = "t";
-		String outputFile = null;
-		GetOpt go = new GetOpt("dvf:c:m:o:");
-		char c;
-		while ((c = go.getopt(args)) != GetOpt.DONE) {
-			switch(c) {
-			case 'h':
-				doHelp(0);
-				break;
-			case 'd':
-				setVerbosity(Verbosity.DEBUG);
-				break;
-			case 'v':
-				setVerbosity(Verbosity.VERBOSE);
-				break;
-			case 'f':
-				ConnectionUtil.setConfigFileName(go.optarg());
-				break;
-			case 'c':
-				config = go.optarg();
-				break;
-			case 'm':
-				outputModeName = go.optarg();
-				break;
-			case 'o':
-				outputFile = go.optarg();
-				break;
-			default:
-				System.err.println("Unknown option character " + c);
-				doHelp(1);
-			}
-		}
-
-		try {
-
-			Connection conn = ConnectionUtil.getConnection(config);
-
-			SQLRunner prog = new SQLRunner(conn, outputFile, outputModeName);
-			
-			if (go.getOptInd() == args.length) {
-				prog.runScript(new BufferedReader(
-					new InputStreamReader(System.in)), "(standard input)");
-			} else for (int i = go.getOptInd()-1; i < args.length; i++) {
-				prog.runScript(args[i]);
-			}
-			prog.close();
-		} catch (SQLException ex) {
-			throw new DataBaseException(ex.toString());
-		} catch (IOException ex) {
-			throw new DataBaseException(ex.toString());
-		}
-		System.exit(0);
-	}
 
 	/** Construct a SQLRunner object
 	 * @param driver String for the JDBC driver
@@ -178,17 +110,19 @@ public class SQLRunner {
 			String outputFile, String outputMode)
 			throws IOException, ClassNotFoundException, SQLException {
 		conn = ConnectionUtil.getConnection(driver, dbUrl, user, password);
-		finishSetup(outputFile, outputMode);
+		commonSetup(outputFile, outputMode);
 	}
 	
 	public SQLRunner(Connection c, String outputFile, String outputModeName) throws IOException, SQLException {
 		// set up the SQL input
 		conn = c;
-		finishSetup(outputFile, outputModeName);
+		commonSetup(outputFile, outputModeName);
 	}
 
-	void finishSetup(String outputFileName, String outputModeName) throws IOException, SQLException {
+	void commonSetup(String outputFileName, String outputModeName) throws IOException, SQLException {
 		dbMeta = conn.getMetaData();
+		upperCaseTableNames = 
+			dbMeta.getDatabaseProductName().indexOf("DB2") >= 0;
 		String dbName = dbMeta.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
 		statement = conn.createStatement();
@@ -199,7 +133,7 @@ public class SQLRunner {
 			out = new PrintWriter(new FileWriter(outputFileName));
 		}
 		
-		setOutputMode(outputMode);
+		setOutputMode(outputModeName);
 	}
 	
 	/** Set the output mode.
@@ -216,9 +150,10 @@ public class SQLRunner {
 		setOutputMode(outputMode);
 	}
 	
+	/** Assign the correct ResultsDecorator, creating them on the fly
+	 * using lazy evaluation.
+	 */
 	void setOutputMode(Mode outputMode) {
-		// Assign the correct ResultsDecorator, creating them on the fly
-		// using lazy evaluation.
 		ResultsDecorator newDecorator = null;
 		switch (outputMode) {
 			case t:
@@ -252,7 +187,8 @@ public class SQLRunner {
 		}
 		if (currentDecorator != newDecorator) {
 			currentDecorator = newDecorator;
-			System.out.println("Mode set to  " + outputMode);
+			if (debug)
+				System.out.println("Mode set to  " + outputMode);
 		}
 
 	}
@@ -285,7 +221,7 @@ public class SQLRunner {
 	}
 
 	/**
-	 * Process an escape like \ms; for mode=sql.
+	 * Process an escape, like "\ms;" for mode=sql.
 	 */
 	private void doEscape(String str) throws IOException, SQLException  {
 		String rest = null;
@@ -323,10 +259,9 @@ public class SQLRunner {
 	private void display(String rest) throws SQLException {
 		if (rest.equals("t")) {
 			// Display list of tables
-			DatabaseMetaData md = conn.getMetaData();
-			ResultSet rs = md.getTables(null, null, "%", null);
-			while (rs.next()) {
-				System.out.println(rs.getString(3));
+			List<String> userTables = getUserTables(conn);
+			for (String name : userTables) {
+				System.out.println(name);
 			}
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
@@ -342,19 +277,44 @@ public class SQLRunner {
 		} else
 			System.err.println("\\d"  + rest + " invalid");
 	}
+	
+	/**
+	 * Return the names of the user tables in the given Connection
+	 * @param conn
+	 * @return
+	 * @throws SQLException
+	 */
+	List<String> getUserTables(Connection conn) throws SQLException {
+		ArrayList<String> result = new ArrayList<String>();
+		DatabaseMetaData md = conn.getMetaData();
+		ResultSet rs = md.getTables(null, null, "%", null);
+		while (rs.next()) {
+			String catName = rs.getString(2);
+			if (!catName.startsWith("SYS"))
+				result.add(rs.getString(3));
+		}
+		return result;
+	}
 
 	/** Set the output to the given filename.
 	 * @param fileName
 	 */
-	private void setOutputFile(String fileName) throws IOException {
+	public void setOutputFile(String fileName) throws IOException {
 		if (fileName == null) {
 			/* Set the output file back to System.out */
 			out = new PrintWriter(System.out, true);
 		} else {
 			File file = new File(fileName);
-			out = new PrintWriter(new FileWriter(file), true);
+			setOutputFile(new PrintWriter(new FileWriter(file), true));
 			System.out.println("Output set to " + file.getCanonicalPath());
 		}
+	}
+
+	/** Set the output to the given Writer
+	 * @param writer
+	 */
+	public void setOutputFile(PrintWriter writer) {
+		out = writer;
 	}
 
 	/** Run one Statement, and format results as per Update or Query.
@@ -382,6 +342,7 @@ public class SQLRunner {
 			ResultSet rs = statement.getResultSet();
 			int n = currentDecorator.write(rs);
 			currentDecorator.printRowCount(n);
+			currentDecorator.flush();
 		}
 	}
 	
@@ -442,5 +403,4 @@ public class SQLRunner {
 	public static void setVerbosity(Verbosity verbosity) {
 		SQLRunner.verbosity = verbosity;
 	}
-
 }

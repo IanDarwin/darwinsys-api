@@ -38,9 +38,8 @@ class ResultsDecoratorText extends ResultsDecorator {
 	}
 
 	@Override
-	public void printRowCount(int rowCount) throws IOException {
-		if (verbosity != Verbosity.QUIET)
-			println("OK: " + rowCount);
+	public void printRowCount(int rowCount) throws IOException {		
+			println("Rows: " + rowCount);
 	}
 
 	/* (non-Javadoc)

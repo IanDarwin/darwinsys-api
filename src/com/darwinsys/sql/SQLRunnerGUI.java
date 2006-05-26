@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.darwinsys.swingui.UtilGUI;
+import com.darwinsys.util.Verbosity;
 
 /**
  * A simple GUI to run one set of commands.
@@ -71,13 +72,13 @@ public class SQLRunnerGUI  {
 			
 			public void actionPerformed(ActionEvent evt) {
 				
-				// Run this under a new Thread, so we don't block the EventDispatch thread...
+				// Run this under a its own Thread, so we don't block the EventDispatch thread...
 				new Thread() {
 					
 					public void run() {
 						try {
 							Connection conn =  ConnectionUtil.getConnection((String)connectionsList.getSelectedItem());
-							
+							SQLRunner.setVerbosity(Verbosity.QUIET);
 							SQLRunner prog = new SQLRunner(conn, null, "t");	
 							prog.setOutputMode((SQLRunner.Mode) modeList.getSelectedItem());
 							
@@ -87,6 +88,7 @@ public class SQLRunnerGUI  {
 						} catch (Exception e) {
 							seeRed();
 							error("Error: " + e);
+							e.printStackTrace();
 						}						
 					}
 					
