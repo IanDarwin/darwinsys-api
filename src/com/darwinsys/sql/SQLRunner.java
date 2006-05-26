@@ -190,7 +190,7 @@ public class SQLRunner {
 			if (debug)
 				System.out.println("Mode set to  " + outputMode);
 		}
-
+		currentDecorator.setWriter(out);
 	}
 	
 	/** Run one script file, by name. Called from cmd line main
@@ -325,8 +325,8 @@ public class SQLRunner {
 		final String inString = rawString.trim();
 		
 		if (verbosity != Verbosity.QUIET) {
-			System.out.println("Executing : <<" + inString.trim() + ">>");		
-			System.out.flush();
+			out.println("Executing : <<" + inString.trim() + ">>");		
+			out.flush();
 		}
 		
 		if (inString.startsWith("\\")) {
