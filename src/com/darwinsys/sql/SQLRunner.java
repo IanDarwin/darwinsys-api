@@ -304,7 +304,7 @@ public class SQLRunner {
 	 * @return
 	 * @throws SQLException
 	 */
-	List<String> getUserTables(Connection conn) throws SQLException {
+	public static List<String> getUserTables(Connection conn) throws SQLException {
 		ArrayList<String> result = new ArrayList<String>();
 		DatabaseMetaData md = conn.getMetaData();
 		ResultSet rs = md.getTables(null, null, "%", null);
