@@ -202,10 +202,11 @@ public class SQLRunner {
 			myRunner.runStatement(stmt);			
 		}
 	 * </pre>
+	 * @throws SyntaxException 
 	 */
 	@Deprecated
 	public void runScript(String scriptFile)
-	throws IOException, SQLException {
+	throws IOException, SQLException, SyntaxException {
 
 		BufferedReader is;
 
@@ -224,10 +225,11 @@ public class SQLRunner {
 			myRunner.runStatement(stmt);			
 		}
 	 * </pre>
+	 * @throws SyntaxException 
 	 */
 	@Deprecated
 	public void runScript(BufferedReader is, String name)
-	throws IOException, SQLException {
+	throws IOException, SQLException, SyntaxException {
 		String stmt;
 		
 		while ((stmt = getStatement(is)) != null) {
@@ -238,8 +240,9 @@ public class SQLRunner {
 
 	/**
 	 * Process an escape, like "\ms;" for mode=sql.
+	 * @throws SyntaxException 
 	 */
-	private void doEscape(String str) throws IOException, SQLException  {
+	private void doEscape(String str) throws IOException, SQLException, SyntaxException  {
 		String rest = null;
 		if (str.length() > 2) {
 			rest = str.substring(2);
@@ -247,23 +250,23 @@ public class SQLRunner {
 		
 		if (str.startsWith("\\d")) {	// Display
 			if (rest == null){
-				System.err.println("\\d needs display arg");
+				throw new SyntaxException("\\d needs display arg");
 			}
 			display(rest);
 		} else if (str.startsWith("\\m")) {	// MODE
 			if (rest == null){
-				System.err.println("\\m needs output mode arg");
+				throw new SyntaxException("\\m needs output mode arg");
 			}
 			setOutputMode(rest);
 		} else if (str.startsWith("\\o")){
 			if (rest == null){
-				System.err.println("\\o needs output file arg");
+				throw new SyntaxException("\\o needs output file arg");
 			}
 			setOutputFile(rest);
 		} else if (str.startsWith("\\q")){
 			System.exit(0);
 		} else {
-			System.err.println("Unknown escape: " + str);
+			throw new SyntaxException("Unknown escape: " + str);
 		}		
 	}
 
@@ -271,13 +274,14 @@ public class SQLRunner {
 	 * Display - generate output for \dt and similar escapes
 	 * @param rest - what to display - the argument with the \d stripped off
 	 * XXX: Move more formatting to ResultsDecorator: listTables(rs), listColumns(rs)
+	 * @throws SyntaxException 
 	 */
-	private void display(String rest) throws SQLException {
+	private void display(String rest) throws IOException, SQLException, SyntaxException {
 		if (rest.equals("t")) {
 			// Display list of tables
 			List<String> userTables = getUserTables(conn);
 			for (String name : userTables) {
-				System.out.println(name);
+				textDecorator.println(name);
 			}
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
@@ -288,10 +292,10 @@ public class SQLRunner {
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getColumns(null, null, tableName, "%");
 			while (rs.next()) {
-				System.out.println(rs.getString(4));
+				textDecorator.println(rs.getString(4));
 			}
 		} else
-			System.err.println("\\d"  + rest + " invalid");
+			throw new SyntaxException("\\d"  + rest + " invalid");
 	}
 	
 	/**
@@ -335,8 +339,9 @@ public class SQLRunner {
 
 	/** Run one Statement, and format results as per Update or Query.
 	 * Called from runScript or from user code.
+	 * @throws SyntaxException 
 	 */
-	public void runStatement(final String rawString) throws IOException, SQLException {
+	public void runStatement(final String rawString) throws IOException, SQLException, SyntaxException {
 		
 		final String inString = rawString.trim();
 		
