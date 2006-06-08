@@ -194,8 +194,16 @@ public class SQLRunner {
 	}
 	
 	/** Run one script file, by name. Called from cmd line main
-	 * or from user code.
+	 * or from user code. Deprecated because of the poor capability
+	 * for error handling; it would be better for the user interface
+	 * code to create a Reader and then say:
+	 * <pre>while ((stmt = SQLRunner.getStatement(is)) != null) {
+			stmt = stmt.trim();
+			myRunner.runStatement(stmt);			
+		}
+	 * </pre>
 	 */
+	@Deprecated
 	public void runScript(String scriptFile)
 	throws IOException, SQLException {
 
@@ -207,7 +215,17 @@ public class SQLRunner {
 		runScript(is, scriptFile);
 	}
 
-	/** Run one script, by name, given a BufferedReader. */
+	/** Run one script, by name, given a BufferedReader.
+	 * Deprecated because of the poor capability
+	 * for error handling; it would be better for the 
+	 * user interface code to do:
+	 * <pre>while ((stmt = SQLRunner.getStatement(is)) != null) {
+			stmt = stmt.trim();
+			myRunner.runStatement(stmt);			
+		}
+	 * </pre>
+	 */
+	@Deprecated
 	public void runScript(BufferedReader is, String name)
 	throws IOException, SQLException {
 		String stmt;

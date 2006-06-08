@@ -1,6 +1,7 @@
 package com.darwinsys.sql;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -69,10 +70,10 @@ public class SQLRunnerCLI {
 			SQLRunner prog = new SQLRunner(conn, outputFile, outputModeName);
 			
 			if (go.getOptInd() == args.length) {
-				prog.runScript(new BufferedReader(
+				runScript(prog, new BufferedReader(
 					new InputStreamReader(System.in)), "(standard input)");
 			} else for (int i = go.getOptInd()-1; i < args.length; i++) {
-				prog.runScript(args[i]);
+				runScript(prog, args[i]);
 			}
 			prog.close();
 		} catch (SQLException ex) {
@@ -82,5 +83,27 @@ public class SQLRunnerCLI {
 		}
 		System.exit(0);
 	}
+	
+	static void runScript(SQLRunner prog, String scriptFile)
+	throws IOException, SQLException {
 
+		BufferedReader is;
+
+		// Load the script file first, it's the most likely error
+		is = new BufferedReader(new FileReader(scriptFile));
+
+		runScript(prog, is, scriptFile);
+	}
+
+	static void runScript(SQLRunner prog, BufferedReader is, String name)
+	throws IOException, SQLException {
+		String stmt;
+		
+		System.out.printf("SQLRunner: starting %s%n", name);
+		while ((stmt = SQLRunner.getStatement(is)) != null) {
+			stmt = stmt.trim();
+			prog.runStatement(stmt);			
+		}
+		System.out.printf("SQLRunner: %s done.%n", name);
+	}
 }
