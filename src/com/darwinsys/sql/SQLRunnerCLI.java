@@ -95,14 +95,17 @@ public class SQLRunnerCLI {
 		runScript(prog, is, scriptFile);
 	}
 
-	static void runScript(SQLRunner prog, BufferedReader is, String name)
-	throws IOException, SQLException {
+	static void runScript(SQLRunner prog, BufferedReader is, String name) throws IOException {
 		String stmt;
 		
 		System.out.printf("SQLRunner: starting %s%n", name);
 		while ((stmt = SQLRunner.getStatement(is)) != null) {
 			stmt = stmt.trim();
-			prog.runStatement(stmt);			
+			try {
+				prog.runStatement(stmt);	
+			} catch (Exception e) {
+				System.err.println(e);
+			}
 		}
 		System.out.printf("SQLRunner: %s done.%n", name);
 	}
