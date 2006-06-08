@@ -199,7 +199,11 @@ public class SQLRunner {
 	 * code to create a Reader and then say:
 	 * <pre>while ((stmt = SQLRunner.getStatement(is)) != null) {
 			stmt = stmt.trim();
-			myRunner.runStatement(stmt);			
+			try {
+				myRunner.runStatement(stmt);
+			} catch (Exception e) {
+				// Display the message to the user ...
+			}		
 		}
 	 * </pre>
 	 * @throws SyntaxException 
@@ -222,7 +226,11 @@ public class SQLRunner {
 	 * user interface code to do:
 	 * <pre>while ((stmt = SQLRunner.getStatement(is)) != null) {
 			stmt = stmt.trim();
-			myRunner.runStatement(stmt);			
+			try {
+				myRunner.runStatement(stmt);
+			} catch (Exception e) {
+				// Display the message to the user ...
+			}
 		}
 	 * </pre>
 	 * @throws SyntaxException 
