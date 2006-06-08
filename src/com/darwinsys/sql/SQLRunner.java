@@ -230,12 +230,10 @@ public class SQLRunner {
 	throws IOException, SQLException {
 		String stmt;
 		
-		System.out.printf("SQLRunner: starting %s%n", name);
 		while ((stmt = getStatement(is)) != null) {
 			stmt = stmt.trim();
-				runStatement(stmt);			
+			runStatement(stmt);			
 		}
-		System.out.printf("SQLRunner: %s done.%n", name);
 	}
 
 	/**
