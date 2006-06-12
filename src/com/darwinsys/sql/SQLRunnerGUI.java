@@ -88,12 +88,12 @@ public class SQLRunnerGUI  {
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
 							prog.setOutputMode((OutputMode) modeList.getSelectedItem());
-							seeNeutral();
+							setActive();
 							prog.runStatement(inputTextArea.getText());
-							seeGreen();	// If no exception thrown
+							setSuccess();	// If no exception thrown
 							
 						} catch (Exception e) {
-							seeRed();
+							setFailure();
 							error("Error: " + e);
 							e.printStackTrace();
 						}						
@@ -106,7 +106,7 @@ public class SQLRunnerGUI  {
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
 		inputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Command"));
 		
-		seeGreen();
+		setActive();
 		
 		JTextArea outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
 		outputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Results"));
@@ -127,28 +127,35 @@ public class SQLRunnerGUI  {
 	/**
 	 * Set the bar to green, used only at the beginning
 	 */
-	void seeGreen() {
+	void setSuccess() {
 		bar.setValue(bar.getMaximum());
 		bar.setForeground(Color.GREEN);
+		bar.repaint();
 	}
 	/**
 	 * Set the bar to red, used when a test fails or errors.
 	 */
-	void seeRed() {
+	void setFailure() {
 		bar.setValue(bar.getMaximum());
 		bar.setForeground(Color.RED);
+		bar.repaint();
 	}
 	/**
 	 * Set the bar to neutral
 	 */
-	void seeNeutral() {
+	void setActive() {
 		bar.setValue(bar.getMaximum());
-		bar.setForeground(mainWindow.getForeground());
+		bar.setForeground(mainWindow.getBackground());
+		bar.repaint();
 	}
 	
+	/**
+	 * The obvious error handling.
+	 * @param mesg
+	 */
 	void error(String mesg) {
+		setFailure();
 		JOptionPane.showMessageDialog(mainWindow, mesg, "Oops", JOptionPane.ERROR_MESSAGE);
-		seeRed();
 	}
 
 }
