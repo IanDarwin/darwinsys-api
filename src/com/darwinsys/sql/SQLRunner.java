@@ -183,7 +183,7 @@ public class SQLRunner {
 				if (xmlDecorator == null) {
 					xmlDecorator = new ResultsDecoratorXML(out, verbosity);
 				}
-				newDecorator = sqlDecorator;
+				newDecorator = xmlDecorator;
 				break;
 			default:
 				String values = OutputMode.values().toString();
