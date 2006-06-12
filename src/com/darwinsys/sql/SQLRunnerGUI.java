@@ -64,7 +64,7 @@ public class SQLRunnerGUI  {
 		cp.setLayout(new FlowLayout());
 		
 		final JComboBox modeList = new JComboBox();
-		for (SQLRunner.Mode mode : SQLRunner.Mode.values()) {
+		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
 		}
 		cp.add(new JLabel("Format:"));
@@ -85,7 +85,7 @@ public class SQLRunnerGUI  {
 							SQLRunner.setVerbosity(Verbosity.QUIET);
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
-							prog.setOutputMode((SQLRunner.Mode) modeList.getSelectedItem());
+							prog.setOutputMode((OutputMode) modeList.getSelectedItem());
 							
 							prog.runStatement(inputTextArea.getText());
 							seeGreen();	// If no exception thrown

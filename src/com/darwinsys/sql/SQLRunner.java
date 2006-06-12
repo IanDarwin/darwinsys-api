@@ -45,27 +45,7 @@ import com.darwinsys.util.Verbosity;
  */
 public class SQLRunner {
 	
-	/** The set of all valid modes. Short, lowercase names were used
-	 * for simple use in \mX where X is one of the names.
-	 */
-	enum Mode {
-		/** Mode for Text */
-		t("Text"),
-		/** Mode for HTML output */
-		h("HTML"),
-		/** Mode for SQL output */
-		s("SQL"),
-		/** Mode for XML output */
-		x("XML");
-		String name;
-		Mode(String n) {
-			name = n;
-		}
-		public String toString() {
-			return name;
-		}
-	};
-	Mode outputMode = Mode.t;
+	OutputMode outputMode = OutputMode.t;
 
 	/** Database connection */
 	private Connection conn;
@@ -146,14 +126,14 @@ public class SQLRunner {
 			System.err.println(
 			"invalid mode: " + outputMode + "; must be t, h or s"); }
 		
-		outputMode = Mode.valueOf(outputModeName);
+		outputMode = OutputMode.valueOf(outputModeName);
 		setOutputMode(outputMode);
 	}
 	
 	/** Assign the correct ResultsDecorator, creating them on the fly
 	 * using lazy evaluation.
 	 */
-	void setOutputMode(Mode outputMode) {
+	void setOutputMode(OutputMode outputMode) {
 		ResultsDecorator newDecorator = null;
 		switch (outputMode) {
 			case t:
@@ -181,7 +161,7 @@ public class SQLRunner {
 				newDecorator = sqlDecorator;
 				break;
 			default:
-				String values = Mode.values().toString();
+				String values = OutputMode.values().toString();
 				System.err.println("invalid mode: "
 								+ outputMode + "; must be " + values);
 		}
