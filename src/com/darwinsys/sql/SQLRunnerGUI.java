@@ -50,7 +50,7 @@ public class SQLRunnerGUI  {
 		new SQLRunnerGUI();
 	}
 	
-	SQLRunnerGUI() {
+	public SQLRunnerGUI() {
 		jf = new JFrame("SQLRunner");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		final Container cp = new JPanel();
