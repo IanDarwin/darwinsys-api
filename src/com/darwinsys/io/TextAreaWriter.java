@@ -1,53 +1,58 @@
+/* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2006.
+ * $Id$
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package com.darwinsys.io;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintWriter;
+import java.io.Writer;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 /**
- * Packages up the code to let you "print" to a JTextArea.
+ * Simple way to "print" to a JTextArea; just say
+ * PrintWriter out = new PrintWriter(new TextAreaWriter(myTextArea));
+ * Then out.println() et all will all appear in the TextArea.
  */
-public final class WriterToJTextArea {
+public final class TextAreaWriter extends Writer {
 
-	private PipedInputStream is;
-	private PipedOutputStream os;
-	private PrintWriter ps;
+	private final JTextArea textArea;
 
-	public WriterToJTextArea(final JTextArea results) throws IOException {
-		// Create a pair of Piped Streams.
-		is = new PipedInputStream();
-		os = new PipedOutputStream(is);
-
-		final BufferedReader iis = new BufferedReader(new InputStreamReader(is, "ISO8859_1"));
-		ps = new PrintWriter(os);
-
-		// Construct and start a Thread to copy data from "is" to "os".
-		new Thread() {
-			public void run() {
-				try {
-					String line;
-					while ((line = iis.readLine()) != null) {
-						results.append(line);
-						results.append("\n");
-					}
-				} catch(IOException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(results,
-						"*** Input or Output error ***\n" + e,
-						"Error",
-						JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		}.start();
+	public TextAreaWriter(final JTextArea textArea) {
+		this.textArea = textArea;
 	}
-	
-	public PrintWriter getWriter() {
-		return ps;
+
+    @Override
+    public void flush(){ }
+    
+    @Override
+    public void close(){ }
+
+	@Override
+	public void write(char[] cbuf, int off, int len) throws IOException {
+		textArea.append(new String(cbuf, off, len));
+		
 	}
+
 }
