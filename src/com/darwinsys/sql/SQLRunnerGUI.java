@@ -102,6 +102,14 @@ public class SQLRunnerGUI  {
 				}.start();
 			}
 		});
+		
+		final JButton cancelButton = new JButton("Cancel");
+		controlsArea.add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				error("Cancel button not working yet");
+			}		
+		});
 
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
 		inputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Command"));
