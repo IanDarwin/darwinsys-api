@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
 import com.darwinsys.io.TextAreaWriter;
@@ -37,7 +38,7 @@ public class SQLRunnerGUI  {
 	
 	final JProgressBar bar = new JProgressBar();
 	
-	final JFrame jf;
+	final JFrame mainWindow;
 	
 	final JTextArea inputTextArea;
 	
@@ -51,27 +52,28 @@ public class SQLRunnerGUI  {
 	}
 	
 	public SQLRunnerGUI() {
-		jf = new JFrame("SQLRunner");
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final Container cp = new JPanel();
-		jf.add(cp, BorderLayout.NORTH);
+		mainWindow = new JFrame("SQLRunner");
+		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		final Container controlsArea = new JPanel();
+		mainWindow.add(controlsArea, BorderLayout.NORTH);
 		
 		Set<String> connections = ConnectionUtil.getConfigurations();
 		final JComboBox connectionsList = new JComboBox(connections.toArray(new String[connections.size()]));
-		cp.add(new JLabel("Connection"));
-		cp.add(connectionsList);
+		controlsArea.add(new JLabel("Connection"));
+		controlsArea.add(connectionsList);
 		
-		cp.setLayout(new FlowLayout());
+		controlsArea.setLayout(new FlowLayout());
 		
 		final JComboBox modeList = new JComboBox();
 		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
 		}
-		cp.add(new JLabel("Format:"));
-		cp.add(modeList);		
+		controlsArea.add(new JLabel("Format:"));
+		controlsArea.add(modeList);		
 
 		final JButton testButton = new JButton("Run");
-		cp.add(testButton);
+		controlsArea.add(testButton);
 		testButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent evt) {
@@ -86,7 +88,7 @@ public class SQLRunnerGUI  {
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
 							prog.setOutputMode((OutputMode) modeList.getSelectedItem());
-							
+							seeNeutral();
 							prog.runStatement(inputTextArea.getText());
 							seeGreen();	// If no exception thrown
 							
@@ -100,39 +102,52 @@ public class SQLRunnerGUI  {
 				}.start();
 			}
 		});
-		
+
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
 		inputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Command"));
-		jf.add(new JScrollPane(inputTextArea), BorderLayout.CENTER);		
 		
 		seeGreen();
 		
 		JTextArea outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
 		outputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Results"));
-		jf.add(new JScrollPane(outputTextArea), BorderLayout.SOUTH);
 		
+		mainWindow.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
+					new JScrollPane(inputTextArea), 
+					new JScrollPane(outputTextArea)), BorderLayout.CENTER);
+		
+		mainWindow.add(bar, BorderLayout.SOUTH);
+
 		out = new PrintWriter(new TextAreaWriter(outputTextArea));
 		
-		jf.pack();
-		UtilGUI.monitorWindowPosition(jf, p);
-		jf.setVisible(true);
+		mainWindow.pack();
+		UtilGUI.monitorWindowPosition(mainWindow, p);
+		mainWindow.setVisible(true);
 	}
 	
 	/**
 	 * Set the bar to green, used only at the beginning
 	 */
 	void seeGreen() {
+		bar.setValue(bar.getMaximum());
 		bar.setForeground(Color.GREEN);
 	}
 	/**
 	 * Set the bar to red, used when a test fails or errors.
 	 */
 	void seeRed() {
+		bar.setValue(bar.getMaximum());
 		bar.setForeground(Color.RED);
+	}
+	/**
+	 * Set the bar to neutral
+	 */
+	void seeNeutral() {
+		bar.setValue(bar.getMaximum());
+		bar.setForeground(mainWindow.getForeground());
 	}
 	
 	void error(String mesg) {
-		JOptionPane.showMessageDialog(jf, mesg, "Oops", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(mainWindow, mesg, "Oops", JOptionPane.ERROR_MESSAGE);
 		seeRed();
 	}
 
