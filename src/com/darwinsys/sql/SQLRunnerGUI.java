@@ -28,25 +28,29 @@ package com.darwinsys.sql;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import com.darwinsys.io.TextAreaWriter;
 import com.darwinsys.swingui.UtilGUI;
@@ -61,11 +65,19 @@ public class SQLRunnerGUI  {
 
 	final Preferences p = Preferences.userNodeForPackage(SQLRunnerGUI.class);
 	
-	final JProgressBar bar = new JProgressBar();
+	@SuppressWarnings("serial")
+	final JComponent bar = new JComponent() {
+	    public void paint(Graphics g) {
+            g.setColor(getBackground());
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+    };
 	
 	final JFrame mainWindow;
 	
-	final JTextArea inputTextArea;
+	final JTextArea inputTextArea, outputTextArea;
+	
+	final JButton runButton;
 	
 	final PrintWriter out;
 	
@@ -97,53 +109,67 @@ public class SQLRunnerGUI  {
 		controlsArea.add(new JLabel("Format:"));
 		controlsArea.add(modeList);		
 
-		final JButton testButton = new JButton("Run");
-		controlsArea.add(testButton);
-		testButton.addActionListener(new ActionListener() {
+		runButton = new JButton("Run");
+		controlsArea.add(runButton);
+		runButton.addActionListener(new ActionListener() {
 			
+            /** Called each time the user presses the Run button */
 			public void actionPerformed(ActionEvent evt) {
 				
 				// Run this under a its own Thread, so we don't block the EventDispatch thread...
 				new Thread() {
-					
+                    Connection conn;
 					public void run() {
 						try {
-							Connection conn =  ConnectionUtil.getConnection((String)connectionsList.getSelectedItem());
+							conn =  ConnectionUtil.getConnection((String)connectionsList.getSelectedItem());
 							SQLRunner.setVerbosity(Verbosity.QUIET);
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
 							prog.setOutputMode((OutputMode) modeList.getSelectedItem());
-							setActive();
+							SwingUtilities.invokeAndWait(new Runnable() {
+								public void run() {
+									setNeutral();
+								}
+							});
 							prog.runStatement(inputTextArea.getText());
-							setSuccess();	// If no exception thrown
-							
+							setSuccess();	// If no exception thrown							
 						} catch (Exception e) {
 							setFailure();
 							error("Error: " + e);
 							e.printStackTrace();
-						}						
+						} finally {
+							if (conn != null) {
+							    try {
+							        conn.close();
+							    } catch (SQLException e) {
+							        // We just don't care at this point....
+							    }                     
+                            }
+						}
 					}
 					
 				}.start();
 			}
 		});
-		
-		final JButton cancelButton = new JButton("Cancel");
-		controlsArea.add(cancelButton);
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				error("Cancel button not working yet");
-			}		
-		});
+        
 
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
 		inputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Command"));
 		
-		setActive();
+		setNeutral();
 		
-		JTextArea outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
+		outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
 		outputTextArea.setBorder(BorderFactory.createTitledBorder("SQL Results"));
 		
+		JButton clearOutput = new JButton("Clear Output");
+		clearOutput.addActionListener(new ActionListener() {		    
+		    public void actionPerformed(ActionEvent e) {
+		        outputTextArea.setText("");
+                setNeutral();
+		    }	    
+		});
+        controlsArea.add(clearOutput);
+        
 		mainWindow.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
 					new JScrollPane(inputTextArea), 
 					new JScrollPane(outputTextArea)), BorderLayout.CENTER);
@@ -151,6 +177,8 @@ public class SQLRunnerGUI  {
 		mainWindow.add(bar, BorderLayout.SOUTH);
 
 		out = new PrintWriter(new TextAreaWriter(outputTextArea));
+        
+        bar.setPreferredSize(new Dimension(400, 20));
 		
 		mainWindow.pack();
 		UtilGUI.monitorWindowPosition(mainWindow, p);
@@ -158,27 +186,26 @@ public class SQLRunnerGUI  {
 	}
 	
 	/**
-	 * Set the bar to green, used only at the beginning
+	 * Set the bar to green
 	 */
 	void setSuccess() {
-		bar.setValue(bar.getMaximum());
-		bar.setForeground(Color.GREEN);
+		bar.setBackground(Color.GREEN);
 		bar.repaint();
 	}
+	
 	/**
 	 * Set the bar to red, used when a test fails or errors.
 	 */
 	void setFailure() {
-		bar.setValue(bar.getMaximum());
-		bar.setForeground(Color.RED);
+		bar.setBackground(Color.RED);
 		bar.repaint();
 	}
+	
 	/**
 	 * Set the bar to neutral
 	 */
-	void setActive() {
-		bar.setValue(bar.getMaximum());
-		bar.setForeground(mainWindow.getBackground());
+	void setNeutral() {
+		bar.setBackground(mainWindow.getBackground());
 		bar.repaint();
 	}
 	
