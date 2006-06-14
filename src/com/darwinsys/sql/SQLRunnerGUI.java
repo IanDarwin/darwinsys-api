@@ -121,6 +121,7 @@ public class SQLRunnerGUI  {
                     Connection conn;
 					public void run() {
 						try {
+							runButton.setEnabled(false);
 							conn =  ConnectionUtil.getConnection((String)connectionsList.getSelectedItem());
 							SQLRunner.setVerbosity(Verbosity.QUIET);
 							SQLRunner prog = new SQLRunner(conn, null, "t");
@@ -145,6 +146,7 @@ public class SQLRunnerGUI  {
 							        // We just don't care at this point....
 							    }                     
                             }
+							runButton.setEnabled(true);
 						}
 					}
 					
