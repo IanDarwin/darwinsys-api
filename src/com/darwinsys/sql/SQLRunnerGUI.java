@@ -26,10 +26,7 @@
 package com.darwinsys.sql;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
@@ -50,7 +47,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
+import com.darwinsys.genericui.SuccessFailureUI;
 import com.darwinsys.io.TextAreaWriter;
+import com.darwinsys.swingui.SuccessFailureBarSwing;
 import com.darwinsys.swingui.UtilGUI;
 import com.darwinsys.util.Verbosity;
 
@@ -63,13 +62,7 @@ public class SQLRunnerGUI  {
 
 	final Preferences p = Preferences.userNodeForPackage(SQLRunnerGUI.class);
 	
-	@SuppressWarnings("serial")
-	final JComponent bar = new JComponent() {
-	    public void paint(Graphics g) {
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getWidth(), getHeight());
-        }
-    };
+	final SuccessFailureUI bar;
 	
 	final JFrame mainWindow;
 	
@@ -137,11 +130,11 @@ public class SQLRunnerGUI  {
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
 							prog.setOutputMode((OutputMode) modeList.getSelectedItem());							
-							setNeutral();							
+							bar.reset();							
 							prog.runStatement(inputTextArea.getText());
-							setSuccess();	// If no exception thrown							
+							bar.showSuccess();	// If no exception thrown							
 						} catch (Exception e) {
-							setFailure();
+							bar.showFailure();
 							error("<html><p>Error: <font color='red'>" + e);
 							e.printStackTrace();
 						} finally {
@@ -164,7 +157,6 @@ public class SQLRunnerGUI  {
 		JScrollPane inputAreaScrollPane = new JScrollPane(inputTextArea);
 		inputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Command"));
 		
-		setNeutral();
 		
 		outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
 		JScrollPane outputAreaScrollPane = new JScrollPane(outputTextArea);
@@ -183,7 +175,7 @@ public class SQLRunnerGUI  {
 		clearOutput.addActionListener(new ActionListener() {		    
 		    public void actionPerformed(ActionEvent e) {
 		        outputTextArea.setText("");
-                setNeutral();
+                bar.reset();
 		    }	    
 		});
         controlsArea.add(clearOutput);
@@ -192,11 +184,12 @@ public class SQLRunnerGUI  {
 					inputAreaScrollPane, 
 					outputAreaScrollPane), BorderLayout.CENTER);
 		
-		mainWindow.add(bar, BorderLayout.SOUTH);
 
 		out = new PrintWriter(new TextAreaWriter(outputTextArea));
         
-        bar.setPreferredSize(new Dimension(400, 20));
+		bar = new SuccessFailureBarSwing(mainWindow.getBackground(), 400, 20);
+		bar.reset();
+		mainWindow.add((JComponent)bar, BorderLayout.SOUTH);
 		
 		mainWindow.pack();
 		UtilGUI.monitorWindowPosition(mainWindow, p);
@@ -204,35 +197,11 @@ public class SQLRunnerGUI  {
 	}
 	
 	/**
-	 * Set the bar to green
-	 */
-	void setSuccess() {
-		bar.setBackground(Color.GREEN);
-		bar.repaint();
-	}
-	
-	/**
-	 * Set the bar to red, used when a test fails or errors.
-	 */
-	void setFailure() {
-		bar.setBackground(Color.RED);
-		bar.repaint();
-	}
-	
-	/**
-	 * Set the bar to neutral
-	 */
-	void setNeutral() {
-		bar.setBackground(mainWindow.getBackground());
-		bar.repaint();
-	}
-	
-	/**
 	 * The obvious error handling.
 	 * @param mesg
 	 */
 	void error(String mesg) {
-		setFailure();
+		bar.showFailure();
 		JOptionPane.showMessageDialog(mainWindow, mesg, "Oops", JOptionPane.ERROR_MESSAGE);
 	}
 }
