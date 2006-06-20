@@ -72,6 +72,26 @@ public class SQLRunnerGUI  {
 	
 	final PrintWriter out;
 	
+	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
+
+		public void handleError(Exception e) {
+			
+				JOptionPane.showMessageDialog(mainWindow, 
+					"<html><p>Error: <font color='red'>" + e,
+					"Oops", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+		}
+		
+	};
+	
+	/**
+	 * Allow the Application to provide its own error handler.
+	 * @param eHandler
+	 */
+	public void setErrorHandler(SQLRunnerErrorHandler eHandler) {
+		this.eHandler = eHandler;
+	}
+	
 	/**
 	 * Main method; ignores arguments.
 	 */
@@ -135,8 +155,7 @@ public class SQLRunnerGUI  {
 							bar.showSuccess();	// If no exception thrown							
 						} catch (Exception e) {
 							bar.showFailure();
-							error("<html><p>Error: <font color='red'>" + e);
-							e.printStackTrace();
+							eHandler.handleError(e);							
 						} finally {
 							if (conn != null) {
 							    try {
@@ -196,12 +215,4 @@ public class SQLRunnerGUI  {
 		mainWindow.setVisible(true);
 	}
 	
-	/**
-	 * The obvious error handling.
-	 * @param mesg
-	 */
-	void error(String mesg) {
-		bar.showFailure();
-		JOptionPane.showMessageDialog(mainWindow, mesg, "Oops", JOptionPane.ERROR_MESSAGE);
-	}
 }

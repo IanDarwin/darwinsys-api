@@ -1,6 +1,5 @@
 package com.darwinsys.sql;
 
-import java.sql.SQLException;
 
 public interface SQLRunnerErrorHandler {
 
@@ -10,6 +9,6 @@ public interface SQLRunnerErrorHandler {
  *
  * @param e The SQLException thrown by Statement.execute().
  */
-public void handleError(SQLException e);
+public void handleError(Exception e);
 
 }
