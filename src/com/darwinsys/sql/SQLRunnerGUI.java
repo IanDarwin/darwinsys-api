@@ -132,8 +132,7 @@ public class SQLRunnerGUI  {
 				return;
 			}
 		}
-		throw new IllegalArgumentException(
-			String.format("Configuration %s not found", config));
+		System.err.printf("Warning: Configuration %s not found", config);
 	}
 
 	/**
