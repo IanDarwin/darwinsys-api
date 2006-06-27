@@ -1,20 +1,24 @@
 package io;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import javax.swing.JTextArea;
 
-import com.darwinsys.io.TextAreaOutputStream;
-
 import junit.framework.TestCase;
 
+import com.darwinsys.io.TextAreaWriter;
+
 public class TextAreaWriterTest extends TestCase {
+	
+	private static final String HELLO_WORLD = "Hello World";
+
+	JTextArea ta = new JTextArea();
+	
 	public void testOne() {
-		JTextArea ta = new JTextArea();
-		PrintStream x = new PrintStream(new TextAreaOutputStream(ta));
+		PrintWriter x = new PrintWriter(new TextAreaWriter(ta));
 		x.print("Hello");
 		x.print(' ');
-		x.println("World");
-		assertEquals("Hello World", ta.getText());
+		x.print("World");
+		assertEquals(HELLO_WORLD, ta.getText());
 	}
 }
