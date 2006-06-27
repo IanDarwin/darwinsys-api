@@ -114,7 +114,7 @@ public class SQLRunner {
 	public SQLRunner(String driver, String dbUrl, String user, String password,
 			String outputFile, String outputMode)
 			throws IOException, ClassNotFoundException, SQLException {
-		conn = ConnectionUtil.getConnection(driver, dbUrl, user, password);
+		conn = ConnectionUtil.getInstance().getConnection(driver, dbUrl, user, password);
 		commonSetup(outputFile, outputMode);
 	}
 	

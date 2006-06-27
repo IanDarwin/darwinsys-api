@@ -59,6 +59,7 @@ public class SQLRunnerCLI {
 		String outputFile = null;
 		GetOpt go = new GetOpt("dvf:c:m:o:");
 		char c;
+		ConnectionUtil connectionUtils = ConnectionUtil.getInstance();
 		while ((c = go.getopt(args)) != GetOpt.DONE) {
 			switch(c) {
 			case 'h':
@@ -71,7 +72,7 @@ public class SQLRunnerCLI {
 				SQLRunner.setVerbosity(Verbosity.VERBOSE);
 				break;
 			case 'f':
-				ConnectionUtil.setConfigFileName(go.optarg());
+				connectionUtils.setConfigFileName(go.optarg());
 				break;
 			case 'c':
 				config = go.optarg();
@@ -90,7 +91,7 @@ public class SQLRunnerCLI {
 
 		try {
 
-			Connection conn = ConnectionUtil.getConnection(config);
+			Connection conn = connectionUtils.getConnection(config);
 
 			SQLRunner prog = new SQLRunner(conn, outputFile, outputModeName);
 			
