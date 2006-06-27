@@ -14,7 +14,7 @@ public interface SQLRunnerConnectionFactory {
      * @return A List of objects that are suitable for display in a JComboBox
      * (that is, either String, or Component, or has a user-friendly toString() method).
      */
-    List<Object> getConnectionsList();
+    List<Object> getConfigurations();
     
     /**
      * Obtain a Connection (presumably from a Connection Pool); the Connection
