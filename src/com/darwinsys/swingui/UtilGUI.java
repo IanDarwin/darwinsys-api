@@ -8,6 +8,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.prefs.Preferences;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /** Utilities for GUI work.
  * @version $Id$
  */
@@ -37,7 +40,18 @@ public class UtilGUI {
 		w.setBounds(0,0, them.width, them.height);
 	}
 
-	/**	Now save the X and Y */
+	/** Print a yes/no prompt; return true if the user presses yes
+	 */
+	public static boolean confirm(JFrame parent, String message) {
+		int confirm = JOptionPane.showConfirmDialog(parent, message, "Confirm", 
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
+		// Only selecting Yes choice will result in true
+		return confirm == 0;
+	}
+	
+	/**	Save the X and Y locations in Preferences node provided.
+	 */
 	public static void setSavedLocation(final Preferences pNode, final Window w) {
 		Point where = w.getLocation();
 		int x = (int)where.getX();
@@ -46,7 +60,8 @@ public class UtilGUI {
 		pNode.putInt("mainwindow.y", Math.max(0, y));
 	}
 
-	/** Retrieve the saved X and Y */
+	/** Retrieve the saved X and Y from Preferences
+	 */
 	public static Point getSavedLocation(final Preferences pNode) {
 		int savedX = pNode.getInt("mainwindow.x", -1);
 		int savedY = pNode.getInt("mainwindow.y", -1);
