@@ -32,7 +32,8 @@ import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
@@ -96,9 +97,45 @@ public class SQLRunnerGUI  {
 	 * Main method; ignores arguments.
 	 */
 	public static void main(String[] args) {
-		new SQLRunnerGUI();
+		String config = null;
+		if (args.length != 0) {
+			for (int i = 0; i < args.length; i++) {
+				String arg = args[i];
+				if ("-c".equals(arg) && args.length > i) {
+					config = args[i+1];
+				}
+			}
+		}
+		SQLRunnerGUI prog = new SQLRunnerGUI();
+		if (config != null) {
+			prog.setConfig(config);
+		}
 	}
 	
+	final List<Object> connections;
+	final JComboBox connectionsList;
+	
+	/**
+	 * Set the selected Configuration Object in the Connections chooser
+	 * from a given Configuration Name passed as a String.
+	 * @param config The chosen name.
+	 */
+	private void setConfig(String config) {
+		if (config == null) {
+			throw new NullPointerException("Configuration name may not be null");
+		}
+		Iterator<Object> it = connections.iterator();
+		while (it.hasNext()) {
+			Object configListItem = it.next();
+			if (config.equals(configListItem.toString())) {
+				connectionsList.setSelectedItem(configListItem);
+				return;
+			}
+		}
+		throw new IllegalArgumentException(
+			String.format("Configuration %s not found", config));
+	}
+
 	/**
 	 * Constructor
 	 */
@@ -109,8 +146,8 @@ public class SQLRunnerGUI  {
 		final Container controlsArea = new JPanel();
 		mainWindow.add(controlsArea, BorderLayout.NORTH);
 		
-		Set<String> connections = ConnectionUtil.getConfigurations();
-		final JComboBox connectionsList = new JComboBox(connections.toArray(new String[connections.size()]));
+		connections = ConnectionUtil.getInstance().getConfigurations();
+		connectionsList = new JComboBox(connections.toArray(new String[connections.size()]));
 		controlsArea.add(new JLabel("Connection"));
 		controlsArea.add(connectionsList);
 		
@@ -145,7 +182,7 @@ public class SQLRunnerGUI  {
 					public void run() {
 						try {
 							runButton.setEnabled(false);
-							conn =  ConnectionUtil.getConnection((String)connectionsList.getSelectedItem());
+							conn =  ConnectionUtil.getInstance().getConnection((String)connectionsList.getSelectedItem());
 							SQLRunner.setVerbosity(Verbosity.QUIET);
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
