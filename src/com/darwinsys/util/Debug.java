@@ -22,10 +22,19 @@ public class Debug {
 		if (isEnabled(category))
 			System.out.println(msg);
 	}
-	/** Static method to println an arbitrary Objecct if the given
+	
+	/** Static method to println an arbitrary Object if the given
 	 * category is enabled for debugging, as reported by isEnabled.
 	 */
 	public static void println(String category, Object stuff) {
 		println(category, stuff.toString());
 	}
-}
+	
+	/** Invoke System.out.printf if and only if the given
+	 * category is enabled for debugging, as reported by isEnabled.
+	 */
+	public static void printf(String category, String format, Object...objects) {
+		if (isEnabled(category))
+			System.out.printf(format, objects);
+	}
+} 
