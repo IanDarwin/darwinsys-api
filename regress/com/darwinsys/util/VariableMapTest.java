@@ -1,11 +1,14 @@
 package com.darwinsys.util;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import com.darwinsys.util.VariableMap;
 
 import junit.framework.TestCase;
 
-/** Test the Variables code formerly in TestRunner */
+/** Test the Variable Map support
+ */
 public class VariableMapTest extends TestCase {
 	
 	VariableMap v = new VariableMap();
@@ -79,5 +82,31 @@ public class VariableMapTest extends TestCase {
 		// '1' in the expect string
 		assertEquals("testBackslashInVarUsedInSubst",
 			"a123\\123", v.substVars("${abc}\\123"));
+	}
+	
+	private boolean changed = false;
+	private PropertyChangeEvent event;
+	
+	public void testPropertyChangeListenerSupport() {
+		PropertyChangeListener liszt = new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				changed = true;
+				event = evt;
+			}			
+		};
+		v.addPropertyChangeListener(liszt);
+		v.put("foo", "123");
+		assertEquals(123, v.getIntVar("foo"));
+		assertTrue(changed);
+		assertNotNull(event);
+		assertTrue(v == event.getSource());
+		assertEquals("foo", event.getPropertyName());
+		assertNull(event.getOldValue());
+		assertEquals("123", event.getNewValue());
+		
+		changed = false;
+		v.removePropertyChangeListener(liszt);
+		v.setIntVar("bar", 55);
+		assertFalse(changed);
 	}
 }
