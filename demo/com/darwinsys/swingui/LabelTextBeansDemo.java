@@ -12,8 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.darwinsys.swingui.LabelText;
-
 /**
  * Demo of LabelText JavaBean
  * 

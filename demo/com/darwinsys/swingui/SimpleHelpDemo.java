@@ -2,8 +2,6 @@ package com.darwinsys.swingui;
 
 import javax.swing.JFrame;
 
-import com.darwinsys.swingui.SimpleHelp;
-
 public class SimpleHelpDemo {
 	/** Main */
 	public static void main(String argv[]) {

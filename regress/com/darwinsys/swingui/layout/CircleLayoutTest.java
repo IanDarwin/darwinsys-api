@@ -1,7 +1,9 @@
 package com.darwinsys.swingui;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Container;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import com.darwinsys.swingui.layout.CircleLayout;
 

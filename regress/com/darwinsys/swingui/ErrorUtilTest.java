@@ -1,7 +1,6 @@
 package com.darwinsys.swingui;
 
 import java.sql.SQLException;
-import com.darwinsys.swingui.ErrorUtil;
 
 public class ErrorUtilTest {
 	public static void main(String[] args) {

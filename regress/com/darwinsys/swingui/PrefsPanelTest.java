@@ -3,8 +3,6 @@ package com.darwinsys.swingui;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.darwinsys.swingui.PrefsPanel;
-
 public class PrefsPanelTest  {
 	public static void main(String[] args) {
 		JFrame jf = new JFrame("PrefsPanelTest");

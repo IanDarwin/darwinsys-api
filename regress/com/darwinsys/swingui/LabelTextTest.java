@@ -1,8 +1,12 @@
 package com.darwinsys. swingui;
 
-import com.darwinsys.swingui.LabelText;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /** Test program for LabelText class.
  * @author	Ian Darwin, http://www.darwinsys.com/
