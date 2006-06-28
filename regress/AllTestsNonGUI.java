@@ -1,5 +1,8 @@
 
-import com.darwinsys.SimpleTagValidatorTest;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import com.darwinsys.html.SimpleTagValidatorTest;
 import com.darwinsys.io.FileIOTest;
 import com.darwinsys.lang.MutableIntegerTest;
 import com.darwinsys.lang.StringFormatTest;
@@ -11,9 +14,6 @@ import com.darwinsys.util.GetOptTest;
 import com.darwinsys.util.IndexListTest;
 import com.darwinsys.util.ScaledNumberFormatTest;
 import com.darwinsys.util.VariableMapTest;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Test the non-GUI components (those that don't require interaction).

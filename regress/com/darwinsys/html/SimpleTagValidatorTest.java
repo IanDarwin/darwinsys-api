@@ -1,4 +1,4 @@
-package com.darwinsys;
+package com.darwinsys.html;
 
 import com.darwinsys.html.SimpleTagValidator;
 
