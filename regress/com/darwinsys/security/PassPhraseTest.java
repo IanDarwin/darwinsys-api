@@ -1,4 +1,4 @@
-package com.darwinsys;
+package com.darwinsys.security;
 
 import junit.framework.TestCase;
 

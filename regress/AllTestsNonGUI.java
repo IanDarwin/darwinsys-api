@@ -1,5 +1,5 @@
-package com.darwinsys;
 
+import com.darwinsys.SimpleTagValidatorTest;
 import com.darwinsys.io.FileIOTest;
 import com.darwinsys.lang.MutableIntegerTest;
 import com.darwinsys.lang.StringFormatTest;

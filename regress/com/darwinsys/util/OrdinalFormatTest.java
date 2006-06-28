@@ -1,4 +1,4 @@
-package com.darwinsys;
+package com.darwinsys.util;
 
 import junit.framework.TestCase;
 

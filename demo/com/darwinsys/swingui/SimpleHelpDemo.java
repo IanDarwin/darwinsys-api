@@ -1,4 +1,4 @@
-package com.darwinsys;
+package com.darwinsys.swingui;
 
 import javax.swing.JFrame;
 

@@ -1,4 +1,4 @@
-package com.darwinsys;
+package com.darwinsys.swingui;
 
 import java.sql.SQLException;
 import com.darwinsys.swingui.ErrorUtil;
