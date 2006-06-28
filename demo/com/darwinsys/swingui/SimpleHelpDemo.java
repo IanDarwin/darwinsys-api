@@ -1,3 +1,5 @@
+package com.darwinsys;
+
 import javax.swing.JFrame;
 
 import com.darwinsys.swingui.SimpleHelp;

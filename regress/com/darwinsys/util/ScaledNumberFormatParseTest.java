@@ -1,3 +1,5 @@
+package com.darwinsys;
+
 import com.darwinsys.util.ScaledNumberFormat;
 
 import junit.framework.*;

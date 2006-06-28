@@ -1,3 +1,5 @@
+package com.darwinsys;
+
 import com.darwinsys.database.DataBaseException;
 import com.darwinsys.sql.ConnectionUtil;
 

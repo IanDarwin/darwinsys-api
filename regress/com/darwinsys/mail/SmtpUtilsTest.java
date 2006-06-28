@@ -1,3 +1,5 @@
+package com.darwinsys;
+
 import com.darwinsys.mail.SmtpUtils;
 import junit.framework.TestCase;
 

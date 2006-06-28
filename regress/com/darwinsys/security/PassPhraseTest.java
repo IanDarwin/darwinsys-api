@@ -1,3 +1,5 @@
+package com.darwinsys;
+
 import junit.framework.TestCase;
 
 import com.darwinsys.security.PassPhrase;
