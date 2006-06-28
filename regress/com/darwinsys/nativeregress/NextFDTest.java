@@ -1,4 +1,4 @@
-package nativeregress;
+package com.darwinsys.nativeregress;
 
 import java.io.FileInputStream;
 import java.io.IOException;

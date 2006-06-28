@@ -1,4 +1,4 @@
-package util;
+package com.darwinsys.util;
 
 import java.io.File;
 import java.util.Properties;

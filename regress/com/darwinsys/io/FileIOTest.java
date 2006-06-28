@@ -1,4 +1,4 @@
-package io;
+package com.darwinsys.io;
 
 import junit.framework.*;
 

@@ -1,4 +1,4 @@
-package util;
+package com.darwinsys.util;
 
 
 import com.darwinsys.util.VariableMap;

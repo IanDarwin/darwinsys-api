@@ -1,4 +1,4 @@
-package  swingui;
+package com.darwinsys. swingui;
 
 import java.awt.Container;
 

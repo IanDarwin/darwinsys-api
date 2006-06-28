@@ -1,4 +1,4 @@
-package lang;
+package com.darwinsys.lang;
 
 import junit.framework.TestCase;
 

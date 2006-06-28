@@ -1,4 +1,4 @@
-package util;
+package com.darwinsys.util;
 
 import java.awt.Container;
 import java.awt.FlowLayout;

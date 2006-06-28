@@ -1,4 +1,4 @@
-package swingui;
+package com.darwinsys.swingui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

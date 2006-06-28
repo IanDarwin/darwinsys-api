@@ -1,4 +1,4 @@
-package filtergui;
+package com.darwinsys.filtergui;
 
 /** Simple marker class 
  * */

@@ -1,4 +1,4 @@
-package graphics;
+package com.darwinsys.graphics;
 
 import java.awt.Color;
 

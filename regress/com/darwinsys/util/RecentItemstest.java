@@ -1,4 +1,4 @@
-package util;
+package com.darwinsys.util;
 
 import java.util.List;
 import java.util.prefs.Preferences;
