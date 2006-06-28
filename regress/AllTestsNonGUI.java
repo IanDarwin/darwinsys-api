@@ -4,10 +4,12 @@ import com.darwinsys.io.FileIOTest;
 import com.darwinsys.lang.MutableIntegerTest;
 import com.darwinsys.lang.StringFormatTest;
 import com.darwinsys.lang.StringUtilTest;
+import com.darwinsys.sql.ConnectionUtilTest;
 import com.darwinsys.util.ArrayIteratorTest;
 import com.darwinsys.util.FilePropertiesTest;
 import com.darwinsys.util.GetOptTest;
 import com.darwinsys.util.IndexListTest;
+import com.darwinsys.util.ScaledNumberFormatTest;
 import com.darwinsys.util.VariableMapTest;
 
 import junit.framework.Test;
