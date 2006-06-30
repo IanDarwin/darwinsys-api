@@ -7,12 +7,15 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
@@ -27,20 +30,15 @@ public class Notepad {
 	
 	JTextArea ta;
 
-	private static int windowsCreated = 0;
-	private static int windowCount = 0;
+	private static List<Notepad> windows = new ArrayList<Notepad>();
 	
 	public Notepad() {
 		jf = new JFrame();
 		jf.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				okToClose();
-				if (--windowCount <= 0) {
-					System.exit(0);
-				}
-			}
-		
+				closeThisWindow();
+			}		
 		});
 
 		ta = new JTextArea(30,70);
@@ -51,12 +49,26 @@ public class Notepad {
 		
 		UtilGUI.centre(jf);
 		Point loc = jf.getLocation();
-		loc.x += windowsCreated * 20;
-		loc.y += windowsCreated * 20;
-		++windowsCreated;
-		++windowCount;
+		synchronized(windows) {
+			int windowsCreated = windows.size();
+			loc.x += windowsCreated * 20;
+			loc.y += windowsCreated * 20;		
+			windows.add(this);
+		}
 		jf.setLocation(loc);
 		jf.setVisible(true);
+	}
+	
+	private void closeThisWindow() {
+		okToClose();
+		jf.setVisible(false);
+		jf.dispose();
+		synchronized(windows) {
+			windows.remove(this);
+			if (windows.size() == 0) {
+				System.exit(0);
+			}
+		}
 	}
 	
 	Action openAction = new OpenAction();
@@ -98,8 +110,7 @@ public class Notepad {
 			super("Close");
 		}
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(jf, 
-				"CLOSE");
+			closeThisWindow();
 		}		
 	};
 	Action printAction = new PrintAction();
@@ -140,7 +151,7 @@ public class Notepad {
 	private void createMenus() {
 		JMenuBar mb = new JMenuBar();
 		/** File, Help */
-		JMenu fm, hm;
+		JMenu fm, em, hm;
 		
 		jf.setJMenuBar(mb);
 
@@ -154,12 +165,24 @@ public class Notepad {
 		fm.addSeparator();
 		fm.add(exitAction);
 		mb.add(fm);
+
+		// The Edit Menu...
+		em = new JMenu("Edit");
+		em.add(new JMenuItem("Cut"));
+		em.add(new JMenuItem("Copy"));
+		em.add(new JMenuItem("Paste"));
+		em.addSeparator();
+		JMenuItem insertMenu = new JMenu("Insert");
+		em.add(insertMenu);
+		insertMenu.add(new JMenuItem("Date"));
+		insertMenu.add(new JMenuItem(".signature"));
+		insertMenu.add(new JMenuItem("File..."));
+		mb.add(em);
 		
 		// The Help Menu...
 		hm = new JMenu("Help");
 		hm.add(helpAboutAction);
 		mb.add(hm);
-
 	}
 
 	private boolean okToClose() {
