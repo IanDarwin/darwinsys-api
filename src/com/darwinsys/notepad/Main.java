@@ -8,7 +8,7 @@ public class Main {
 			new Notepad();
 		else {
 			for (String arg : args) {
-				new Notepad().load(arg);
+				new Notepad().doLoad(arg);
 			}
 		}
 	}

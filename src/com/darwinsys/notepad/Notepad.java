@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,11 +25,13 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.darwinsys.swingui.UtilGUI;
@@ -36,6 +39,7 @@ import com.darwinsys.swingui.UtilGUI;
 /**
  * Simple text editor, making Swing do the work.
  */
+@SuppressWarnings("serial")
 public class Notepad {
 	
 	JFrame jf;
@@ -54,7 +58,7 @@ public class Notepad {
 		});
 
 		ta = new JTextArea(30,70);
-		jf.setContentPane(ta);
+		jf.setContentPane(new JScrollPane(ta));
 		jf.pack();
 		
 		createMenus();
@@ -86,19 +90,30 @@ public class Notepad {
 	}
 	
 	Action openAction = new OpenAction();
+	private JFileChooser chooser;
+	@SuppressWarnings("serial")
 	class OpenAction extends AbstractAction {
-		private static final long serialVersionUID = 134810980912890L;
 		OpenAction() {
 			super("Open");
 		}
+		
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(jf, 
-				"OPEN");
+			if (chooser == null) {
+				chooser = new JFileChooser();
+			}
+			int returnVal = chooser.showOpenDialog(jf);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = chooser.getSelectedFile();
+				try {
+					doLoad(file);
+				} catch (IOException e1) {
+					error("Can't open file", e1);
+				}
+			}
 		}		
 	};
 	Action newAction = new NewAction();
 	class NewAction extends AbstractAction {
-		private static final long serialVersionUID = 134810980912890L;
 		NewAction() {
 			super("New");
 		}
@@ -108,7 +123,6 @@ public class Notepad {
 	};
 	Action saveAction = new SaveAction();
 	class SaveAction extends AbstractAction {
-		private static final long serialVersionUID = 134810980912890L;
 		SaveAction() {
 			super("Save");
 		}
@@ -119,7 +133,6 @@ public class Notepad {
 	};
 	Action closeAction = new CloseAction();
 	class CloseAction extends AbstractAction {
-		private static final long serialVersionUID = -5036606682572726640L;
 		CloseAction() {
 			super("Close");
 		}
@@ -129,7 +142,6 @@ public class Notepad {
 	};
 	Action printAction = new PrintAction();
 	class PrintAction extends AbstractAction {
-		private static final long serialVersionUID = 42434480912890L;
 		PrintAction() {
 			super("Print");
 		}
@@ -151,7 +163,6 @@ public class Notepad {
 
 	Action exitAction = new ExitAction();
 	class ExitAction extends AbstractAction {
-		private static final long serialVersionUID = 31310980912890L;
 		ExitAction() {
 			super("Exit");
 		}
@@ -165,7 +176,6 @@ public class Notepad {
 		HelpAboutAction() {
 			super("About");
 		}
-		private static final long serialVersionUID = 20191980912890L;
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane.showMessageDialog(jf, 
 				"Notepad 0.0");
@@ -247,7 +257,6 @@ public class Notepad {
 		Doc doc = new MyDocFlavor(flavor);
 
 		pj.print(doc, aset);
-
 	}
 	
 	/**
@@ -292,5 +301,9 @@ public class Notepad {
 			ta.append("\n");
 		}
 		is.close();		
+	}
+	
+	public void doLoad(File file) throws IOException {
+		doLoad(file.getAbsolutePath());
 	}
 }
