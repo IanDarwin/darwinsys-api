@@ -7,10 +7,12 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,9 +44,13 @@ import com.darwinsys.swingui.UtilGUI;
 @SuppressWarnings("serial")
 public class Notepad {
 	
-	JFrame jf;
+	private JFrame jf;
 	
-	JTextArea ta;
+	private JTextArea ta;
+	
+	private JFileChooser chooser;
+	
+	private String fileName;
 
 	private static List<Notepad> windows = new ArrayList<Notepad>();
 	
@@ -89,9 +95,7 @@ public class Notepad {
 		}
 	}
 	
-	Action openAction = new OpenAction();
-	private JFileChooser chooser;
-	@SuppressWarnings("serial")
+	Action openAction = new OpenAction();	
 	class OpenAction extends AbstractAction {
 		OpenAction() {
 			super("Open");
@@ -105,13 +109,14 @@ public class Notepad {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = chooser.getSelectedFile();
 				try {
-					doLoad(file);
+					doLoad(file.getAbsolutePath());
 				} catch (IOException e1) {
 					error("Can't open file", e1);
 				}
 			}
 		}		
 	};
+	
 	Action newAction = new NewAction();
 	class NewAction extends AbstractAction {
 		NewAction() {
@@ -121,16 +126,60 @@ public class Notepad {
 			new Notepad();
 		}		
 	};
+	
+	private boolean doingSaveAs; // shared between SaveAction and SaveAsAction
+
 	Action saveAction = new SaveAction();
 	class SaveAction extends AbstractAction {
 		SaveAction() {
 			super("Save");
 		}
+
+		/*
+		 * This code is used both by Save and SaveAs, differentiated by doingSaveAs
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(jf, 
-				"SAVE");
-		}		
+			try {
+				if (fileName != null && !doingSaveAs) {
+					doSave(fileName);
+					return;
+				}
+				if (chooser == null) {
+					chooser = new JFileChooser();
+				}
+				int returnVal = chooser.showOpenDialog(jf);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					if (file.exists() && doingSaveAs) {
+						int ret = JOptionPane.showConfirmDialog(jf, 
+								"File already exists, overwrite?", "File Exists", 
+								JOptionPane.YES_NO_OPTION);
+						System.err.println(ret);
+						if (ret != 0);	// "Yes" is the 0th option...
+							return;
+					}
+					doSave(file);
+				}				
+			} catch (IOException e1) {
+				error("Can't save file", e1);
+			}
+		}
 	};
+	
+	Action saveAsAction = new SaveAsAction();
+	class SaveAsAction extends AbstractAction {
+		SaveAsAction() {
+			super("Save As");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			doingSaveAs = true;
+			saveAction.actionPerformed(e);
+			doingSaveAs = false;
+		}
+	};
+	
 	Action closeAction = new CloseAction();
 	class CloseAction extends AbstractAction {
 		CloseAction() {
@@ -192,6 +241,8 @@ public class Notepad {
 		// The File Menu...
 		fm = new JMenu("File");
 		fm.add(openAction);
+		fm.add(saveAction);
+		fm.add(saveAsAction);		
 		fm.add(closeAction);
 		fm.add(newAction);
 		fm.addSeparator();
@@ -229,7 +280,7 @@ public class Notepad {
 	 * @throws IOException
 	 * @throws PrintException 
 	 */
-	public void doPrint() throws IOException, PrintException {
+	public final void doPrint() throws IOException, PrintException {
 	
 		System.out.println("Printing ");
 		DocFlavor flavor = DocFlavor.CHAR_ARRAY.TEXT_PLAIN;
@@ -254,7 +305,7 @@ public class Notepad {
 			break;
 		}
 		DocPrintJob pj = pservices[i].createPrintJob();
-		Doc doc = new MyDocFlavor(flavor);
+		Doc doc = new MyDocument(flavor);
 
 		pj.print(doc, aset);
 	}
@@ -262,10 +313,10 @@ public class Notepad {
 	/**
 	 * Simple holder for document flavor.
 	 */
-	final class MyDocFlavor implements Doc {
+	final class MyDocument implements Doc {
 		
 		private DocFlavor flavor;
-		public MyDocFlavor(DocFlavor flavor) {
+		public MyDocument(DocFlavor flavor) {
 			this.flavor = flavor;
 		}
 
@@ -290,20 +341,31 @@ public class Notepad {
 		}
 	}	
 	
-	public void doLoad(String fileName) throws IOException {		
-		if (fileName == null) {
-			throw new NullPointerException("filename is null");
-		}
+	public final void doLoad(String fileName) throws IOException {		
 		BufferedReader is = new BufferedReader(new FileReader(fileName));
 		String line;
 		while ((line = is.readLine()) != null) {
 			ta.append(line);
 			ta.append("\n");
 		}
+		ta.setCaretPosition(0);
 		is.close();		
+		setFileName(fileName);
+	}
+
+	public final void doSave(String fileName) throws IOException {
+		doSave(new File(fileName));
 	}
 	
-	public void doLoad(File file) throws IOException {
-		doLoad(file.getAbsolutePath());
+	public final void doSave(File file) throws IOException {
+		Writer w = new FileWriter(file);
+		w.write(ta.getText());
+		w.close();	
+		setFileName(file.getAbsolutePath());
+	}
+	
+	private void setFileName(String fileName) {
+		this.fileName = fileName;
+		jf.setTitle(fileName);
 	}
 }
