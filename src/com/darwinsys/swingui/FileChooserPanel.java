@@ -2,7 +2,10 @@ package com.darwinsys.swingui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -27,7 +30,8 @@ public class FileChooserPanel extends JPanel {
 	private static final long serialVersionUID = -3104535593905377745L;
 	private final JFrame parent;
 	private final JFileChooser chooser;
-	private final JTextField nameField;
+	private final JTextField fileNameTextField;
+	private List<PropertyChangeListener> listeners;
 
 	/** Construct a FileChooserPanel.
 	 * @param par A JFrame for use in dialogs; may be null.
@@ -39,8 +43,8 @@ public class FileChooserPanel extends JPanel {
 
 		add(new JLabel(label));
 		
-		nameField = new JTextField(30);
-		add(nameField);
+		fileNameTextField = new JTextField(30);
+		add(fileNameTextField);
 		
 		JButton b = new JButton("...");
 		add(b);
@@ -48,7 +52,7 @@ public class FileChooserPanel extends JPanel {
 		// If there is a value in the TF, try to use it as the starting point.
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String old = nameField.getText();
+				String old = fileNameTextField.getText();
 				if (old != null) {
 					File f = new File(old);
 					if (f.isFile()) {
@@ -63,8 +67,9 @@ public class FileChooserPanel extends JPanel {
 					Debug.println("chooser", "You chose a "
 							+ (file.isFile() ? "file" : "directory")
 							+ " named: " + file.getPath());
-					nameField.setText(file.getAbsolutePath());
+					fileNameTextField.setText(file.getAbsolutePath());
 					repaint();
+					firePropertyChangeEvent(file);
 				}
 			}
 		});
@@ -82,6 +87,30 @@ public class FileChooserPanel extends JPanel {
 	 */
 	public JFileChooser getChooser() {
 		return chooser;
+	}
+	
+	public void setFileName(String text) {
+		fileNameTextField.setText(text);
+	}
+	
+	// PROPERT CHANGE SUPPORT
+	
+	/** Minimal property change notification
+	 */
+	public void firePropertyChangeEvent(File chosenFile) {
+		PropertyChangeEvent evt = 
+			new PropertyChangeEvent(this, "chosen", null, chosenFile);
+		for (PropertyChangeListener list : listeners) {
+			list.propertyChange(evt);
+		}
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		listeners.add(listener);
+	}
+	
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		listeners.remove(listener);
 	}
 }
 
