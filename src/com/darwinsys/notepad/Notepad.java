@@ -27,8 +27,8 @@ public class Notepad {
 	
 	JTextArea ta;
 
-	private int windowsCreated = 0;
-	private int windowCount = 0;
+	private static int windowsCreated = 0;
+	private static int windowCount = 0;
 	
 	public Notepad() {
 		jf = new JFrame();
@@ -68,6 +68,16 @@ public class Notepad {
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane.showMessageDialog(jf, 
 				"OPEN");
+		}		
+	};
+	Action newAction = new NewAction();
+	class NewAction extends AbstractAction {
+		private static final long serialVersionUID = 134810980912890L;
+		NewAction() {
+			super("New");
+		}
+		public void actionPerformed(ActionEvent e) {
+			new Notepad();
 		}		
 	};
 	Action saveAction = new SaveAction();
@@ -132,12 +142,13 @@ public class Notepad {
 		/** File, Help */
 		JMenu fm, hm;
 		
-		jf.setJMenuBar(mb);		// Frame implements MenuContainer
+		jf.setJMenuBar(mb);
 
 		// The File Menu...
 		fm = new JMenu("File");
 		fm.add(openAction);
 		fm.add(closeAction);
+		fm.add(newAction);
 		fm.addSeparator();
 		fm.add(printAction);
 		fm.addSeparator();
