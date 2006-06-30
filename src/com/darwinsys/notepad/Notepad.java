@@ -7,9 +7,21 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.attribute.DocAttributeSet;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -60,7 +72,9 @@ public class Notepad {
 	}
 	
 	private void closeThisWindow() {
-		okToClose();
+		if (!okToClose()) {
+			return;
+		}
 		jf.setVisible(false);
 		jf.dispose();
 		synchronized(windows) {
@@ -120,10 +134,20 @@ public class Notepad {
 			super("Print");
 		}
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(jf, 
-				"PRINT");
-		}		
+			try {
+				doPrint();
+			} catch (IOException e1) {
+				error("Print failure", e1);
+			} catch (PrintException e1) {
+				error("Print failure", e1);
+			}
+		}
 	};
+	
+	private void error(String message, Exception e) {
+		JOptionPane.showMessageDialog(jf, message + "\n" + e);
+		e.printStackTrace();
+	}	
 
 	Action exitAction = new ExitAction();
 	class ExitAction extends AbstractAction {
@@ -191,7 +215,73 @@ public class Notepad {
 		return true;
 	}
 	
-	public void load(String fileName) throws IOException {		
+	/** Print a file by name 
+	 * @throws IOException
+	 * @throws PrintException 
+	 */
+	public void doPrint() throws IOException, PrintException {
+	
+		System.out.println("Printing ");
+		DocFlavor flavor = DocFlavor.CHAR_ARRAY.TEXT_PLAIN;
+		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+		//aset.add(MediaSizeName.NA_LETTER);
+		PrintService[] pservices = PrintServiceLookup.lookupPrintServices(
+				flavor, aset);
+		int i;
+		switch(pservices.length) {
+		case 0:
+			JOptionPane.showMessageDialog(jf,
+					"Error: No PrintService Found", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		case 1:
+			i = 1;
+			break;
+		default:
+			i = JOptionPane.showOptionDialog(jf, 
+					"Pick a printer", "Choice", 
+					JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					null, pservices, pservices[0]);
+			break;
+		}
+		DocPrintJob pj = pservices[i].createPrintJob();
+		Doc doc = new MyDocFlavor(flavor);
+
+		pj.print(doc, aset);
+
+	}
+	
+	/**
+	 * Simple holder for document flavor.
+	 */
+	final class MyDocFlavor implements Doc {
+		
+		private DocFlavor flavor;
+		public MyDocFlavor(DocFlavor flavor) {
+			this.flavor = flavor;
+		}
+
+		public DocFlavor getDocFlavor() {
+			return flavor;
+		}
+
+		public Object getPrintData() throws IOException {
+			return ta.getText();
+		}
+
+		public DocAttributeSet getAttributes() {
+			return null;
+		}
+
+		public Reader getReaderForText() throws IOException {
+			return new StringReader(ta.getText());
+		}
+
+		public InputStream getStreamForBytes() throws IOException {
+			return null;
+		}
+	}	
+	
+	public void doLoad(String fileName) throws IOException {		
 		if (fileName == null) {
 			throw new NullPointerException("filename is null");
 		}
