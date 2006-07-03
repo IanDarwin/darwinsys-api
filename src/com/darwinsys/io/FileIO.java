@@ -10,6 +10,9 @@ import com.darwinsys.lang.StringUtil;
  * @version $Id$
  */
 public class FileIO {
+	
+	/** The size of blocking to use */
+	protected static final int BLKSIZ = 16384;
 
 	/** String for encoding UTF-8; copied by inclusion from StringUtil. */
 	public static final String ENCODING_UTF_8 = StringUtil.ENCODING_UTF_8;
@@ -22,11 +25,16 @@ public class FileIO {
     /** Copy a file from one filename to another */
     public static void copyFile(String inName, String outName)
 	throws FileNotFoundException, IOException {
-		BufferedInputStream is = 
-			new BufferedInputStream(new FileInputStream(inName));
-		BufferedOutputStream os = 
-			new BufferedOutputStream(new FileOutputStream(outName));
-		copyFile(is, os, true);
+		BufferedInputStream is = null;
+		BufferedOutputStream os = null;
+		try {
+			is = new BufferedInputStream(new FileInputStream(inName));
+			os = new BufferedOutputStream(new FileOutputStream(outName));
+			copyFile(is, os, false);
+		} finally {
+			is.close();
+			os.close();
+		}
 	}
 
 	/** Copy a file from an opened InputStream to opened OutputStream */
@@ -61,19 +69,38 @@ public class FileIO {
 		BufferedReader ir = new BufferedReader(new FileReader(inName));
 		copyFile(ir, pw, close);
 	}
-
-	/** Open a file and read the first line from it. */
-	public static String readLine(String inName)
-	throws FileNotFoundException, IOException {
-		BufferedReader is = new BufferedReader(new FileReader(inName));
-		String line = null;
-		line = is.readLine();
-		is.close();
-		return line;
+	
+	/**
+	 * Copy one file to another, given File objects representing the files.
+	 * @param file File representing the source, must be a single file.
+	 * @param target File representing the location, may be file or directory.
+	 * @throws IOException
+	 */
+	public static void copyFile(File file, File target) throws IOException {
+		if (!file.exists() || !file.isFile() || !(file.canRead())) {
+			throw new IOException(file + " is not a readable file");
+		}
+		File dest = target;
+		if (target.isDirectory()) {
+			dest = new File(dest, file.getName());
+		}
+		InputStream is = null;
+		OutputStream os  = null;
+		try {
+			is = new FileInputStream(file);
+			os = new FileOutputStream(dest);
+			int count = 0;		// the byte count
+			byte[] b = new byte[BLKSIZ];	// the bytes read from the file
+			while ((count = is.read(b)) != -1) {
+				os.write(b, 0, count);
+			}
+		} finally {
+			is.close();
+			os.close();
+		}
 	}
 
-	/** The size of blocking to use */
-	protected static final int BLKSIZ = 16384;
+
 
 	/** Copy a data file from one filename to another, alternate method.
 	 * As the name suggests, use my own buffer instead of letting
@@ -91,7 +118,51 @@ public class FileIO {
 		is.close();
 		os.close();
 	}
-
+	
+	/**
+	 * Copy all objects found in and under "fromdir", to their places in "todir".
+	 * @param fromDir
+	 * @param toDir
+	 * @throws IOException
+	 */
+	public static void copyRecursively(File fromDir, File toDir) throws IOException {
+		if (!fromDir.exists()) {
+			throw new IOException("Source directory does not exist");
+		}
+		if (!toDir.exists()) {
+			throw new IOException("Destination dir must exist");
+		}
+		File[] all = fromDir.listFiles();
+		for (File file : all) {
+			if (file.isDirectory()) {
+				File destsubdir = new File(toDir, file.getName());
+				copyRecursively(file, destsubdir);
+			} else if (file.isFile()) {
+				copyFile(file, toDir);
+			} else {
+				System.err.println(
+					String.format("Warning: %s is neither file nor directory", file));
+			}
+		}
+	}
+	
+	// Methods that do reading.
+	/** Open a file and read the first line from it. */
+	public static String readLine(String inName)
+	throws FileNotFoundException, IOException {
+		BufferedReader is = null;
+		try {
+		is = new BufferedReader(new FileReader(inName));
+		String line = null;
+		line = is.readLine();
+		is.close();
+		return line;
+		} finally {
+			if (is != null) 
+				is.close();
+		}
+	}
+	
 	/** Read the entire content of a Reader into a String */
 	public static String readerToString(Reader is) throws IOException {
 		StringBuffer sb = new StringBuffer();
