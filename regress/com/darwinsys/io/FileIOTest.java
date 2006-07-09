@@ -1,17 +1,28 @@
 package com.darwinsys.io;
 
-import junit.framework.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
 
-import com.darwinsys.io.FileIO;
-
-import java.io.*;
+import junit.framework.TestCase;
 
 public class FileIOTest extends TestCase {
 	/** Test File name. */
 	public static final String FILENAME = "fileiotest.dat";
-	/** A good place to work */
-	String tmpDirPath = System.getProperty("java.io.tmpdir");
-	/** Test string. */
+
+	/** A good place to work; this gets set to a random tmp directory;
+	 * place everything under this.
+	 */
+	File tmpDir;
+
+	/** Test string; does not get newline appended when written. */
 	public static final String MESSAGE =
 		"The quick brown fox jumps over the lazy dog.";
 
@@ -19,17 +30,35 @@ public class FileIOTest extends TestCase {
 	@Override
 	public void setUp() {
 		try {
-			PrintWriter out = new PrintWriter(new FileWriter(
-					tmpDirPath + "/" + FILENAME));
-			out.print(MESSAGE);	// NOT println; FileToString doesn't handle.
-			out.close();
+			tmpDir = File.createTempFile("test", "dir");
+			tmpDir.delete();
+			tmpDir.mkdir();
 		} catch (IOException ex) {
 			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
 		}
 	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		File file = new File(tmpDir, FILENAME);
+		if (file.exists()) {
+			file.delete();
+		}
+		if (tmpDir != null & tmpDir.exists()) {
+			tmpDir.delete();
+		}
+	}
+
+	private void makeFileIOTestDat() throws IOException {
+		PrintWriter out = new PrintWriter(new FileWriter(
+				tmpDir + "/" + FILENAME));
+		out.print(MESSAGE);	// NOT println; FileToString doesn't handle.
+		out.close();
+	}
 
 	public void testReaderToString() {
 		try {
+			makeFileIOTestDat();
 			String s = FileIO.readerToString(new FileReader(FILENAME));
 
 			// Make sure that readerToString really reads from the file.
@@ -49,13 +78,14 @@ public class FileIOTest extends TestCase {
 		String fileName = FILENAME;
 		String targetFileName = FILENAME + ".bak";
 		try {
+			makeFileIOTestDat();
 			FileIO.copyFile(fileName, targetFileName);
 			String s1 = FileIO.readerToString(new FileReader(fileName));
 			String s2 = FileIO.readerToString(new FileReader(targetFileName));
 			assertEquals(s1, s2);
 		} catch (IOException ex) {
 			System.err.println(ex);
-			throw new IllegalArgumentException(ex.toString());
+			throw new RuntimeException(ex.toString());
 		}
 	}
     
@@ -63,47 +93,108 @@ public class FileIOTest extends TestCase {
 		String fileName = FILENAME;
 		String targetFileName = FILENAME + ".bak";
 		try {
+			makeFileIOTestDat();
 			FileIO.copyFile(fileName, targetFileName);
 			String s1 = FileIO.readerToString(new FileReader(fileName));
 			String s2 = FileIO.readerToString(new FileReader(targetFileName));
 			assertEquals(s1, s2);
 		} catch (IOException ex) {
 			System.err.println(ex);
-			throw new IllegalArgumentException(ex.toString());
+			throw new RuntimeException(ex.toString());
 		}
 	}
     
-    public void testCopyRecursively() throws IOException {
+    public void testCopyRecursivelyFiles() throws IOException {
     	
-    	System.out.println("java.io.tmpdir = " + tmpDirPath);
-		File tmpDir = new File(tmpDirPath);
-    	File newDir = new File(tmpDir, "testFrom");
+    	System.out.println("my tmpdir = " + tmpDir);
+      
+    	File thisTestWorkDir = new File(tmpDir, "testFrom");
     	File foo = null, bar = null;
-    	newDir.delete();
-    	File newDestDir = null;
-    	File newFoo = null, newBar = null;
-    	try {
-    	newDir.mkdir();
-    	foo = new File(newDir, "/foo"); foo.createNewFile();
-    	bar = new File(newDir, "/bar"); bar.createNewFile();
-    	newDestDir = new File(tmpDir, "testTo");
-    	newDestDir.mkdir();
-    	newFoo = new File(newDestDir, "foo");
-    	assertFalse(newFoo.exists());
-    	newBar = new File(newDestDir, "bar");
-		assertFalse(newBar.exists());
-    	assertEquals(0, newDestDir.listFiles().length);
-    	FileIO.copyRecursively(newDir, newDestDir);
-    	assertTrue(newFoo.exists());
-    	assertTrue(newBar.exists());
-    	assertEquals(2, newDestDir.listFiles().length);
+    	File targetCopyDir = null;
+    	File newFoo = null, newBar = null, bleah = null;
+      	try {
+      		thisTestWorkDir.delete();
+      		thisTestWorkDir.mkdir();
+      		foo = new File(thisTestWorkDir, "foo");
+			foo.createNewFile();
+			bleah = new File(thisTestWorkDir, "bleah");
+			bleah.mkdir();
+			bar = new File(thisTestWorkDir, "bleah/bar");
+			bar.createNewFile();
+
+      		targetCopyDir = new File(tmpDir, "testTo");
+      		targetCopyDir.mkdir();
+      		// Should be empty as yet.
+      		assertEquals(0, targetCopyDir.listFiles().length);
+      		
+      		// Set up File objects for the things we expect the copy 
+      		// routing to create; be sure they dont exist yet.
+      		newFoo = new File(targetCopyDir, "foo");
+      		assertFalse(newFoo.exists());
+      		newBar = new File(targetCopyDir, "bleah/bar");
+      		assertFalse(newBar.exists());
+      		
+      		FileIO.copyRecursively(thisTestWorkDir, targetCopyDir);
+
+      		assertTrue(newFoo.exists());
+      		assertTrue(bleah.exists());
+      		assertTrue(newBar.exists());
+
+      		// Should contain source files foo and bar, and the directory.
+      		assertEquals(2, targetCopyDir.listFiles().length);
     	} finally {
     		// order matters
     		if (bar != null) bar.delete();
+    		if (bleah != null) bleah.delete();
     		if (foo != null) foo.delete();
-    		if (newDir != null) newDir.delete();
+    		if (thisTestWorkDir != null) thisTestWorkDir.delete();
     		if (newFoo != null) newFoo.delete();
     		if (newBar != null) newBar.delete();
+    		if (targetCopyDir != null) targetCopyDir.delete();
+    	}
+    }
+    	
+    public void testCopyRecursivelyFromJar() throws IOException {
+        	
+    	System.out.println(" my tmpdir = " + tmpDir);
+    	File targetFoo = null, targetBar = null, 
+    	newDestDir = null;
+    	File jarFile = new File(tmpDir, "test.jar");
+    	try {
+
+    		JarOutputStream jf = 
+    			new JarOutputStream(new FileOutputStream(jarFile));
+    		ZipEntry ze = new ZipEntry("foo");
+    		jf.putNextEntry(ze);
+    		jf.write("Hello\n".getBytes());
+    		ZipEntry zBar = new ZipEntry("bar");
+    		jf.putNextEntry(zBar);
+    		jf.write("Hello II\n".getBytes());
+    		jf.close();
+
+    		newDestDir = new File(tmpDir, "testTo");
+    		newDestDir.mkdir();
+
+    		targetFoo =  new File(newDestDir, "foo");
+    		assertFalse(targetFoo.exists());
+    		targetBar = new File(newDestDir, "bar");
+    		assertFalse(targetBar.exists());
+    		// Should have just the jar file in it now.
+    		assertEquals(1, newDestDir.listFiles().length);
+
+    		FileIO.copyRecursively(new JarFile(jarFile), 
+    				new JarEntry("/"), newDestDir);
+
+    		assertTrue(targetFoo.exists());
+    		assertEquals(6, targetFoo.length());
+    		assertTrue(targetBar.exists());
+    		assertEquals(9, targetBar.length());
+    		assertEquals(3, newDestDir.listFiles().length);
+    	} finally {
+    		if (jarFile != null) jarFile.delete();
+    		if (targetFoo != null) targetFoo.delete();
+    		if (targetBar != null) targetBar.delete();
+    		// Must be after we delete the files in it.
     		if (newDestDir != null) newDestDir.delete();
     	}
     }

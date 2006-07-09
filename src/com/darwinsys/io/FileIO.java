@@ -1,11 +1,30 @@
 package com.darwinsys.io;
 
-import java.io.*;  // Not much point in "organize imports" here...
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import com.darwinsys.lang.StringUtil;
 
 /**
- * Some simple file I-O primitives reimplemented in Java.
+ * Some file I-O primitives reimplemented in Java.
  * All methods are static, since there is no state.
  * @version $Id$
  */
@@ -71,7 +90,7 @@ public class FileIO {
 	}
 	
 	/**
-	 * Copy one file to another, given File objects representing the files.
+	 * Copy a tree of files to directory, given File objects representing the files.
 	 * @param file File representing the source, must be a single file.
 	 * @param target File representing the location, may be file or directory.
 	 * @throws IOException
@@ -100,8 +119,6 @@ public class FileIO {
 		}
 	}
 
-
-
 	/** Copy a data file from one filename to another, alternate method.
 	 * As the name suggests, use my own buffer instead of letting
 	 * the BufferedReader allocate and use the buffer.
@@ -125,27 +142,76 @@ public class FileIO {
 	 * @param toDir
 	 * @throws IOException
 	 */
-	public static void copyRecursively(File fromDir, File toDir) throws IOException {
+	public static void copyRecursively(File fromDir, File toDir, boolean create) throws IOException {
+		System.out.printf("copyRecursively(%s, %s%n", fromDir, toDir);
 		if (!fromDir.exists()) {
-			throw new IOException("Source directory does not exist");
+			throw new IOException(
+				String.format("Source directory %s does not exist", fromDir));
 		}
-		if (!toDir.exists()) {
-			throw new IOException("Destination dir must exist");
+		if (create) {
+			toDir.mkdirs();
+		} else if (!toDir.exists()) {
+			throw new IOException(String.format("Destination dir %s must exist", toDir));
 		}
-		File[] all = fromDir.listFiles();
-		for (File file : all) {
-			if (file.isDirectory()) {
-				File destsubdir = new File(toDir, file.getName());
-				copyRecursively(file, destsubdir);
-			} else if (file.isFile()) {
-				copyFile(file, toDir);
+		for (File src : fromDir.listFiles()) {
+			if (src.isDirectory()) {
+				File destSubDir = new File(toDir, src.getName());
+				copyRecursively(src, destSubDir, true);
+			} else if (src.isFile()) {
+				copyFile(src, toDir);
 			} else {
 				System.err.println(
-					String.format("Warning: %s is neither file nor directory", file));
+					String.format("Warning: %s is neither file nor directory", src));
 			}
 		}
 	}
 	
+	public static void copyRecursively(File fromDir, File toDir) throws IOException {
+		copyRecursively(fromDir, toDir, false);
+	}
+	
+	/**
+	 * Copy a tree of files to directory, given File objects representing the files.
+	 * @param base File representing the source, must be a single file.
+	 * @param startingDir
+	 * @param toDir File representing the location, may be file or directory.
+	 * @throws IOException 
+	 */
+	public static void copyRecursively(JarFile base, JarEntry startingDir,
+			File toDir) throws IOException {
+		if (!startingDir.isDirectory()) {
+			throw new IOException(String.format(
+					"Starting point %s is not a directory", startingDir));
+		}
+		if (!toDir.exists()) {
+			throw new IOException(String.format(
+					"Destination dir %s must exist", toDir));
+		}
+		Enumeration<JarEntry> all = base.entries();
+		while (all.hasMoreElements()) {
+			JarEntry file = all.nextElement();
+			// XXX ensure that it matches starting dir
+			if (file.isDirectory()) {
+				copyRecursively(base, file, new File(toDir, file.getName()));
+			} else {
+				InputStream is = null;
+				OutputStream os = null;
+				try {
+					is = base.getInputStream(file);
+					os = new FileOutputStream(new File(toDir, file
+							.getName()));
+					copyFile(is, os, false);
+				} finally {
+					if (os != null)
+						os.close();
+					if (is != null)
+						is.close();
+				}
+			}
+		}
+
+	}
+
 	// Methods that do reading.
 	/** Open a file and read the first line from it. */
 	public static String readLine(String inName)
