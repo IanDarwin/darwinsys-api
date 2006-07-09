@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.SortedSet;
@@ -71,7 +70,7 @@ public class InstallerUnpacker implements Runnable {
 		jf = new JFrame("Setup");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JLabel infoLabel = 
-			new JLabel("Setup is preparing the installer. Please wait...",
+			new JLabel("Setup is unpacking the installer. Please wait...",
 				JLabel.CENTER);
 		infoLabel.setPreferredSize(new Dimension(400,100));
 		jf.add(infoLabel, BorderLayout.NORTH);
@@ -134,6 +133,12 @@ public class InstallerUnpacker implements Runnable {
 					System.out.println("Ignoring " + thisEntryName);
 					continue;
 				}
+				// if a directory, just skip it.. We mkdir for every file,
+				// since some widely-used Zip creators don't put out
+				// any directory entries, or put them in the wrong place.
+				if (thisEntryName.endsWith("/")) {
+					continue;
+				}
 				
 				// OK, so we're going to process this entry.
 				String message = "Processing " + thisEntryName;
@@ -144,12 +149,6 @@ public class InstallerUnpacker implements Runnable {
 						System.out.println("Ignoring absolute path in " + thisEntryName);
 					warnedMkDir = true;
 					thisEntryName = thisEntryName.substring(1);
-				}
-				// if a directory, just return. We mkdir for every file,
-				// since some widely-used Zip creators don't put out
-				// any directory entries, or put them in the wrong place.
-				if (thisEntryName.endsWith("/")) {
-					continue;
 				}
 				
 				// Else must be a file; open the file for output. But first,
@@ -181,7 +180,6 @@ public class InstallerUnpacker implements Runnable {
 					os.write(b, 0, n);
 				is.close();
 				os.close();
-				break;
 			}
 			
 			// All done. Stop the progress bar.
@@ -189,24 +187,34 @@ public class InstallerUnpacker implements Runnable {
 			progress.setValue(100);
 
 			// Now run the actual installer...
-			Class c = Class.forName(installerClassName);
-			// XXX Problem: what is the declaration for
-			// the second argument in getMethod("main", ???)
-			// to find a method taking an array of String?
-			// Workaround: find declared method named main, use its types.
-			Class[] argTypes = null;
-			for (Method meth : c.getDeclaredMethods()) {
-				Class<?>[] parameterTypes = meth.getParameterTypes();
-				if (meth.getName().equals("main")) {
-					argTypes = parameterTypes;
-				}
-			}
-			Method main = c.getMethod("main", argTypes);
-			// Shut down the old GUI
-			jf.setVisible(true); jf.dispose(); jf = null;
-			// And bring on the new!
-			System.out.println("Launching " + installerClassName);
-			main.invoke(null, (Object[])new Object[] {new String[0]});
+//			Class c = Class.forName(installerClassName);
+//			// XXX Problem: what is the declaration for
+//			// the second argument in getMethod("main", ???)
+//			// to find a method taking an array of String?
+//			// Workaround: find declared method named main, use its types.
+//			Class[] argTypes = null;
+//			for (Method meth : c.getDeclaredMethods()) {
+//				Class<?>[] parameterTypes = meth.getParameterTypes();
+//				if (meth.getName().equals("main")) {
+//					argTypes = parameterTypes;
+//				}
+//			}
+//			Method main = c.getMethod("main", argTypes);
+//			// Shut down the old GUI
+//			jf.setVisible(true); jf.dispose(); jf = null;
+//			// And bring on the new!
+//			System.out.println("Launching " + installerClassName);
+//			main.invoke(null, (Object[])new Object[] {new String[0]});
+			
+			// Need to run it in the created temp directory.
+			// Since Java is deficient in not providing a chdir
+			// mechanism, we have to do this with a Runtime.exec,
+			// which means we have to hope the user has "Java"
+			// in their path. A POX ON THIS, because most Windoze users 
+			// won't, and because Java doesn't give us a way either to
+			// chdir NOR to find the path of the Java runtime.
+			String[] argv = { "java", installerClassName };
+			Runtime.getRuntime().exec(argv, null, tmpDir);
 			
 			// XXX now delete the temp directory
 			// Need a way to get the installer to tell us when it's done!
