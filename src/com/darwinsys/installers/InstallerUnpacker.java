@@ -164,12 +164,22 @@ public class InstallerUnpacker {
 
 			// So we got past unpacking the installer, now run it!
 			Class c = Class.forName(installerClassName);
-			Class[] args = { String.class };
-			Method main = c.getMethod("main", args);
+			// XXX Problem: what is the declaration for
+			// the second argument in getMethod("main", ???)
+			// to find a method taking an array of String?
+			// Workaround: find declared method named main, use its types.
+			Class[] argTypes = null;
+			for (Method meth : c.getDeclaredMethods()) {
+				Class<?>[] parameterTypes = meth.getParameterTypes();
+				if (meth.getName().equals("main")) {
+					argTypes = parameterTypes;
+				}
+			}
+			Method main = c.getMethod("main", argTypes);
 			// Shut down the old GUI
 			jf.setVisible(true); jf.dispose(); jf = null;
 			// And bring on the new!
-			main.invoke(null, (Object[])new String[0]);
+			main.invoke(null, (Object[])new Object[] {new String[0]});
 			
 		} catch (Throwable e) {
 			JOptionPane.showMessageDialog(jf, 

@@ -1,3 +1,4 @@
 Main-class: com.darwinsys.installers.InstallerUnpacker
 Provider-url: http://www.darwinsys.com/
-Installer-class: foo.bar.Installer
+Comment: demo, makes for a nice loop! Replace it with your real installer...
+Installer-class: com.darwinsys.installers.InstallerUnpacker
