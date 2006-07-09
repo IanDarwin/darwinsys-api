@@ -94,7 +94,7 @@ public class InstallerUnpacker {
 				System.err.println("warning: no attributes");
 			} else {
 				installerClassName = installerClassAttributes.getValue("Installer-class");
-				System.out.println(installerClassName);
+				System.out.println("Installer class name is " + installerClassName);
 			}
 			Enumeration<JarEntry> entries = jarFile.entries();
 			while (entries.hasMoreElements()) {
@@ -179,6 +179,7 @@ public class InstallerUnpacker {
 			// Shut down the old GUI
 			jf.setVisible(true); jf.dispose(); jf = null;
 			// And bring on the new!
+			System.out.println("Launching " + installerClassName);
 			main.invoke(null, (Object[])new Object[] {new String[0]});
 			
 		} catch (Throwable e) {
