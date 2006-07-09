@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -40,6 +41,8 @@ public class FileChooserPanel extends JPanel {
 	public FileChooserPanel(JFrame par, String label) {
 		this.parent = par;
 		chooser = new JFileChooser();
+		
+		listeners = new ArrayList<PropertyChangeListener>();
 
 		add(new JLabel(label));
 		
