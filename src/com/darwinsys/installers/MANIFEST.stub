@@ -1,0 +1,3 @@
+Main-class: com.darwinsys.installers.InstallerUnpacker
+Provider-url: http://www.darwinsys.com/
+Installer-class: foo.bar.Installer
