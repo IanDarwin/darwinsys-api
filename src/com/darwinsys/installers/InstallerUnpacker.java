@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Enumeration;
@@ -20,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
 
 import com.darwinsys.swingui.UtilGUI;
 
@@ -31,46 +31,64 @@ import com.darwinsys.swingui.UtilGUI;
  * the "real" installer. This class thus corresponds to the
  * "Setup is preparing the installer" screen.
  */
-public class InstallerUnpacker {
+public class InstallerUnpacker implements Runnable {
 
-	private static final int BLOCK_SIZE = 8092;
+	// CONSTANTS
+	
+	static final int BLOCK_SIZE = 8092;
 	/** As the name implies, the installer MUST be stored under this name */
 	public static final String REQUIRED_NAME = "installer.jar";
 	
+	// GUI componenets
+	JFrame jf;
+	JLabel status;
+	JProgressBar progress;
+	
 	/**
 	 * Start things running...
+	 * @throws InvocationTargetException 
+	 * @throws  
 	 */
 	public static void main(String[] args) {
 		System.out.println("InstallerUnpacker.main()");
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new InstallerUnpacker();
-			}
-		});
+		
+		InstallerUnpacker installerUnpacker;
+		
+		installerUnpacker = new InstallerUnpacker();
+		
+		installerUnpacker.run();		
 	}
 	
 	/** Cache of paths we've mkdir()ed. */
 	protected SortedSet<String> dirsMade = new TreeSet<String>();
 	private boolean warnedMkDir;
 	
+	/**
+	 * Construct the GUI.
+	 */
 	InstallerUnpacker() {
 		// Get this part of the GUI up quickly...
-		JFrame jf = new JFrame("Setup");
+		jf = new JFrame("Setup");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JLabel infoLabel = 
 			new JLabel("Setup is preparing the installer. Please wait...",
 				JLabel.CENTER);
 		infoLabel.setPreferredSize(new Dimension(400,100));
 		jf.add(infoLabel, BorderLayout.NORTH);
-		JLabel status = new JLabel("", JLabel.CENTER);
+		status = new JLabel("", JLabel.CENTER);
 		jf.add(status, BorderLayout.CENTER);
-		JProgressBar progress = new JProgressBar();
+		progress = new JProgressBar();
 		progress.setIndeterminate(true);
 		jf.add(progress, BorderLayout.SOUTH);
 		jf.setSize(500, 250);
 		UtilGUI.center(jf);
 		jf.setVisible(true);
-		
+	}
+	
+	/** Do the work of unpacking the installer, and launching it.
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run() {
 		// Now read the installer.jar and unpack it.
 		try {
 			File tmpDir = File.createTempFile("darwinstaller", ".tmp");
@@ -81,6 +99,9 @@ public class InstallerUnpacker {
 			// JarURLConnection jarConnection = (JarURLConnection)url.openConnection();
 			// Manifest manifest = jarConnection.getManifest();
 			File f = new File(REQUIRED_NAME);
+			if (!f.exists() || !f.canRead()) {
+				throw new IOException("Can't read installer file " + REQUIRED_NAME);
+			}
 			System.out.println("Starting in on " + REQUIRED_NAME + " created " +
 					new Date(f.lastModified()));
 			JarFile jarFile = new JarFile(f);
@@ -103,12 +124,13 @@ public class InstallerUnpacker {
 				status.repaint();
 				Thread.sleep(500);
 				// Don't leave the Manifest in the temp directory
-				if (thisEntryName.startsWith("META-INF")) {
+				if (thisEntryName.startsWith("META-INF") ||
+					thisEntryName.startsWith("MANIFEST")) {
 					System.out.println("Ignoring " + thisEntryName);
 					continue;
 				}
-				// Don't leave a copy of this file itself there either.
-				if (thisEntryName.equals(getClass().getName())) {
+				// Don't leave a copy of this file itself (or inner classes) either.
+				if (thisEntryName.startsWith(getClass().getName())) {
 					System.out.println("Ignoring " + thisEntryName);
 					continue;
 				}
@@ -127,15 +149,16 @@ public class InstallerUnpacker {
 				// since some widely-used Zip creators don't put out
 				// any directory entries, or put them in the wrong place.
 				if (thisEntryName.endsWith("/")) {
-					return;
-				}				
-				// Else must be a file; open the file for output
-				// Get the directory part.
+					continue;
+				}
+				
+				// Else must be a file; open the file for output. But first,
+				// Get the directory part, mkdir it if not already done.
 				int ix = thisEntryName.lastIndexOf('/');
 				if (ix > 0) {
 					String dirName = thisEntryName.substring(0, ix);
 					if (!dirsMade.contains(dirName)) {
-						File d = new File(dirName);
+						File d = new File(tmpDir, dirName);
 						// If it already exists as a dir, don't do anything
 						if (!(d.exists() && d.isDirectory())) {
 							// Try to create the directory, warn if it fails
@@ -148,9 +171,10 @@ public class InstallerUnpacker {
 						}
 					}
 				}
-				System.err.println("Creating " + thisEntryName);
+				System.out.println("Creating " + thisEntryName);
 				InputStream  is = jarFile.getInputStream(entry);
-				FileOutputStream os = new FileOutputStream(thisEntryName);
+				FileOutputStream os = 
+					new FileOutputStream(new File(tmpDir, thisEntryName));
 				byte[] b = new byte[BLOCK_SIZE];
 				int n = 0;
 				while ((n = is.read(b)) >0)
@@ -159,10 +183,12 @@ public class InstallerUnpacker {
 				os.close();
 				break;
 			}
+			
+			// All done. Stop the progress bar.
 			progress.setIndeterminate(false);
 			progress.setValue(100);
 
-			// So we got past unpacking the installer, now run it!
+			// Now run the actual installer...
 			Class c = Class.forName(installerClassName);
 			// XXX Problem: what is the declaration for
 			// the second argument in getMethod("main", ???)
@@ -181,6 +207,10 @@ public class InstallerUnpacker {
 			// And bring on the new!
 			System.out.println("Launching " + installerClassName);
 			main.invoke(null, (Object[])new Object[] {new String[0]});
+			
+			// XXX now delete the temp directory
+			// Need a way to get the installer to tell us when it's done!
+			// e.g., its main will likely create another GUI thread...
 			
 		} catch (Throwable e) {
 			JOptionPane.showMessageDialog(jf, 
