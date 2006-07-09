@@ -29,7 +29,7 @@ public class EnumerationIterator<T> implements Iterator {
 	/** Fulfuls the general contract of Iterator.next(), that is,
 	 * returns the next element in the Iterator.
 	 */
-	public Object next() {
+	public T next() {
 		return oldEnum.nextElement();
 	}
 
