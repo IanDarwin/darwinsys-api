@@ -170,8 +170,29 @@ public class FileIO {
 		copyRecursively(fromDir, toDir, false);
 	}
 	
-	public static void deleteRecursively(File fromDir) {
-		System.out.println("XXX: FileIO.deleteRecursively() not implemented yet");
+	public static void deleteRecursively(File startDir) throws IOException {
+		
+		String startDirPath = startDir.getCanonicalPath();
+		
+		// Pass one - delete recursively
+		for (File f : startDir.listFiles()) {
+			if (!f.getCanonicalPath().startsWith(startDirPath)) {
+				throw new IOException("Attempted to go out of " + startDir);
+			}
+			if (f.isDirectory()) {
+				deleteRecursively(f);
+			}
+		}
+		// Pass two - delete whatever's left: files and (empty) directories
+		for (File f : startDir.listFiles()) {
+			f.delete();
+			if (f.exists()) {
+				System.err.println(f + " did not get deleted!");
+			}
+		}
+		
+		// Pass three - delete the (now empty) starting directory
+		startDir.delete();
 	}
 	
 	/**

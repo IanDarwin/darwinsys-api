@@ -153,6 +153,24 @@ public class FileIOTest extends TestCase {
     		if (targetCopyDir != null) targetCopyDir.delete();
     	}
     }
+    
+    public void testDeleteRecursively() throws Exception {
+    	File f1 = new File(tmpDir, "file1");
+    	f1.createNewFile();
+    	File d1 = new File(tmpDir, "happyDir1");
+    	d1.mkdir();
+    	File d1f1 = new File(tmpDir, "d1f1");
+    	d1f1.createNewFile();
+    	
+    	assertTrue(d1f1.exists());
+    	
+    	FileIO.deleteRecursively(tmpDir);
+    	
+    	assertFalse(d1f1.exists());
+    	assertFalse(d1.exists());
+    	assertFalse(f1.exists());
+    	assertFalse(tmpDir.exists());
+    }
     	
     public void testCopyRecursivelyFromJar() throws IOException {
         	
