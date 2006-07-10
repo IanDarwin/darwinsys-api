@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
+import com.darwinsys.io.FileIO;
 import com.darwinsys.swingui.UtilGUI;
 
 /**
@@ -101,7 +102,7 @@ public class InstallerUnpacker implements Runnable {
 			if (!f.exists() || !f.canRead()) {
 				throw new IOException("Can't read installer file " + REQUIRED_NAME);
 			}
-			System.out.println("Starting in on " + REQUIRED_NAME + " created " +
+			System.out.println("Starting on " + REQUIRED_NAME + " created " +
 					new Date(f.lastModified()));
 			JarFile jarFile = new JarFile(f);
 			Manifest m = jarFile.getManifest();
@@ -120,8 +121,7 @@ public class InstallerUnpacker implements Runnable {
 			while (entries.hasMoreElements()) {
 				JarEntry entry = entries.nextElement();
 				String thisEntryName = entry.getName();
-				status.repaint();
-				Thread.sleep(500);
+
 				// Don't leave the Manifest in the temp directory
 				if (thisEntryName.startsWith("META-INF") ||
 					thisEntryName.startsWith("MANIFEST")) {
@@ -185,50 +185,35 @@ public class InstallerUnpacker implements Runnable {
 			// All done. Stop the progress bar.
 			progress.setIndeterminate(false);
 			progress.setValue(100);
+			status.setText("Unpacking completed.");		
 
 			// Now run the actual installer...
-//			Class c = Class.forName(installerClassName);
-//			// XXX Problem: what is the declaration for
-//			// the second argument in getMethod("main", ???)
-//			// to find a method taking an array of String?
-//			// Workaround: find declared method named main, use its types.
-//			Class[] argTypes = null;
-//			for (Method meth : c.getDeclaredMethods()) {
-//				Class<?>[] parameterTypes = meth.getParameterTypes();
-//				if (meth.getName().equals("main")) {
-//					argTypes = parameterTypes;
-//				}
-//			}
-//			Method main = c.getMethod("main", argTypes);
-//			// Shut down the old GUI
-//			jf.setVisible(true); jf.dispose(); jf = null;
-//			// And bring on the new!
-//			System.out.println("Launching " + installerClassName);
-//			main.invoke(null, (Object[])new Object[] {new String[0]});
 			
 			// Need to run it in the created temp directory.
 			// Since Java is deficient in not providing a chdir
 			// mechanism, we have to do this with a Runtime.exec,
-			// which means we have to hope the user has "Java"
-			// in their path. A POX ON THIS, because most Windoze users 
-			// won't, and because Java doesn't give us a way either to
-			// chdir NOR to find the path of the Java runtime.
-			String[] argv = { "java", installerClassName };
-			Runtime.getRuntime().exec(argv, null, tmpDir);
+			// Hope this '"java.home" + /bin/java' trick is portable!
+			String[] argv = { 
+					System.getProperty("java.home") + "/bin/java", 
+					installerClassName };
+			Process p = Runtime.getRuntime().exec(argv, null, tmpDir);
 			
-			// XXX now delete the temp directory
-			// Need a way to get the installer to tell us when it's done!
-			// e.g., its main will likely create another GUI thread...
+			// ... close down the unpacker gui
+			jf.setVisible(false); jf.dispose(); jf = null;
+			
+			p.waitFor();	// Wait for the installer to finish.
+			
+			// Now that installer is done with the temp dirctory, delete it.
+			FileIO.deleteRecursively(tmpDir);
+			
+			System.exit(0);
 			
 		} catch (Throwable e) {
 			JOptionPane.showMessageDialog(jf, 
 					"Error unpacking/starting installer:\n" + e, 
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
-			System.exit(0);
+			System.exit(1);
 		}
-		
-
 	}
-
 }
