@@ -170,6 +170,10 @@ public class FileIO {
 		copyRecursively(fromDir, toDir, false);
 	}
 	
+	public static void deleteRecursively(File fromDir) {
+		System.out.println("XXX: FileIO.deleteRecursively() not implemented yet");
+	}
+	
 	/**
 	 * Copy a tree of files to directory, given File objects representing the files.
 	 * @param base File representing the source, must be a single file.
