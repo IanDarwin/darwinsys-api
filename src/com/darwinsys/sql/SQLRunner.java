@@ -296,6 +296,7 @@ public class SQLRunner {
 			for (String name : userTables) {
 				textDecorator.println(name);
 			}
+			out.flush();
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
 			// don't do ignorecase so, for now, convert to UPPER CASE.
@@ -307,6 +308,7 @@ public class SQLRunner {
 			while (rs.next()) {
 				textDecorator.println(rs.getString(4));
 			}
+			out.flush();
 		} else
 			throw new SyntaxException("\\d"  + rest + " invalid");
 	}
@@ -404,16 +406,17 @@ public class SQLRunner {
 				continue;
 			}
 			if (line.startsWith("\\")) {
-				if (sb.length() == 0) {
-					return line;
+				if (sb.length() != 0) {
+					throw new IllegalArgumentException("Escape command found inside statement");
 				}
-				throw new IllegalArgumentException("Escape command found inside statement");
 			}
 			sb.append(line);
 			int nb = sb.length();
+			
+			// If the buffer currently ends with ';', return it.
 			if (nb > 0 && sb.charAt(nb-1) == ';') {
 				if (nb == 1) {
-					return "";
+					return null;
 				}
 				sb.setLength(nb-1);
 				return sb.toString();
