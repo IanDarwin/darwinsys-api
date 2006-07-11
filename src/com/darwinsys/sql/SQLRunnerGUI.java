@@ -213,8 +213,7 @@ public class SQLRunnerGUI  {
         
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
 		JScrollPane inputAreaScrollPane = new JScrollPane(inputTextArea);
-		inputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Command"));
-		
+		inputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Command"));		
 		
 		outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
 		JScrollPane outputAreaScrollPane = new JScrollPane(outputTextArea);
