@@ -180,6 +180,8 @@ public class SQLRunnerGUI  {
                     Connection conn;
 					public void run() {
 						try {
+							String command = inputTextArea.getText().trim();
+							if (command == null || command.length() == 0)
 							runButton.setEnabled(false);
 							conn =  ConnectionUtil.getInstance().getConnection((String)connectionsList.getSelectedItem());
 							SQLRunner.setVerbosity(Verbosity.QUIET);
@@ -187,7 +189,7 @@ public class SQLRunnerGUI  {
 							prog.setOutputFile(out);
 							prog.setOutputMode((OutputMode) modeList.getSelectedItem());							
 							bar.reset();							
-							prog.runStatement(inputTextArea.getText());
+							prog.runStatement(command);
 							bar.showSuccess();	// If no exception thrown							
 						} catch (Exception e) {
 							bar.showFailure();
