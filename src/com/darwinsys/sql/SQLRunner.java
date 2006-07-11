@@ -376,7 +376,9 @@ public class SQLRunner {
 		} else {
 			ResultSet rs = statement.getResultSet();
 			int n = currentDecorator.write(rs);
-			currentDecorator.printRowCount(n);
+			if (verbosity == Verbosity.VERBOSE || verbosity == Verbosity.DEBUG) {
+				currentDecorator.printRowCount(n);
+			}
 			currentDecorator.flush();
 		}
 	}
