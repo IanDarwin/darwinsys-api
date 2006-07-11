@@ -182,6 +182,7 @@ public class SQLRunnerGUI  {
 						try {
 							String command = inputTextArea.getText().trim();
 							if (command == null || command.length() == 0)
+								return;
 							runButton.setEnabled(false);
 							conn =  ConnectionUtil.getInstance().getConnection((String)connectionsList.getSelectedItem());
 							SQLRunner.setVerbosity(Verbosity.QUIET);
