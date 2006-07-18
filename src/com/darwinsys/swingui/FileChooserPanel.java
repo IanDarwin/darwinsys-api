@@ -45,16 +45,9 @@ public class FileChooserPanel extends JPanel {
 		listeners = new ArrayList<PropertyChangeListener>();
 
 		add(new JLabel(label));
-		
-		fileNameTextField = new JTextField(30);
-		add(fileNameTextField);
-		
-		JButton b = new JButton("...");
-		add(b);
-		
-		// If there is a value in the TF, try to use it as the starting point.
-		b.addActionListener(new ActionListener() {
+		ActionListener goListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// If there is a value in the TF, use it as the starting point.
 				String old = fileNameTextField.getText();
 				if (old != null) {
 					File f = new File(old);
@@ -75,7 +68,15 @@ public class FileChooserPanel extends JPanel {
 					firePropertyChangeEvent(file);
 				}
 			}
-		});
+		};
+		
+		fileNameTextField = new JTextField(30);
+		fileNameTextField.addActionListener(goListener);
+		add(fileNameTextField);
+		
+		JButton b = new JButton("...");
+		b.addActionListener(goListener);
+		add(b);		
 	}
 	
 	/** Construct a FileChooserPanel with a default label
