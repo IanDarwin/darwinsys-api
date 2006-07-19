@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,7 +45,7 @@ import com.darwinsys.swingui.UtilGUI;
 @SuppressWarnings("serial")
 public class Notepad {
 	
-	private JFrame jf;
+	private JFrame theFrame;
 	
 	private JTextArea ta;
 	
@@ -55,8 +56,8 @@ public class Notepad {
 	private static List<Notepad> windows = new ArrayList<Notepad>();
 	
 	public Notepad() {
-		jf = new JFrame();
-		jf.addWindowListener(new WindowAdapter() {
+		theFrame = new JFrame();
+		theFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				closeThisWindow();
@@ -64,29 +65,29 @@ public class Notepad {
 		});
 
 		ta = new JTextArea(30,70);
-		jf.setContentPane(new JScrollPane(ta));
-		jf.pack();
+		theFrame.setContentPane(new JScrollPane(ta));
+		theFrame.pack();
 		
 		createMenus();
 		
-		UtilGUI.centre(jf);
-		Point loc = jf.getLocation();
+		UtilGUI.centre(theFrame);
+		Point loc = theFrame.getLocation();
 		synchronized(windows) {
 			int windowsCreated = windows.size();
 			loc.x += windowsCreated * 20;
 			loc.y += windowsCreated * 20;		
 			windows.add(this);
 		}
-		jf.setLocation(loc);
-		jf.setVisible(true);
+		theFrame.setLocation(loc);
+		theFrame.setVisible(true);
 	}
 	
 	private void closeThisWindow() {
 		if (!okToClose()) {
 			return;
 		}
-		jf.setVisible(false);
-		jf.dispose();
+		theFrame.setVisible(false);
+		theFrame.dispose();
 		synchronized(windows) {
 			windows.remove(this);
 			if (windows.size() == 0) {
@@ -105,7 +106,7 @@ public class Notepad {
 			if (chooser == null) {
 				chooser = new JFileChooser();
 			}
-			int returnVal = chooser.showOpenDialog(jf);
+			int returnVal = chooser.showOpenDialog(theFrame);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = chooser.getSelectedFile();
 				try {
@@ -148,11 +149,11 @@ public class Notepad {
 				if (chooser == null) {
 					chooser = new JFileChooser();
 				}
-				int returnVal = chooser.showOpenDialog(jf);
+				int returnVal = chooser.showOpenDialog(theFrame);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
 					if (file.exists() && doingSaveAs) {
-						int ret = JOptionPane.showConfirmDialog(jf, 
+						int ret = JOptionPane.showConfirmDialog(theFrame, 
 								"File already exists, overwrite?", "File Exists", 
 								JOptionPane.YES_NO_OPTION);
 						System.err.println(ret);
@@ -206,7 +207,7 @@ public class Notepad {
 	};
 	
 	private void error(String message, Exception e) {
-		JOptionPane.showMessageDialog(jf, message + "\n" + e);
+		JOptionPane.showMessageDialog(theFrame, message + "\n" + e);
 		e.printStackTrace();
 	}	
 
@@ -226,7 +227,7 @@ public class Notepad {
 			super("About");
 		}
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(jf, 
+			JOptionPane.showMessageDialog(theFrame, 
 				"Notepad 0.0");
 		}		
 	};
@@ -236,7 +237,7 @@ public class Notepad {
 		/** File, Help */
 		JMenu fm, em, hm;
 		
-		jf.setJMenuBar(mb);
+		theFrame.setJMenuBar(mb);
 
 		// The File Menu...
 		fm = new JMenu("File");
@@ -291,14 +292,14 @@ public class Notepad {
 		int i;
 		switch(pservices.length) {
 		case 0:
-			JOptionPane.showMessageDialog(jf,
+			JOptionPane.showMessageDialog(theFrame,
 					"Error: No PrintService Found", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		case 1:
 			i = 1;
 			break;
 		default:
-			i = JOptionPane.showOptionDialog(jf, 
+			i = JOptionPane.showOptionDialog(theFrame, 
 					"Pick a printer", "Choice", 
 					JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, 
 					null, pservices, pservices[0]);
@@ -342,7 +343,16 @@ public class Notepad {
 	}	
 	
 	public final void doLoad(String fileName) throws IOException {		
-		BufferedReader is = new BufferedReader(new FileReader(fileName));
+		BufferedReader is = null;
+		try {
+			is = new BufferedReader(new FileReader(fileName));
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(theFrame, 
+				String.format("File %s not found, treating as New File", fileName),
+				"Not found", JOptionPane.WARNING_MESSAGE);
+			setFileName(fileName);
+			return;
+		}
 		String line;
 		while ((line = is.readLine()) != null) {
 			ta.append(line);
@@ -366,6 +376,6 @@ public class Notepad {
 	
 	private void setFileName(String fileName) {
 		this.fileName = fileName;
-		jf.setTitle(fileName);
+		theFrame.setTitle(fileName);
 	}
 }
