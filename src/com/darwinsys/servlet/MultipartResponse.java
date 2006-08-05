@@ -1,8 +1,8 @@
 package com.darwinsys.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -18,14 +18,14 @@ public class MultipartResponse {
 
 	private static final String BOUNDARY_TEXT = "End";
 	HttpServletResponse res;
-	ServletOutputStream out;
+	PrintWriter out;
 
 	boolean endedLastResponse = true;
 
 	public MultipartResponse(HttpServletResponse response) throws IOException {
 		// Save the response object and output stream
 		res = response;
-		out = res.getOutputStream();
+		out = res.getWriter();
 
 		// Set things up
 		res.setContentType("multipart/x-mixed-replace;boundary=" +
@@ -58,7 +58,7 @@ public class MultipartResponse {
 		out.flush();
 	}
 
-	public ServletOutputStream getOutputStream() {
+	public PrintWriter getWriter() {
 		return out;
 	}
 }
