@@ -10,8 +10,9 @@ import java.util.ArrayList;
 /** A class to implement UNIX-style (single-character) command line argument
  * parsing. Originally patterned after (but not using code from) the UNIX 
  * getopt(3) program, this has been redesigned to be more Java-friendly.
- * As a result, there are two ways of using it.
- * <ol><li>Original model:
+ * As a result, there are two ways of using it, which I shall very loosely
+ * call "the Unix way" and "the Java way".
+ * <ol><li>Original (UNIX) model:
  * <pre>
         GetOpt go = new GetOpt("hno:");
         boolean numeric_option = false;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
             doFile(args[i]);
         }
  * </pre></li>
- * <li>Newer model, which allows long-named options:
+ * <li>Newer (Java) model, which allows long-named options:
  * <pre>
         boolean numeric_option = false;
         boolean errs = false;
@@ -54,24 +55,23 @@ import java.util.ArrayList;
             new GetOptDesc('o', "output-file", true),
         };
         GetOpt parser = new GetOpt(options);
-        Map optionsFound = parser.parseArguments(argv);
-        Iterator it = optionsFound.keySet().iterator();
+        Map<String,String> optionsFound = parser.parseArguments(argv);
+        Iterator<String> it = optionsFound.keySet().iterator();
         while (it.hasNext()) {
             String key = (String)it.next();
-            char c = key.charAt(0);
-            switch (c) {
+            switch (key.charAt(0)) {
                 case 'n':
                     numeric_option = true;
                     break;
                 case 'o':
-                    outputFileName = (String)optionsFound.get(key);
+                    outputFileName = optionsFound.get(key);
                     break;
                 case '?':
                     errs = true;
                     break;
                 default:
                     throw new IllegalStateException(
-                    "Unexpected option character: " + c);
+                    "Unexpected option character: " + key);
             }
         }
         if (errs) {
@@ -81,9 +81,9 @@ import java.util.ArrayList;
         System.out.print("Numeric: " + numeric_option + ' ');
         System.out.print("Output: " + outputFileName + "; ");
         System.out.print("Input files: ");
-        List files = parser.getFilenameList();
-        while (files.hasNext()) {
-            System.out.print(files.next());
+        List<Files> files = parser.getFilenameList();
+        for (String file : files) {
+            System.out.print(file);
             System.out.print(' ');
         }
         System.out.println();
@@ -91,7 +91,7 @@ import java.util.ArrayList;
  * </pre></li>
  * </ol>
  * <p>
- * This is <em>not</em> threadsafe; it is expected to be used only from main().
+ * This class is <em>not</em> threadsafe; it is expected to be used only from main().
  * <p>
  * For another way of dealing with command lines, see the
  * <a href="http://jakarta.apache.org/commons/cli/">Jakarta Commons
@@ -122,14 +122,14 @@ public class GetOpt {
 		return optarg;
 	}
 
-	/* Construct a GetOpt parser, given the option specifications
+	/** Construct a GetOpt parser, given the option specifications
 	 * in an array of GetOptDesc objects. This is the preferred constructor.
 	 */
 	public GetOpt(final GetOptDesc[] opt) {
 		this.options = opt.clone();
 	}
 
-	/* Construct a GetOpt parser, storing the set of option characters.
+	/** Construct a GetOpt parser, storing the set of option characters.
 	 * This is a legacy constructor for backwards compatibility.
 	 */
 	public GetOpt(final String patt) {
@@ -137,7 +137,7 @@ public class GetOpt {
 			throw new IllegalArgumentException("Pattern may not be null");
 		}
 
-		// Pass One: just count the letters
+		// Pass One: just count the option letters in the pattern
 		int n = 0;
 		for (int i = 0; i<patt.length(); i++) {
 			if (patt.charAt(i) != ':')
@@ -157,10 +157,9 @@ public class GetOpt {
 				argTakesValue = true;
 				++i;
 			}
-			options[ix] = new GetOptDesc(c, null, argTakesValue);
 			Debug.println("getopt",
 				"CONSTR: options[" + ix + "] = " + c + ", " + argTakesValue);
-			++ix;
+			options[ix++] = new GetOptDesc(c, null, argTakesValue);
 		}
 	}
 
@@ -169,41 +168,42 @@ public class GetOpt {
 		fileNameArguments = null;
 		done = false;
 		optind = 0;
+		optarg = null;
 	}
-
-	/** Array used to convert a char to a String */
-	private static char[] strConvArray = { 0 };
 
 	/** 
 	 * Modern way of using GetOpt: call this once and get all options.
 	 * <p>
 	 * This parses the options, returns a Map whose keys are the found options.
 	 * Normally followed by a call to getFilenameList().
+	 * <br>Side effect: sets "fileNameArguments" to a new List
 	 * @return a Map whose keys are Strings of length 1 (containing the char
 	 * from the option that was matched) and whose value is a String
 	 * containing the value, or null for a non-option argument.
 	 */
 	public Map<String,String> parseArguments(String[] argv) {
-		Map<String, String> optionsAndValues = new HashMap<String, String>();
+		Map<String, String> optionsValueMap = new HashMap<String, String>();
 		fileNameArguments = new ArrayList<String>();
-		for (int i = 0; i < argv.length; i++) {
+		for (int i = 0; i < argv.length; i++) {	// Do not convert to foreach
 			Debug.println("getopt", "parseArg: i=" + i + ": arg " + argv[i]);
-			char c = getopt(argv);
-			if (c != DONE) {
-				strConvArray[0] = c;
-				optionsAndValues.put(new String(strConvArray), optarg);
-				// If this arg takes an option, we must skip it here.
-				if (optarg != null)
-					++i;
-			} else {
+			char c = getopt(argv);	// sets global "optarg"
+			if (c == DONE) {
 				fileNameArguments.add(argv[i]);
+			} else {
+				optionsValueMap.put(Character.toString(c), optarg);
+				// If this arg takes an option, must arrange here to skip it.
+				if (optarg != null) {
+					i++;
+				}
 			}
 		}
-		return optionsAndValues;
+		return optionsValueMap;
 	}
 
-	/** Get the list of filename-like arguments after options */
-	public List getFilenameList() {
+	/** Get the list of filename-like arguments after options;
+	 * only for use if you called parseArguments.
+	 */
+	public List<String> getFilenameList() {
 		if (fileNameArguments == null) {
 			throw new IllegalArgumentException(
 				"Illegal call to getFilenameList() before parseOptions()");
@@ -213,53 +213,62 @@ public class GetOpt {
 
 	/** The true heart of getopt, whether used old way or new way:
 	 * returns one argument; call repeatedly until it returns DONE.
+	 * Side-effect: sets globals optarg, optind
 	 */
 	public char getopt(String argv[]) {
 		Debug.println("getopt",
 			"optind=" + optind + ", argv.length="+argv.length);
 
-		if (optind >= (argv.length)-1) {
+		if (optind >= (argv.length) || !argv[optind].startsWith("-")) {
 			done = true;
 		}
 
-		// If we are (now) finished, bail.
+		// If we are finished (either now OR from before), bail.
+		// Do not collapse this into the "if" above
 		if (done) {
 			return DONE;
 		}
+		
+		optarg = null;
 
 		// XXX TODO - two-pass, 1st check long args, 2nd check for
-		// char, may be multi char as in "-no outfile" == "-n -o outfile".
+		// char, to allow advanced usage like "-no outfile" == "-n -o outfile".
 
-		// Pick off the next command line argument, check if it starts "-".
+		// Pick off next command line argument, check if it starts "-".
 		// If so look it up in the list.
-		String thisArg = argv[optind++];
+		String thisArg = argv[optind];
+
 		if (thisArg.startsWith("-")) {
-			optarg = null;
-			for (int i=0; i<options.length; i++) {
-				if ( options[i].argLetter == thisArg.charAt(1) ||
-					(options[i].argName != null &&
-					 options[i].argName.equals(thisArg.substring(1)))) { // found it
+			for (GetOptDesc option : options) {
+				if (option.getArgLetter() == thisArg.charAt(1) ||
+				   (option.getArgName() != null &&
+					option.getArgName().equals(thisArg.substring(1)))) { // found it
 					// If it needs an option argument, get it.
-					if (options[i].takesArgument) {
-						if (optind < argv.length) {
-							optarg = argv[optind]; 
-							++optind;
+					if (option.takesArgument()) {
+						if (optind < argv.length-1) {
+							optarg = argv[++optind]; 							
 						} else {
 							throw new IllegalArgumentException(
-								"Option " + options[i].argLetter +
+								"Option " + option.getArgLetter() +
 								" needs value but found end of arg list");
 						}
 					}
-					return options[i].argLetter;
+					++optind;
+					return option.getArgLetter();
 				}
 			}
 			// Began with "-" but not matched, so must be error.
+			++optind;
 			return '?';
 		} else {
 			// Found non-argument non-option word in argv: end of options.
+			++optind;
 			done = true;
 			return DONE;
 		}
+		
+
+		
 	}
 
 	/** Return optind, the index into args of the last option we looked at */
