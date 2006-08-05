@@ -47,14 +47,13 @@ public class InstallerUnpacker implements Runnable {
 	/**
 	 * Start things running...
 	 * @throws InvocationTargetException 
-	 * @throws  
 	 */
 	public static void main(String[] args) {
 		System.out.println("InstallerUnpacker.main()");
 		
 		InstallerUnpacker installerUnpacker;
 		
-		installerUnpacker = new InstallerUnpacker();
+		installerUnpacker = new InstallerUnpacker(REQUIRED_NAME);
 		
 		installerUnpacker.run();		
 	}
@@ -62,11 +61,13 @@ public class InstallerUnpacker implements Runnable {
 	/** Cache of paths we've mkdir()ed. */
 	protected SortedSet<String> dirsMade = new TreeSet<String>();
 	private boolean warnedMkDir;
+	private String fileName;
 	
 	/**
 	 * Construct the GUI.
 	 */
-	InstallerUnpacker() {
+	InstallerUnpacker(String fileName) {
+		this.fileName = fileName;
 		// Get this part of the GUI up quickly...
 		jf = new JFrame("Setup");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,24 +91,25 @@ public class InstallerUnpacker implements Runnable {
 	 */
 	public void run() {
 		// Now read the installer.jar and unpack it.
+		File tmpDir = null;
 		try {
-			File tmpDir = File.createTempFile("darwinstaller", ".tmp");
+			tmpDir = File.createTempFile("darwinstaller", ".tmp");
 			tmpDir.delete();
 			tmpDir.mkdir();
 			// Might alternately use a JarURLConnection, as in
 			// URL url = getResource(REQUIRED_NAME);
 			// JarURLConnection jarConnection = (JarURLConnection)url.openConnection();
 			// Manifest manifest = jarConnection.getManifest();
-			File f = new File(REQUIRED_NAME);
+			File f = new File(fileName);
 			if (!f.exists() || !f.canRead()) {
-				throw new IOException("Can't read installer file " + REQUIRED_NAME);
+				throw new IOException("Can't read installer file " + fileName);
 			}
-			System.out.println("Starting on " + REQUIRED_NAME + " created " +
+			System.out.println("Starting on " + fileName + " created " +
 					new Date(f.lastModified()));
 			JarFile jarFile = new JarFile(f);
 			Manifest m = jarFile.getManifest();
 			if (m == null) {
-				throw new IOException(REQUIRED_NAME + " file has no Manifest!");
+				throw new IOException(fileName + " file has no Manifest!");
 			}
 			Attributes installerClassAttributes = m.getMainAttributes();
 			String installerClassName = null; 
@@ -199,15 +201,13 @@ public class InstallerUnpacker implements Runnable {
 					installerClassName };
 			Process p = Runtime.getRuntime().exec(argv, null, tmpDir);
 			
-			// ... close down the unpacker gui
+			// Leave unpacker GUI up for a few seconds to overlap, 
+			// then close down the unpacker gui
+			status.setText("Starting the installer...");
+			Thread.sleep(4000);
 			jf.setVisible(false); jf.dispose(); jf = null;
 			
 			p.waitFor();	// Wait for the installer to finish.
-			
-			// Now that installer is done with the temp dirctory, delete it.
-			FileIO.deleteRecursively(tmpDir);
-			
-			System.exit(0);
 			
 		} catch (Throwable e) {
 			JOptionPane.showMessageDialog(jf, 
@@ -215,6 +215,15 @@ public class InstallerUnpacker implements Runnable {
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 			System.exit(1);
+		} finally {
+			// Now that installer is done with the temp dirctory, delete it.
+			try {
+				FileIO.deleteRecursively(tmpDir);
+			} catch (IOException e) {
+				System.err.println("Part of tmp dir cleanup failed:\n" + e);
+			}
+			
+			System.exit(0);
 		}
 	}
 }

@@ -1,14 +1,13 @@
 package com.darwinsys.installers;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 /**
  * Misc. utilities for Installer-type applications.
@@ -30,13 +29,17 @@ public class InstallerUtils {
 		if (!f.canRead()) {
 			throw new IOException("Cannot read file " + licensePath);
 		}
-		JTextArea jta = new JTextArea(30, 60);
-		BufferedReader in = new BufferedReader(new FileReader(f));
-		String line;
-		while ((line = in.readLine()) != null) {
-			jta.append(line);
-			jta.append("\n");
-		}
+		//JTextArea jta = new JTextArea(30, 60);
+		JEditorPane jta = new JEditorPane(new URL("file:" + f.getAbsolutePath()));
+//		BufferedReader in = null;
+//		try {
+//		in = new BufferedReader(new FileReader(f));
+//		String line;
+//		while ((line = in.readLine()) != null) {
+//			jta.getDocument().append(line);
+//			jta.append("\n");
+//		}
+//		finally { if (in != null) in.close(); }
 		jta.setEditable(false);
 		jta.setCaretPosition(0);
 
