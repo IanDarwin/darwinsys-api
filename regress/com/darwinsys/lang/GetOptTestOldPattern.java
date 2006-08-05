@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
-public class GetOptTest/*XXXOldPattern*/ extends TestCase {
+public class GetOptTestOldPattern  extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
