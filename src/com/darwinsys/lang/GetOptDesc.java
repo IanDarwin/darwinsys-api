@@ -4,11 +4,11 @@ package com.darwinsys.lang;
  */
 public class GetOptDesc {
 	/** The short-form option letter */
-	protected char argLetter;
+	private char argLetter;
 	/** The long-form option name */
-	protected String argName;
+	private String argName;
 	/** True if this option needs an argument after it */
-	protected boolean takesArgument;
+	private boolean takesArgument;
 
 	/** Construct a GetOpt option.
 	 * @param ch The single-character name for this option.
@@ -22,5 +22,17 @@ public class GetOptDesc {
 		argLetter = ch;
 		argName   = nm;	// may be null, meaning no long name.
 		takesArgument = ta;
+	}
+
+	public char getArgLetter() {
+		return argLetter;
+	}
+
+	public String getArgName() {
+		return argName;
+	}
+
+	public boolean takesArgument() {
+		return takesArgument;
 	}
 }
