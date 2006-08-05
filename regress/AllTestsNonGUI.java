@@ -4,13 +4,16 @@ import junit.framework.TestSuite;
 
 import com.darwinsys.html.SimpleTagValidatorTest;
 import com.darwinsys.io.FileIOTest;
+import com.darwinsys.lang.GetOptConstructorTest;
+import com.darwinsys.lang.GetOptDescTest;
+import com.darwinsys.lang.GetOptTestNewPattern;
+import com.darwinsys.lang.GetOptTestOldPattern;
 import com.darwinsys.lang.MutableIntegerTest;
 import com.darwinsys.lang.StringFormatTest;
 import com.darwinsys.lang.StringUtilTest;
 import com.darwinsys.sql.ConnectionUtilTest;
 import com.darwinsys.util.ArrayIteratorTest;
 import com.darwinsys.util.FilePropertiesTest;
-import com.darwinsys.lang.GetOptTest;
 import com.darwinsys.util.IndexListTest;
 import com.darwinsys.util.ScaledNumberFormatTest;
 import com.darwinsys.util.VariableMapTest;
@@ -38,7 +41,10 @@ public class AllTestsNonGUI {
 		suite.addTestSuite(FileIOTest.class);
 		suite.addTestSuite(ArrayIteratorTest.class);
 		suite.addTestSuite(StringUtilTest.class);
-		suite.addTestSuite(GetOptTest.class);
+		suite.addTestSuite(GetOptConstructorTest.class);
+		suite.addTestSuite(GetOptDescTest.class);		
+		suite.addTestSuite(GetOptTestOldPattern.class);		
+		suite.addTestSuite(GetOptTestNewPattern.class);		
 		suite.addTestSuite(MutableIntegerTest.class);
 		suite.addTestSuite(VariableMapTest.class);
 		//$JUnit-END$
