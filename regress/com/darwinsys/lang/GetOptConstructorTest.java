@@ -35,7 +35,7 @@ public class GetOptConstructorTest extends TestCase {
 
 	public void testForNoLetter() {
 		try {
-			new GetOpt("::");
+			new GetOpt("---");
 			fail("GetOpt(::) did not throw expected exception");
 		} catch (IllegalArgumentException ex) {
 			System.err.println("Caught expected exception " + ex);
@@ -44,6 +44,15 @@ public class GetOptConstructorTest extends TestCase {
 		new GetOpt("foo"); // multiple occurrences of same letter - ok?
 	}
 
+	public void testForLeadingColon() {
+		try {
+			new GetOpt(":a:b");
+			fail("GetOpt(::) did not throw expected exception");
+		} catch (IllegalArgumentException ex) {
+			System.err.println("Caught expected exception " + ex);
+		}
+	}
+	
 	public void testForExtraCruft() {
 		String bad = "abc@";
 		try {

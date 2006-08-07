@@ -131,10 +131,16 @@ public class GetOpt {
 
 	/** Construct a GetOpt parser, storing the set of option characters.
 	 * This is a legacy constructor for backwards compatibility.
+	 * That said, it is easier to use if you don't need long-name options,
+	 * so it has not been and will not be marked "deprecated".
 	 */
 	public GetOpt(final String patt) {
 		if (patt == null) {
 			throw new IllegalArgumentException("Pattern may not be null");
+		}
+		if (patt.charAt(0) == ':') {
+			throw new IllegalArgumentException(
+				"Pattern incorrect, may not begin with ':'");
 		}
 
 		// Pass One: just count the option letters in the pattern
@@ -234,8 +240,8 @@ public class GetOpt {
 		// XXX TODO - two-pass, 1st check long args, 2nd check for
 		// char, to allow advanced usage like "-no outfile" == "-n -o outfile".
 
-		// Pick off next command line argument, check if it starts "-".
-		// If so look it up in the list.
+		// Pick off next command line argument, if it starts "-",
+		// then look it up in the list of valid args.
 		String thisArg = argv[optind];
 
 		if (thisArg.startsWith("-")) {
