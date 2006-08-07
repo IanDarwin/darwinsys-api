@@ -197,8 +197,8 @@ public class FileIOTest extends TestCase {
     		assertFalse(targetFoo.exists());
     		targetBar = new File(newDestDir, "bar");
     		assertFalse(targetBar.exists());
-    		// Should have just the jar file in it now.
-    		assertEquals(1, newDestDir.listFiles().length);
+    		// Should be empty at this point
+    		assertEquals(0, newDestDir.listFiles().length);
 
     		FileIO.copyRecursively(new JarFile(jarFile), 
     				new JarEntry("/"), newDestDir);
@@ -207,7 +207,7 @@ public class FileIOTest extends TestCase {
     		assertEquals(6, targetFoo.length());
     		assertTrue(targetBar.exists());
     		assertEquals(9, targetBar.length());
-    		assertEquals(3, newDestDir.listFiles().length);
+    		assertEquals(2, newDestDir.listFiles().length);
     	} finally {
     		if (jarFile != null) jarFile.delete();
     		if (targetFoo != null) targetFoo.delete();
