@@ -144,7 +144,7 @@ public class InstallerUnpacker implements Runnable {
 				
 				// OK, so we're going to process this entry.
 				String message = "Processing " + thisEntryName;
-				System.out.println(message);
+				// System.out.println(message);
 				Thread.sleep(50);	// Brief pause to let user see it! :-)
 				status.setText(message);
 				if (thisEntryName.startsWith("/")) {
