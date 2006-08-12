@@ -23,7 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-/** A Swing-based Font Selection jdialog.
+/** A Swing-based Font Selection JDialog, to be created and
+ * setVisible(true) in the usual way.
  * <p>
  * Uses Listeners to ensure that Preview button isn't actually needed
  * (button is left in temporarily, for comfort's sake).
@@ -31,7 +32,7 @@ import javax.swing.event.ListSelectionListener;
  * @version $Id$
  */
 public class FontChooser extends JDialog {
-	
+
 	private static final long serialVersionUID = 5363471384675038069L;
 
 	public static final String DEFAULT_TEXT = "Lorem ipsem dolor";
@@ -70,7 +71,7 @@ public class FontChooser extends JDialog {
 	 */
 	protected JLabel previewArea;
 
-	/** Construct a FontChooser -- Sets title and gets 
+	/** Construct a FontChooser -- Sets title and gets
 	 * array of fonts on the system. Builds a GUI to let
 	 * the user choose one font at one size.
 	 */
@@ -83,7 +84,7 @@ public class FontChooser extends JDialog {
 		top.setLayout(new FlowLayout());
 
 		// This gives a longish list; most of the names that come
-		// with your OS (e.g., Helvetica, Times), plus the Sun/Java ones (Lucida, 
+		// with your OS (e.g., Helvetica, Times), plus the Sun/Java ones (Lucida,
 		// Lucida Bright, Lucida Sans...)
 		String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
 			getAvailableFontFamilyNames();
@@ -97,7 +98,7 @@ public class FontChooser extends JDialog {
 		top.add(fontSizeChoice);
 
 		fontSizeChoice.setSelectedIndex(10);
-		
+
 
 		cp.add(top, BorderLayout.NORTH);
 
@@ -106,19 +107,19 @@ public class FontChooser extends JDialog {
 		attrs.setLayout(new GridLayout(0,1));
 		attrs.add(bold  =new JCheckBox("Bold", false));
 		attrs.add(italic=new JCheckBox("Italic", false));
-		
+
 		// Make sure that any change to the GUI will trigger a font preview.
 		ListSelectionListener waker = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				previewFont();
-			}			
+			}
 		};
 		fontSizeChoice.addListSelectionListener(waker);
 		fontNameChoice.addListSelectionListener(waker);
 		ItemListener waker2 = new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				previewFont();
-			}			
+			}
 		};
 		bold.addItemListener(waker2);
 		italic.addItemListener(waker2);
