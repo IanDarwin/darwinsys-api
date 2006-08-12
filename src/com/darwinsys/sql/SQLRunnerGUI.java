@@ -56,35 +56,36 @@ import com.darwinsys.util.Verbosity;
 
 /**
  * A simple GUI to run one set of commands.
+ * XXX There should be a ProgressMonitor or a JProgresBar(Indeterminate).
  */
 public class SQLRunnerGUI  {
-	
+
 	private static final int DISPLAY_COLUMNS = 70;
 
 	final Preferences p = Preferences.userNodeForPackage(SQLRunnerGUI.class);
-	
+
 	final SuccessFailureUI bar;
-	
+
 	final JFrame mainWindow;
-	
+
 	final JTextArea inputTextArea, outputTextArea;
-	
+
 	final JButton runButton;
-	
+
 	final PrintWriter out;
-	
+
 	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
 
 		public void handleError(Exception e) {
-			
-				JOptionPane.showMessageDialog(mainWindow, 
+
+				JOptionPane.showMessageDialog(mainWindow,
 					"<html><p>Error: <font color='red'>" + e,
 					"Oops", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 		}
-		
+
 	};
-	
+
 	/**
 	 * Allow the Application to provide its own error handler.
 	 * @param eHandler
@@ -92,7 +93,7 @@ public class SQLRunnerGUI  {
 	public void setErrorHandler(SQLRunnerErrorHandler eHandler) {
 		this.eHandler = eHandler;
 	}
-	
+
 	/**
 	 * Main method; ignores arguments.
 	 */
@@ -111,10 +112,10 @@ public class SQLRunnerGUI  {
 			prog.setConfig(config);
 		}
 	}
-	
+
 	final List<Object> connections;
 	final JComboBox connectionsList;
-	
+
 	/**
 	 * Set the selected Configuration Object in the Connections chooser
 	 * from a given Configuration Name passed as a String.
@@ -141,15 +142,15 @@ public class SQLRunnerGUI  {
 	public SQLRunnerGUI() {
 		mainWindow = new JFrame("SQLRunner");
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		final Container controlsArea = new JPanel();
 		mainWindow.add(controlsArea, BorderLayout.NORTH);
-		
+
 		connections = ConnectionUtil.getInstance().getConfigurations();
 		connectionsList = new JComboBox(connections.toArray(new String[connections.size()]));
 		controlsArea.add(new JLabel("Connection"));
 		controlsArea.add(connectionsList);
-		
+
 		final JComboBox inTemplateChoice = new JComboBox();
 		// XXX Of course these should come from Properties and be editable...
 		inTemplateChoice.addItem("Input Template:");
@@ -157,24 +158,24 @@ public class SQLRunnerGUI  {
 		inTemplateChoice.addItem("INSERT into TABLE(col,col) VALUES(val,val)");
 		inTemplateChoice.addItem("UPDATE TABLE set x = y where x = y");
 		controlsArea.add(inTemplateChoice);
-		
+
 		final JButton inTemplateButton = new JButton("Apply Template");
 		controlsArea.add(inTemplateButton);
-		
+
 		final JComboBox modeList = new JComboBox();
 		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
 		}
 		controlsArea.add(new JLabel("Output Format:"));
-		controlsArea.add(modeList);		
+		controlsArea.add(modeList);
 
 		runButton = new JButton("Run");
 		controlsArea.add(runButton);
 		runButton.addActionListener(new ActionListener() {
-			
+
             /** Called each time the user presses the Run button */
 			public void actionPerformed(ActionEvent evt) {
-				
+
 				// Run this under a its own Thread, so we don't block the EventDispatch thread...
 				new Thread() {
                     Connection conn;
@@ -188,69 +189,69 @@ public class SQLRunnerGUI  {
 							SQLRunner.setVerbosity(Verbosity.QUIET);
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
-							prog.setOutputMode((OutputMode) modeList.getSelectedItem());							
-							bar.reset();							
+							prog.setOutputMode((OutputMode) modeList.getSelectedItem());
+							bar.reset();
 							prog.runStatement(command);
-							bar.showSuccess();	// If no exception thrown							
+							bar.showSuccess();	// If no exception thrown
 						} catch (Exception e) {
 							bar.showFailure();
-							eHandler.handleError(e);							
+							eHandler.handleError(e);
 						} finally {
 							if (conn != null) {
 							    try {
 							        conn.close();
 							    } catch (SQLException e) {
 							        // We just don't care at this point....
-							    }                     
+							    }
                             }
 							runButton.setEnabled(true);
 						}
 					}
-					
+
 				}.start();
 			}
 		});
-        
+
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
 		JScrollPane inputAreaScrollPane = new JScrollPane(inputTextArea);
-		inputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Command"));		
-		
+		inputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Command"));
+
 		outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
 		JScrollPane outputAreaScrollPane = new JScrollPane(outputTextArea);
 		outputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Results"));
-		
+
 		inTemplateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (inTemplateChoice.getSelectedIndex() == 0) {
 					return;
 				}
-				inputTextArea.setText((String)inTemplateChoice.getSelectedItem());				
-			}			
+				inputTextArea.setText((String)inTemplateChoice.getSelectedItem());
+			}
 		});
-		
+
 		JButton clearOutput = new JButton("Clear Output");
-		clearOutput.addActionListener(new ActionListener() {		    
+		clearOutput.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        outputTextArea.setText("");
                 bar.reset();
-		    }	    
+		    }
 		});
         controlsArea.add(clearOutput);
-        
-        mainWindow.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
-					inputAreaScrollPane, 
+
+        mainWindow.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+					inputAreaScrollPane,
 					outputAreaScrollPane), BorderLayout.CENTER);
-		
+
 
 		out = new PrintWriter(new TextAreaWriter(outputTextArea));
-        
+
 		bar = new SuccessFailureBarSwing(mainWindow.getBackground(), 400, 20);
 		bar.reset();
 		mainWindow.add((JComponent)bar, BorderLayout.SOUTH);
-		
+
 		mainWindow.pack();
 		UtilGUI.monitorWindowPosition(mainWindow, p);
 		mainWindow.setVisible(true);
 	}
-	
+
 }
