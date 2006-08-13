@@ -20,7 +20,7 @@ public class ArrayListTableDatum {
 		return name;
 	}
 	public String getValue() {
-		return name;
+		return value;
 	}
 	public void setName(String name) {
 		this.name = name;
