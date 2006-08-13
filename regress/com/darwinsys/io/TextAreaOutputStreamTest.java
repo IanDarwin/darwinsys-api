@@ -10,23 +10,35 @@ import com.darwinsys.io.TextAreaOutputStream;
 
 public class TextAreaOutputStreamTest extends TestCase {
 	private static final String HELLO_WORLD = "Hello World";
-	
+
 	JTextArea ta = new JTextArea();
-	
+
 	public void testOne() {
-		PrintStream x = new PrintStream(new TextAreaOutputStream(ta));
-		x.print("Hello");
-		x.print(' ');
-		x.println("World");
-		assertEquals(HELLO_WORLD, ta.getText());
+		PrintStream x = null;
+		try {
+			x = new PrintStream(new TextAreaOutputStream(ta));
+			x.print("Hello");
+			x.print(' ');
+			x.println("World");
+			assertEquals(HELLO_WORLD, ta.getText());
+		} finally {
+			if (x != null)
+				x.close();
+		}
 	}
-	
+
 	public void testSetOut() {
-		PrintStream oldOut = System.out;
-		System.setOut(new PrintStream(new TextAreaOutputStream(ta)));
-		System.out.println(HELLO_WORLD);
-		assertEquals(HELLO_WORLD, ta.getText());
-		System.setOut(oldOut);
-		System.out.println("If you don't see this, something is still wrong");
+		PrintStream oldOut = null;
+		try {
+			oldOut = System.out;
+			System.setOut(new PrintStream(new TextAreaOutputStream(ta)));
+			System.out.println(HELLO_WORLD);
+			assertEquals(HELLO_WORLD, ta.getText());
+			System.setOut(oldOut);
+			System.out.println("If you don't see this, something is still wrong");
+		} finally {
+			if (oldOut != null)
+				oldOut.close();
+		}
 	}
 }
