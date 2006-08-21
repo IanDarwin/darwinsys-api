@@ -26,7 +26,7 @@ import com.darwinsys.swingui.UtilGUI;
 
 /**
  * The intention is that you put this as Main-class: in a Jar
- * along with everything else - your installer and its data classes 
+ * along with everything else - your installer and its data classes
  * and it unpacks the Jar into a temp directory then starts
  * the "real" installer. This class thus corresponds to the
  * "Setup is preparing the installer" screen.
@@ -34,35 +34,35 @@ import com.darwinsys.swingui.UtilGUI;
 public class InstallerUnpacker implements Runnable {
 
 	// CONSTANTS
-	
+
 	static final int BLOCK_SIZE = 8092;
 	/** As the name implies, the installer MUST be stored under this name */
 	public static final String REQUIRED_NAME = "installer.jar";
-	
+
 	// GUI componenets
 	JFrame jf;
 	JLabel status;
 	JProgressBar progress;
-	
+
 	/**
 	 * Start things running...
-	 * @throws InvocationTargetException 
+	 * @throws InvocationTargetException
 	 */
 	public static void main(String[] args) {
 		System.out.println("InstallerUnpacker.main()");
-		
+
 		InstallerUnpacker installerUnpacker;
-		
+
 		installerUnpacker = new InstallerUnpacker(REQUIRED_NAME);
-		
-		installerUnpacker.run();		
+
+		installerUnpacker.run();
 	}
-	
+
 	/** Cache of paths we've mkdir()ed. */
 	protected SortedSet<String> dirsMade = new TreeSet<String>();
 	private boolean warnedMkDir;
 	private String fileName;
-	
+
 	/**
 	 * Construct the GUI.
 	 */
@@ -71,7 +71,7 @@ public class InstallerUnpacker implements Runnable {
 		// Get this part of the GUI up quickly...
 		jf = new JFrame("Setup");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JLabel infoLabel = 
+		JLabel infoLabel =
 			new JLabel("Setup is unpacking the installer. Please wait...",
 				JLabel.CENTER);
 		infoLabel.setPreferredSize(new Dimension(400,100));
@@ -85,7 +85,7 @@ public class InstallerUnpacker implements Runnable {
 		UtilGUI.center(jf);
 		jf.setVisible(true);
 	}
-	
+
 	/** Do the work of unpacking the installer, and launching it.
 	 * @see java.lang.Runnable#run()
 	 */
@@ -112,7 +112,7 @@ public class InstallerUnpacker implements Runnable {
 				throw new IOException(fileName + " file has no Manifest!");
 			}
 			Attributes installerClassAttributes = m.getMainAttributes();
-			String installerClassName = null; 
+			String installerClassName = null;
 			if (installerClassAttributes == null) {
 				System.err.println("warning: no attributes");
 			} else {
@@ -141,7 +141,7 @@ public class InstallerUnpacker implements Runnable {
 				if (thisEntryName.endsWith("/")) {
 					continue;
 				}
-				
+
 				// OK, so we're going to process this entry.
 				String message = "Processing " + thisEntryName;
 				// System.out.println(message);
@@ -153,7 +153,7 @@ public class InstallerUnpacker implements Runnable {
 					warnedMkDir = true;
 					thisEntryName = thisEntryName.substring(1);
 				}
-				
+
 				// Else must be a file; open the file for output. But first,
 				// Get the directory part, mkdir it if not already done.
 				int ix = thisEntryName.lastIndexOf('/');
@@ -175,7 +175,7 @@ public class InstallerUnpacker implements Runnable {
 				}
 				System.out.println("Creating " + thisEntryName);
 				InputStream  is = jarFile.getInputStream(entry);
-				FileOutputStream os = 
+				FileOutputStream os =
 					new FileOutputStream(new File(tmpDir, thisEntryName));
 				byte[] b = new byte[BLOCK_SIZE];
 				int n = 0;
@@ -184,34 +184,37 @@ public class InstallerUnpacker implements Runnable {
 				is.close();
 				os.close();
 			}
-			
+
 			// All done. Stop the progress bar.
 			progress.setIndeterminate(false);
 			progress.setValue(100);
-			status.setText("Unpacking completed.");		
+			status.setText("Unpacking completed.");
 
 			// Now run the actual installer...
-			
+
 			// Need to run it in the created temp directory.
 			// Since Java is deficient in not providing a chdir
 			// mechanism, we have to do this with a Runtime.exec,
 			// Hope this '"java.home" + /bin/java' trick is portable!
-			String[] argv = { 
-					System.getProperty("java.home") + "/bin/java", 
-					installerClassName };
+			String[] argv = {
+					System.getProperty("java.home") + "/bin/java",
+					installerClassName,
+					"-l",
+					tmpDir + "/" + "darwinstall.log"
+			};
 			Process p = Runtime.getRuntime().exec(argv, null, tmpDir);
-			
-			// Leave unpacker GUI up for a few seconds to overlap, 
+
+			// Leave unpacker GUI up for a few seconds to overlap,
 			// then close down the unpacker gui
 			status.setText("Starting the installer...");
-			Thread.sleep(4000);
+			Thread.sleep(8000);
 			jf.setVisible(false); jf.dispose(); jf = null;
-			
+
 			p.waitFor();	// Wait for the installer to finish.
-			
+
 		} catch (Throwable e) {
-			JOptionPane.showMessageDialog(jf, 
-					"Error unpacking/starting installer:\n" + e, 
+			JOptionPane.showMessageDialog(jf,
+					"Error unpacking/starting installer:\n" + e,
 					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 			System.exit(1);
@@ -222,7 +225,7 @@ public class InstallerUnpacker implements Runnable {
 			} catch (IOException e) {
 				System.err.println("Part of tmp dir cleanup failed:\n" + e);
 			}
-			
+
 			System.exit(0);
 		}
 	}
