@@ -1,4 +1,4 @@
-package strings;
+package csv;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +21,12 @@ import com.darwinsys.util.Debug;
  * @author Ian F. Darwin (translation into Java and removal of I/O)
  * @author Ben Ballard (rewrote advQuoted to handle '""' and for readability)
  */
-public class CSV {	
+public class CSVImport {	
 
 	public static final char DEFAULT_SEP = ',';
 
 	/** Construct a CSV parser, with the default separator (`,'). */
-	public CSV() {
+	public CSVImport() {
 		this(DEFAULT_SEP);
 	}
 
@@ -34,7 +34,7 @@ public class CSV {
 	 * @param sep The single char for the separator (not a list of
 	 * separator characters)
 	 */
-	public CSV(char sep) {
+	public CSVImport(char sep) {
 		fieldSep = sep;
 	}
 

@@ -1,4 +1,4 @@
-package strings;
+package csv;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,7 +12,7 @@ public class CSVFile {
 	public static void main(String[] args) throws IOException {
 	
 		// Construct a new CSV parser.
-		CSV csv = new CSV();
+		CSVImport csv = new CSVImport();
 
 		if (args.length == 0) {	// read standard input
 			BufferedReader is = new BufferedReader(
@@ -25,7 +25,7 @@ public class CSVFile {
 		}
 	}
 
-	protected static void process(CSV csv, BufferedReader is) throws IOException {
+	protected static void process(CSVImport csv, BufferedReader is) throws IOException {
 		String line;
 		while ((line = is.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
