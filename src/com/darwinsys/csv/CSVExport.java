@@ -4,7 +4,11 @@ import java.util.List;
 
 public class CSVExport {
 
-	public static String toString(List data) {
+    public static String toString(List data) {
+        return toString(data, ',');
+    }
+    
+	public static String toString(List data, char delim) {
         
         StringBuilder sb = new StringBuilder();
         
@@ -15,7 +19,7 @@ public class CSVExport {
                 continue;
             }
             if (sb.length() > 0) {
-                sb.append(',');
+                sb.append(delim);
             }
 			String val = o.toString();
             try {
