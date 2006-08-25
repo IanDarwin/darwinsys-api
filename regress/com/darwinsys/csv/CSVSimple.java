@@ -1,13 +1,13 @@
-package strings;
+package csv;
 
 import java.util.Iterator;
 import java.util.List;
 
 /* Simple demo of CSV parser class.
  */
-public class CSVSimple {	
+public class CSVSimple {
 	public static void main(String[] args) {
-		CSV parser = new CSV();
+		CSVImport parser = new CSVImport();
 		List list = parser.parse(
 			"\"LU\",86.25,\"11/4/1998\",\"2:19PM\",+4.0625");
 		Iterator it = list.iterator();
@@ -16,7 +16,7 @@ public class CSVSimple {
 		}
 
 		// Now test with a non-default separator
-		parser = new CSV('|');
+		parser = new CSVImport('|');
 		list = parser.parse(
 			"\"LU\"|86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
 		it = list.iterator();

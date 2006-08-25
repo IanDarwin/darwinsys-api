@@ -1,4 +1,4 @@
-package strings;
+package csv;
 
 import java.util.Iterator;
 import java.util.List;
@@ -14,10 +14,10 @@ public class CSVTest extends TestCase {
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(CSVTest.class);
 	}
-	
-	CSV csv = new CSV();
 
-	String[] data = { 
+	CSVImport csv = new CSVImport();
+
+	String[] data = {
 		"abc",
 		"hello, world",
 		"a,b,c",
@@ -41,7 +41,7 @@ public class CSVTest extends TestCase {
 					5,
 					2
 	};
-	
+
 	/** test all the Strings in "data" */
 	public void testCSV() {
 		for (int i = 0; i < data.length; i++){
@@ -53,11 +53,11 @@ public class CSVTest extends TestCase {
 			System.out.println();
 		}
 	}
-	
+
 	/** Test one String with a non-default delimiter */
 	public void testBarDelim() {
 		// Now test slightly-different string with a non-default separator
-		CSV parser = new CSV('|'); 
+		CSVImport parser = new CSVImport('|');
 		List l = parser.parse(
 			"\"LU\"|86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
 		assertEquals(l.size(), 5);
