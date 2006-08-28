@@ -1,4 +1,4 @@
-package csv;
+package com.darwinsys.csv;
 
 import java.util.List;
 
@@ -7,13 +7,13 @@ public class CSVExport {
     public static String toString(List data) {
         return toString(data, ',');
     }
-    
+
 	public static String toString(List data, char delim) {
-        
+
         StringBuilder sb = new StringBuilder();
-        
+
 		for (Object o : data) {
-            
+
             if (o == null) {
                 sb.append("\"\"");
                 continue;
@@ -38,5 +38,5 @@ public class CSVExport {
 		}
         return sb.toString();
 	}
-	
+
 }

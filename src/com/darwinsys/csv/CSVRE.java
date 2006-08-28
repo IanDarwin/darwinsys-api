@@ -1,4 +1,4 @@
-package csv;
+package com.darwinsys.csv;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* Simple demo of CSV matching using Regular Expressions.
+/** Simple demo of CSV matching using Regular Expressions.
  * Does NOT use the "CSV" class defined in the Java CookBook, but uses
- * a regex pattern simplified from Chapter 7 of <em>Mastering Regular 
+ * a regex pattern simplified from Chapter 7 of <em>Mastering Regular
  * Expressions</em> (p. 205, first edn.)
  * Example usage:
  * <pre>
@@ -21,12 +21,12 @@ import java.util.regex.Pattern;
  * </pre>
  * @version $Id$
  */
-public class CSVRE {	
+public class CSVRE {
 	/** The rather involved pattern used to match CSV's consists of three
 	 * alternations: the first matches a quoted field, the second unquoted,
 	 * the third a null field.
 	 */
-	public static final String CSV_PATTERN = 
+	public static final String CSV_PATTERN =
 		"\"([^\"]+?)\",?|([^,]+),?|,";
 	private Pattern csvRE;
 
@@ -34,12 +34,12 @@ public class CSVRE {
 		System.out.println(CSV_PATTERN);
 		new CSVRE().process(new BufferedReader(new InputStreamReader(System.in)));
 	}
-	
+
 	/** Construct a regex-based CSV parser. */
 	public CSVRE() {
 		csvRE = Pattern.compile(CSV_PATTERN);
 	}
-	
+
 	/** Process one file. Delegates to parse() a line at a time */
 	public void process(BufferedReader in) throws IOException {
 		String line;
@@ -55,7 +55,7 @@ public class CSVRE {
 			System.out.println();
 		}
 	}
-	
+
 	/** Parse one line.
 	 * @return List of Strings, minus their double quotes
 	 */

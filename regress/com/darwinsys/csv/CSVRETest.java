@@ -1,16 +1,16 @@
-package csv;
+package com.darwinsys.csv;
 
 import java.util.List;
 
 import junit.framework.TestCase;
 
 /**
- * name - purpose
+ * JUnit tests for CSV RE
  * @version $Id$
  */
 public class CSVRETest extends TestCase {
 	CSVRE target = new CSVRE();
-	
+
 	public void testCanonical() {
 		List list = target.parse("\"a\",\"b\",\"c\"");
 		assertEquals(3, list.size());
