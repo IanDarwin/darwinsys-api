@@ -14,12 +14,12 @@ public class CSVExport {
 
 		for (Object o : data) {
 
+			if (sb.length() > 0) {
+				sb.append(delim);
+			}
             if (o == null) {
                 sb.append("\"\"");
                 continue;
-            }
-            if (sb.length() > 0) {
-                sb.append(delim);
             }
 			String val = o.toString();
             try {
