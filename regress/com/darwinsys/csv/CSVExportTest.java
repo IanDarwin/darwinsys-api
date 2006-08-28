@@ -32,6 +32,11 @@ public class CSVExportTest extends TestCase {
 		String result= CSVExport.toString(line);
         System.out.println(result);
         assertEquals("123,\"Hello, \\\"ian\\\"\"", result);
+
+        line.clear();
+        line.add(123);
+        line.add("\"\"");
+        assertEquals("quote at end", "123,\"\"", CSVExport.toString(line));
 	}
 
     /**
