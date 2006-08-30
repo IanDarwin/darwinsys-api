@@ -1,4 +1,4 @@
-package csv;
+package com.darwinsys.csv;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 public class CSVFile {
 
 	public static void main(String[] args) throws IOException {
-	
+
 		// Construct a new CSV parser.
 		CSVImport csv = new CSVImport();
 
@@ -31,7 +31,7 @@ public class CSVFile {
 			System.out.println("line = `" + line + "'");
 			Iterator e = csv.parse(line).iterator();
 			int i = 0;
-			while (e.hasNext()) 
+			while (e.hasNext())
 				System.out.println("field[" + i++ + "] = `" +
 					e.next() + "'");
 		}
