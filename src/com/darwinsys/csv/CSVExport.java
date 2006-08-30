@@ -30,11 +30,17 @@ public class CSVExport {
                 // Nothing to do; it's just not numeric
             }
             boolean isQuoted = val.startsWith("\"");
-            boolean hasComma = val.indexOf(',') != -1;
-            if (hasComma && !isQuoted) {
-                val = val.replaceAll(",", "\\,");
+            boolean mustQuote = false;
+            boolean hasSpecial = val.indexOf(',') != -1 ||
+            	val.indexOf('\n') != -1;
+            if (hasSpecial && !isQuoted) {
+                mustQuote = true;
             }
-            sb.append(val);
+            if (mustQuote) {
+            	sb.append('"').append(val).append('"');
+            } else {
+            	sb.append(val);
+            }
 		}
         return sb.toString();
 	}
