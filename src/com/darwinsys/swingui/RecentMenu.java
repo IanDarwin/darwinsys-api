@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import com.darwinsys.util.PrefsUtils;
 import com.darwinsys.util.RecentItems;
 
 /**
@@ -18,7 +19,7 @@ import com.darwinsys.util.RecentItems;
  * named loadFile, and all open operations must be channeled through the RecentMenu's
  * openFile method, which calls loadFile and then updates the Recent Items.
  * <p>
- * Recent items are persisted across runs of the program, using java.util.prefs.Prefences under a 
+ * Recent items are persisted across runs of the program, using java.util.prefs.Prefences under a
  * UserNode with the class passed into the constructor, which may be a Class descriptor (from within a static main
  * method using MyClassName.class) or simply passing main program (its getClass method will be called).
  * <p>
@@ -34,61 +35,49 @@ import com.darwinsys.util.RecentItems;
  *				myModel.openFile(fileName);
  *			}
  *		};
- *		open.addActionListener(new ActionListener() {		
+ *		open.addActionListener(new ActionListener() {
  *			public void actionPerformed(ActionEvent evt) {
  *				try {
  *					// maybe get "someFileName" from a JFileChooser...
  *					recent.openFile(someFileName);
  *				} catch (IOException e) {
  *					myErrorPopup("Could not open file" + fileName, e);
- *				}				
+ *				}
  *			}
- *			
+ *
  *		});
  *		fileMenu.add(recent);
  *		JMenuItem clearItem = new JMenuItem("Clear Recent Files");
  *		clearItem.addActionListener(new ActionListener() {
  *			public void actionPerformed(ActionEvent e) {
  *				recentFilesMenu.clear();
- *			}			
+ *			}
  *		});
  * </pre>
  * @author Ian Darwin
  */
 public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
-	
+
 	public final static int DEFAULT_MAX_RECENT_FILES = 5;
 
 	/** The List of recent files */
 	private RecentItems recentFileNames;
-	
+
 	final Preferences prefs;
-	
+
 	/** Construct a RecentMenu with a given class and the number of items to hold
 	 * @param mainClassInstance
 	 * @param max
 	 */
 	public RecentMenu(Object mainClassInstance, int max) {
-		super("Recent Items");		
+		super("Recent Items");
 
-		prefs = getUserPrefsNode(mainClassInstance);
+		prefs = PrefsUtils.getUserPrefsNode(mainClassInstance);
 
 		recentFileNames = new RecentItems(prefs, this, max);
 		reload(recentFileNames.getList());
 	}
 
-	/**
-	 * @param mainClassInstance
-	 */
-	public static Preferences getUserPrefsNode(Object mainClassInstance) {
-		Class clazz;
-		if (mainClassInstance instanceof Class)
-			clazz = (Class)mainClassInstance;
-		else
-			clazz = mainClassInstance.getClass();
-		return Preferences.userNodeForPackage(clazz);
-	}
-	
 	/** Construct a RecentMenu with a given class.
 	 * @param mainClassInstance
 	 */
@@ -126,7 +115,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 			}
 		}
 	};
-	
+
 
 	/**
 	 * Lodd or re-load the recentFileMenu
@@ -156,7 +145,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 			}
 		}
 	}
-	
+
 	public void clear() {
 		recentFileNames.clear();
 	}
