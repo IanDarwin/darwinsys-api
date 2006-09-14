@@ -23,7 +23,7 @@ import com.darwinsys.sql.SQLUtils;
  * 	style1="odd" style2="even"
  * 	pkey='sku' link='/productdetails.do?sku='>
  * 	select sku, stockCount, title from products
- * where stockCount > 0 and location = 0
+ *    where stockCount > 0 and location = 0
  * &lt;/darwin:datatable&gt;
  * </pre>
  * @author Ian Darwin
@@ -62,36 +62,36 @@ public class DataTableTag extends BodyTagSupport {
 	public int doStartTag() throws JspException {
 		return EVAL_BODY_AGAIN;
 	}
-	
+
 	@Override
 	public int doEndTag() throws JspException {
 		if (query == null && bodyContent != null) {
 			query = bodyContent.getString();
 		}
 		if (query == null || "".equals(query)) {
-			throw new IllegalArgumentException(
+			throw new JspException(
 			"Query must be provided, as an attribute or as BodyContent.");
 		}
-			
+
 		final JspWriter out = pageContext.getOut();
 		Connection conn = null;
-		Statement createStatement = null;
+		Statement statement = null;
 		JspException exceptionToThrow = null;
 		try {
 			if (resultSet == null) {
 				conn = getConnection();
-				createStatement = conn.createStatement();
-				resultSet = createStatement.executeQuery(query);
+				statement = conn.createStatement();
+				resultSet = statement.executeQuery(query);
 			}
-			SQLUtils.resultSetToHTML(resultSet, new PrintWriter(out), 
+			SQLUtils.resultSetToHTML(resultSet, new PrintWriter(out),
 				style1, style1, style2, pkey, link);
-			
+
 		} catch (SQLException e) {
 			exceptionToThrow = new JspException("Database error", e);
 		} finally {
 			try {
-				if (createStatement != null) {
-					createStatement.close();
+				if (statement != null) {
+					statement.close();
 				}
 				if (resultSet != null) {
 					resultSet.close();
@@ -117,15 +117,15 @@ public class DataTableTag extends BodyTagSupport {
 		query = null;
 		dataSource = null;
 	}
-	
+
 	/** Get the connection. A tiny method now, but may grow to
 	 * work with dbDriver/dbURL/etc. parameters as well as DataSource.
 	 * @return
 	 * @throws SQLException
 	 */
-	private Connection getConnection() throws SQLException {
+	private Connection getConnection() throws SQLException, JspException {
 		if (dataSource == null) {
-			throw new IllegalArgumentException(
+			throw new JspException(
 				"Either dataSource or dataSourceName MUST be specified.");
 		}
 		return dataSource.getConnection();
@@ -150,11 +150,11 @@ public class DataTableTag extends BodyTagSupport {
 			throw new IllegalArgumentException(message);
 		}
 	}
-	
+
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-	
+
 	public DataSource getDataSource() {
 		return dataSource;
 	}
