@@ -54,16 +54,6 @@ public class DataTableTag extends BodyTagSupport {
 	private String link;
 
 	@Override
-	public void doInitBody() throws JspException {
-		super.doInitBody();
-	}
-
-	@Override
-	public int doStartTag() throws JspException {
-		return EVAL_BODY_AGAIN;
-	}
-
-	@Override
 	public int doEndTag() throws JspException {
 		if (query == null && bodyContent != null) {
 			query = bodyContent.getString();
