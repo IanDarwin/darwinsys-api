@@ -108,15 +108,14 @@ public class DataTableTag extends BodyTagSupport {
 		dataSource = null;
 	}
 
-	/** Get the connection. A tiny method now, but may grow to
-	 * work with dbDriver/dbURL/etc. parameters as well as DataSource.
+	/** Get the connection from the saved DataSource.
 	 * @return
 	 * @throws SQLException
 	 */
 	private Connection getConnection() throws SQLException, JspException {
 		if (dataSource == null) {
 			throw new JspException(
-				"Either dataSource or dataSourceName MUST be specified.");
+				"Error: dataSource was null when I needed it.");
 		}
 		return dataSource.getConnection();
 	}
