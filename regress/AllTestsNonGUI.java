@@ -15,7 +15,9 @@ import com.darwinsys.sql.ConnectionUtilTest;
 import com.darwinsys.util.ArrayIteratorTest;
 import com.darwinsys.util.FilePropertiesTest;
 import com.darwinsys.util.IndexListTest;
-import com.darwinsys.util.ScaledNumberFormatTest;
+import com.darwinsys.util.ScaledNumberFormatFormat2Test;
+import com.darwinsys.util.ScaledNumberFormatFormatTest;
+import com.darwinsys.util.ScaledNumberFormatParseTest;
 import com.darwinsys.util.VariableMapTest;
 
 /**
@@ -37,14 +39,16 @@ public class AllTestsNonGUI {
 		suite.addTestSuite(SimpleTagValidatorTest.class);
 		suite.addTestSuite(IndexListTest.class);
 		suite.addTestSuite(StringFormatTest.class);
-		suite.addTestSuite(ScaledNumberFormatTest.class);
+		suite.addTest(ScaledNumberFormatFormatTest.suite());
+		suite.addTestSuite(ScaledNumberFormatFormat2Test.class);
+		suite.addTestSuite(ScaledNumberFormatParseTest.class);
 		suite.addTestSuite(FileIOTest.class);
 		suite.addTestSuite(ArrayIteratorTest.class);
 		suite.addTestSuite(StringUtilTest.class);
 		suite.addTestSuite(GetOptConstructorTest.class);
-		suite.addTestSuite(GetOptDescTest.class);		
-		suite.addTestSuite(GetOptTestOldPattern.class);		
-		suite.addTestSuite(GetOptTestNewPattern.class);		
+		suite.addTestSuite(GetOptDescTest.class);
+		suite.addTestSuite(GetOptTestOldPattern.class);
+		suite.addTestSuite(GetOptTestNewPattern.class);
 		suite.addTestSuite(MutableIntegerTest.class);
 		suite.addTestSuite(VariableMapTest.class);
 		//$JUnit-END$
