@@ -6,7 +6,7 @@ import junit.framework.*;
 
 /** A simple test suite for ScaledNumberFormat parse and format */
 
-public class ScaledNumberFormatTest extends TestCase {
+public class ScaledNumberFormatParseTest extends TestCase {
 
 	static class TestDatum {
 		long number;
