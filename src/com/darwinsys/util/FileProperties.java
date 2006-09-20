@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 
-/** 
+/**
  * The <code>FileProperties</code> class extends <code>Properties</code>,
  * "a persistent set of properties [that] can be saved to a stream
  * or loaded from a stream". This subclass attends to all the mundane
@@ -40,7 +40,17 @@ public class FileProperties extends Properties {
 		load();
 	}
 
-	/** Construct a FileProperties given a fileName and 
+	public FileProperties(String readonlyFileName, Class clazz)
+	throws IOException {
+		super();
+		load(clazz.getResourceAsStream(readonlyFileName));
+	}
+
+	public FileProperties(InputStream is) throws IOException {
+		load(is);
+	}
+
+	/** Construct a FileProperties given a fileName and
 	 * a list of default properties.
 	 */
 	public FileProperties(String loadsaveFileName, Properties defProp)
@@ -82,7 +92,7 @@ public class FileProperties extends Properties {
 			return this;
 
 		// Sorry it's an InputStream not a Reader, but that's what
-		// the superclass load method still requires (as of 1.4 at least).
+		// the superclass load method still requires.
 		InputStream inStr = new FileInputStream(fileName);
 
 		// now message the superclass code to load the file.
@@ -94,21 +104,23 @@ public class FileProperties extends Properties {
 		return this;
 	}
 
-	/** Save the properties to disk for later loading. */
+	/** Save the properties to disk for later loading.
+	 * May only be used if this FileProperties was created
+	 * with a filename; otherwise, use store() and give an
+	 * OutputStream
+	 * @deprecated Use store(OutputStream) instead.
+	 */
+	@Deprecated
 	public void save() throws IOException {
+		if (fileName == null) {
+			throw new IOException("Tried to save a FileProperties loaded from CLASSPATH");
+		}
 		OutputStream outStr = new FileOutputStream(fileName);
-		
+
 		// Get the superclass to do most of the work for us.
 		store(outStr, "# Written by FileProperties.save() at " + new Date());
 
 		outStr.close();
-	}
-
-	/** No longer needed.
-	 * @deprecated No longer needed.
-	 */
-	public void close() {
-		// Nothing to do
 	}
 
 	@SuppressWarnings("unchecked")
