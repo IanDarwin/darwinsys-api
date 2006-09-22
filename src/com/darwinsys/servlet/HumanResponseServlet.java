@@ -59,7 +59,7 @@ public class HumanResponseServlet extends HttpServlet {
 	 * just to encapsulate the logic for this all in one place.
 	 * @param session
 	 * @param input
-	 * @return
+	 * @return True if the user input matches what's in the session.
 	 */
 	public boolean isValidString(HttpSession session, String input) {
 		return input.equals(session.getAttribute(SESSION_KEY_RESPONSE));
