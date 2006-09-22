@@ -252,6 +252,7 @@ public class SQLRunnerGUI  {
 		mainWindow.pack();
 		UtilGUI.monitorWindowPosition(mainWindow, p);
 		mainWindow.setVisible(true);
+		inputTextArea.requestFocusInWindow();
 	}
 
 }
