@@ -11,7 +11,9 @@ import java.util.Map;
 
 public class EqualsUtils {
 
-	 /* If both objects are null (not possible in the usual
+	/*
+	 * Overload of equals for use from 'normal' equals methods
+	 * If both objects are null (not possible in the usual
 	 * use case), treat as true. If one is null, safely
 	 * return false. Otherwise, use the Reflection API
 	 * to perform an exhaustive comparison
@@ -70,27 +72,27 @@ public class EqualsUtils {
 
 	private static boolean propsEquals(Member member, Object o1, Object o2) {
 		try {
-		if (member instanceof Field) {
-			Field f = (Field)member;
-			System.out.println(
-					String.format("EqualsUtils.propsEquals(%s)", f.getName()));
-			Object val1 = f.get(o1);
-			Object val2 = f.get(o2);
-			return val1.equals(val2);
-		} else if (member instanceof Method) {
-			Method m = (Method)member;
-			String methodName = m.getName();
-			System.out.println(
-				String.format("EqualsUtils.propsEquals(%s())", methodName));
-			if (methodName.startsWith("set")) {
-				// only test getters here - see TGS
-				return true;
-			}
-			Object v1 = m.invoke(o1, new Object[0]);
-			Object v2 = m.invoke(o2, new Object[0]);
-			return v1.equals(v2);
-		} else
-			throw new IllegalArgumentException("Internal error: member neither Method nor Field");
+			if (member instanceof Field) {
+				Field f = (Field)member;
+				System.out.println(
+						String.format("EqualsUtils.propsEquals(%s)", f.getName()));
+				Object val1 = f.get(o1);
+				Object val2 = f.get(o2);
+				return val1.equals(val2);
+			} else if (member instanceof Method) {
+				Method m = (Method)member;
+				String methodName = m.getName();
+				System.out.println(
+						String.format("EqualsUtils.propsEquals(%s())", methodName));
+				if (methodName.startsWith("set")) {
+					// only test getters here - see TGS
+					return true;
+				}
+				Object v1 = m.invoke(o1, new Object[0]);
+				Object v2 = m.invoke(o2, new Object[0]);
+				return v1.equals(v2);
+			} else
+				throw new IllegalArgumentException("Internal error: member neither Method nor Field");
 		} catch (Exception e) {
 			System.out.println(e);
 			return false;
