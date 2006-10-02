@@ -90,6 +90,12 @@ public class EqualsUtils {
 				}
 				Object v1 = m.invoke(o1, new Object[0]);
 				Object v2 = m.invoke(o2, new Object[0]);
+				if (v1 == null && v2 == null) {
+					return true;
+				}
+				if (v1 == null || v2 == null) {
+					return false;
+				}
 				return v1.equals(v2);
 			} else
 				throw new IllegalArgumentException("Internal error: member neither Method nor Field");
