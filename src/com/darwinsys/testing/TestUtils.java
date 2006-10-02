@@ -11,7 +11,7 @@ import java.util.Map;
 
 import junit.framework.AssertionFailedError;
 
-public class EqualsUtils {
+public class TestUtils {
 
 	/*
 	 * Overload of equals for use from 'normal' equals methods
