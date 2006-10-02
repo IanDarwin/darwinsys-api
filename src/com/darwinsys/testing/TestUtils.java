@@ -11,13 +11,24 @@ import java.util.Map;
 
 public class EqualsUtils {
 
-	/** Use Reflection to perform an exhaustive comparison
+	 /* If both objects are null (not possible in the usual
+	 * use case), treat as true. If one is null, safely
+	 * return false. Otherwise, use the Reflection API
+	 * to perform an exhaustive comparison
 	 * on all fields within the class.
 	 * @param o1
 	 * @param o2
-	 * @return
+	 * @return True if o1 and o2 should be equal under the
+	 * general contract of Object.equals
+	 * @see java.lang.Object#equals(Object o2);
 	 */
 	public static boolean equals(Object o1, Object o2) {
+		// Slight variation on equals() contract: if both
+		// are null, treat as same instead of NPE
+		if (o1 == null && o2 == null) {
+			return true;
+		}
+		// One is not null & the other is, safely return false
 		if (o1 == null || o2 == null) {
 			return false;
 		}
