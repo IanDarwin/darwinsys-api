@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.AssertionFailedError;
+
 public class EqualsUtils {
 
 	/*
@@ -101,8 +103,22 @@ public class EqualsUtils {
 				throw new IllegalArgumentException("Internal error: member neither Method nor Field");
 		} catch (Exception e) {
 			System.out.println(e);
+			e.printStackTrace();
 			return false;
 		}
 		/*NOTREACHED*/
+	}
+
+	/**
+	 * A JUnit-like assertion method that uses reflection to
+	 * ensure that no properties have default values; useful for
+	 * testing (possibly large) Constructors to ensure that all
+	 * properties are being set (and set correctly, e.g., gotta
+	 * love those copy-and-paste errors in legacy constructors
+	 * that are set by hand...).
+	 * @param o
+	 */
+	public static void assertNoDefaultProperties(Object o) {
+		throw new AssertionFailedError("assertNoDefaultProperties method not written yet");
 	}
 }
