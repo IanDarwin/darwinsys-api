@@ -412,6 +412,10 @@ public class Notepad {
 		}
 	}
 
+	public final void doLoad(File file) throws IOException {
+		doLoad(file.getAbsolutePath());
+	}
+
 	public final void doLoad(String fileName) throws IOException {
 		BufferedReader is = null;
 		try {
