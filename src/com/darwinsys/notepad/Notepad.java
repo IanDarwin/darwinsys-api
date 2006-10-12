@@ -2,6 +2,7 @@ package com.darwinsys.notepad;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,44 +48,44 @@ import com.darwinsys.swingui.UtilGUI;
  */
 @SuppressWarnings("serial")
 public class Notepad {
-	
+
 	private JFrame theFrame;
-	
+
 	private JTextArea ta;
-	
+
 	private JFileChooser chooser;
-	
+
 	private String fileName;
 
 	private static List<Notepad> windows = new ArrayList<Notepad>();
-	
+
 	public Notepad() {
 		theFrame = new JFrame();
 		theFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				closeThisWindow();
-			}		
+			}
 		});
 
 		ta = new JTextArea(30,70);
 		theFrame.setContentPane(new JScrollPane(ta));
 		theFrame.pack();
-		
+
 		createMenus();
-		
+
 		UtilGUI.centre(theFrame);
 		Point loc = theFrame.getLocation();
 		synchronized(windows) {
 			int windowsCreated = windows.size();
 			loc.x += windowsCreated * 20;
-			loc.y += windowsCreated * 20;		
+			loc.y += windowsCreated * 20;
 			windows.add(this);
 		}
 		theFrame.setLocation(loc);
 		theFrame.setVisible(true);
 	}
-	
+
 	private void closeThisWindow() {
 		if (!okToClose()) {
 			return;
@@ -97,13 +99,13 @@ public class Notepad {
 			}
 		}
 	}
-	
-	Action openAction = new OpenAction();	
+
+	Action openAction = new OpenAction();
 	class OpenAction extends AbstractAction {
 		OpenAction() {
 			super("Open");
 		}
-		
+
 		public void actionPerformed(ActionEvent e) {
 			if (chooser == null) {
 				chooser = new JFileChooser();
@@ -117,9 +119,9 @@ public class Notepad {
 					error("Can't open file", e1);
 				}
 			}
-		}		
+		}
 	};
-	
+
 	Action newAction = new NewAction();
 	class NewAction extends AbstractAction {
 		NewAction() {
@@ -127,9 +129,9 @@ public class Notepad {
 		}
 		public void actionPerformed(ActionEvent e) {
 			new Notepad();
-		}		
+		}
 	};
-	
+
 	private boolean doingSaveAs; // shared between SaveAction and SaveAsAction
 
 	Action saveAction = new SaveAction();
@@ -155,21 +157,21 @@ public class Notepad {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getSelectedFile();
 					if (file.exists() && doingSaveAs) {
-						int ret = JOptionPane.showConfirmDialog(theFrame, 
-								"File already exists, overwrite?", "File Exists", 
+						int ret = JOptionPane.showConfirmDialog(theFrame,
+								"File already exists, overwrite?", "File Exists",
 								JOptionPane.YES_NO_OPTION);
 						System.err.println(ret);
 						if (ret != 0);	// "Yes" is the 0th option...
 							return;
 					}
 					doSave(file);
-				}				
+				}
 			} catch (IOException e1) {
 				error("Can't save file", e1);
 			}
 		}
 	};
-	
+
 	Action saveAsAction = new SaveAsAction();
 	class SaveAsAction extends AbstractAction {
 		SaveAsAction() {
@@ -182,7 +184,7 @@ public class Notepad {
 			doingSaveAs = false;
 		}
 	};
-	
+
 	Action closeAction = new CloseAction();
 	class CloseAction extends AbstractAction {
 		CloseAction() {
@@ -190,7 +192,7 @@ public class Notepad {
 		}
 		public void actionPerformed(ActionEvent e) {
 			closeThisWindow();
-		}		
+		}
 	};
 	Action printAction = new PrintAction();
 	class PrintAction extends AbstractAction {
@@ -207,11 +209,41 @@ public class Notepad {
 			}
 		}
 	};
-	
+
+	Action cutAction = new CutAction();
+	class CutAction extends AbstractAction {
+		CutAction() {
+			super("Cut");
+		}
+		public void actionPerformed(ActionEvent e) {
+			ta.cut();
+		}
+	}
+
+	Action copyAction = new CopyAction();
+	class CopyAction extends AbstractAction {
+		CopyAction() {
+			super("Copy");
+		}
+		public void actionPerformed(ActionEvent e) {
+			ta.copy();
+		}
+	}
+
+	Action pasteAction = new PasteAction();
+	class PasteAction extends AbstractAction {
+		PasteAction() {
+			super("Paste");
+		}
+		public void actionPerformed(ActionEvent e) {
+			ta.paste();
+		}
+	}
+
 	private void error(String message, Exception e) {
 		JOptionPane.showMessageDialog(theFrame, message + "\n" + e);
 		e.printStackTrace();
-	}	
+	}
 
 	Action exitAction = new ExitAction();
 	class ExitAction extends AbstractAction {
@@ -220,7 +252,7 @@ public class Notepad {
 		}
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
-		}		
+		}
 	};
 
 	Action helpAboutAction = new HelpAboutAction();
@@ -229,23 +261,23 @@ public class Notepad {
 			super("About");
 		}
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(theFrame, 
+			JOptionPane.showMessageDialog(theFrame,
 				"Notepad 0.0");
-		}		
+		}
 	};
 
 	private void createMenus() {
 		JMenuBar mb = new JMenuBar();
 		/** File, Help */
 		JMenu fm, em, hm;
-		
+
 		theFrame.setJMenuBar(mb);
 
 		// The File Menu...
 		fm = new JMenu("File");
 		fm.add(openAction);
 		fm.add(saveAction);
-		fm.add(saveAsAction);		
+		fm.add(saveAsAction);
 		fm.add(closeAction);
 		fm.add(newAction);
 		fm.addSeparator();
@@ -256,17 +288,27 @@ public class Notepad {
 
 		// The Edit Menu...
 		em = new JMenu("Edit");
-		em.add(new JMenuItem("Cut"));
-		em.add(new JMenuItem("Copy"));
-		em.add(new JMenuItem("Paste"));
+		em.add(cutAction);
+		em.add(copyAction);
+		em.add(pasteAction);
 		em.addSeparator();
 		JMenuItem insertMenu = new JMenu("Insert");
 		em.add(insertMenu);
-		insertMenu.add(new JMenuItem("Date"));
-		insertMenu.add(new JMenuItem(".signature"));
-		insertMenu.add(new JMenuItem("File..."));
+		JMenuItem menuItem = new JMenuItem("Date");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ta.insert(new Date().toString(), ta.getCaretPosition());
+			}
+		});
+		insertMenu.add(menuItem);
+		JMenuItem menuItem2 = new JMenuItem(".signature");
+		menuItem2.setEnabled(false);
+		insertMenu.add(menuItem2);
+		JMenuItem menuItem3 = new JMenuItem("File...");
+		menuItem3.setEnabled(false);
+		insertMenu.add(menuItem3);
 		mb.add(em);
-		
+
 		// The Help Menu...
 		hm = new JMenu("Help");
 		hm.add(helpAboutAction);
@@ -278,13 +320,13 @@ public class Notepad {
 		// confirm via JOptionPane
 		return true;
 	}
-	
-	/** Print a file by name 
+
+	/** Print a file by name
 	 * @throws IOException
-	 * @throws PrintException 
+	 * @throws PrintException
 	 */
 	public final void doPrint() throws IOException, PrintException {
-	
+
 		System.out.println("Printing ");
 		DocFlavor flavor = DocFlavor.CHAR_ARRAY.TEXT_PLAIN;
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
@@ -301,23 +343,26 @@ public class Notepad {
 			i = 1;
 			break;
 		default:
-			i = JOptionPane.showOptionDialog(theFrame, 
-					"Pick a printer", "Choice", 
-					JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, 
+			i = JOptionPane.showOptionDialog(theFrame,
+					"Pick a printer", "Choice",
+					JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, pservices, pservices[0]);
 			break;
+		}
+		if (i < 0) {
+			return;
 		}
 		DocPrintJob pj = pservices[i].createPrintJob();
 		Doc doc = new MyDocument(flavor);
 
 		pj.print(doc, aset);
 	}
-	
+
 	/**
 	 * Simple holder for document flavor.
 	 */
 	final class MyDocument implements Doc {
-		
+
 		private DocFlavor flavor;
 		public MyDocument(DocFlavor flavor) {
 			this.flavor = flavor;
@@ -342,14 +387,14 @@ public class Notepad {
 		public InputStream getStreamForBytes() throws IOException {
 			return null;
 		}
-	}	
-	
-	public final void doLoad(String fileName) throws IOException {		
+	}
+
+	public final void doLoad(String fileName) throws IOException {
 		BufferedReader is = null;
 		try {
 			is = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(theFrame, 
+			JOptionPane.showMessageDialog(theFrame,
 				String.format("File %s not found, treating as New File", fileName),
 				"Not found", JOptionPane.WARNING_MESSAGE);
 			setFileName(fileName);
@@ -361,7 +406,7 @@ public class Notepad {
 			ta.append("\n");
 		}
 		ta.setCaretPosition(0);
-		is.close();		
+		is.close();
 		setFileName(fileName);
 	}
 
@@ -373,7 +418,7 @@ public class Notepad {
 	public final void doSave(String fileName) throws IOException {
 		doSave(new File(fileName));
 	}
-	
+
 	/**
 	 * Save the file to disk, in such a way as to map the UNIX
 	 * line-endings used inside JTextArea to the correct
@@ -389,10 +434,10 @@ public class Notepad {
 		while ((line = is.readLine()) != null) {
 			w.println(line);
 		}
-		w.close();	
+		w.close();
 		setFileName(file.getAbsolutePath());
 	}
-	
+
 	/**
 	 * Set the fileName field and the title.
 	 * @param fileName The new file name.
