@@ -102,7 +102,11 @@ public class Notepad {
 		synchronized(windows) {
 			windows.remove(this);
 			if (windows.size() == 0) {
-				System.exit(0);
+				if (isStandalone) {
+					System.exit(0);
+				} else {
+					// imbedded - nothing to do.
+				}
 			}
 		}
 	}
