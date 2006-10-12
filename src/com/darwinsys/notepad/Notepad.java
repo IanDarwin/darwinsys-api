@@ -59,6 +59,13 @@ public class Notepad {
 
 	private static List<Notepad> windows = new ArrayList<Notepad>();
 
+	private boolean isStandalone = true;
+
+	public Notepad(boolean isStandalone) {
+		this();
+		this.isStandalone = isStandalone;
+	}
+
 	public Notepad() {
 		theFrame = new JFrame();
 		theFrame.addWindowListener(new WindowAdapter() {
@@ -251,7 +258,11 @@ public class Notepad {
 			super("Exit");
 		}
 		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
+			if (isStandalone) {
+				System.exit(0);
+			} else {
+				closeThisWindow();
+			}
 		}
 	};
 
@@ -270,6 +281,7 @@ public class Notepad {
 		JMenuBar mb = new JMenuBar();
 		/** File, Help */
 		JMenu fm, em, hm;
+		JMenuItem mi;
 
 		theFrame.setJMenuBar(mb);
 
@@ -291,6 +303,13 @@ public class Notepad {
 		em.add(cutAction);
 		em.add(copyAction);
 		em.add(pasteAction);
+		em.addSeparator();
+		mi = new JMenuItem("Search");
+		mi.setEnabled(false);
+		em.add(mi);
+		mi = new JMenuItem("Replace");
+		mi.setEnabled(false);
+		em.add(mi);
 		em.addSeparator();
 		JMenuItem insertMenu = new JMenu("Insert");
 		em.add(insertMenu);
