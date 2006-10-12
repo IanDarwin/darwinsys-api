@@ -1,4 +1,4 @@
-package notepad;
+package com.darwinsys.notepad;
 
 import java.io.IOException;
 
