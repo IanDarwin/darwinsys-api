@@ -5,9 +5,9 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
-/** 
+/**
  * <p>
- * ColumnLayout, a Columnar Layout Manager for AWT/Swing.
+ * ColumnLayout, a Single-Column Layout Manager for AWT/Swing.
  * Sort of a cross between BoxLayout and GridLayout(0, x).
  * Displays components in a single row or column based on the
  * alignment given to the constructor, with optional padding.</p>
@@ -27,6 +27,7 @@ public class ColumnLayout implements LayoutManager {
 	public static final int X_AXIS = 'x';
 	/** Constant for Y AXIS (vertical column) alignment */
 	public static final int Y_AXIS = 'y';
+
 	/** The alignment for this ColumnLayout */
 	protected final int alignment;
 	/** The X padding for this ColumnLayout */
@@ -59,7 +60,7 @@ public class ColumnLayout implements LayoutManager {
 
 	/**
 	 * Called by AWT when the user uses the form add(name, Component).
-	 * Adds the specified component with the specified name to the layout. 
+	 * Adds the specified component with the specified name to the layout.
 	 * Not necessary to use this form.
 	 *
 	 * @param	name	String with location for component c
@@ -70,7 +71,7 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * Called by AWT to lay out the components 
+	 * Called by AWT to lay out the components
 	 * in the target Container at its current size.
 	 *
 	 * @param	target	Container whose components are to be laid out.
@@ -80,14 +81,14 @@ public class ColumnLayout implements LayoutManager {
 		doLayout(target);
 	}
 
-	/** Used internally: compute the layout and the maximal preferred 
+	/** Used internally: compute the layout and the maximal preferred
 	 * width & height
 	 * <br/>
 	 * TODO XXX NEED TO SCALE BY TARGSIZE?
 	 */
 	protected Dimension doLayout(Container target) {
 
-		// Pass 1 - get preferred sizes 
+		// Pass 1 - get preferred sizes
 		minw = minh = 0;
 		curComps = target.getComponents();
 		for (int i = 0; i<curComps.length; i++) {
@@ -97,9 +98,8 @@ public class ColumnLayout implements LayoutManager {
 			minh = Math.max(minh, d.height);
 		}
 
-
-		int x = hPadding, y = vPadding;
 		// Pass 2 - move & resize components
+		int x = hPadding, y = vPadding;
 		for (int i = 0; i<curComps.length; i++) {
 			Component tc = curComps[i];
 			Dimension d = tc.getPreferredSize();
@@ -143,11 +143,10 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * Called from AWT to calculate the minimum size dimensions 
+	 * Called from AWT to calculate the minimum size dimensions
 	 * for the target panel given the components in it.
 	 * But we use our own list of named insertions, not the
 	 * list of Components that the container keeps.
-	 *
 	 * @param	target	Container to calculate for
 	 */
 	public Dimension minimumLayoutSize(Container target) {
@@ -158,7 +157,6 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * Called by AWT to compute the preferred size for the target panel
 	 * given our list of the components that it contains.
-	 *
 	 * @param	target	Container to calculate for
 	 */
 	public Dimension preferredLayoutSize(Container target) {
@@ -181,8 +179,7 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * Called by AWT to remove a given component from the layout. 
-	 *
+	 * Called by AWT to remove a given component from the layout.
 	 * @param	c	Component to be removed
 	 */
 	public void  removeLayoutComponent(Component c) {
