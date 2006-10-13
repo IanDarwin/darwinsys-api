@@ -15,8 +15,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.print.Doc;
@@ -61,12 +61,22 @@ public class Notepad {
 
 	private boolean isStandalone = true;
 
-	public Notepad(boolean isStandalone) {
-		this();
-		this.isStandalone = isStandalone;
-	}
+	private JMenu fm, em, hm;
 
 	public Notepad() {
+		this(false);
+	}
+
+	public Notepad(boolean isStandalone) {
+
+		this.isStandalone = isStandalone;
+		// Allow override for testing
+		String prop;
+		if ((prop = System.getProperty("STANDALONE")) != null) {
+			this.isStandalone = Boolean.parseBoolean(prop);
+			System.out.println(isStandalone);
+		}
+
 		theFrame = new JFrame();
 		theFrame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -262,11 +272,7 @@ public class Notepad {
 			super("Exit");
 		}
 		public void actionPerformed(ActionEvent e) {
-			if (isStandalone) {
-				System.exit(0);
-			} else {
-				closeThisWindow();
-			}
+			System.exit(0);
 		}
 	};
 
@@ -277,14 +283,14 @@ public class Notepad {
 		}
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane.showMessageDialog(theFrame,
-				"Notepad 0.0");
+				"<html><font color='red'>Notepad 0.0</font> A simple text editor");
 		}
 	};
 
 	private void createMenus() {
 		JMenuBar mb = new JMenuBar();
 		/** File, Help */
-		JMenu fm, em, hm;
+
 		JMenuItem mi;
 
 		theFrame.setJMenuBar(mb);
@@ -300,6 +306,9 @@ public class Notepad {
 		fm.add(printAction);
 		fm.addSeparator();
 		fm.add(exitAction);
+		if (!isStandalone) {
+			exitAction.setEnabled(false);
+		}
 		mb.add(fm);
 
 		// The Edit Menu...
@@ -335,6 +344,9 @@ public class Notepad {
 		// The Help Menu...
 		hm = new JMenu("Help");
 		hm.add(helpAboutAction);
+		if (!isStandalone) {
+			helpAboutAction.setEnabled(false);
+		}
 		mb.add(hm);
 	}
 
@@ -472,5 +484,17 @@ public class Notepad {
 	private void setFileName(String fileName) {
 		this.fileName = fileName;
 		theFrame.setTitle(fileName);
+	}
+
+	public JMenu getEditMenu() {
+		return em;
+	}
+
+	public JMenu getFileMenu() {
+		return fm;
+	}
+
+	public JMenu getHelpMenu() {
+		return hm;
 	}
 }
