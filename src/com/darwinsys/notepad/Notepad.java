@@ -78,6 +78,7 @@ public class Notepad {
 		}
 
 		theFrame = new JFrame();
+		theFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		theFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
