@@ -48,4 +48,18 @@ public class DateSimple {
 	public Calendar getCalendar() {
 		return new GregorianCalendar(year, month, day);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof DateSimple)) {
+			return false;
+		}
+		DateSimple d = (DateSimple) obj;
+		return year == d.year && month == d.month && day == d.day;
+	}
+
+	@Override
+	public int hashCode() {
+		return year<<16 | month << 8 | day;
+	}
 }
