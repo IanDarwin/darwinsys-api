@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * </pre>
  * @version $Id$
  */
-public class CSVRE {
+public class CSVRE implements CSVParser {
 	/** The rather involved pattern used to match CSV's consists of three
 	 * alternations: the first matches a quoted field, the second unquoted,
 	 * the third a null field.

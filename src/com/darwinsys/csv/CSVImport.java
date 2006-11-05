@@ -21,7 +21,7 @@ import com.darwinsys.util.Debug;
  * @author Ian F. Darwin (translation into Java and removal of I/O)
  * @author Ben Ballard (rewrote advQuoted to handle '""' and for readability)
  */
-public class CSVImport {
+public class CSVImport implements CSVParser {
 
 	public static final char DEFAULT_SEP = ',';
 
@@ -48,8 +48,7 @@ public class CSVImport {
 	 * @return java.util.Iterator containing each field
 	 * from the original as a String, in order.
 	 */
-	public List<String> parse(String line)
-	{
+	public List<String> parse(String line) {
 		StringBuffer sb = new StringBuffer();
 		list.clear();			// recycle to initial state
 		int i = 0;
