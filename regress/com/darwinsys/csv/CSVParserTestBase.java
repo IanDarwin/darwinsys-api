@@ -13,29 +13,26 @@ public abstract class CSVParserTestBase extends TestCase {
 
 	CSVParser csv;	// must be set in subclass constructor.
 
-	String[] data = {
-		"abc",
-		"hello, world",
-		"a,b,c",
-		"a\"bc,d,e",
-		"\"a,a\",b,\"c:\\foo\\bar\"",
-		"\"he\"llo",
-		"123,456",
-		"\"LU\",86.25,\"11/4/1998\",\"2:19PM\",+4.0625",
-		"bad \"input\",123e01",
-		//"XYZZY,\"\"|\"OReilly & Associates| Inc."|"Darwin| Ian"|"a \"glug\" bit|"|5|"Memory fault| core NOT dumped"
-
-	};
-	int[] listLength = {
-					1,
-					2,
-					3,
-					3,
-					3,
-					1,
-					2,
-					5,
-					2
+	class X {
+		int expectLength;String input;
+		public X(int expectLength, String input) {
+			super();
+			this.expectLength = expectLength;
+			this.input = input;
+		}
+	}
+	X[] data = {
+		new X(1, "abc"),
+		new X(2, "hello, world"),
+		new X(3, "a,b,c"),
+		new X(3, "a\"bc,d,e"),
+		new X(3, "\"a,a\",b,\"c:\\foo\\bar\""),
+		new X(1, "\"he\"llo"),
+		new X(2, "123,456"),
+		new X(5, "\"LU\",86.25,\"11/4/1998\",\"2:19PM\",+4.0625"),
+		new X(2, "bad \"input\",123e01"),
+		//new X(0,
+		//"XYZZY,\"\"|\"OReilly & Associates| Inc."|"Darwin| Ian"|"a \"glug\" bit|"|5|"Memory fault| core NOT dumped"),
 	};
 
 	/** test all the Strings in "data" */
@@ -46,15 +43,15 @@ public abstract class CSVParserTestBase extends TestCase {
 		int i = 0;
 		try {
 			for (i = 0; i < data.length; i++){
-				List l = csv.parse(data[i]);
-				assertEquals(l.size() , listLength[i]);
+				List l = csv.parse(data[i].input);
+				assertEquals(data[i].expectLength, l.size());
 				for (int k = 0; k < l.size(); k++){
 					System.out.print("[" + l.get(k) + "],");
 				}
 				System.out.println();
 			}
 		} catch (Throwable t) {
-			System.err.printf("Error occured in data[%d], %s%n", i, data[i]);
+			System.err.printf("Error occured in data[%d], %s%n", i, data[i].expectLength);
 			throw t;
 		}
 	}

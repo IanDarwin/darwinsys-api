@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * @author ian
  */
-public class CSVTest extends CSVParserTestBase {
+public class CSVImportTest extends CSVParserTestBase {
 
-	public CSVTest() {
+	public CSVImportTest() {
 		csv = new CSVImport();
 	}
 
