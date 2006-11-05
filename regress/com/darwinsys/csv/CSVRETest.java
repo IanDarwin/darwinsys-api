@@ -43,4 +43,20 @@ public class CSVRETest extends TestCase {
 		List list = target.parse("\"LU\",86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
 		assertEquals(2, list.size());
 	}
+
+	/**
+	 * Test suggested by an email from "Benoit" &lt;benoitx 
+	 * at yahoo.com%gt.
+	 * The current RE version does not work with this test.
+	 */
+	public void XXXtestEscapeQuoted() {
+		String string = "\"a,b,c\",d,\"and \\\"e\",f";
+		System.out.println(string);
+		List list = target.parse(string);
+		assertEquals(4, list.size());
+		assertEquals("a,b,c", list.get(0));
+		assertEquals("d", list.get(1));
+		// assertEquals("and \\\"e", list.get(2));
+		assertEquals("f", list.get(3));
+	}
 }

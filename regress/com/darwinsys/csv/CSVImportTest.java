@@ -56,7 +56,6 @@ public class CSVTest extends TestCase {
 
 	/** Test one String with a non-default delimiter */
 	public void testBarDelim() {
-		// Now test slightly-different string with a non-default separator
 		CSVImport parser = new CSVImport('|');
 		List l = parser.parse(
 			"\"LU\"|86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
