@@ -1,8 +1,10 @@
 package com.darwinsys.notepad;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -38,6 +40,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.undo.UndoManager;
 
 import com.darwinsys.swingui.UtilGUI;
 
@@ -53,6 +56,8 @@ public class Notepad {
 
 	private JTextArea ta;
 
+	private UndoManager undoManager;
+
 	private JFileChooser chooser;
 
 	private String fileName;
@@ -64,17 +69,17 @@ public class Notepad {
 	private JMenu fm, em, hm;
 
 	public Notepad() {
-		this(false);
+		this(true);
 	}
 
 	public Notepad(boolean isStandalone) {
 
 		this.isStandalone = isStandalone;
-		// Allow override for testing
+		// Allow override of "isStandalone" from cmd line for testing
 		String prop;
 		if ((prop = System.getProperty("STANDALONE")) != null) {
 			this.isStandalone = Boolean.parseBoolean(prop);
-			System.out.println(isStandalone);
+			System.out.println("Standalone set to " + this.isStandalone + "(" + prop + ")");
 		}
 
 		theFrame = new JFrame();
@@ -87,6 +92,8 @@ public class Notepad {
 		});
 
 		ta = new JTextArea(30,70);
+		undoManager = new UndoManager();
+		ta.getDocument().addUndoableEditListener(undoManager);
 		theFrame.setContentPane(new JScrollPane(ta));
 		theFrame.pack();
 
@@ -105,7 +112,7 @@ public class Notepad {
 	}
 
 	private void closeThisWindow() {
-		if (!okToClose()) {
+		if (!userOKtoClose()) {
 			return;
 		}
 		theFrame.setVisible(false);
@@ -145,7 +152,7 @@ public class Notepad {
 	};
 
 	Action newAction = new NewAction();
-	class NewAction extends AbstractAction {
+	static class NewAction extends AbstractAction {
 		NewAction() {
 			super("New");
 		}
@@ -183,7 +190,7 @@ public class Notepad {
 								"File already exists, overwrite?", "File Exists",
 								JOptionPane.YES_NO_OPTION);
 						System.err.println(ret);
-						if (ret != 0);	// "Yes" is the 0th option...
+						if (ret != 0)	// "Yes" is the 0th option...
 							return;
 					}
 					doSave(file);
@@ -242,6 +249,16 @@ public class Notepad {
 		}
 	}
 
+	Action undoAction = new UndoAction();
+	class UndoAction extends AbstractAction {
+		UndoAction() {
+			super("Undo");
+		}
+		public void actionPerformed(ActionEvent e) {
+			undoManager.undo();
+		}
+	}
+
 	Action copyAction = new CopyAction();
 	class CopyAction extends AbstractAction {
 		CopyAction() {
@@ -268,7 +285,7 @@ public class Notepad {
 	}
 
 	Action exitAction = new ExitAction();
-	class ExitAction extends AbstractAction {
+	static class ExitAction extends AbstractAction {
 		ExitAction() {
 			super("Exit");
 		}
@@ -307,16 +324,19 @@ public class Notepad {
 		fm.add(printAction);
 		fm.addSeparator();
 		fm.add(exitAction);
-		if (!isStandalone) {
-			exitAction.setEnabled(false);
-		}
+		exitAction.setEnabled(isStandalone);
 		mb.add(fm);
 
 		// The Edit Menu...
 		em = new JMenu("Edit");
+		em.setMnemonic(KeyEvent.VK_E);
 		em.add(cutAction);
+		((JMenuItem)em.getMenuComponent(0)).setMnemonic(KeyEvent.VK_X);
 		em.add(copyAction);
+		((JMenuItem)em.getMenuComponent(1)).setMnemonic(KeyEvent.VK_C);
 		em.add(pasteAction);
+		em.add(undoAction);
+		((JMenuItem)em.getMenuComponent(3)).setMnemonic(KeyEvent.VK_Z);
 		em.addSeparator();
 		mi = new JMenuItem("Search");
 		mi.setEnabled(false);
@@ -345,13 +365,11 @@ public class Notepad {
 		// The Help Menu...
 		hm = new JMenu("Help");
 		hm.add(helpAboutAction);
-		if (!isStandalone) {
-			helpAboutAction.setEnabled(false);
-		}
+		helpAboutAction.setEnabled(isStandalone);
 		mb.add(hm);
 	}
 
-	private boolean okToClose() {
+	private boolean userOKtoClose() {
 		// TODO if unsaved changes
 		// confirm via JOptionPane
 		return true;
