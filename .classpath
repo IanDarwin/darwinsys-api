@@ -6,6 +6,8 @@
 	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.0.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/servletapi.jar"/>
+	<classpathentry kind="lib" path="lib/jmock-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jmock-cglib-1.1.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/osx-eawt-api"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
