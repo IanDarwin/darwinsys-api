@@ -18,6 +18,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 /** Standalone Swing GUI application for demonstrating REs.
  * @author	Ian Darwin, http://www.darwinsys.com/
@@ -34,12 +37,16 @@ public class REDemo extends JPanel {
 	protected JTextField matchesTF;
 	protected JTextArea logTextArea;
 	private static final Color[] Colors = {
-		Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.LIGHT_GRAY, 
+		Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.LIGHT_GRAY,
 		Color.MAGENTA, Color.ORANGE, Color.PINK, Color.WHITE
 	};
+	/** "tag" used in highlighting */
+	Object onlyHighlight;
+	Highlighter highlighter;
 
-	/** "main program" method - construct and show */
-	public static void main(String[] av) {
+	/** "main program" method - construct and show
+	 * @throws BadLocationException */
+	public static void main(String[] av) throws BadLocationException {
 		JFrame f = new JFrame("REDemo");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		REDemo comp = new REDemo();
@@ -49,8 +56,9 @@ public class REDemo extends JPanel {
 		f.setVisible(true);
 	}
 
-	/** Construct the REDemo object including its GUI */
-	public REDemo() {
+	/** Construct the REDemo object including its GUI
+	 * @throws BadLocationException */
+	public REDemo() throws BadLocationException {
 		super();
 
 		JPanel top = new JPanel();
@@ -87,6 +95,8 @@ public class REDemo extends JPanel {
 		strPane.add(new JLabel("String:", JLabel.RIGHT));
 		stringTF = new JTextField(20);
 		stringTF.getDocument().addDocumentListener(new StringListener());
+		highlighter = stringTF.getHighlighter();
+		onlyHighlight = highlighter.addHighlight(0, 0, DefaultHighlighter.DefaultPainter);
 		strPane.add(stringTF);
 		strPane.add(new JLabel("Matches:"));
 		matchesTF = new JTextField(3);
@@ -99,17 +109,25 @@ public class REDemo extends JPanel {
 		add(logTextArea = new JTextArea(5,40));
 	}
 
+	boolean matches;
+
 	protected void setMatches(boolean b) {
-		if (b)
+		matches = b;
+		if (b) {
 			matchesTF.setText("Yes");
-		else
+		} else {
 			matchesTF.setText("No");
+		}
+	}
+
+	boolean isMatch() {
+		return matches;
 	}
 
 	protected void setMatches(int n) {
 		matchesTF.setText(Integer.toString(n));
 	}
-	
+
 	protected void tryAll() {
 		tryCompile();
 		String data = stringTF.getText();
@@ -139,18 +157,17 @@ public class REDemo extends JPanel {
 		matcher.reset(stringTF.getText());
 		if (match.isSelected() && matcher.matches()) {
 			setMatches(true);
+			setHighlightFromMatcher(matcher);
 			logTextArea.setText("");
 			for (int i = 0; i <= matcher.groupCount(); i++) {
 				logTextArea.append(i + " " + matcher.group(i) + "\n");
 			}
-			return true;
-		}
-		if (find.isSelected() && matcher.find()) {
+		} else if (find.isSelected() && matcher.find()) {
 			setMatches(true);
+			setHighlightFromMatcher(matcher);
 			logTextArea.setText(matcher.group());
-			return true;
-		}
-		if (findAll.isSelected()) {
+		} else if (findAll.isSelected()) {
+			setHighlightFromMatcher(matcher);
 			int i;
 			for (i = 0; i < n; i++) {
 				matcher.find();
@@ -160,9 +177,27 @@ public class REDemo extends JPanel {
 				setMatches(true);
 				return true;
 			}
+		} else {
+			setMatches(false);
+			setHighlightFromMatcher(null);
 		}
-		setMatches(false);
-		return false;
+		return isMatch();
+	}
+
+	private void setHighlightFromMatcher(Matcher matcher) {
+		int start, end;
+		if (matcher == null) {
+			start = end = 0;
+		} else {
+			start = matcher.start();
+			end = matcher.end();
+		}
+		try {
+			// System.out.printf("setHighlightFromMatcher(): %d...%d%n", start, end);
+			highlighter.changeHighlight(onlyHighlight, start, end);
+		} catch (BadLocationException e) {
+			System.err.println(e);
+		}
 	}
 
 	/** Any change to the pattern tries to compile the result. */
@@ -184,7 +219,6 @@ public class REDemo extends JPanel {
 	/** Any change to the input string tries to match the result */
 	class StringListener implements DocumentListener {
 
-
 		public void changedUpdate(DocumentEvent ev) {
 			tryMatch();
 		}
@@ -197,7 +231,7 @@ public class REDemo extends JPanel {
 			tryMatch();
 		}
 	}
-	
+
 	public Color getColor(int n) {
 		return Colors[n%Colors.length];
 	}
