@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * Manually test out the InstallerUtils method(s).
  */
@@ -11,7 +14,7 @@ public class InstallerUtilsTest {
 
 	/**
 	 * @param args
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
 		JFrame jf = new JFrame("Just a test");
@@ -23,9 +26,12 @@ public class InstallerUtilsTest {
 		boolean accepted = InstallerUtils.acceptLicense(jf,
 				"regress/com/darwinsys/installers/InstallerUtilsTest.java");
 		System.out.printf("You %s accept the license%n", accepted ? "did" : "did not");
-		
+
 		// Now test with HTML
 		InstallerUtils.acceptLicense(jf, "src/com/darwinsys/installers/package.html");
 	}
 
+	public Test suite() {
+		return new TestSuite();
+	}
 }
