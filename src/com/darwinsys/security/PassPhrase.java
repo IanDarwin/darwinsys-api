@@ -22,14 +22,14 @@ public class PassPhrase {
 		'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N',
 		'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-		'2', '3', '4', '5', '6', '7', '8', '9', 
+		'2', '3', '4', '5', '6', '7', '8', '9',
 	};
 
 	/* Generate a Password object with a random password. */
 	public static String getNext() {
 		return getNext(MIN_LENGTH);
 	}
-	
+
 	/* Generate a Password object with a random password. */
 	public static String getNext(int length) {
 		if (length < 1) {
@@ -40,5 +40,18 @@ public class PassPhrase {
 			sb.append(goodChar[r.nextInt(goodChar.length)]);
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Print one password, or a password of the given length(s)
+	 */
+	public static void main(String[] args) {
+		if (args.length == 0) {
+		System.out.println(getNext(MIN_LENGTH));
+		} else {
+			for (String arg : args) {
+				System.out.println(getNext(Integer.parseInt(arg)));
+			}
+		}
 	}
 }
