@@ -17,7 +17,7 @@ import com.darwinsys.util.Debug;
  * (as doubles, fractions from 0.1 to 0.9, so 40%,60% would be {0.4, 0.6}).
  * The length of this array uniquely determines the number of columns.
  * Columns are forced to be the relevant widths.
- * <b>Note:</b> As with GridLayout, the number of items 
+ * <b>Note:</b> As with GridLayout, the number of items
  * added <B>must</B> be an even
  * multiple of the number of columns. If not, exceptions may be thrown!
  * @author Ian F. Darwin, http://www.darwinsys.com/
@@ -56,6 +56,7 @@ public class EntryLayout implements LayoutManager {
 		hpad = h;
 		vpad = v;
 	}
+
 	/** Construct an EntryLayout with widths and with default padding amounts.
 	 * @param relWidths	Array of doubles specifying column widths.
 	 */
@@ -63,7 +64,7 @@ public class EntryLayout implements LayoutManager {
 		this(relWidths, HPAD, VPAD);
 	}
 
-	/** Adds the specified component with the specified constraint 
+	/** Adds the specified component with the specified constraint
 	 * to the layout; required by LayoutManager but not used.
 	 */
 	public void addLayoutComponent(String name, Component comp) {
@@ -77,14 +78,14 @@ public class EntryLayout implements LayoutManager {
 		// nothing to do
 	}
 
-	/** Calculates the preferred size dimensions for the specified panel 
+	/** Calculates the preferred size dimensions for the specified panel
 	 * given the components in the specified parent container. */
 	public Dimension preferredLayoutSize(Container parent)  {
 		// System.out.println("preferredLayoutSize");
 		return computeLayoutSize(parent, hpad, vpad);
 	}
 
-	/** Find the minimum Dimension for the 
+	/** Find the minimum Dimension for the
 	 * specified container given the components therein.
 	 */
 	public Dimension minimumLayoutSize(Container parent)  {
@@ -97,7 +98,7 @@ public class EntryLayout implements LayoutManager {
 	/** The height of each row, as found by computLayoutSize(). */
 	int[] heights;
 
-	/** Compute the size of the whole mess. Serves as the guts of 
+	/** Compute the size of the whole mess. Serves as the guts of
 	 * preferredLayoutSize() and minimumLayoutSize().
 	 * @param parent The container in which to do the layout.
 	 * @param hp The horizontal padding (may be zero)
@@ -150,7 +151,7 @@ public class EntryLayout implements LayoutManager {
 			Component c = components[i];
 			Dimension d = c.getPreferredSize();
 			int colWidth = (int)(contSize.width * widthPercentages[col]);
-			
+
 			if (col == 0) {
 				x = hpad;
 			} else {
