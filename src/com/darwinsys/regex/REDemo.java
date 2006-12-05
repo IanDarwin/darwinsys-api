@@ -90,6 +90,7 @@ public class REDemo extends JPanel {
 		findAll.addChangeListener(cl);
 		bg.add(findAll);
 		switchPane.add(findAll);
+		bg.setSelected(find.getModel(), true);
 
 		JPanel strPane = new JPanel();
 		strPane.add(new JLabel("String:", JLabel.RIGHT));
@@ -153,6 +154,9 @@ public class REDemo extends JPanel {
 		}
 		logTextArea.setText("");
 
+		setMatches(false);
+		setHighlightFromMatcher(null);
+
 		int n = matcher.groupCount();
 		matcher.reset(stringTF.getText());
 		if (match.isSelected() && matcher.matches()) {
@@ -167,20 +171,18 @@ public class REDemo extends JPanel {
 			setHighlightFromMatcher(matcher);
 			logTextArea.setText(matcher.group());
 		} else if (findAll.isSelected()) {
-			setHighlightFromMatcher(matcher);
 			int i;
 			for (i = 0; i < n; i++) {
 				matcher.find();
 				logTextArea.append(i + ": " + matcher.group(i) + "\n");
 			}
 			if (i > 0) {
+				setHighlightFromMatcher(matcher);
 				setMatches(true);
 				return true;
 			}
-		} else {
-			setMatches(false);
-			setHighlightFromMatcher(null);
 		}
+
 		return isMatch();
 	}
 
