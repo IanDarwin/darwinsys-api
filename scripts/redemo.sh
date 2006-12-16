@@ -1,1 +1,1 @@
-java org.apache.regexp.REDemo
+java -classpath ~/workspace/darwinsys-api/build com.darwinsys.regex.REDemo
