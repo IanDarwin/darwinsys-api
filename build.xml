@@ -2,6 +2,8 @@
 
 	<!-- $Id$ -->
 
+	<property file="build.properties"/>
+
 	<!-- other properties -->
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
@@ -16,6 +18,8 @@
 
 	<property name="deploy.dir" value="${user.home}/lib"/>
 
+	<property name="junit.jar"  value="${user.home}/lib/junit.jar"/>
+
 	<!-- If Ant 1.5 barfs on this, just comment it out -->
 	<condition property="isMacOSX">
 		<and>
@@ -24,9 +28,9 @@
 		</and>
 	</condition>
 	<!-- -->
-	
+
 	<!-- Test for junit.jar -->
-	<available file="${junit.jar}" 
+	<available file="${junit.jar}"
 		type="file" property="junit.jar.present"/>
 
 	<target name="check" unless="junit.jar.present">
@@ -73,7 +77,7 @@
 	<target name="jar" depends="docs">
 		<mkdir dir="${build}/META-INF"/>
 		<copy file="darwintags.tld" todir="${build}/META-INF"/>
-		<jar jarfile="${build}/${obj.jar}" 
+		<jar jarfile="${build}/${obj.jar}"
 			manifest="manifest.stub"
 			basedir="${build}" includes="META-INF/*,com/**/*.class,docs/**">
 		</jar>
@@ -97,7 +101,7 @@
 		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
 			classpath="${build}:${darwinsys.jar}:${servletapi.jar}:${mail.jar}"
 			packagenames="com.darwinsys.*"
-			maxmemory="32m" 
+			maxmemory="32m"
 			windowtitle="com.darwinsys.* - Java Cookbook Utilities"
 			Version="true" Author="true" Use="true"
 			Overview="overview.html"
@@ -111,17 +115,29 @@
 		<copy file="html/index.html" todir="${build}/docs"/>
 	</target>
 
-	<!-- Simple Regression Tests -->
+	<!-- Regression Tests -->
 	<target name="regress" depends="build">
-		<junit printsummary="yes" fork="no" haltonfailure="yes">
+		<junit printsummary="withOutAndErr"
+			fork="no"
+			haltonfailure="no">
 				<classpath>
 						<pathelement location="${build}"/>
 						<pathelement location="${junit.jar}"/>
 				</classpath>
-				<formatter type="plain"/>
-				<test name="regress.AllTestsNonGUI"/>
+				<formatter type="xml"/>
+				<batchtest fork="yes" todir=".">
+					 <fileset dir="regress">
+					     <include name="**/*Test.java"/>
+					     <exclude name="**/AllTest*.java"/>
+					 </fileset>
+				</batchtest>
 		</junit>
-
+		<junitreport>
+			<fileset dir=".">
+				<include name="TESTre-*.xml"/>
+			</fileset>
+			<report format="frames"/>
+		</junitreport>
 	</target>
 
 	<!-- These regression tests require manual intervention, so not default -->
