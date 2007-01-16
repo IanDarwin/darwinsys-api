@@ -30,6 +30,8 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -153,6 +155,12 @@ public class SQLRunnerGUI  {
 
 		configurations = ConnectionUtil.getConfigurations();
 		connectionsList = new JComboBox(configurations.toArray(new Configuration[configurations.size()]));
+		// when you change to a different database you don't want to remember the "force passwd prompt setting
+		connectionsList.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				passwdPromptCheckBox.setSelected(false);
+			}
+		});
 		controlsArea.add(new JLabel("Connection"));
 		controlsArea.add(connectionsList);
 		passwdPromptCheckBox = new JCheckBox("Ask for passwd");
@@ -282,6 +290,7 @@ public class SQLRunnerGUI  {
 				}
 
 			};
+			textField.addActionListener(okAction);
 			JButton ok = new JButton(okAction);
 			input.add(ok);
 			input.pack();
