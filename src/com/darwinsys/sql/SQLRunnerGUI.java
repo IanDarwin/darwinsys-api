@@ -63,7 +63,7 @@ import com.darwinsys.util.Verbosity;
 
 /**
  * A simple GUI to run one set of commands.
- * XXX There should be a ProgressMonitor or a JProgresBar(Indeterminate).
+ * XXX There should be a ProgressMonitor or a JProgressBar(Indeterminate) when running commands
  */
 public class SQLRunnerGUI  {
 
