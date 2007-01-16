@@ -27,23 +27,28 @@ package com.darwinsys.sql;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.prefs.Preferences;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -73,6 +78,10 @@ public class SQLRunnerGUI  {
 	final JButton runButton;
 
 	final PrintWriter out;
+
+	final List<Configuration> configurations;
+	final JComboBox connectionsList;
+	final JCheckBox passwdPromptCheckBox;
 
 	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
 
@@ -113,8 +122,6 @@ public class SQLRunnerGUI  {
 		}
 	}
 
-	final List<Object> connections;
-	final JComboBox connectionsList;
 
 	/**
 	 * Set the selected Configuration Object in the Connections chooser
@@ -125,9 +132,7 @@ public class SQLRunnerGUI  {
 		if (config == null) {
 			throw new NullPointerException("Configuration name may not be null");
 		}
-		Iterator<Object> it = connections.iterator();
-		while (it.hasNext()) {
-			Object configListItem = it.next();
+		for (Configuration configListItem : configurations) {
 			if (config.equals(configListItem.toString())) {
 				connectionsList.setSelectedItem(configListItem);
 				return;
@@ -146,10 +151,12 @@ public class SQLRunnerGUI  {
 		final Container controlsArea = new JPanel();
 		mainWindow.add(controlsArea, BorderLayout.NORTH);
 
-		connections = ConnectionUtil.getInstance().getConfigurations();
-		connectionsList = new JComboBox(connections.toArray(new String[connections.size()]));
+		configurations = ConnectionUtil.getConfigurations();
+		connectionsList = new JComboBox(configurations.toArray(new Configuration[configurations.size()]));
 		controlsArea.add(new JLabel("Connection"));
 		controlsArea.add(connectionsList);
+		passwdPromptCheckBox = new JCheckBox("Ask for passwd");
+		controlsArea.add(passwdPromptCheckBox);
 
 		final JComboBox inTemplateChoice = new JComboBox();
 		// XXX Of course these should come from Properties and be editable...
@@ -185,7 +192,13 @@ public class SQLRunnerGUI  {
 							if (command == null || command.length() == 0)
 								return;
 							runButton.setEnabled(false);
-							conn =  ConnectionUtil.getInstance().getConnection((String)connectionsList.getSelectedItem());
+							Configuration config = (Configuration) connectionsList.getSelectedItem();
+							if (passwdPromptCheckBox.isSelected() || !config.hasPassword()) {
+								String pass = getPassword("Connection password for " + config.getName());
+								config.setDbPassword(pass);
+							}
+							conn =  ConnectionUtil.getConnection(config);
+
 							SQLRunner.setVerbosity(Verbosity.QUIET);
 							SQLRunner prog = new SQLRunner(conn, null, "t");
 							prog.setOutputFile(out);
@@ -254,5 +267,28 @@ public class SQLRunnerGUI  {
 		mainWindow.setVisible(true);
 		inputTextArea.requestFocusInWindow();
 	}
+
+		@SuppressWarnings("serial")
+		private String getPassword(String prompt) {
+			final JDialog input = new JDialog(mainWindow, "Prompt", true);
+			input.setLayout(new FlowLayout());
+			input.add(new JLabel(prompt));
+			JPasswordField textField = new JPasswordField(10);
+			input.add(textField);
+			Action okAction = new AbstractAction("OK") {
+
+				public void actionPerformed(ActionEvent e) {
+					input.dispose();
+				}
+
+			};
+			JButton ok = new JButton(okAction);
+			input.add(ok);
+			input.pack();
+			input.setLocationRelativeTo(mainWindow);
+			input.setVisible(true);	// BLOCKING
+
+			return new String(textField.getPassword());
+		}
 
 }

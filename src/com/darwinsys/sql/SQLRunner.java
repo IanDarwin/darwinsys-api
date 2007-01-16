@@ -45,7 +45,7 @@ import com.darwinsys.util.Verbosity;
  * Command line interface accepts options -c config [-f configFile] [scriptFile].
  * <p>Input language is: escape commands (begin with \ and MUST end with semi-colon), or
  * standard SQL statements which must also end with semi-colon);
- * <p>Escape sequences: 
+ * <p>Escape sequences:
  * <ul>
  * <li> \m (output-mode), takes character t for text,
  * h for html, s for sql, x for xml (not in this version)
@@ -62,44 +62,44 @@ import com.darwinsys.util.Verbosity;
  * select * from person where person_key=4;
  * </pre>might produce this output:<pre>
  * Executing : <<select * from person where person_key=4>>
- *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... ) 
+ *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... )
  * values (4, 'Ian', 'F', 'Darwin', ...);
  * </pre>
  * <p>TODO: Fix parsing so \\ escapes don't need to end with SQL semi-colon.
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class SQLRunner {
-	
+
 	OutputMode outputMode = OutputMode.t;
 
 	/** Database connection */
 	private Connection conn;
-	
+
 	private DatabaseMetaData dbMeta;
 
 	/** SQL Statement */
 	private Statement statement;
-	
+
 	/** Where the output is going */
 	private PrintWriter out;
-	
+
 	private ResultsDecorator currentDecorator;
 
 	private ResultsDecorator textDecorator;
 
 	private ResultsDecorator sqlDecorator;
-	
+
 	private ResultsDecorator htmlDecorator;
-	
+
 	private ResultsDecorator xmlDecorator;
-	
+
 	private boolean debug;
 
 	/** DB2 is the only one I know of today that requires table names
 	 * be given in upper case when getting table metadata
 	 */
 	private boolean upperCaseTableNames;
-	
+
 	private static Verbosity verbosity = Verbosity.QUIET;
 
 	/** Construct a SQLRunner object
@@ -114,10 +114,10 @@ public class SQLRunner {
 	public SQLRunner(String driver, String dbUrl, String user, String password,
 			String outputFile, String outputMode)
 			throws IOException, ClassNotFoundException, SQLException {
-		conn = ConnectionUtil.getInstance().getConnection(driver, dbUrl, user, password);
+		conn = ConnectionUtil.getConnection(driver, dbUrl, user, password);
 		commonSetup(outputFile, outputMode);
 	}
-	
+
 	public SQLRunner(Connection c, String outputFile, String outputModeName) throws IOException, SQLException {
 		// set up the SQL input
 		conn = c;
@@ -126,35 +126,35 @@ public class SQLRunner {
 
 	void commonSetup(String outputFileName, String outputModeName) throws IOException, SQLException {
 		dbMeta = conn.getMetaData();
-		upperCaseTableNames = 
+		upperCaseTableNames =
 			dbMeta.getDatabaseProductName().indexOf("DB2") >= 0;
 		String dbName = dbMeta.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
 		statement = conn.createStatement();
-		
+
 		if (outputFileName == null) {
 			out = new PrintWriter(System.out);
 		} else {
 			out = new PrintWriter(new FileWriter(outputFileName));
 		}
-		
+
 		setOutputMode(outputModeName);
 	}
-	
+
 	/** Set the output mode.
 	 * @param outputMode Must be a value equal to one of the MODE_XXX values.
 	 * @throws IllegalArgumentException if the mode is not valid.
 	 */
 	void setOutputMode(String outputModeName) {
-		if (outputModeName == null || 
-			outputModeName.length() == 0) { 
+		if (outputModeName == null ||
+			outputModeName.length() == 0) {
 			System.err.println(
 			"invalid mode: " + outputMode + "; must be t, h or s"); }
-		
+
 		outputMode = OutputMode.valueOf(outputModeName);
 		setOutputMode(outputMode);
 	}
-	
+
 	/** Assign the correct ResultsDecorator, creating them on the fly
 	 * using lazy evaluation.
 	 */
@@ -197,7 +197,7 @@ public class SQLRunner {
 		}
 		currentDecorator.setWriter(out);
 	}
-	
+
 	/** Run one script file, by name. Called from cmd line main
 	 * or from user code. Deprecated because of the poor capability
 	 * for error handling; it would be better for the user interface
@@ -208,10 +208,10 @@ public class SQLRunner {
 				myRunner.runStatement(stmt);
 			} catch (Exception e) {
 				// Display the message to the user ...
-			}		
+			}
 		}
 	 * </pre>
-	 * @throws SyntaxException 
+	 * @throws SyntaxException
 	 */
 	@Deprecated
 	public void runScript(String scriptFile)
@@ -227,7 +227,7 @@ public class SQLRunner {
 
 	/** Run one script, by name, given a BufferedReader.
 	 * Deprecated because of the poor capability
-	 * for error handling; it would be better for the 
+	 * for error handling; it would be better for the
 	 * user interface code to do:
 	 * <pre>while ((stmt = SQLRunner.getStatement(is)) != null) {
 			stmt = stmt.trim();
@@ -238,29 +238,29 @@ public class SQLRunner {
 			}
 		}
 	 * </pre>
-	 * @throws SyntaxException 
+	 * @throws SyntaxException
 	 */
 	@Deprecated
 	public void runScript(BufferedReader is, String name)
 	throws IOException, SQLException, SyntaxException {
 		String stmt;
-		
+
 		while ((stmt = getStatement(is)) != null) {
 			stmt = stmt.trim();
-			runStatement(stmt);			
+			runStatement(stmt);
 		}
 	}
 
 	/**
 	 * Process an escape, like "\ms;" for mode=sql.
-	 * @throws SyntaxException 
+	 * @throws SyntaxException
 	 */
 	private void doEscape(String str) throws IOException, SQLException, SyntaxException  {
 		String rest = null;
 		if (str.length() > 2) {
 			rest = str.substring(2);
 		}
-		
+
 		if (str.startsWith("\\d")) {	// Display
 			if (rest == null){
 				throw new SyntaxException("\\d needs display arg");
@@ -280,14 +280,14 @@ public class SQLRunner {
 			System.exit(0);
 		} else {
 			throw new SyntaxException("Unknown escape: " + str);
-		}		
+		}
 	}
 
 	/**
 	 * Display - generate output for \dt and similar escapes
 	 * @param rest - what to display - the argument with the \d stripped off
 	 * XXX: Move more formatting to ResultsDecorator: listTables(rs), listColumns(rs)
-	 * @throws SyntaxException 
+	 * @throws SyntaxException
 	 */
 	private void display(String rest) throws IOException, SQLException, SyntaxException {
 		if (rest.equals("t")) {
@@ -312,7 +312,7 @@ public class SQLRunner {
 		} else
 			throw new SyntaxException("\\d"  + rest + " invalid");
 	}
-	
+
 	/**
 	 * Return the names of the user tables in the given Connection
 	 * @param conn
@@ -355,24 +355,24 @@ public class SQLRunner {
 
 	/** Run one Statement, and format results as per Update or Query.
 	 * Called from runScript or from user code.
-	 * @throws SyntaxException 
+	 * @throws SyntaxException
 	 */
 	public void runStatement(final String rawString) throws IOException, SQLException, SyntaxException {
-		
+
 		final String inString = rawString.trim();
-		
+
 		if (verbosity != Verbosity.QUIET) {
-			out.println("Executing : <<" + inString.trim() + ">>");		
+			out.println("Executing : <<" + inString.trim() + ">>");
 			out.flush();
 		}
-		
+
 		if (inString.startsWith("\\")) {
 			doEscape(inString);
 			return;
 		}
 
-		boolean hasResultSet = statement.execute(inString);			// Rrringggg! Rrriinngggg! 
-		
+		boolean hasResultSet = statement.execute(inString);			// Rrringggg! Rrriinngggg!
+
 		if (!hasResultSet) {
 			currentDecorator.printRowCount(statement.getUpdateCount());
 		} else {
@@ -384,7 +384,7 @@ public class SQLRunner {
 			currentDecorator.flush();
 		}
 	}
-	
+
 	/** Extract one statement from the given Reader.
 	 * Ignore comments and null lines.
 	 * @return The SQL statement, up to but not including the ';' character.
@@ -412,7 +412,7 @@ public class SQLRunner {
 			}
 			sb.append(line);
 			int nb = sb.length();
-			
+
 			// If the buffer currently ends with ';', return it.
 			if (nb > 0 && sb.charAt(nb-1) == ';') {
 				if (nb == 1) {

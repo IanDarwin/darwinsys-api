@@ -40,7 +40,7 @@ import com.darwinsys.util.Verbosity;
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class SQLRunnerCLI {
-	
+
 	/** print help; called from several places in main */
 	private static void doHelp(int i) {
 		System.out.println(
@@ -59,7 +59,6 @@ public class SQLRunnerCLI {
 		String outputFile = null;
 		GetOpt go = new GetOpt("dvf:c:m:o:");
 		char c;
-		ConnectionUtil connectionUtils = ConnectionUtil.getInstance();
 		while ((c = go.getopt(args)) != GetOpt.DONE) {
 			switch(c) {
 			case 'h':
@@ -72,7 +71,7 @@ public class SQLRunnerCLI {
 				SQLRunner.setVerbosity(Verbosity.VERBOSE);
 				break;
 			case 'f':
-				connectionUtils.setConfigFileName(go.optarg());
+				ConnectionUtil.setConfigFileName(go.optarg());
 				break;
 			case 'c':
 				config = go.optarg();
@@ -91,10 +90,10 @@ public class SQLRunnerCLI {
 
 		try {
 
-			Connection conn = connectionUtils.getConnection(config);
+			Connection conn = ConnectionUtil.getConnection(config);
 
 			SQLRunner prog = new SQLRunner(conn, outputFile, outputModeName);
-			
+
 			if (go.getOptInd() == args.length) {
 				runScript(prog, new BufferedReader(
 					new InputStreamReader(System.in)), "(standard input)");
@@ -109,7 +108,7 @@ public class SQLRunnerCLI {
 		}
 		System.exit(0);
 	}
-	
+
 	static void runScript(SQLRunner prog, String scriptFile)
 	throws IOException, SQLException {
 
@@ -123,12 +122,12 @@ public class SQLRunnerCLI {
 
 	static void runScript(SQLRunner prog, BufferedReader is, String name) throws IOException {
 		String stmt;
-		
+
 		System.out.printf("SQLRunner: starting %s%n", name);
 		while ((stmt = SQLRunner.getStatement(is)) != null) {
 			stmt = stmt.trim();
 			try {
-				prog.runStatement(stmt);	
+				prog.runStatement(stmt);
 			} catch (Exception e) {
 				System.err.println(e);
 			}

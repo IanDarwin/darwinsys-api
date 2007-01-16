@@ -3,8 +3,9 @@ There's obviously lots still to do:
 Medium items:
 - GUI version should have gui for creating/editing .db.properties.
 - Figure out if Cancel button can be made to work.
+= UI to run external script file
 
-Several items from JFuerth at SQLPower, who are using it in their Architet:
+Several items from JFuerth at SQLPower, who are using it in their Architect:
 
 Command history is definitely a useful feature that we should have
 soon, but I think the following are even more important:
