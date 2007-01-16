@@ -17,7 +17,7 @@ public class ConnectionUtilTest extends TestCase {
 
 	final static String MOCK_JBDB_DRIVER = "mock.MockJdbcDriver";
 
-	public void testList() throws Exception {
+	public void testGetConfigurationNames() throws Exception {
 		System.out.println("ConnectionUtilTest.testList()");
 		Set<String> configs = ConnectionUtil.getConfigurationNames();
 		boolean hasConfigNames = false;
@@ -30,7 +30,7 @@ public class ConnectionUtilTest extends TestCase {
 
 	public void testGetConnections() {
 		System.out.println("ConnectionUtilTest.testList()");
-		List<Configuration> configs = ConnectionUtil.getConfigurations();
+		final List<Configuration> configs = ConnectionUtil.getConfigurations();
 		boolean hasConfigNames = false;
 		for (Configuration element : configs) {
 			System.out.println(element);
@@ -40,19 +40,19 @@ public class ConnectionUtilTest extends TestCase {
 	}
 
 	public void testHasPassword() throws Exception {
-		Configuration c = ConnectionUtil.getConfigurations().get(0);
+		final Configuration c = ConnectionUtil.getConfigurations().get(0);
 		c.setDbPassword(null);
 		assertFalse(c.hasPassword());
 	}
 
 	public void testGetConnectionBadDriver() throws Exception {
 		try {
-			Connection c = ConnectionUtil.getConnection("url", "mydriver",
+			final Connection c = ConnectionUtil.getConnection("url", "mydriver",
 					"operator", "secret");
 			fail("getConnection w/ bad params Did not throw exception");
 			System.out.println(c);
 		} catch (ClassNotFoundException nfe) {
-			String m = nfe.getMessage();
+			final String m = nfe.getMessage();
 			assertEquals("failing driver class name", "mydriver", m);
 			System.out.println("Caught expected ClassNotFoundException");
 		} catch (DataBaseException e) {
@@ -60,9 +60,25 @@ public class ConnectionUtilTest extends TestCase {
 		}
 	}
 
+	public void testPackageGetConfiguration() {
+		Properties p = new Properties();
+		final String DRIVERNAME = "someDriverName";
+		p.setProperty("foo.DBDriver", DRIVERNAME);
+		final String DBURL = "a nice long dburl";
+		p.setProperty("foo.DBURL", DBURL);
+		final String DBUSERNAME = "db2inst1";
+		p.setProperty("foo.DBUser", DBUSERNAME);
+
+		Configuration conf = ConnectionUtil.getConfiguration(p, "foo");
+
+		assertEquals(DRIVERNAME, conf.getDbDriverName());
+		assertEquals(DBURL, conf.getDbURL());
+		assertEquals(DBUSERNAME, conf.getDbUserName());
+	}
+
 	public void testGetConnectionBadURL() throws Exception {
 		try {
-			Connection c = ConnectionUtil.getConnection("url",
+			final Connection c = ConnectionUtil.getConnection("url",
 					MOCK_JBDB_DRIVER,
 					"operator", "secret");
 			fail("getConnection w/ bad params did not throw exception");
