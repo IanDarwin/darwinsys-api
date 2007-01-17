@@ -2,34 +2,21 @@ There's obviously lots still to do:
 
 Medium items:
 - GUI version should have gui for creating/editing .db.properties.
-- Figure out if Cancel button can be made to work.
 = UI to run external script file
 
-Several items from JFuerth at SQLPower, who are using it in their Architect:
+Several items from J.Fuerth at SQLPower, who are using it in their Architect:
 
 Command history is definitely a useful feature that we should have
 soon, but I think the following are even more important:
 
-1. Showing the results of a select statement in a JTable whose columns
+Showing the results of a select statement in a JTable whose columns
 are automatically sized to be just large enough to contain the largest
 data in a column.  This should also be the default output format. The
 columns should be sortable by clicking on the headers; I think the
 canonical code from the 'net that provides this feature on JTable is
 already in the Architect codebase somewhere.
 
-2. For other types of statements that don't return tabular data,
+For other types of statements that don't return tabular data,
 showing the number of rows affected, and the execution time.  This
-(along with item number 1) is what DBVisualizer does, and it's really
+(along with the previous item) is what DBVisualizer does, and it's really
 useful.
-
-3. The ability to limit the number of rows fetched from the database.
-The default limit could be 500 or something.
-
-4. A "select all rows..." action on the popup menu for SQLTable
-objects in the DBTree.  It would bring up a SQLRunner window and do
-the obvious thing.
-
-5. Finish implementation of "applciation plugin" by providing set/get ErrorHandler
-to allow an application to provide its own error handler, and set/get ConnectionFactory
-to provide Connections. This will make SQLRunner easier to embed seamlessly into
-other applications.
