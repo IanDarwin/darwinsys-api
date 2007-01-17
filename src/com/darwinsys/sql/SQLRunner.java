@@ -314,9 +314,9 @@ public class SQLRunner {
 	}
 
 	/**
-	 * Return the names of the user tables in the given Connection
+	 * Get names of user tables in the given Connection
 	 * @param conn
-	 * @return
+	 * @return The names of the user tables in the given Connection
 	 * @throws SQLException
 	 */
 	public static List<String> getUserTables(Connection conn) throws SQLException {
