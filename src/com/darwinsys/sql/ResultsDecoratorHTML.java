@@ -35,12 +35,12 @@ import com.darwinsys.util.Verbosity;
 
 /** Print ResultSet in HTML
  */
-class ResultsDecoratorHTML extends ResultsDecorator {
-	
+public class ResultsDecoratorHTML extends ResultsDecorator {
+
 	public ResultsDecoratorHTML(PrintWriter out, Verbosity v) {
 		super(out, v);
 	}
-	
+
 	public int write(ResultSet rs) throws IOException, SQLException {
 
 		ResultSetMetaData md = rs.getMetaData();

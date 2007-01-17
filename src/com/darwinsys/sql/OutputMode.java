@@ -3,7 +3,7 @@ package com.darwinsys.sql;
 /** The set of all valid modes. Short, lowercase names were used
  * for simple use in \mX where X is one of the names.
  */
-enum OutputMode {
+public enum OutputMode {
 	/** Mode for Text */
 	t("Text"),
 	/** Mode for HTML output */

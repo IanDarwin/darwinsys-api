@@ -37,12 +37,12 @@ import com.darwinsys.util.Verbosity;
  * Print a ResultSet in plain text.
  * @version $Id$
  */
-class ResultsDecoratorText extends ResultsDecorator {
-	
+public class ResultsDecoratorText extends ResultsDecorator {
+
 	public ResultsDecoratorText(PrintWriter out, Verbosity v) {
 		super(out, v);
 	}
-	
+
 	@Override
 	public int write(ResultSet rs) throws IOException,SQLException {
 		ResultSetMetaData md = rs.getMetaData();
@@ -63,7 +63,7 @@ class ResultsDecoratorText extends ResultsDecorator {
 	}
 
 	@Override
-	public void printRowCount(int rowCount) throws IOException {		
+	public void printRowCount(int rowCount) throws IOException {
 			println("Rows: " + rowCount);
 	}
 
