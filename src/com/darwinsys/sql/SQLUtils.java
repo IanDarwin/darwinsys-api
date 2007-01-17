@@ -10,6 +10,7 @@ import java.sql.Statement;
 import com.darwinsys.database.DataBaseException;
 
 /** Miscellaneous utilities for dealing with SQL.
+ * XXX Consider replacing with ResultSetDecoratorHTML
  * @author ian
  */
 public class SQLUtils {
@@ -25,20 +26,20 @@ public class SQLUtils {
 	public static void resultSetToHTML(
 			final ResultSet rs, final PrintWriter out,
 			String titleStyle, String style1, String style2,
-			String keyColName, String link) 
+			String keyColName, String link)
 	throws SQLException {
 
 		ResultSetMetaData md = rs.getMetaData();
 		int count = md.getColumnCount();
 		out.println("<table border=1>");
-		
+
 		// Print a table row with column headings.
 		out.printf("<tr id='%s'>", titleStyle);
 		for (int i=1; i<=count; i++) {
 			out.printf("<th>%s</td>%n", md.getColumnName(i));
 		}
 		out.println("</tr>");
-		
+
 		// Print one table row of data for each row in the resultset.
 		int rowNum = 0;
 		while (rs.next()) {
@@ -48,12 +49,12 @@ public class SQLUtils {
 				if (md.getColumnName(i).equals(keyColName)) {
 					linkText = String.format(
 						"<a href='%s%s'>%s</a>", link, linkText, linkText);
-				}					
+				}
 				out.printf("<td>%s</td>", linkText);
 			}
 			out.println("</tr>");
 		}
-		
+
 		// All done.
 		out.println("</table>");
 		rs.close();
@@ -62,7 +63,7 @@ public class SQLUtils {
 	public static void resultSetToHTML(ResultSet rs, PrintWriter out) throws SQLException {
 		resultSetToHTML(rs, out, null, null, null, null, null);
 	}
-	
+
 	/** Close a resultset, statement and connection in the correct order.
 	 * @param rs
 	 * @param st

@@ -4,26 +4,26 @@ import junit.framework.TestCase;
 
 public class ConfigurationTest extends TestCase {
 
-	Configuration target;
+	SimpleSQLConfiguration target;
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		target = new Configuration("name", "url", "drv", "user", "pass");
+		target = new SimpleSQLConfiguration("name", "url", "drv", "user", "pass");
 	}
 
 	public void testGetDbDriverName() {
-		assertEquals("drv", target.getDbDriverName());
+		assertEquals("drv", target.getDriverName());
 	}
 
 	public void testGetDbPassword() {
-		assertEquals("pass", target.getDbPassword());
+		assertEquals("pass", target.getPassword());
 	}
 
 	public void testHasPassword() {
 		assertTrue("pass passwd", target.hasPassword());
-		target.setDbPassword("");
+		target.setPassword("");
 		assertFalse("0-length passwd", target.hasPassword());
-		target.setDbPassword(null);
+		target.setPassword(null);
 		assertFalse("null passwd", target.hasPassword());
 	}
 
@@ -32,7 +32,7 @@ public class ConfigurationTest extends TestCase {
 	}
 
 	public void testGetDbUserName() {
-		assertEquals("user", target.getDbUserName());
+		assertEquals("user", target.getUserName());
 	}
 
 	public void testGetName() {

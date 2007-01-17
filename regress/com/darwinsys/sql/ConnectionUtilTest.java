@@ -30,9 +30,9 @@ public class ConnectionUtilTest extends TestCase {
 
 	public void testGetConnections() {
 		System.out.println("ConnectionUtilTest.testList()");
-		final List<Configuration> configs = ConnectionUtil.getConfigurations();
+		final List<SimpleSQLConfiguration> configs = ConnectionUtil.getConfigurations();
 		boolean hasConfigNames = false;
-		for (Configuration element : configs) {
+		for (SimpleSQLConfiguration element : configs) {
 			System.out.println(element);
 			hasConfigNames = true;
 		}
@@ -40,8 +40,8 @@ public class ConnectionUtilTest extends TestCase {
 	}
 
 	public void testHasPassword() throws Exception {
-		final Configuration c = ConnectionUtil.getConfigurations().get(0);
-		c.setDbPassword(null);
+		final SimpleSQLConfiguration c = ConnectionUtil.getConfigurations().get(0);
+		c.setPassword(null);
 		assertFalse(c.hasPassword());
 	}
 
@@ -69,11 +69,11 @@ public class ConnectionUtilTest extends TestCase {
 		final String DBUSERNAME = "db2inst1";
 		p.setProperty("foo.DBUser", DBUSERNAME);
 
-		Configuration conf = ConnectionUtil.getConfiguration(p, "foo");
+		SimpleSQLConfiguration conf = ConnectionUtil.getConfiguration(p, "foo");
 
-		assertEquals(DRIVERNAME, conf.getDbDriverName());
+		assertEquals(DRIVERNAME, conf.getDriverName());
 		assertEquals(DBURL, conf.getDbURL());
-		assertEquals(DBUSERNAME, conf.getDbUserName());
+		assertEquals(DBUSERNAME, conf.getUserName());
 	}
 
 	public void testGetConnectionBadURL() throws Exception {

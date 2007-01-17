@@ -50,8 +50,8 @@ public class ConnectionUtil {
 		return configFileName;
 	}
 
-	/** Get a Configuration for the given config using the default or set property file name */
-	public static  Configuration getConfiguration(String config) throws DataBaseException {
+	/** Get a SimpleSQLConfiguration for the given config using the default or set property file name */
+	public static  SimpleSQLConfiguration getConfiguration(String config) throws DataBaseException {
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream(configFileName));
@@ -66,7 +66,7 @@ public class ConnectionUtil {
 	 * @param config The name of the wanted configuration
 	 * @return The matching configuration
 	 */
-	static Configuration getConfiguration(final Properties p, final String config) {
+	static SimpleSQLConfiguration getConfiguration(final Properties p, final String config) {
 		final String db_url = p.getProperty(config  + "." + "DBURL");
 		final String db_driver = p.getProperty(config  + "." + "DBDriver");
 		final String db_user = p.getProperty(config  + "." + "DBUser");
@@ -74,7 +74,7 @@ public class ConnectionUtil {
 		if (db_driver == null || db_url == null) {
 			throw new DataBaseException("Driver or URL null: " + config);
 		}
-		return new Configuration(config, db_url, db_driver, db_user, db_password);
+		return new SimpleSQLConfiguration(config, db_url, db_driver, db_user, db_password);
 	}
 
 	/** Get a Connection for the given config using the default or set property file name */
@@ -120,7 +120,7 @@ public class ConnectionUtil {
 			dbUrl, dbUserName, dbPassword);
 	}
 
-	public static Connection getConnection(Configuration c) throws ClassNotFoundException, SQLException {
+	public static Connection getConnection(SimpleSQLConfiguration c) throws ClassNotFoundException, SQLException {
 		return getConnection(c.dbURL, c.dbDriverName, c.dbUserName, c.dbPassword);
 	}
 
@@ -150,10 +150,10 @@ public class ConnectionUtil {
 		return configNames;
 	}
 
-	/** Return all the configurations as Configuration objects
+	/** Return all the configurations as SimpleSQLConfiguration objects
 	 */
-	public static List<Configuration> getConfigurations() {
-		List<Configuration> configs = new ArrayList<Configuration>();
+	public static List<SimpleSQLConfiguration> getConfigurations() {
+		List<SimpleSQLConfiguration> configs = new ArrayList<SimpleSQLConfiguration>();
 		for (String name : getConfigurationNames()) {
 			configs.add(getConfiguration(name));
 		}
