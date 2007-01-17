@@ -160,7 +160,7 @@ public class SQLRunnerGUI  {
 		/** Called each time the user presses the Run button */
 		public void actionPerformed(ActionEvent evt) {
 
-			// Run this under a its own Thread, so we don't block the EventDispatch thread...
+			// Run this under its own Thread, so we don't block the EventDispatch thread...
 
 			commandRunnerThread = new Thread() {
                 public void run() {
