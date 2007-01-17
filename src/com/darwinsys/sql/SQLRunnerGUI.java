@@ -27,6 +27,7 @@ package com.darwinsys.sql;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,6 +52,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -65,6 +67,7 @@ import com.darwinsys.util.Verbosity;
  * A simple GUI to run one set of commands.
  * XXX There should be a ProgressMonitor or a JProgressBar(Indeterminate) when running commands
  */
+@SuppressWarnings("serial")
 public class SQLRunnerGUI  {
 
 	private static final int DISPLAY_COLUMNS = 70;
@@ -84,6 +87,11 @@ public class SQLRunnerGUI  {
 	final List<Configuration> configurations;
 	final JComboBox connectionsList;
 	final JCheckBox passwdPromptCheckBox;
+	final JComboBox modeList;
+	final JDialog busyDialog;
+	Thread commandRunnerThread;
+
+	Connection conn;
 
 	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
 
@@ -144,7 +152,92 @@ public class SQLRunnerGUI  {
 	}
 
 	/**
-	 * Constructor
+	 * This is the all-important action for the Run button! Run the current SQL input
+	 * string with the given settings
+	 */
+	Action runAction = new AbstractAction("Run") {
+
+		/** Called each time the user presses the Run button */
+		public void actionPerformed(ActionEvent evt) {
+
+			// Run this under a its own Thread, so we don't block the EventDispatch thread...
+
+			commandRunnerThread = new Thread() {
+                public void run() {
+					Dimension dlgBounds = busyDialog.getSize();
+					dlgBounds.width = mainWindow.getSize().width;
+					busyDialog.setSize(dlgBounds);
+					try {
+						String command = inputTextArea.getText().trim();
+						if (command == null || command.length() == 0) {
+							JOptionPane.showMessageDialog(mainWindow,
+									"Command window is empty", "Out of order", JOptionPane.WARNING_MESSAGE);
+							return;
+						}
+						runButton.setEnabled(false);
+						Configuration config = (Configuration) connectionsList.getSelectedItem();
+						if (passwdPromptCheckBox.isSelected() || !config.hasPassword()) {
+							String pass = getPassword("Connection password for " + config.getName());
+							config.setDbPassword(pass);
+						}
+						bar.reset();
+						busyDialog.setVisible(true);
+
+						conn =  ConnectionUtil.getConnection(config);
+
+						SQLRunner.setVerbosity(Verbosity.QUIET);
+						SQLRunner prog = new SQLRunner(conn, null, "t");
+						prog.setOutputFile(out);
+						prog.setOutputMode((OutputMode) modeList.getSelectedItem());
+
+						// RUN THE SQL
+						prog.runStatement(command);
+						conn.close();
+						bar.showSuccess();	// If no exception thrown
+					} catch (Exception e) {
+						bar.showFailure();
+						eHandler.handleError(e);
+					} finally {
+						if (conn != null) {
+						    try {
+						        conn.close();
+						    } catch (SQLException e) {
+						        // We just don't care at this point....
+						    }
+                        }
+						runButton.setEnabled(true);
+						busyDialog.setVisible(false);
+					}
+				}
+
+			};
+			commandRunnerThread.start();
+		}
+
+	};
+
+	/**
+	 * Action to cancel the database if it is taking too long... Use with caution.
+	 */
+	Action cancelAction = new 	AbstractAction("Cancel Database Action") {
+		public void actionPerformed(ActionEvent e) {
+			if (commandRunnerThread.isAlive()) {
+				try {
+					if (conn != null) {
+						conn.close();
+					} else {
+						commandRunnerThread.interrupt();
+					}
+				} catch (Exception ex) {
+					System.err.println("Well what did you expect? I caught this exception:");
+					ex.printStackTrace();
+				}
+			}
+		}
+	};
+
+	/**
+	 * Constructor for main GUI
 	 */
 	public SQLRunnerGUI() {
 		mainWindow = new JFrame("SQLRunner");
@@ -155,7 +248,7 @@ public class SQLRunnerGUI  {
 
 		configurations = ConnectionUtil.getConfigurations();
 		connectionsList = new JComboBox(configurations.toArray(new Configuration[configurations.size()]));
-		// when you change to a different database you don't want to remember the "force passwd prompt setting
+		// when you change to a different database you don't want to remember the "force passwd prompt" setting
 		connectionsList.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				passwdPromptCheckBox.setSelected(false);
@@ -177,61 +270,26 @@ public class SQLRunnerGUI  {
 		final JButton inTemplateButton = new JButton("Apply Template");
 		controlsArea.add(inTemplateButton);
 
-		final JComboBox modeList = new JComboBox();
+		modeList = new JComboBox();
 		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
 		}
 		controlsArea.add(new JLabel("Output Format:"));
 		controlsArea.add(modeList);
 
-		runButton = new JButton("Run");
+		runButton = new JButton(runAction);
 		controlsArea.add(runButton);
-		runButton.addActionListener(new ActionListener() {
 
-            /** Called each time the user presses the Run button */
-			public void actionPerformed(ActionEvent evt) {
-
-				// Run this under a its own Thread, so we don't block the EventDispatch thread...
-				new Thread() {
-                    Connection conn;
-					public void run() {
-						try {
-							String command = inputTextArea.getText().trim();
-							if (command == null || command.length() == 0)
-								return;
-							runButton.setEnabled(false);
-							Configuration config = (Configuration) connectionsList.getSelectedItem();
-							if (passwdPromptCheckBox.isSelected() || !config.hasPassword()) {
-								String pass = getPassword("Connection password for " + config.getName());
-								config.setDbPassword(pass);
-							}
-							conn =  ConnectionUtil.getConnection(config);
-
-							SQLRunner.setVerbosity(Verbosity.QUIET);
-							SQLRunner prog = new SQLRunner(conn, null, "t");
-							prog.setOutputFile(out);
-							prog.setOutputMode((OutputMode) modeList.getSelectedItem());
-							bar.reset();
-							prog.runStatement(command);
-							bar.showSuccess();	// If no exception thrown
-						} catch (Exception e) {
-							bar.showFailure();
-							eHandler.handleError(e);
-						} finally {
-							if (conn != null) {
-							    try {
-							        conn.close();
-							    } catch (SQLException e) {
-							        // We just don't care at this point....
-							    }
-                            }
-							runButton.setEnabled(true);
-						}
-					}
-
-				}.start();
-			}
-		});
+		// used by Run...
+		busyDialog = new JDialog(mainWindow, "Running...");
+		JProgressBar busyIndicator = new JProgressBar();
+		busyIndicator.setIndeterminate(true);
+		busyDialog.add(busyIndicator, BorderLayout.CENTER);
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.add(new JButton(cancelAction));
+		busyDialog.add(bottomPanel, BorderLayout.SOUTH);
+		busyDialog.pack();
+		busyDialog.setLocationRelativeTo(mainWindow);
 
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
 		JScrollPane inputAreaScrollPane = new JScrollPane(inputTextArea);
