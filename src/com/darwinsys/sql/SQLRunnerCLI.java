@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import com.darwinsys.database.DataBaseException;
 import com.darwinsys.lang.GetOpt;
@@ -50,14 +51,15 @@ public class SQLRunnerCLI {
 
 	/**
 	 * main - parse arguments, construct SQLRunner object, open file(s), run scripts.
+	 * @throws ClassNotFoundException
 	 * @throws SQLException if anything goes wrong.
 	 * @throws DatabaseException if anything goes wrong.
 	 */
-	public static void main(String[] args)  {
+	public static void main(final String[] args) {
 		String config = "default";
 		String outputModeName = "t";
 		String outputFile = null;
-		GetOpt go = new GetOpt("dvf:c:m:o:");
+		final GetOpt go = new GetOpt("dvf:c:m:o:");
 		char c;
 		while ((c = go.getopt(args)) != GetOpt.DONE) {
 			switch(c) {
@@ -90,7 +92,16 @@ public class SQLRunnerCLI {
 
 		try {
 
-			Connection conn = ConnectionUtil.getConnection(config);
+			Configuration conf = ConnectionUtil.getConfiguration(config);
+			if (!conf.hasPassword()) {
+				System.err.printf("Enter password for connection %s: ", config);
+				System.err.flush();
+				Scanner sc = new Scanner(System.in);      // Requires J2SE 1.5
+	            String newPass = sc.next();
+				conf.setDbPassword(newPass);
+			}
+			Connection conn = ConnectionUtil.getConnection(conf);
+
 
 			SQLRunner prog = new SQLRunner(conn, outputFile, outputModeName);
 
@@ -104,6 +115,8 @@ public class SQLRunnerCLI {
 		} catch (SQLException ex) {
 			throw new DataBaseException(ex.toString());
 		} catch (IOException ex) {
+			throw new DataBaseException(ex.toString());
+		} catch (ClassNotFoundException ex) {
 			throw new DataBaseException(ex.toString());
 		}
 		System.exit(0);
