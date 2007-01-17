@@ -10,9 +10,9 @@ import java.util.List;
 public interface ConfigurationManager {
 
     /**
-     * Gets a list of valid Connections.
-     * @return A List of objects that are suitable for display in a JComboBox
-     * (that is, either String, or Component, or has a user-friendly toString() method).
+     * Gets a list of valid Configurations.
+     * @return A List of Configuration objects that are suitable for display in a JComboBox
+     * (that is, has a user-friendly toString() method).
      */
     List<Configuration> getConfigurations();
 

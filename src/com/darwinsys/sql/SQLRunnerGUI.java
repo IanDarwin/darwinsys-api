@@ -65,33 +65,33 @@ import com.darwinsys.util.Verbosity;
 
 /**
  * A simple GUI to run one set of commands.
- * XXX There should be a ProgressMonitor or a JProgressBar(Indeterminate) when running commands
  */
 @SuppressWarnings("serial")
 public class SQLRunnerGUI  {
 
 	private static final int DISPLAY_COLUMNS = 70;
 
-	final Preferences p = Preferences.userNodeForPackage(SQLRunnerGUI.class);
-
-	final SuccessFailureUI bar;
-
-	final JFrame mainWindow;
-
-	final JTextArea inputTextArea, outputTextArea;
-
-	final JButton runButton;
-
-	final PrintWriter out;
+	Preferences prefsNode = Preferences.userNodeForPackage(SQLRunnerGUI.class);
 
 	final List<Configuration> configurations;
+	final PrintWriter out;
+	/** Thread to run the SQL command in */
+	Thread commandRunnerThread;
+	/** The active JDBC connection, or null */
+	Connection currentConnection;
+
+	ConfigurationManager configManager;
+
+	// GUI
+	final SuccessFailureUI bar;
+	final JFrame mainWindow;
+	final JTextArea inputTextArea, outputTextArea;
+	final JButton runButton;
+
 	final JComboBox connectionsList;
 	final JCheckBox passwdPromptCheckBox;
 	final JComboBox modeList;
 	final JDialog busyDialog;
-	Thread commandRunnerThread;
-
-	Connection conn;
 
 	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
 
@@ -126,7 +126,7 @@ public class SQLRunnerGUI  {
 				}
 			}
 		}
-		SQLRunnerGUI prog = new SQLRunnerGUI();
+		SQLRunnerGUI prog = new SQLRunnerGUI(new DefaultConfigurationManager());
 		if (config != null) {
 			prog.setConfig(config);
 		}
@@ -143,7 +143,7 @@ public class SQLRunnerGUI  {
 			throw new NullPointerException("Configuration name may not be null");
 		}
 		for (Configuration configListItem : configurations) {
-			if (config.equals(configListItem.toString())) {
+			if (config.equals(configListItem.getName())) {
 				connectionsList.setSelectedItem(configListItem);
 				return;
 			}
@@ -160,8 +160,7 @@ public class SQLRunnerGUI  {
 		/** Called each time the user presses the Run button */
 		public void actionPerformed(ActionEvent evt) {
 
-			// Run this under its own Thread, so we don't block the EventDispatch thread...
-
+			// Run this action handler under its own Thread, so we don't block the EventDispatch thread...
 			commandRunnerThread = new Thread() {
                 public void run() {
 					Dimension dlgBounds = busyDialog.getSize();
@@ -183,24 +182,25 @@ public class SQLRunnerGUI  {
 						bar.reset();
 						busyDialog.setVisible(true);
 
-						conn =  ConnectionUtil.getConnection(config);
+						currentConnection =  configManager.getConnection(config);
 
 						SQLRunner.setVerbosity(Verbosity.QUIET);
-						SQLRunner prog = new SQLRunner(conn, null, "t");
+						SQLRunner prog = new SQLRunner(currentConnection, null, "t");
 						prog.setOutputFile(out);
 						prog.setOutputMode((OutputMode) modeList.getSelectedItem());
 
 						// RUN THE SQL
 						prog.runStatement(command);
-						conn.close();
+						currentConnection.close();
+						currentConnection = null;
 						bar.showSuccess();	// If no exception thrown
 					} catch (Exception e) {
 						bar.showFailure();
 						eHandler.handleError(e);
 					} finally {
-						if (conn != null) {
+						if (currentConnection != null) {
 						    try {
-						        conn.close();
+						        currentConnection.close();
 						    } catch (SQLException e) {
 						        // We just don't care at this point....
 						    }
@@ -209,11 +209,9 @@ public class SQLRunnerGUI  {
 						busyDialog.setVisible(false);
 					}
 				}
-
 			};
 			commandRunnerThread.start();
 		}
-
 	};
 
 	/**
@@ -223,8 +221,8 @@ public class SQLRunnerGUI  {
 		public void actionPerformed(ActionEvent e) {
 			if (commandRunnerThread.isAlive()) {
 				try {
-					if (conn != null) {
-						conn.close();
+					if (currentConnection != null) {
+						currentConnection.close();
 					} else {
 						commandRunnerThread.interrupt();
 					}
@@ -239,14 +237,24 @@ public class SQLRunnerGUI  {
 	/**
 	 * Constructor for main GUI
 	 */
-	public SQLRunnerGUI() {
-		mainWindow = new JFrame("SQLRunner");
+	public SQLRunnerGUI(ConfigurationManager configManager) {
+		this(configManager, "SQLRunner");
+	}
+
+	/**
+	 * Constructor for main GUI
+	 */
+	public SQLRunnerGUI(ConfigurationManager configManager, String title) {
+
+		this.configManager = configManager;
+
+		mainWindow = new JFrame(title);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		final Container controlsArea = new JPanel();
 		mainWindow.add(controlsArea, BorderLayout.NORTH);
 
-		configurations = ConnectionUtil.getConfigurations();
+		configurations = configManager.getConfigurations();
 		connectionsList = new JComboBox(configurations.toArray(new Configuration[configurations.size()]));
 		// when you change to a different database you don't want to remember the "force passwd prompt" setting
 		connectionsList.addItemListener(new ItemListener() {
@@ -329,7 +337,7 @@ public class SQLRunnerGUI  {
 		mainWindow.add((JComponent)bar, BorderLayout.SOUTH);
 
 		mainWindow.pack();
-		UtilGUI.monitorWindowPosition(mainWindow, p);
+		UtilGUI.monitorWindowPosition(mainWindow, prefsNode);
 		mainWindow.setVisible(true);
 		inputTextArea.requestFocusInWindow();
 	}
