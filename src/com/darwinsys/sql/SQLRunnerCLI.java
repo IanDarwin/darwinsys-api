@@ -98,7 +98,7 @@ public class SQLRunnerCLI {
 				System.err.flush();
 				Scanner sc = new Scanner(System.in);      // Requires J2SE 1.5
 	            String newPass = sc.next();
-				conf.setDbPassword(newPass);
+				conf.setPassword(newPass);
 			}
 			Connection conn = ConnectionUtil.getConnection(conf);
 

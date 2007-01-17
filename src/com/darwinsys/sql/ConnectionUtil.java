@@ -51,7 +51,7 @@ public class ConnectionUtil {
 	}
 
 	/** Get a SimpleSQLConfiguration for the given config using the default or set property file name */
-	public static  SimpleSQLConfiguration getConfiguration(String config) throws DataBaseException {
+	public static Configuration getConfiguration(String config) throws DataBaseException {
 		try {
 			Properties p = new Properties();
 			p.load(new FileInputStream(configFileName));
@@ -120,8 +120,8 @@ public class ConnectionUtil {
 			dbUrl, dbUserName, dbPassword);
 	}
 
-	public static Connection getConnection(SimpleSQLConfiguration c) throws ClassNotFoundException, SQLException {
-		return getConnection(c.dbURL, c.dbDriverName, c.dbUserName, c.dbPassword);
+	public static Connection getConnection(Configuration c) throws ClassNotFoundException, SQLException {
+		return getConnection(c.getDbURL(), c.getDriverName(), c.getUserName(), c.getPassword());
 	}
 
 	/** Generate a Set<String> of the config names available
@@ -152,8 +152,8 @@ public class ConnectionUtil {
 
 	/** Return all the configurations as SimpleSQLConfiguration objects
 	 */
-	public static List<SimpleSQLConfiguration> getConfigurations() {
-		List<SimpleSQLConfiguration> configs = new ArrayList<SimpleSQLConfiguration>();
+	public static List<Configuration> getConfigurations() {
+		List<Configuration> configs = new ArrayList<Configuration>();
 		for (String name : getConfigurationNames()) {
 			configs.add(getConfiguration(name));
 		}

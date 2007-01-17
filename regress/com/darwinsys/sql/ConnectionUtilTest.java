@@ -30,9 +30,9 @@ public class ConnectionUtilTest extends TestCase {
 
 	public void testGetConnections() {
 		System.out.println("ConnectionUtilTest.testList()");
-		final List<SimpleSQLConfiguration> configs = ConnectionUtil.getConfigurations();
+		final List<Configuration> configs = ConnectionUtil.getConfigurations();
 		boolean hasConfigNames = false;
-		for (SimpleSQLConfiguration element : configs) {
+		for (Configuration element : configs) {
 			System.out.println(element);
 			hasConfigNames = true;
 		}
@@ -40,7 +40,7 @@ public class ConnectionUtilTest extends TestCase {
 	}
 
 	public void testHasPassword() throws Exception {
-		final SimpleSQLConfiguration c = ConnectionUtil.getConfigurations().get(0);
+		final Configuration c = ConnectionUtil.getConfigurations().get(0);
 		c.setPassword(null);
 		assertFalse(c.hasPassword());
 	}

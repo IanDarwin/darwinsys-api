@@ -177,7 +177,7 @@ public class SQLRunnerGUI  {
 						Configuration config = (Configuration) connectionsList.getSelectedItem();
 						if (passwdPromptCheckBox.isSelected() || !config.hasPassword()) {
 							String pass = getPassword("Connection password for " + config.getName());
-							config.setDbPassword(pass);
+							config.setPassword(pass);
 						}
 						bar.reset();
 						busyDialog.setVisible(true);
