@@ -249,7 +249,9 @@ public class SQLRunnerGUI  {
 		this.configManager = configManager;
 
 		mainWindow = new JFrame(title);
-		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		if (SQLRunner.isOkToExit()) {
+			mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 
 		final Container controlsArea = new JPanel();
 		mainWindow.add(controlsArea, BorderLayout.NORTH);

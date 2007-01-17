@@ -72,6 +72,20 @@ public class SQLRunner {
 
 	OutputMode outputMode = OutputMode.t;
 
+	private static boolean okToExit = false;
+
+	public static boolean isOkToExit() {
+		return okToExit;
+	}
+
+	public static void exit(int exitStatus) {
+		if (okToExit) {
+			System.exit(exitStatus);
+		} else {
+			// do nothing
+		}
+	}
+
 	/** Database connection */
 	private Connection conn;
 
@@ -277,7 +291,7 @@ public class SQLRunner {
 			}
 			setOutputFile(rest);
 		} else if (str.startsWith("\\q")){
-			System.exit(0);
+			exit(0);
 		} else {
 			throw new SyntaxException("Unknown escape: " + str);
 		}
