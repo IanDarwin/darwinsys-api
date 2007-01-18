@@ -39,7 +39,7 @@ import com.darwinsys.util.Verbosity;
 
 /** Print ResultSet in HTML
  */
-class ResultsDecoratorJTable extends ResultsDecorator {
+public class ResultsDecoratorJTable extends ResultsDecorator {
 	JTable table;
 
 	public ResultsDecoratorJTable(JTable table, PrintWriter out, Verbosity v) {
