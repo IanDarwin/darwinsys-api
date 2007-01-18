@@ -74,11 +74,15 @@ public class SQLRunner {
 
 	private static boolean okToExit = false;
 
+	public static void setOkToExit(final boolean setting) {
+		okToExit = setting;
+	}
+
 	public static boolean isOkToExit() {
 		return okToExit;
 	}
 
-	public static void exit(int exitStatus) {
+	public static void exit(final int exitStatus) {
 		if (okToExit) {
 			System.exit(exitStatus);
 		} else {
