@@ -83,15 +83,15 @@ public class SQLRunnerGUI  {
 	ConfigurationManager configManager;
 
 	// GUI
-	final SuccessFailureUI bar;
-	final JFrame mainWindow;
-	final JTextArea inputTextArea, outputTextArea;
-	final JButton runButton;
+	private final SuccessFailureUI resultsStatusBar;
+	private final JFrame mainWindow;
+	private final JTextArea inputTextArea, outputTextArea;
+	private final JButton runButton;
 
-	final JComboBox connectionsList;
-	final JCheckBox passwdPromptCheckBox;
-	final JComboBox modeList;
-	final JDialog busyDialog;
+	private final JComboBox connectionsList;
+	private final JCheckBox passwdPromptCheckBox;
+	private final JComboBox modeList;
+	private final JDialog busyDialog;
 
 	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
 
@@ -179,7 +179,7 @@ public class SQLRunnerGUI  {
 							String pass = getPassword("Connection password for " + config.getName());
 							config.setPassword(pass);
 						}
-						bar.reset();
+						resultsStatusBar.reset();
 						busyDialog.setVisible(true);
 
 						currentConnection =  configManager.getConnection(config);
@@ -193,9 +193,9 @@ public class SQLRunnerGUI  {
 						prog.runStatement(command);
 						currentConnection.close();
 						currentConnection = null;
-						bar.showSuccess();	// If no exception thrown
+						resultsStatusBar.showSuccess();	// If no exception thrown
 					} catch (Exception e) {
-						bar.showFailure();
+						resultsStatusBar.showFailure();
 						eHandler.handleError(e);
 					} finally {
 						if (currentConnection != null) {
@@ -322,7 +322,7 @@ public class SQLRunnerGUI  {
 		clearOutput.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        outputTextArea.setText("");
-                bar.reset();
+                resultsStatusBar.reset();
 		    }
 		});
         controlsArea.add(clearOutput);
@@ -334,9 +334,9 @@ public class SQLRunnerGUI  {
 
 		out = new PrintWriter(new TextAreaWriter(outputTextArea));
 
-		bar = new SuccessFailureBarSwing(mainWindow.getBackground(), 400, 20);
-		bar.reset();
-		mainWindow.add((JComponent)bar, BorderLayout.SOUTH);
+		resultsStatusBar = new SuccessFailureBarSwing(mainWindow.getBackground(), 400, 20);
+		resultsStatusBar.reset();
+		mainWindow.add((JComponent)resultsStatusBar, BorderLayout.SOUTH);
 
 		mainWindow.pack();
 		UtilGUI.monitorWindowPosition(mainWindow, prefsNode);

@@ -15,8 +15,4 @@ data in a column.  This should also be the default output format. The
 columns should be sortable by clicking on the headers; I think the
 canonical code from the 'net that provides this feature on JTable is
 already in the Architect codebase somewhere.
-
-For other types of statements that don't return tabular data,
-showing the number of rows affected, and the execution time.  This
-(along with the previous item) is what DBVisualizer does, and it's really
-useful.
+[Partly implemented, see the Table formatter in the source folder.]
