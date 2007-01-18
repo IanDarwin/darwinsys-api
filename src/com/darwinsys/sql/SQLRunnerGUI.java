@@ -250,6 +250,7 @@ public class SQLRunnerGUI  {
 
 		mainWindow = new JFrame(title);
 		if (SQLRunner.isOkToExit()) {
+			// XXX this is wrong, should be if (!embedded) ...
 			mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 
