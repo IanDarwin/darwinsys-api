@@ -10,7 +10,7 @@ import java.util.*;
 import junit.framework.TestCase;
 
 /**
- * name - purpose
+ * Test for ConnectionUtils
  * @version $Id$
  */
 public class ConnectionUtilTest extends TestCase {
