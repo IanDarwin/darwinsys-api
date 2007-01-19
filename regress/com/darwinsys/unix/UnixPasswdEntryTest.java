@@ -22,7 +22,6 @@ public class UnixPasswdEntryTest extends TestCase {
 		assertEquals("match gecos", "Foo Bar", m.group(5));
 		assertEquals("match homedir", "/home/foo", m.group(6));
 		assertEquals("match shell", "/bin/ksh", m.group(7));
-
 	}
 
 	public void testGetPwEntriesString() throws Exception {
