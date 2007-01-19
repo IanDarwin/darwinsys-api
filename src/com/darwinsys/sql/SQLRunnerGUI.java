@@ -219,7 +219,7 @@ public class SQLRunnerGUI  {
 	/**
 	 * Action to cancel the database if it is taking too long... Use with caution.
 	 */
-	Action cancelAction = new 	AbstractAction("Cancel Database Action") {
+	Action cancelAction = new AbstractAction("Interrupt") {
 		public void actionPerformed(ActionEvent e) {
 			if (commandRunnerThread.isAlive()) {
 				try {
