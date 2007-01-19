@@ -226,6 +226,8 @@ public class SQLRunnerGUI  {
 					if (currentConnection != null) {
 						currentConnection.close();
 					} else {
+						// If you know a better way to interrupt a DriverManager.getConnection()
+						// than interrupting its thread, please let me know.
 						commandRunnerThread.interrupt();
 					}
 				} catch (Exception ex) {
