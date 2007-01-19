@@ -31,12 +31,7 @@ public class ConnectionUtilTest extends TestCase {
 	public void testGetConnections() {
 		System.out.println("ConnectionUtilTest.testList()");
 		final List<Configuration> configs = ConnectionUtil.getConfigurations();
-		boolean hasConfigNames = false;
-		for (Configuration element : configs) {
-			System.out.println(element);
-			hasConfigNames = true;
-		}
-		assertTrue(hasConfigNames);
+		assertTrue(configs.size() > 1);
 	}
 
 	public void testHasPassword() throws Exception {
