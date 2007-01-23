@@ -60,6 +60,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import com.darwinsys.genericui.SuccessFailureUI;
 import com.darwinsys.io.TextAreaWriter;
@@ -192,6 +193,17 @@ public class SQLRunnerGUI  {
 						resultsStatusBar.reset();
 						busyDialog.setVisible(true);
 
+						// Close the previous connection if there was one; must do this here
+						// not after, because the JTable Decorator will be running for some time
+						// after this thread...
+						if (currentConnection != null) {
+							try {
+								currentConnection.close();
+							} catch (SQLException ex) {
+								System.err.println("Warning: close caused " + ex);
+							}
+						}
+
 						currentConnection =  configManager.getConnection(config);
 
 						SQLRunner.setVerbosity(Verbosity.QUIET);
@@ -204,20 +216,11 @@ public class SQLRunnerGUI  {
 
 						// RUN THE SQL
 						prog.runStatement(command);
-						currentConnection.close();
-						currentConnection = null;
 						resultsStatusBar.showSuccess();	// If no exception thrown
 					} catch (Exception e) {
 						resultsStatusBar.showFailure();
 						eHandler.handleError(e);
 					} finally {
-						if (currentConnection != null) {
-						    try {
-						        currentConnection.close();
-						    } catch (SQLException e) {
-						        // We just don't care at this point....
-						    }
-                        }
 						runButton.setEnabled(true);
 						busyDialog.setVisible(false);
 					}
