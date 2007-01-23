@@ -11,7 +11,10 @@ public enum OutputMode {
 	/** Mode for SQL output */
 	s("SQL"),
 	/** Mode for XML output */
-	x("XML");
+	x("XML"),
+	/** Mode for JTable */
+	j("Table");
+
 	String name;
 	OutputMode(String n) {
 		name = n;

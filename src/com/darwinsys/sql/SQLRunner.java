@@ -111,12 +111,16 @@ public class SQLRunner {
 
 	private ResultsDecorator xmlDecorator;
 
+	private ResultsDecorator jtableDecorator;
+
 	private boolean debug;
 
 	/** DB2 is the only one I know of today that requires table names
 	 * be given in upper case when getting table metadata
 	 */
 	private boolean upperCaseTableNames;
+
+	private SQLRunnerGUI gui;
 
 	private static Verbosity verbosity = Verbosity.QUIET;
 
@@ -202,6 +206,15 @@ public class SQLRunner {
 					xmlDecorator = new ResultsDecoratorXML(out, verbosity);
 				}
 				newDecorator = xmlDecorator;
+				break;
+			case j:
+				if (jtableDecorator == null) {
+					if (gui == null) {
+						throw new IllegalArgumentException("Can't set mode to JTable before calling setGUI()");
+					}
+					jtableDecorator = new ResultsDecoratorJTable(gui.getJTable(), out, verbosity);
+				}
+				newDecorator = jtableDecorator;
 				break;
 			default:
 				String values = OutputMode.values().toString();
@@ -460,5 +473,17 @@ public class SQLRunner {
 
 	public static void setVerbosity(Verbosity verbosity) {
 		SQLRunner.verbosity = verbosity;
+	}
+
+	public void setErrorHandler(SQLRunnerErrorHandler eHandler) {
+		gui.setErrorHandler(eHandler);
+	}
+
+	public void setGUI(SQLRunnerGUI gui) {
+		this.gui = gui;
+	}
+
+	public String toString() {
+		return "sqlrunner";
 	}
 }

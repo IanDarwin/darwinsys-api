@@ -57,6 +57,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 import com.darwinsys.genericui.SuccessFailureUI;
@@ -84,16 +86,21 @@ public class SQLRunnerGUI  {
 
 	ConfigurationManager configManager;
 
+	private OutputMode mode;
+
 	// GUI
 	private final SuccessFailureUI resultsStatusBar;
 	private final JFrame mainWindow;
 	private final JTextArea inputTextArea, outputTextArea;
+	private final JTabbedPane outputPanel;
 	private final JButton runButton;
 
 	private final JComboBox connectionsList;
 	private final JCheckBox passwdPromptCheckBox;
 	private final JComboBox modeList;
 	private final JDialog busyDialog;
+
+	private JTable jtable;
 
 	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
 
@@ -128,6 +135,7 @@ public class SQLRunnerGUI  {
 				}
 			}
 		}
+		SQLRunner.setOkToExit(true);
 		SQLRunnerGUI prog = new SQLRunnerGUI(new DefaultConfigurationManager());
 		if (config != null) {
 			prog.setConfig(config);
@@ -188,8 +196,11 @@ public class SQLRunnerGUI  {
 
 						SQLRunner.setVerbosity(Verbosity.QUIET);
 						SQLRunner prog = new SQLRunner(currentConnection, null, "t");
+						prog.setGUI(SQLRunnerGUI.this);
+						if (mode != null) {
+							prog.setOutputMode(mode);
+						}
 						prog.setOutputFile(out);
-						prog.setOutputMode((OutputMode) modeList.getSelectedItem());
 
 						// RUN THE SQL
 						prog.runStatement(command);
@@ -295,6 +306,12 @@ public class SQLRunnerGUI  {
 		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
 		}
+		modeList.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e) {
+				mode = (OutputMode) modeList.getSelectedItem();
+			}
+
+		});
 		controlsArea.add(new JLabel("Output Format:"));
 		controlsArea.add(modeList);
 
@@ -316,9 +333,15 @@ public class SQLRunnerGUI  {
 		JScrollPane inputAreaScrollPane = new JScrollPane(inputTextArea);
 		inputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Command"));
 
+		outputPanel = new JTabbedPane();
+
 		outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
 		JScrollPane outputAreaScrollPane = new JScrollPane(outputTextArea);
 		outputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Results"));
+		outputPanel.addTab("Text Results", outputAreaScrollPane);
+
+		jtable = new JTable();
+		outputPanel.addTab("Tabular", jtable);
 
 		inTemplateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -340,7 +363,7 @@ public class SQLRunnerGUI  {
 
         mainWindow.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 					inputAreaScrollPane,
-					outputAreaScrollPane), BorderLayout.CENTER);
+					outputPanel), BorderLayout.CENTER);
 
 
 		out = new PrintWriter(new TextAreaWriter(outputTextArea));
@@ -377,6 +400,10 @@ public class SQLRunnerGUI  {
 			input.setVisible(true);	// BLOCKING
 
 			return new String(textField.getPassword());
+		}
+
+		public JTable getJTable() {
+			return jtable;
 		}
 
 }
