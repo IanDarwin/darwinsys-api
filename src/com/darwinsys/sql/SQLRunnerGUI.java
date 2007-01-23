@@ -348,7 +348,7 @@ public class SQLRunnerGUI  {
 		outputPanel.addTab("Text Results", outputAreaScrollPane);
 
 		jtable = new JTable();
-		outputPanel.addTab("Tabular", jtable);
+		outputPanel.addTab("Tabular", new JScrollPane(jtable));
 
 		inTemplateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
