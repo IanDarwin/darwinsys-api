@@ -309,6 +309,13 @@ public class SQLRunnerGUI  {
 		modeList.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
 				mode = (OutputMode) modeList.getSelectedItem();
+				switch(mode) {
+				case j:
+					outputPanel.setSelectedIndex(1);
+					break;
+				default:
+					outputPanel.setSelectedIndex(0);
+				}
 			}
 
 		});
@@ -378,6 +385,11 @@ public class SQLRunnerGUI  {
 		inputTextArea.requestFocusInWindow();
 	}
 
+		/**
+		 * Prompt for a password, and wait until the user enters it.
+		 * @param prompt
+		 * @return The new password.
+		 */
 		@SuppressWarnings("serial")
 		private String getPassword(String prompt) {
 			final JDialog input = new JDialog(mainWindow, "Prompt", true);
@@ -386,11 +398,9 @@ public class SQLRunnerGUI  {
 			JPasswordField textField = new JPasswordField(10);
 			input.add(textField);
 			Action okAction = new AbstractAction("OK") {
-
 				public void actionPerformed(ActionEvent e) {
 					input.dispose();
 				}
-
 			};
 			textField.addActionListener(okAction);
 			JButton ok = new JButton(okAction);

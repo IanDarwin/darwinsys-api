@@ -152,7 +152,7 @@ public class SQLRunner {
 			dbMeta.getDatabaseProductName().indexOf("DB2") >= 0;
 		String dbName = dbMeta.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
-		statement = conn.createStatement();
+		statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 		if (outputFileName == null) {
 			out = new PrintWriter(System.out);
@@ -381,7 +381,7 @@ public class SQLRunner {
 	 */
 	public void setOutputFile(PrintWriter writer) {
 		out = writer;
-		textDecorator = new ResultsDecoratorText(out, verbosity);
+		currentDecorator.setWriter(out);
 	}
 
 	/** Run one Statement, and format results as per Update or Query.

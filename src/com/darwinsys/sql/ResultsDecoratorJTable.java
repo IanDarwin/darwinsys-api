@@ -52,12 +52,12 @@ public class ResultsDecoratorJTable extends ResultsDecorator {
 		final ResultSetMetaData md = rs.getMetaData();
 		final int colCount = md.getColumnCount();
 
-		// Create a JTableModel to hold the data
+		// Create a JTableModel to hold the data; map 1-origin SQL row/col to/from 0-origin JTable row/col
 		TableModel dataModel = new TableModel() {
 
 			public Class<?> getColumnClass(int columnIndex) {
 				try {
-					return Class.forName(md.getColumnClassName(columnIndex));
+					return Class.forName(md.getColumnClassName(1+columnIndex));
 				} catch (Exception e) {
 					return null;
 				}
@@ -69,7 +69,7 @@ public class ResultsDecoratorJTable extends ResultsDecorator {
 
 			public String getColumnName(int columnIndex) {
 				try {
-					return md.getColumnLabel(columnIndex);
+					return md.getColumnLabel(1+columnIndex);
 				} catch (SQLException e) {
 					e.printStackTrace();
 					return "unknown";
@@ -88,8 +88,8 @@ public class ResultsDecoratorJTable extends ResultsDecorator {
 
 			public Object getValueAt(int rowIndex, int columnIndex) {
 				try {
-					rs.absolute(rowIndex);
-					return rs.getObject(columnIndex);
+					rs.absolute(1+rowIndex);
+					return rs.getObject(1+columnIndex);
 				} catch (SQLException e) {
 					e.printStackTrace();
 					return null;
