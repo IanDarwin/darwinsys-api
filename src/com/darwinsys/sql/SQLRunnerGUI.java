@@ -193,16 +193,7 @@ public class SQLRunnerGUI  {
 						resultsStatusBar.reset();
 						busyDialog.setVisible(true);
 
-						// Close the previous connection if there was one; must do this here
-						// not after, because the JTable Decorator will be running for some time
-						// after this thread...
-						if (currentConnection != null) {
-							try {
-								currentConnection.close();
-							} catch (SQLException ex) {
-								System.err.println("Warning: close caused " + ex);
-							}
-						}
+
 
 						currentConnection =  configManager.getConnection(config);
 
@@ -217,6 +208,11 @@ public class SQLRunnerGUI  {
 						// RUN THE SQL
 						prog.runStatement(command);
 						resultsStatusBar.showSuccess();	// If no exception thrown
+						try {
+							currentConnection.close();
+						} catch (SQLException ex) {
+							System.err.println("Warning: close caused " + ex);
+						}
 					} catch (Exception e) {
 						resultsStatusBar.showFailure();
 						eHandler.handleError(e);

@@ -39,6 +39,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.RowSet;
+import javax.sql.rowset.CachedRowSet;
+
 import com.darwinsys.util.Verbosity;
 
 /** Class to run an SQL script, like psql(1), SQL*Plus, or similar programs.
@@ -323,11 +326,9 @@ public class SQLRunner {
 	private void display(String rest) throws IOException, SQLException, SyntaxException {
 		if (rest.equals("t")) {
 			// Display list of tables
-			List<String> userTables = getUserTables(conn);
-			for (String name : userTables) {
-				textDecorator.println(name);
-			}
-			out.flush();
+			ResultSet rs = getUserTables(conn);
+			currentDecorator.write(rs);
+			currentDecorator.flush();
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
 			// don't do ignorecase so, for now, convert to UPPER CASE.
@@ -336,10 +337,8 @@ public class SQLRunner {
 			System.out.println("# Display table " + tableName);
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getColumns(null, null, tableName, "%");
-			while (rs.next()) {
-				textDecorator.println(rs.getString(4));
-			}
-			out.flush();
+			currentDecorator.write(cacheResultSet(rs));
+			currentDecorator.flush();
 		} else
 			throw new SyntaxException("\\d"  + rest + " invalid");
 	}
@@ -350,16 +349,21 @@ public class SQLRunner {
 	 * @return The names of the user tables in the given Connection
 	 * @throws SQLException
 	 */
-	public static List<String> getUserTables(Connection conn) throws SQLException {
-		ArrayList<String> result = new ArrayList<String>();
+	public static ResultSet getUserTables(Connection conn) throws SQLException {
 		DatabaseMetaData md = conn.getMetaData();
 		ResultSet rs = md.getTables(null, null, "%", null);
-		while (rs.next()) {
-			String catName = rs.getString(2);
-			if (!catName.startsWith("SYS"))
-				result.add(rs.getString(3));
-		}
-		return result;
+		return cacheResultSet(rs);
+	}
+
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
+	private static CachedRowSet cacheResultSet(ResultSet rs) throws SQLException {
+		CachedRowSet rows = new com.sun.rowset.CachedRowSetImpl();
+		rows.populate(rs);
+		return rows;
 	}
 
 	/** Set the output to the given filename.
@@ -407,8 +411,7 @@ public class SQLRunner {
 		if (!hasResultSet) {
 			currentDecorator.printRowCount(statement.getUpdateCount());
 		} else {
-			ResultSet rs = statement.getResultSet();
-			int n = currentDecorator.write(rs);
+			int n = currentDecorator.write(cacheResultSet(statement.getResultSet()));
 			if (verbosity == Verbosity.VERBOSE || verbosity == Verbosity.DEBUG) {
 				currentDecorator.printRowCount(n);
 			}
