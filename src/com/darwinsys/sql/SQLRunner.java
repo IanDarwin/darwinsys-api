@@ -406,7 +406,7 @@ public class SQLRunner {
 			return;
 		}
 
-		boolean hasResultSet = statement.execute(inString);			// Rrringggg! Rrriinngggg!
+		boolean hasResultSet = statement.execute(inString);			// DO IT - call the database.
 
 		if (!hasResultSet) {
 			currentDecorator.printRowCount(statement.getUpdateCount());
