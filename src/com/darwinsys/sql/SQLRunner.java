@@ -453,8 +453,12 @@ public class SQLRunner {
 	}
 
 	public void close() throws SQLException {
-		statement.close();
-		conn.close();
+		if (statement != null) {
+			statement.close();
+		}
+		if (conn != null) {
+			conn.close();
+		}
 		out.flush();
 		out.close();
 	}
