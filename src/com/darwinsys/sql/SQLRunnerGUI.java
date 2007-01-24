@@ -164,64 +164,69 @@ public class SQLRunnerGUI  {
 
 	/**
 	 * This is the all-important action for the Run button! Run the current SQL input
-	 * string with the given settings
+	 * string with the given settings. Used in runAction, below.
 	 */
+	Runnable commandRunner = new Runnable() {
+
+		public void run() {
+			String command = inputTextArea.getText().trim();
+			if (command == null || command.length() == 0) {
+				JOptionPane.showMessageDialog(mainWindow,
+						"Command window is empty", "Out of order", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
+			// make busy dialog same width as main window.
+			Dimension dlgBounds = busyDialog.getSize();
+			dlgBounds.width = mainWindow.getSize().width;
+			busyDialog.setSize(dlgBounds);
+
+			runButton.setEnabled(false);
+			Configuration config = (Configuration) connectionsList.getSelectedItem();
+			if (passwdPromptCheckBox.isSelected() || !config.hasPassword()) {
+				String pass = getPassword("Connection password for " + config.getName());
+				config.setPassword(pass);
+			}
+			resultsStatusBar.reset();
+			busyDialog.setVisible(true);
+
+			try {
+				currentConnection =  configManager.getConnection(config);
+
+				SQLRunner.setVerbosity(Verbosity.QUIET);
+				SQLRunner prog = new SQLRunner(currentConnection, null, "t");
+				prog.setGUI(SQLRunnerGUI.this);
+				if (mode != null) {
+					prog.setOutputMode(mode);
+				}
+				prog.setOutputFile(out);
+
+				// RUN THE SQL
+				prog.runStatement(command);
+				resultsStatusBar.showSuccess();	// If no exception thrown
+				try {
+					// Nested try here is deliberate, not a big deal if this call crashes
+					currentConnection.close();
+				} catch (SQLException ex) {
+					System.err.println("Warning: close caused " + ex);
+				}
+			} catch (Exception e) {
+				resultsStatusBar.showFailure();
+				eHandler.handleError(e);
+			} finally {
+				runButton.setEnabled(true);
+				busyDialog.setVisible(false);
+			}
+		}
+	};
+
 	Action runAction = new AbstractAction("Run") {
 
 		/** Called each time the user presses the Run button */
 		public void actionPerformed(ActionEvent evt) {
 
 			// Run this action handler under its own Thread, so we don't block the EventDispatch thread...
-			commandRunnerThread = new Thread() {
-                public void run() {
-					Dimension dlgBounds = busyDialog.getSize();
-					dlgBounds.width = mainWindow.getSize().width;
-					busyDialog.setSize(dlgBounds);
-					try {
-						String command = inputTextArea.getText().trim();
-						if (command == null || command.length() == 0) {
-							JOptionPane.showMessageDialog(mainWindow,
-									"Command window is empty", "Out of order", JOptionPane.WARNING_MESSAGE);
-							return;
-						}
-						runButton.setEnabled(false);
-						Configuration config = (Configuration) connectionsList.getSelectedItem();
-						if (passwdPromptCheckBox.isSelected() || !config.hasPassword()) {
-							String pass = getPassword("Connection password for " + config.getName());
-							config.setPassword(pass);
-						}
-						resultsStatusBar.reset();
-						busyDialog.setVisible(true);
-
-
-
-						currentConnection =  configManager.getConnection(config);
-
-						SQLRunner.setVerbosity(Verbosity.QUIET);
-						SQLRunner prog = new SQLRunner(currentConnection, null, "t");
-						prog.setGUI(SQLRunnerGUI.this);
-						if (mode != null) {
-							prog.setOutputMode(mode);
-						}
-						prog.setOutputFile(out);
-
-						// RUN THE SQL
-						prog.runStatement(command);
-						resultsStatusBar.showSuccess();	// If no exception thrown
-						try {
-							currentConnection.close();
-						} catch (SQLException ex) {
-							System.err.println("Warning: close caused " + ex);
-						}
-					} catch (Exception e) {
-						resultsStatusBar.showFailure();
-						eHandler.handleError(e);
-					} finally {
-						runButton.setEnabled(true);
-						busyDialog.setVisible(false);
-					}
-				}
-			};
+			commandRunnerThread = new Thread(commandRunner);
 			commandRunnerThread.start();
 		}
 	};
@@ -371,7 +376,6 @@ public class SQLRunnerGUI  {
 					inputAreaScrollPane,
 					outputPanel), BorderLayout.CENTER);
 
-
 		out = new PrintWriter(new TextAreaWriter(outputTextArea));
 
 		resultsStatusBar = new SuccessFailureBarSwing(mainWindow.getBackground(), 400, 20);
@@ -384,35 +388,35 @@ public class SQLRunnerGUI  {
 		inputTextArea.requestFocusInWindow();
 	}
 
-		/**
-		 * Prompt for a password, and wait until the user enters it.
-		 * @param prompt
-		 * @return The new password.
-		 */
-		@SuppressWarnings("serial")
-		private String getPassword(String prompt) {
-			final JDialog input = new JDialog(mainWindow, "Prompt", true);
-			input.setLayout(new FlowLayout());
-			input.add(new JLabel(prompt));
-			JPasswordField textField = new JPasswordField(10);
-			input.add(textField);
-			Action okAction = new AbstractAction("OK") {
-				public void actionPerformed(ActionEvent e) {
-					input.dispose();
-				}
-			};
-			textField.addActionListener(okAction);
-			JButton ok = new JButton(okAction);
-			input.add(ok);
-			input.pack();
-			input.setLocationRelativeTo(mainWindow);
-			input.setVisible(true);	// BLOCKING
+	/**
+	 * Prompt for a password, and wait until the user enters it.
+	 * @param prompt
+	 * @return The new password.
+	 */
+	@SuppressWarnings("serial")
+	private String getPassword(String prompt) {
+		final JDialog input = new JDialog(mainWindow, "Prompt", true);
+		input.setLayout(new FlowLayout());
+		input.add(new JLabel(prompt));
+		JPasswordField textField = new JPasswordField(10);
+		input.add(textField);
+		Action okAction = new AbstractAction("OK") {
+			public void actionPerformed(ActionEvent e) {
+				input.dispose();
+			}
+		};
+		textField.addActionListener(okAction);
+		JButton ok = new JButton(okAction);
+		input.add(ok);
+		input.pack();
+		input.setLocationRelativeTo(mainWindow);
+		input.setVisible(true);	// BLOCKING
 
-			return new String(textField.getPassword());
-		}
+		return new String(textField.getPassword());
+	}
 
-		public JTable getJTable() {
-			return jtable;
-		}
+	public JTable getJTable() {
+		return jtable;
+	}
 
 }

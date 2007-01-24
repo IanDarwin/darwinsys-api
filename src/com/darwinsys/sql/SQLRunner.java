@@ -36,10 +36,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.sql.RowSet;
 import javax.sql.rowset.CachedRowSet;
 
 import com.darwinsys.util.Verbosity;
@@ -149,7 +146,7 @@ public class SQLRunner {
 		commonSetup(outputFile, outputModeName);
 	}
 
-	void commonSetup(String outputFileName, String outputModeName) throws IOException, SQLException {
+	private void commonSetup(String outputFileName, String outputModeName) throws IOException, SQLException {
 		dbMeta = conn.getMetaData();
 		upperCaseTableNames =
 			dbMeta.getDatabaseProductName().indexOf("DB2") >= 0;
@@ -324,35 +321,27 @@ public class SQLRunner {
 	 * @throws SyntaxException
 	 */
 	private void display(String rest) throws IOException, SQLException, SyntaxException {
+		setOutputMode(OutputMode.t);
 		if (rest.equals("t")) {
 			// Display list of tables
-			ResultSet rs = getUserTables(conn);
+			DatabaseMetaData md = conn.getMetaData();
+			ResultSet rs = md.getTables(null, null, "%", new String[]{"TABLE","VIEW"});
 			currentDecorator.write(rs);
 			currentDecorator.flush();
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
 			// don't do ignorecase so, for now, convert to UPPER CASE.
 			String tableName = rest.substring(1).trim();
-			if (upperCaseTableNames) tableName = tableName.toUpperCase();
+			if (upperCaseTableNames) {
+				tableName = tableName.toUpperCase();
+			}
 			System.out.println("# Display table " + tableName);
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getColumns(null, null, tableName, "%");
-			currentDecorator.write(cacheResultSet(rs));
+			currentDecorator.write(rs);
 			currentDecorator.flush();
 		} else
 			throw new SyntaxException("\\d"  + rest + " invalid");
-	}
-
-	/**
-	 * Get names of user tables in the given Connection
-	 * @param conn
-	 * @return The names of the user tables in the given Connection
-	 * @throws SQLException
-	 */
-	public static ResultSet getUserTables(Connection conn) throws SQLException {
-		DatabaseMetaData md = conn.getMetaData();
-		ResultSet rs = md.getTables(null, null, "%", null);
-		return cacheResultSet(rs);
 	}
 
 	/**
