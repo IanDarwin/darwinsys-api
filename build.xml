@@ -74,7 +74,7 @@
 
 	<target name="dist" depends="jar,src-jar"/>
 
-	<target name="jar" depends="docs">
+	<target name="jar" depends="docs,build">
 		<mkdir dir="${build}/META-INF"/>
 		<copy file="darwintags.tld" todir="${build}/META-INF"/>
 		<jar jarfile="${build}/${obj.jar}"
