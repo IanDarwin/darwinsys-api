@@ -91,7 +91,7 @@ public class SQLRunnerGUI  {
 	// GUI
 	private final SuccessFailureUI resultsStatusBar;
 	private final JFrame mainWindow;
-	private final JTextArea inputTextArea, outputTextArea;
+	private final JTextArea inputTextArea, textTextArea;
 	private final JTabbedPane outputPanel;
 	private final JButton runButton;
 
@@ -345,13 +345,17 @@ public class SQLRunnerGUI  {
 
 		outputPanel = new JTabbedPane();
 
-		outputTextArea = new JTextArea(20, DISPLAY_COLUMNS);
-		JScrollPane outputAreaScrollPane = new JScrollPane(outputTextArea);
-		outputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Results"));
-		outputPanel.addTab("Text Results", outputAreaScrollPane);
+		textTextArea = new JTextArea(20, DISPLAY_COLUMNS);
+		JScrollPane outputAreaScrollPane = new JScrollPane(textTextArea);
+		String resultTypeName;
+		resultTypeName = OutputMode.t.toString();
+		outputAreaScrollPane.setBorder(BorderFactory.createTitledBorder(resultTypeName));
+		outputPanel.addTab(resultTypeName, outputAreaScrollPane);
 
 		jtable = new JTable();
-		outputPanel.addTab("Tabular", new JScrollPane(jtable));
+		resultTypeName = OutputMode.j.toString();
+		jtable.setBorder(BorderFactory.createTitledBorder(resultTypeName));
+		outputPanel.addTab(resultTypeName, new JScrollPane(jtable));
 
 		inTemplateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -365,7 +369,7 @@ public class SQLRunnerGUI  {
 		JButton clearOutput = new JButton("Clear Output");
 		clearOutput.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        outputTextArea.setText("");
+		        textTextArea.setText("");
                 resultsStatusBar.reset();
 		    }
 		});
@@ -375,7 +379,7 @@ public class SQLRunnerGUI  {
 					inputAreaScrollPane,
 					outputPanel), BorderLayout.CENTER);
 
-		out = new PrintWriter(new TextAreaWriter(outputTextArea));
+		out = new PrintWriter(new TextAreaWriter(textTextArea));
 
 		resultsStatusBar = new SuccessFailureBarSwing(mainWindow.getBackground(), 400, 20);
 		resultsStatusBar.reset();
