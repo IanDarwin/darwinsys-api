@@ -60,7 +60,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 import com.darwinsys.genericui.SuccessFailureUI;
 import com.darwinsys.io.TextAreaWriter;

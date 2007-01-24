@@ -1,6 +1,5 @@
 package com.darwinsys.notepad;
 
-import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
