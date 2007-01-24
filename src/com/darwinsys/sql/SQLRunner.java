@@ -115,6 +115,8 @@ public class SQLRunner {
 
 	private boolean debug;
 
+	private boolean escape;
+
 	/** DB2 is the only one I know of today that requires table names
 	 * be given in upper case when getting table metadata
 	 */
@@ -321,13 +323,14 @@ public class SQLRunner {
 	 * @throws SyntaxException
 	 */
 	private void display(String rest) throws IOException, SQLException, SyntaxException {
-		setOutputMode(OutputMode.t);
+		// setOutputMode(OutputMode.t);
 		if (rest.equals("t")) {
 			// Display list of tables
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getTables(null, null, "%", new String[]{"TABLE","VIEW"});
-			currentDecorator.write(rs);
-			currentDecorator.flush();
+			setOutputMode(OutputMode.t);
+			textDecorator.write(rs);
+			textDecorator.flush();
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
 			// don't do ignorecase so, for now, convert to UPPER CASE.
@@ -338,8 +341,9 @@ public class SQLRunner {
 			System.out.println("# Display table " + tableName);
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getColumns(null, null, tableName, "%");
-			currentDecorator.write(rs);
-			currentDecorator.flush();
+			setOutputMode(OutputMode.t);
+			textDecorator.write(rs);
+			textDecorator.flush();
 		} else
 			throw new SyntaxException("\\d"  + rest + " invalid");
 	}
@@ -350,7 +354,7 @@ public class SQLRunner {
 	 * @throws SQLException
 	 */
 	private static CachedRowSet cacheResultSet(ResultSet rs) throws SQLException {
-		CachedRowSet rows = new com.sun.rowset.CachedRowSetImpl();
+		CachedRowSet rows = new com.sun.rowset.WebRowSetImpl();
 		rows.populate(rs);
 		return rows;
 	}
@@ -386,11 +390,14 @@ public class SQLRunner {
 		final String inString = rawString.trim();
 
 		if (verbosity != Verbosity.QUIET) {
-			out.println("Executing : <<" + inString.trim() + ">>");
+			out.println("Executing : <<" + inString + ">>");
 			out.flush();
 		}
+		currentDecorator.println(String.format("-- output from command -- \"%s\"%n", inString));
 
+		escape = false;
 		if (inString.startsWith("\\")) {
+			escape = true;
 			doEscape(inString);
 			return;
 		}
@@ -482,4 +489,10 @@ public class SQLRunner {
 	public String toString() {
 		return "sqlrunner";
 	}
+
+	public boolean isEscape() {
+		return escape;
+	}
+
+
 }

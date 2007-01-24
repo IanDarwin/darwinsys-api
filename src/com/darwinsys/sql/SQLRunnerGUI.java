@@ -102,20 +102,23 @@ public class SQLRunnerGUI  {
 
 	private JTable jtable;
 
-	private SQLRunnerErrorHandler eHandler = new SQLRunnerErrorHandler() {
+	/** Currently-in-use Error Handler */
+	private SQLRunnerErrorHandler eHandler =
 
-		public void handleError(Exception e) {
+		/** Default Error Handler */
+		new SQLRunnerErrorHandler() {
+
+			public void handleError(Exception e) {
 
 				JOptionPane.showMessageDialog(mainWindow,
 					"<html><p>Error: <font color='red'>" + e,
 					"Oops", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
-		}
-
+			}
 	};
 
 	/**
-	 * Allow the Application to provide its own error handler.
+	 * Allow a main application to provide its own error handler.
 	 * @param eHandler
 	 */
 	public void setErrorHandler(SQLRunnerErrorHandler eHandler) {
@@ -123,7 +126,7 @@ public class SQLRunnerGUI  {
 	}
 
 	/**
-	 * Main method; ignores arguments.
+	 * Default main method for standalone use.
 	 */
 	public static void main(String[] args) {
 		String config = null;
@@ -202,6 +205,10 @@ public class SQLRunnerGUI  {
 
 				// RUN THE SQL
 				prog.runStatement(command);
+
+				if (prog.isEscape()) {
+					outputPanel.setSelectedIndex(0);
+				}
 				resultsStatusBar.showSuccess();	// If no exception thrown
 				try {
 					// Nested try here is deliberate, not a big deal if this call crashes
@@ -354,7 +361,6 @@ public class SQLRunnerGUI  {
 
 		jtable = new JTable();
 		resultTypeName = OutputMode.j.toString();
-		jtable.setBorder(BorderFactory.createTitledBorder(resultTypeName));
 		outputPanel.addTab(resultTypeName, new JScrollPane(jtable));
 
 		inTemplateButton.addActionListener(new ActionListener() {
