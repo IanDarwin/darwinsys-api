@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.darwinsys.graphics.JigglyTextImageWriter;
+import com.darwinsys.security.PassPhrase;
 
 /**
  * Generate output that requires a human response, that is,
@@ -20,9 +21,10 @@ import com.darwinsys.graphics.JigglyTextImageWriter;
  */
 public class HumanResponseServlet extends HttpServlet {
 
-	private static final String SESSION_KEY_RESPONSE = "c.d.s.RESPONSE_STRING";
+	public static final String SESSION_KEY_RESPONSE = "c.d.s.RESPONSE_STRING";
 	private static final long serialVersionUID = -101972891L;
-	static final int H = 200;
+	private static final int NUM_CHARS = 7;
+	static final int H = 100;
 	static final int W = 400;
 
 	JigglyTextImageWriter jiggler;
@@ -39,18 +41,18 @@ public class HumanResponseServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		// create the random string
-		String msg = randomString();
+		String challenge = randomString();
 
 		// save it in the session
-		session.setAttribute(SESSION_KEY_RESPONSE, msg);
+		session.setAttribute(SESSION_KEY_RESPONSE, challenge);
 	    response.setContentType("image/jpeg");
 		OutputStream os = response.getOutputStream();
 
-		jiggler.write(msg, os);
+		jiggler.write(challenge, os);
 	}
 
 	private String randomString() {
-		return "QJX" + hashCode();
+		return PassPhrase.getNext(NUM_CHARS);
 	}
 
 	/**

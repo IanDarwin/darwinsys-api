@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
@@ -22,6 +23,7 @@ public class JigglyTextImageWriter {
 	int width, height;
 	Font font;
 	private int nc;
+	Random random = new Random();
 
 	public JigglyTextImageWriter(Font font, int width, int height) {
 		super();
@@ -50,12 +52,13 @@ public class JigglyTextImageWriter {
 
 		// Draw the text
 		char[] msgChars = msg.toCharArray();
-		int y = 100, x = 0;
+		int y = height / 2, x = 0;
 		for (int i = 0; i < msgChars.length; i++) {
 			g.setColor(randomColor());
-			// XXX permute X a bit
+			int xPermute = random.nextInt(5);
+			int yPermute = random.nextInt(5);
 			// XXX pick a rotation transform
-			g.drawChars(msgChars, i, 1, x += 20, y);
+			g.drawChars(msgChars, i, 1, (x += 20) + xPermute, y + yPermute);
 		}
 
 		// Write the output

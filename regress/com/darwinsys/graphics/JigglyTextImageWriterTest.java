@@ -14,7 +14,7 @@ public class JigglyTextImageWriterTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Font font = new Font("SansSerif", Font.BOLD, 24);
-		writer = new JigglyTextImageWriter(font, 300, 200);
+		writer = new JigglyTextImageWriter(font, 300, 100);
 	}
 
 	public void testWrite() throws Throwable {
