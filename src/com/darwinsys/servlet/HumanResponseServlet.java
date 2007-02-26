@@ -19,11 +19,30 @@ import com.darwinsys.graphics.JigglyTextImageWriter;
 import com.darwinsys.security.PassPhrase;
 
 /**
- * Generate output that requires a human response, that is,
- * output an image of a string that the user has to read and
- * type back into a form. The complication is that we can't
+ * Generate one of those annoying but necessary images that the user has to read
+ * and verify to confirm that she's a human being not a spambot. The complication is that we can't
  * generate the image back to the middle of a JSP, so we create
  * it in a temp file, and write the &lt;IMG&gt; tag back to the user
+ * <p.
+ * Typical usage of this servlet (in, e.g, contact.jsp):
+ * <pre>&lt;jsp:include page="/servlet/HumanResponseServlet"&gt;</pre>
+ * <p>
+ * Typical code in response servlet, e.g., ContactServlet:
+ * <pre>
+ * final String actualChallenge = request.getParameter("challenge");
+ * final String exptectedChallenge =
+ *     (String)request.getSession().getAttribute(HumanResponseServlet.SESSION_KEY_RESPONSE);
+ * if (actualChallenge == null) {
+ *     out.println("You must provide a value for the challenge string");
+ * 	   giveTryAgainLink(out);
+ *     return;
+ * }
+ * if (!actualChallenge.equals(exptectedChallenge)) {
+ *     out.println("Sorry, you didn't pass the anti-Turing test :-)");
+ *     giveTryAgainLink(out);
+ *     return;
+ * }
+ * </pre>
  */
 public class HumanResponseServlet extends HttpServlet {
 
