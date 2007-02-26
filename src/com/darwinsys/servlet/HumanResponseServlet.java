@@ -73,7 +73,7 @@ public class HumanResponseServlet extends HttpServlet {
 		session.setAttribute(SESSION_KEY_RESPONSE, challenge);
 
 		final File dir = new File(application.getRealPath("/tmp"));
-        final File tempFile = File.createTempFile("img", "jpg", dir);
+        final File tempFile = File.createTempFile("challenge", ".jpg", dir);
 
 		// Generate the image
 		OutputStream os = null;
