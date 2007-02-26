@@ -57,9 +57,16 @@ public class HumanResponseServlet extends HttpServlet {
         final File tempFile = File.createTempFile("img", "jpg", dir);
 
 		// Generate the image
-		OutputStream os = new FileOutputStream(tempFile);
+		OutputStream os = null;
+		try {
+			os = new FileOutputStream(tempFile);
 
-		jiggler.write(challenge, os);
+			jiggler.write(challenge, os);
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+		}
 
 		// If that didn't throw an exception, print an IMG tag
 		response.setContentType("text/html");
