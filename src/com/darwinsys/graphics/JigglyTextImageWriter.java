@@ -20,10 +20,10 @@ import javax.imageio.stream.ImageOutputStream;
  */
 public class JigglyTextImageWriter {
 
-	int width, height;
-	Font font;
-	private int nc;
-	Random random = new Random();
+	private final int width, height;
+	private final Font font;
+	private int nextColor;
+	private final Random random = new Random();
 
 	public JigglyTextImageWriter(Font font, int width, int height) {
 		super();
@@ -75,6 +75,6 @@ public class JigglyTextImageWriter {
 
 
 	private Color randomColor() {
-		return colors[nc++ % colors.length];
+		return colors[nextColor++ % colors.length];
 	}
 }
