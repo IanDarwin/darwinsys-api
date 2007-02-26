@@ -1,10 +1,14 @@
 package com.darwinsys.servlet;
 
 import java.awt.Font;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +21,9 @@ import com.darwinsys.security.PassPhrase;
 /**
  * Generate output that requires a human response, that is,
  * output an image of a string that the user has to read and
- * type back into a form
+ * type back into a form. The complication is that we can't
+ * generate the image back to the middle of a JSP, so we create
+ * it in a temp file, and write the &lt;IMG&gt; tag back to the user
  */
 public class HumanResponseServlet extends HttpServlet {
 
@@ -27,28 +33,40 @@ public class HumanResponseServlet extends HttpServlet {
 	static final int H = 100;
 	static final int W = 400;
 
-	JigglyTextImageWriter jiggler;
+	private JigglyTextImageWriter jiggler;
 
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
 		super.init(arg0);
-		Font font = new Font("SansSerif", Font.BOLD, 24);
-		jiggler = new JigglyTextImageWriter(font, W, H); // XXX initparams
+		jiggler = new JigglyTextImageWriter(new Font("SansSerif", Font.BOLD, 24), W, H); // XXX initparams
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+
+		final ServletContext application = getServletContext();
+		final HttpSession session = request.getSession();
 
 		// create the random string
-		String challenge = randomString();
+		final String challenge = randomString();
 
 		// save it in the session
 		session.setAttribute(SESSION_KEY_RESPONSE, challenge);
-	    response.setContentType("image/jpeg");
-		OutputStream os = response.getOutputStream();
+
+		final File dir = new File(application.getRealPath("/tmp"));
+        final File tempFile = File.createTempFile("img", "jpg", dir);
+
+		// Generate the image
+		OutputStream os = new FileOutputStream(tempFile);
 
 		jiggler.write(challenge, os);
+
+		// If that didn't throw an exception, print an IMG tag
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.printf("<img src='/tmp/%s' width='%d' height='%d' alt='image to read for human verification'>%n",
+				tempFile.getName(), W, H);
+		out.flush();
 	}
 
 	private String randomString() {
