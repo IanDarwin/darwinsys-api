@@ -44,11 +44,13 @@ public class JigglyTextImageWriter {
 		g.setFont(font);
 
 		// Start with a clear screen
-		g.setColor(Color.white);
+		g.setColor(Color.WHITE);
 		g.fillRect(0,0, width, height);
 
 		// Fill the background with hashes
 		// XXX maybe use fanOfLines here
+		g.setColor(Color.GRAY);
+		g.drawLine(0, height / 2, width-1, height / 2);
 
 		// Draw the text
 		char[] msgChars = msg.toCharArray();
