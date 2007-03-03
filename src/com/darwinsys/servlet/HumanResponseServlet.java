@@ -47,6 +47,7 @@ import com.darwinsys.security.PassPhrase;
 public class HumanResponseServlet extends HttpServlet {
 
 	public static final String SESSION_KEY_RESPONSE = "c.d.s.RESPONSE_STRING";
+	public static final String SESSION_KEY_TIMESTAMP = "c.d.s.RESPONSE_TIME";
 	private static final long serialVersionUID = -101972891L;
 	private static final int NUM_CHARS = 7;
 	static final int H = 100;
@@ -71,6 +72,9 @@ public class HumanResponseServlet extends HttpServlet {
 
 		// save it in the session
 		session.setAttribute(SESSION_KEY_RESPONSE, challenge);
+
+		// And the timestamp
+		session.setAttribute(SESSION_KEY_TIMESTAMP, System.currentTimeMillis());
 
 		final File dir = new File(application.getRealPath("/tmp"));
         final File tempFile = File.createTempFile("challenge", ".jpg", dir);
