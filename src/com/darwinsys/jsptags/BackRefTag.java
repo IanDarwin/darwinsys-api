@@ -18,6 +18,7 @@ public class BackRefTag extends TagSupport {
 	private String label;
 
 	/** Invoked at the end tag boundary, does the work */
+	@Override
 	public int doEndTag() throws JspException {
 		try {
 			final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
@@ -37,7 +38,7 @@ public class BackRefTag extends TagSupport {
 			}
 			out.flush();
 			return SKIP_BODY;
-		} catch (Throwable t) {
+		} catch (Exception t) {
 			System.err.println("Tag caught: " + t);
 			throw new JspException(t.toString());
 		}
