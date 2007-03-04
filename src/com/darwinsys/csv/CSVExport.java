@@ -45,4 +45,12 @@ public class CSVExport {
         return sb.toString();
 	}
 
+	public static String toCSV(Object data, char delim) {
+		return null;
+	}
+
+	public static String toHeader(Object data, char delim) {
+		return null;
+	}
+
 }
