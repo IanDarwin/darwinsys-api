@@ -54,7 +54,7 @@ public class CrawlerTest extends TestCase {
 			fail("Did not throw expected NPE");
 		} catch (NullPointerException e) {
 			// OK
-		} catch (Throwable t) {
+		} catch (Exception t) {
 			fail("Caught UNexcpeted exception " + t);
 		}
 	}

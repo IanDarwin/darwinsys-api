@@ -50,7 +50,7 @@ public abstract class CSVParserTestBase extends TestCase {
 				}
 				System.out.println();
 			}
-		} catch (Throwable t) {
+		} catch (Exception t) {
 			System.err.printf("Error occured in data[%d], %s%n", i, data[i].expectLength);
 			throw t;
 		}

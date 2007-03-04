@@ -212,7 +212,7 @@ public class InstallerUnpacker implements Runnable {
 
 			p.waitFor();	// Wait for the installer to finish.
 
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(jf,
 					"Error unpacking/starting installer:\n" + e,
 					"Error", JOptionPane.ERROR_MESSAGE);

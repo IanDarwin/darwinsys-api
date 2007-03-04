@@ -30,7 +30,7 @@ public class Crawler implements Checkpointer {
 				if (t2 != null) {
 					System.err.println("Cause: " + t2);
 				}
-			} catch (Throwable h) {
+			} catch (Exception h) {
 				System.err.println("ERROR IN ERROR HANDLER: " + h);
 			}
 		}
@@ -87,7 +87,7 @@ public class Crawler implements Checkpointer {
 						} else {
 							visitFile(next);	// Process file unconditionally
 						}
-					} catch (Throwable e) {
+					} catch (Exception e) {
 						if (eHandler != null) {
 							eHandler.handleException(e);
 						} else {
