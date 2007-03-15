@@ -89,7 +89,7 @@ public class DataTableTag extends BodyTagSupport {
 				if (conn != null) {
 					conn.close();
 				}
-			} catch (Throwable t) {
+			} catch (Exception t) {
 				System.err.println(t);
 			}
 			if (exceptionToThrow != null) {
