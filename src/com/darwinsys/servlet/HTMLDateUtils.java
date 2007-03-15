@@ -7,7 +7,10 @@ import java.util.Calendar;
 import com.darwinsys.util.DateUtils;
 
 /**
- * Utilities for dealing with Dates in the context of Servlets
+ * Utilities for dealing with Dates in the context of Servlets;
+ * the print...Calendar routines depend on "calendar.css" being
+ * extracted from the distribution and copied to the root of the
+ * web application; without this it'll work but but look coyote ugly.
  */
 public class HTMLDateUtils {
 
@@ -31,7 +34,7 @@ public class HTMLDateUtils {
 		int mm = calendar.get(Calendar.MONTH);
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-		out.println("<link rel='stylesheet' type='text/css' href='calendar.css' />");
+		out.println("<link rel='stylesheet' type='text/css' href='/calendar.css' />");
 
 		out.println("<table class='cal-table-month'>");
 		out.println("<tr><th colspan='7' class='cal-header-month'>" + DateUtils.getMonthName(mm) + ", " + yy + "</tr>");
