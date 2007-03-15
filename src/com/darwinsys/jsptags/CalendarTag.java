@@ -1,19 +1,19 @@
 package com.darwinsys.jsptags;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.darwinsys.util.DateUtils;
+import com.darwinsys.servlet.HTMLDateUtils;
 
 /**
  * Calendar JSP Tag, cut down from Java Cookbook CalendarPage.jsp; just displays
  * current, does not have navigator.
- * 
+ *
  * @version $Id$
  */
 public class CalendarTag extends TagSupport {
@@ -28,10 +28,12 @@ public class CalendarTag extends TagSupport {
 					.getRequest();
 			final JspWriter out = pageContext.getOut();
 
-			doCal(request, out);
+			out.println("<!-- Start of output from $Id$ -->");
 
-			// out.flush();
-			
+			HTMLDateUtils.printMonthCalendar(new PrintWriter(out));
+
+			out.println("<!-- end of output from CalendarTag -->");
+
 			return SKIP_BODY;
 		} catch (IOException t) {
 			System.err.println("Tag caught: " + t);
@@ -39,49 +41,5 @@ public class CalendarTag extends TagSupport {
 		}
 	}
 
-	private void doCal(HttpServletRequest request, JspWriter out)
-			throws IOException {
 
-		out.println("<!-- $Id$ -->");
-
-		Calendar calendar = Calendar.getInstance();
-		int yy = calendar.get(Calendar.YEAR);
-		int mm = calendar.get(Calendar.MONTH);
-
-		out.println("<table border=1>");
-		out.println("<tr><th colspan=7>" + DateUtils.getMonthName(mm) + ", " + yy + "</tr>");
-
-		out.println("<tr><td>Su<td>Mo<td>Tu<td>We<td>Th<td>Fr<td>Sa</tr>");
-
-		// Compute how much to leave before the first.
-		// getDay() returns 0 for Sunday, which is just right.
-		int leadGap = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-
-		int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-		out.print("<tr>");
-
-		// Blank out the labels before 1st day of month
-		for (int i = 0; i < leadGap; i++) {
-			out.print("<td>&nbsp;");
-		}
-
-		// Fill in numbers for the day of month.
-		for (int i = 1; i <= daysInMonth; i++) {
-
-			out.print("<td>");
-			out.print(i);
-			out.print("</td>");
-
-			if ((leadGap + i) % 7 == 0) { // wrap if end of line.
-				out.println("</tr>");
-				out.print("<tr>");
-			}
-		}
-
-		out.println("</tr>");
-		out.println("</table>");
-		out.println("<!-- end of output from CalendarTag-->");
-
-	}
 }

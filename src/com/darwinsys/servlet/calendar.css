@@ -1,0 +1,12 @@
+/* table */
+.cal-table-month { border:1px solid; }
+
+.cal-header-month { color: red; }
+.cal-header-days { color: green; }
+
+/* Normal day */
+.cal-cell-day	{ background-color: white; }
+/* today */
+.cal-cell-today	{ background-color: pink; }
+/* empty day cell */
+.cal-cell-empty: { background-color: white }
