@@ -27,7 +27,7 @@ public abstract class IntlAction extends AbstractAction {
 		// May be a Mnemonic under ".key".
 		try {
 			String mnemonic = b.getString(key + ".key");
-			putValue(MNEMONIC_KEY, new Integer(mnemonic.charAt(0)));
+			putValue(MNEMONIC_KEY, Integer.valueOf(mnemonic.charAt(0)));
 		} catch (MissingResourceException ex) {
 			// Nothing to do.
 		}
