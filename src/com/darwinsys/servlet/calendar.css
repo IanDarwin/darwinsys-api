@@ -1,8 +1,8 @@
 /* table */
 .cal-table-month { border:1px solid; }
 
-.cal-header-month { color: red; }
-.cal-header-days { color: green; }
+.cal-header-month { color: red; background-color: white; }
+.cal-header-days { color: blue; background-color: white; }
 
 /* Normal day */
 .cal-cell-day	{ background-color: white; }
