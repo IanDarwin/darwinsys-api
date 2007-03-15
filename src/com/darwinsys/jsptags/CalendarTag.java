@@ -3,7 +3,6 @@ package com.darwinsys.jsptags;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -24,12 +23,11 @@ public class CalendarTag extends TagSupport {
 	public int doEndTag() throws JspException {
 
 		try {
-			final HttpServletRequest request = (HttpServletRequest) pageContext
-					.getRequest();
 			final JspWriter out = pageContext.getOut();
 
 			out.println("<!-- Start of output from $Id$ -->");
 
+			// Calendar cal = Calendar.getInstance(Locale.CANADA);
 			HTMLDateUtils.printMonthCalendar(new PrintWriter(out));
 
 			out.println("<!-- end of output from CalendarTag -->");
