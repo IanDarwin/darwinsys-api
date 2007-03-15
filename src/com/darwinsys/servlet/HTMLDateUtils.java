@@ -43,7 +43,7 @@ public class HTMLDateUtils {
 
 		//	Compute how much to leave before the first day.
 		//	getDay() returns 0 for Sunday, which is just right.
-		int leadGap = calendar.get(Calendar.DAY_OF_WEEK);
+		int leadGap = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
 		int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
