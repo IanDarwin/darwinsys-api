@@ -254,7 +254,10 @@ public class FileIO {
 		}
 	}
 	
-	/** Read the entire content of a Reader into a String */
+	/** Read the entire content of a Reader into a String;
+	 * of course Readers should only be used for text files;
+	 * please do not use this to read a JPEG file, for example.
+	 */
 	public static String readerToString(Reader is) throws IOException {
 		StringBuffer sb = new StringBuffer();
 		char[] b = new char[BLKSIZ];
