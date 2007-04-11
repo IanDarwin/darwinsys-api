@@ -392,12 +392,6 @@ public class Notepad {
 		mb.add(hm);
 	}
 
-	private boolean userOKtoClose() {
-		if (dirty) {
-		}
-		return true;
-	}
-
 	/** Print a file by name
 	 * @throws IOException
 	 * @throws PrintException
