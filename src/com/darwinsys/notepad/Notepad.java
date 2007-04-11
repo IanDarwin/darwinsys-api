@@ -39,12 +39,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 import javax.swing.undo.UndoManager;
 
 import com.darwinsys.swingui.UtilGUI;
+import com.darwinsys.io.FileIO;
 
 /**
- * Simple text editor, making Swing do the work.
+ * Simple text editor, relying heavily on the Swing JTextArea.
  * Is it MVC? Well, the JTextArea is the Model, the
  * Actions are Controllers, and the rest is View.
  */
@@ -65,7 +69,11 @@ public class Notepad {
 
 	private boolean isStandalone = true;
 
+	private boolean doBackup = true;
+
 	private JMenu fm, em, hm;
+
+	protected boolean dirty;
 
 	public Notepad() {
 		this(true);
@@ -92,7 +100,20 @@ public class Notepad {
 
 		ta = new JTextArea(30,70);
 		undoManager = new UndoManager();
-		ta.getDocument().addUndoableEditListener(undoManager);
+		final Document document = ta.getDocument();
+		document.addUndoableEditListener(undoManager);
+		// all change methods set dirty = true;
+		document.addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				setDirty(true);
+			}
+			public void insertUpdate(DocumentEvent e) {
+				setDirty(true);
+			}
+			public void removeUpdate(DocumentEvent e) {
+				setDirty(true);
+			}
+		});
 		theFrame.setContentPane(new JScrollPane(ta));
 		theFrame.pack();
 
@@ -111,8 +132,24 @@ public class Notepad {
 	}
 
 	private void closeThisWindow() {
-		if (!userOKtoClose()) {
+		final String[] options = new String[]{"Save", "Discard", "Cancel"};
+		int ret = JOptionPane.showOptionDialog(theFrame,
+				"You have unsaved changes", "Warning", 0, 0, null,
+				options, options[0]);
+		switch(ret) {
+		case -1: case 2: // -1 is cancel, +2 is Cancel
 			return;
+		case 0:
+			try {
+				doSave(fileName);
+			} catch (IOException ex) {
+				JOptionPane.showMessageDialog(theFrame,
+						"That didn't work: " + ex);
+				return;
+			}
+			// FALLTHROUGH
+		default:
+			// nothing to do
 		}
 		theFrame.setVisible(false);
 		theFrame.dispose();
@@ -128,11 +165,7 @@ public class Notepad {
 		}
 	}
 
-	Action openAction = new OpenAction();
-	class OpenAction extends AbstractAction {
-		OpenAction() {
-			super("Open");
-		}
+	Action openAction = new AbstractAction("Open") {
 
 		public void actionPerformed(ActionEvent e) {
 			if (chooser == null) {
@@ -150,11 +183,7 @@ public class Notepad {
 		}
 	};
 
-	Action newAction = new NewAction();
-	static class NewAction extends AbstractAction {
-		NewAction() {
-			super("New");
-		}
+	Action newAction = new AbstractAction("New") {
 		public void actionPerformed(ActionEvent e) {
 			new Notepad();
 		}
@@ -162,12 +191,7 @@ public class Notepad {
 
 	private boolean doingSaveAs; // shared between SaveAction and SaveAsAction
 
-	Action saveAction = new SaveAction();
-	class SaveAction extends AbstractAction {
-		SaveAction() {
-			super("Save");
-		}
-
+	Action saveAction = new AbstractAction("Save") {
 		/*
 		 * This code is used both by Save and SaveAs, differentiated by doingSaveAs
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -369,8 +393,8 @@ public class Notepad {
 	}
 
 	private boolean userOKtoClose() {
-		// TODO if unsaved changes
-		// confirm via JOptionPane
+		if (dirty) {
+		}
 		return true;
 	}
 
@@ -484,6 +508,9 @@ public class Notepad {
 	 * @throws IOException
 	 */
 	public final void doSave(File file) throws IOException {
+		if (doBackup) {
+			FileIO.copyFile(file, new File(file.getAbsolutePath() + ".bak"));
+		}
 		PrintWriter w = new PrintWriter(new FileWriter(file));
 		BufferedReader is = new BufferedReader(
 			new StringReader(ta.getText()));
@@ -493,6 +520,16 @@ public class Notepad {
 		}
 		w.close();
 		setFileName(file.getAbsolutePath());
+		setDirty(false);
+	}
+
+	public final boolean isDirty() {
+		return dirty;
+	}
+
+	public final void setDirty(boolean dirty) {
+		this.dirty = dirty;
+		theFrame.setTitle(fileName + (dirty ? " (modified)" : ""));
 	}
 
 	/**
@@ -504,7 +541,7 @@ public class Notepad {
 		theFrame.setTitle(fileName);
 	}
 
-	public JMenu getEditMenu() {
+	private JMenu getEditMenu() {
 		return em;
 	}
 
