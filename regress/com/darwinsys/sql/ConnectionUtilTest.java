@@ -73,11 +73,10 @@ public class ConnectionUtilTest extends TestCase {
 
 	public void testGetConnectionBadURL() throws Exception {
 		try {
-			final Connection c = ConnectionUtil.getConnection("url",
+			/*void*/ ConnectionUtil.getConnection("url",
 					MOCK_JBDB_DRIVER,
 					"operator", "secret");
 			fail("getConnection w/ bad params did not throw exception");
-			System.out.println(c);
 		} catch (SQLException e) {
 			System.out.println("Caught expected Exception " + e);
 		}
