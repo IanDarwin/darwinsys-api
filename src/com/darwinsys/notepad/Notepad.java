@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -114,6 +115,29 @@ public class Notepad {
 				setDirty(true);
 			}
 		});
+		ta.addKeyListener(new KeyListener() {
+
+			public void keyPressed(KeyEvent e) {
+				// null
+			}
+
+			public void keyReleased(KeyEvent e) {
+				//null
+			}
+
+			public void keyTyped(KeyEvent ev) {
+				if (ev.isControlDown() && ev.getKeyChar() == 19) {
+					System.out.println("Trying save");
+					try {
+						doSave();
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(theFrame,
+							e.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+
+		});
 		theFrame.setContentPane(new JScrollPane(ta));
 		theFrame.pack();
 
@@ -196,30 +220,11 @@ public class Notepad {
 		 * This code is used both by Save and SaveAs, differentiated by doingSaveAs
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent evt) {
 			try {
-				if (fileName != null && !doingSaveAs) {
-					doSave(fileName);
-					return;
-				}
-				if (chooser == null) {
-					chooser = new JFileChooser();
-				}
-				int returnVal = chooser.showOpenDialog(theFrame);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = chooser.getSelectedFile();
-					if (file.exists() && doingSaveAs) {
-						int ret = JOptionPane.showConfirmDialog(theFrame,
-								"File already exists, overwrite?", "File Exists",
-								JOptionPane.YES_NO_OPTION);
-						System.err.println(ret);
-						if (ret != 0)	// "Yes" is the 0th option...
-							return;
-					}
-					doSave(file);
-				}
-			} catch (IOException e1) {
-				error("Can't save file", e1);
+				doSave();
+			} catch (IOException e) {
+				error("Can't save file", e);
 			}
 		}
 	};
@@ -340,6 +345,7 @@ public class Notepad {
 		fm = new JMenu("File");
 		fm.add(openAction);
 		fm.add(saveAction);
+		((JMenuItem)fm.getMenuComponent(1)).setMnemonic(KeyEvent.VK_S);
 		fm.add(saveAsAction);
 		fm.add(closeAction);
 		fm.add(newAction);
@@ -460,6 +466,13 @@ public class Notepad {
 		}
 	}
 
+	public final void doNew() {
+		// XXX check for unsaved
+		fileName = null;
+		dirty = false;
+		ta.setText("");
+	}
+
 	public final void doLoad(File file) throws IOException {
 		doLoad(file.getAbsolutePath());
 	}
@@ -486,6 +499,34 @@ public class Notepad {
 	}
 
 	/**
+	 * Thin wrapper for doSave()
+	 * @throws IOException
+	 */
+	private void doSave() throws IOException {
+		if (fileName != null) {
+			doSave(fileName);
+			return;
+		}
+		doingSaveAs = fileName != null;
+		if (chooser == null) {
+			chooser = new JFileChooser();
+		}
+		int returnVal = chooser.showOpenDialog(theFrame);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = chooser.getSelectedFile();
+			if (file.exists() && doingSaveAs) {
+				int ret = JOptionPane.showConfirmDialog(theFrame,
+						"File already exists, overwrite?", "File Exists",
+						JOptionPane.YES_NO_OPTION);
+				System.err.println(ret);
+				if (ret != 0)	// "Yes" is the 0th option...
+					return;
+			}
+			doSave(file);
+		}
+	}
+
+	/**
 	 * Thin wrapper for doSave(File).
 	 * @param fileName
 	 * @throws IOException
@@ -502,7 +543,7 @@ public class Notepad {
 	 * @throws IOException
 	 */
 	public final void doSave(File file) throws IOException {
-		if (doBackup) {
+		if (doBackup && file.exists()) {
 			FileIO.copyFile(file, new File(file.getAbsolutePath() + ".bak"));
 		}
 		PrintWriter w = new PrintWriter(new FileWriter(file));
@@ -515,6 +556,7 @@ public class Notepad {
 		w.close();
 		setFileName(file.getAbsolutePath());
 		setDirty(false);
+		doingSaveAs = false;
 	}
 
 	public final boolean isDirty() {
@@ -533,10 +575,6 @@ public class Notepad {
 	private void setFileName(String fileName) {
 		this.fileName = fileName;
 		theFrame.setTitle(fileName);
-	}
-
-	private JMenu getEditMenu() {
-		return em;
 	}
 
 	public JMenu getFileMenu() {
