@@ -1,13 +1,14 @@
 package com.darwinsys.sql;
 
-import com.darwinsys.database.DataBaseException;
-import com.darwinsys.sql.ConnectionUtil;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 import junit.framework.TestCase;
+
+import com.darwinsys.database.DataBaseException;
 
 /**
  * Test for ConnectionUtils
@@ -73,7 +74,7 @@ public class ConnectionUtilTest extends TestCase {
 
 	public void testGetConnectionBadURL() throws Exception {
 		try {
-			/*void*/ ConnectionUtil.getConnection("url",
+			ConnectionUtil.getConnection("url",
 					MOCK_JBDB_DRIVER,
 					"operator", "secret");
 			fail("getConnection w/ bad params did not throw exception");
