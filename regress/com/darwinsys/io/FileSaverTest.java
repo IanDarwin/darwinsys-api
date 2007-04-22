@@ -1,6 +1,7 @@
 package com.darwinsys.io;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -33,12 +34,33 @@ public class FileSaverTest extends TestCase {
 		}
 	}
 
+	/** Test that the overwritten file contains something reasonable,
+	 * and that nothing gets thrown in normal processing.
+	 * @throws IOException
+	 */
 	public void testOne() throws IOException {
 		final Writer writer = saver.getWriter();
 		PrintWriter out = new PrintWriter(writer);
 		out.print(MESSAGE);
 		out.close();
 		saver.finish();
+		final String finalString = FileIO.readerToString(new FileReader(FILENAME));
+		assertEquals("Reading string back", MESSAGE, finalString);
 	}
 
+	/**
+	 * Test state forwarding
+	 * @throws IOException
+	 */
+	public void testFailures() throws IOException {
+		saver.getWriter();
+		try {
+			saver.getOutputStream();
+			fail("Allowed getWriter AND getOutputStream");
+		} catch (IllegalStateException e) {
+			// Nothing to do
+		}
+		saver.finish();
+		saver.getOutputStream();
+	}
 }

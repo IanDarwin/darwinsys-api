@@ -50,23 +50,25 @@ import java.io.Writer;
  * among different threads.
  */
 public class FileSaver {
+
 	private enum State {
-		CLOSED, OPEN, INUSE
+		/** The state before and after use */
+		AVAILABLE,
+		/** The state while in use */
+		INUSE
 	}
-	private State state = State.CLOSED;
+	private State state;
 	private File inputFile;
 	private File tmpFile;
 
 	public FileSaver(File input) throws IOException {
-		if (state != State.CLOSED) {
-			throw new IllegalStateException("FileSaver already opened");
-		}
+
 		// Step 1: Create temp file in right place
 		this.inputFile = input;
 		tmpFile = new File(inputFile.getAbsolutePath() + ".tmp");
 		tmpFile.createNewFile();
 		tmpFile.deleteOnExit();
-		state = State.OPEN;
+		state = State.AVAILABLE;
 	}
 
 	/** Return an output file that the client should use to
@@ -76,7 +78,7 @@ public class FileSaver {
 	 * @throws IOException if the temporary file cannot be written
 	 */
 	public OutputStream getOutputStream() throws IOException {
-		if (state != State.OPEN) {
+		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
 		OutputStream out = new FileOutputStream(tmpFile);
@@ -91,7 +93,7 @@ public class FileSaver {
 	 * @throws IOException if the temporary file cannot be written
 	 */
 	public Writer getWriter() throws IOException {
-		if (state != State.OPEN) {
+		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
 		Writer out = new FileWriter(tmpFile);
@@ -120,6 +122,6 @@ public class FileSaver {
 		if (!tmpFile.renameTo(inputFile)) {
 			throw new IOException("Could not rename temp file to save file");
 		}
-		state = State.CLOSED;
+		state = State.AVAILABLE;
 	}
 }
