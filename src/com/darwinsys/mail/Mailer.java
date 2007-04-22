@@ -2,7 +2,7 @@ package com.darwinsys.mail;
 
 import java.util.*;
 import javax.mail.*;
-import javax.mail.internet.*; 
+import javax.mail.internet.*;
 
 /** Mailer. No relation to Norman. Sends an email message.
  * My old Sender class, recast as a Bean for use in JSP's & elsewhere.
@@ -13,7 +13,7 @@ import javax.mail.internet.*;
  * mb.addTo("orders@YourDomain.com");
  * mb.setSubject("LHBOOKS ORDER!!");
  * mb.setBody(order.toString());
- * mb.setServer(application.getInitParameter("mail.server.smtp")); 
+ * mb.setServer(application.getInitParameter("mail.server.smtp"));
  * try {
  *     mb.doSend();
  * } catch (MessagingException ex) {
@@ -63,7 +63,7 @@ public class Mailer {
 		subject = subj;
 	}
 
-	// SETTERS/GETTERS FOR TO: LIST 
+	// SETTERS/GETTERS FOR TO: LIST
 
 	/** Get tolist, as an array of Strings */
 	public List<String> getToList() {
@@ -86,7 +86,7 @@ public class Mailer {
 		toList.add(to);
 	}
 
-	// SETTERS/GETTERS FOR CC: LIST 
+	// SETTERS/GETTERS FOR CC: LIST
 
 	/** Get cclist, as an array of Strings */
 	public List<String> getCcList() {
@@ -109,7 +109,7 @@ public class Mailer {
 		ccList.add(cc);
 	}
 
-	// SETTERS/GETTERS FOR BCC: LIST 
+	// SETTERS/GETTERS FOR BCC: LIST
 
 	/** Get bcclist, as an array of Strings */
 	public List<String> getBccList() {
@@ -206,7 +206,7 @@ public class Mailer {
 			if (verbose)
 				session.setDebug(true);		// Verbose!
 		}
-		
+
 		// create a message
 		final Message mesg = new MimeMessage(session);
 
@@ -262,9 +262,11 @@ public class Mailer {
 	 * @param subject - the subject line
 	 * @param message - the entire message body as a String with embedded \n's
 	 */
-	public static void send(String mailhost, 
-		String recipient, String sender, String subject, String message) 
-	throws MessagingException {
+	public static void send(String mailhost,
+		String recipient, String sender,
+		String subject, String message)
+		throws MessagingException {
+
 		Mailer m = new Mailer();
 		m.setServer(mailhost);
 		m.addTo(recipient);
