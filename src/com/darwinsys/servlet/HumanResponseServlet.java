@@ -23,21 +23,27 @@ import com.darwinsys.security.PassPhrase;
  * and verify to confirm that she's a human being not a spambot. The complication is that we can't
  * generate the image back to the middle of a JSP, so we create
  * it in a temp file, and write the &lt;IMG&gt; tag back to the user
- * <p.
+ * <p>
+ * Because of this, there must be a <em>writable</em> Temporary
+ * Directory /tmp inside the web app directory; this is unusual
+ * from a security point of view but would be quite hard to subvert
+ * since the servlet does not accept any parameters from the user
+ * that are used in creating the file.
+ * <p>
  * Typical usage of this servlet (in, e.g, contact.jsp):
  * <pre>&lt;jsp:include page="/servlet/HumanResponseServlet"&gt;</pre>
  * <p>
  * Typical code in response servlet, e.g., ContactServlet:
  * <pre>
  * final String actualChallenge = request.getParameter("challenge");
- * final String exptectedChallenge =
+ * final String expectedChallenge =
  *     (String)request.getSession().getAttribute(HumanResponseServlet.SESSION_KEY_RESPONSE);
  * if (actualChallenge == null) {
  *     out.println("You must provide a value for the challenge string");
  * 	   giveTryAgainLink(out);
  *     return;
  * }
- * if (!actualChallenge.equals(exptectedChallenge)) {
+ * if (!actualChallenge.equals(expectedChallenge)) {
  *     out.println("Sorry, you didn't pass the anti-Turing test :-)");
  *     giveTryAgainLink(out);
  *     return;
