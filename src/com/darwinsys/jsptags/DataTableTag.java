@@ -68,30 +68,16 @@ public class DataTableTag extends BodyTagSupport {
 		Statement statement = null;
 		JspException exceptionToThrow = null;
 		try {
-			if (resultSet == null) {
-				conn = getConnection();
-				statement = conn.createStatement();
-				resultSet = statement.executeQuery(query);
-			}
+			conn = getConnection();
+			statement = conn.createStatement();
+			resultSet = statement.executeQuery(query);
 			SQLUtils.resultSetToHTML(resultSet, new PrintWriter(out),
 				style1, style1, style2, pkey, link);
 
 		} catch (SQLException e) {
 			exceptionToThrow = new JspException("Database error", e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (resultSet != null) {
-					resultSet.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception t) {
-				System.err.println(t);
-			}
+			SQLUtils.cleanup(resultSet, statement, conn);
 			if (exceptionToThrow != null) {
 				throw exceptionToThrow;
 			}
