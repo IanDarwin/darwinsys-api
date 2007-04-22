@@ -10,6 +10,6 @@ public class MiniMaxTest extends TestCase {
 	}
 	public void testMaxInteger() {
 		Integer[] data = { 1, 3, 4};
-		assertEquals(new Integer(4), MiniMax.max(data));
+		assertEquals(Integer.valueOf(4), MiniMax.max(data));
 	}
 }
