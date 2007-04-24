@@ -1,3 +1,10 @@
+/*
+ * Copyright Notice:
+ * This code is copyright by Ian Darwin but is BSD licensed and
+ * can thus be used for anything by anybody.
+ * If you get rich off it, send me all your money. :-)
+ */
+
 package com.darwinsys.io;
 
 import java.io.File;
@@ -11,14 +18,14 @@ import java.io.Writer;
  * Save a user data file, as safely as we can.
  * The basic algorithm is:
  * <ol>
- * <li>Create a temporary file, in the same directory as the input
+ * <li>We create a temporary file, in the same directory as the input
  * file so we can safely rename it. Set it to with deleteOnExit(true);
- * <li>Write the user data to this file.  Data format or translation
- * errors, if any, will be thrown during this process, leaving the user's
- * original file intact.
- * <li>Delete the backup file if it exists;
- * <li>Rename the user's previous file to *.bak;
- * <li>Rename the temporary file to the save file.
+ * <li>Our client writes the user data to this file.  Data format or
+ * translation errors, if any, will be thrown during this process,
+ * leaving the user's original file intact. Client closes file.
+ * <li>We delete the previous backup file, if one exists;
+ * <li>We rename the user's previous file to filename.bak;
+ * <li>We rename the temporary file to the save file.
  * </ol>
  * This algorithm all but guarantees not to fail for reasons of
  * disk full, permission denied, etc.  Alternate algorithms could
@@ -28,7 +35,7 @@ import java.io.Writer;
  * <p>
  * Step 1 is implemented in the constructor.
  * Step 2 you do, by calling getWriter or getOutputStream (not both).
- * Step 3, 4 and 5 are done in close().
+ * Step 3, 4 and 5 are done in finish().
  * <p>
  * Normal usage is thus:
  * <pre>
@@ -45,9 +52,12 @@ import java.io.Writer;
  * }
  * </pre>
  * <p>
- * Objects of this class may be re-used sequentially but
- * are not thread-safe and should not be shared
+ * Objects of this class may be re-used sequentially (for the
+ * same file) but are not thread-safe and should not be shared
  * among different threads.
+ * @author Extracted and updated by Ian Darwin from an older
+ * application, prompted by discussion started by Brendon McLean
+ * on a private mailing list.
  */
 public class FileSaver {
 
@@ -58,8 +68,9 @@ public class FileSaver {
 		INUSE
 	}
 	private State state;
-	private File inputFile;
-	private File tmpFile;
+	private final File inputFile;
+	private final File tmpFile;
+	private final File backupFile;
 
 	public FileSaver(File input) throws IOException {
 
@@ -68,6 +79,7 @@ public class FileSaver {
 		tmpFile = new File(inputFile.getAbsolutePath() + ".tmp");
 		tmpFile.createNewFile();
 		tmpFile.deleteOnExit();
+		backupFile = new File(inputFile.getAbsolutePath() + ".bak");
 		state = State.AVAILABLE;
 	}
 
@@ -78,6 +90,7 @@ public class FileSaver {
 	 * @throws IOException if the temporary file cannot be written
 	 */
 	public OutputStream getOutputStream() throws IOException {
+
 		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
@@ -93,6 +106,7 @@ public class FileSaver {
 	 * @throws IOException if the temporary file cannot be written
 	 */
 	public Writer getWriter() throws IOException {
+
 		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
@@ -105,12 +119,12 @@ public class FileSaver {
 	 * @throws IOException If anything goes wrong
 	 */
 	public void finish() throws IOException {
+
 		if (state != State.INUSE) {
 			throw new IllegalStateException("FileSaver not in use");
 		}
 
 		// Delete the previous backup file if it exists;
-		File backupFile = new File(inputFile.getAbsolutePath() + ".bak");
 		backupFile.delete();
 
 		// Rename the user's previous file to itsName.bak;
