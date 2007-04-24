@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -45,8 +44,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import javax.swing.undo.UndoManager;
 
+import com.darwinsys.io.FileSaver;
 import com.darwinsys.swingui.UtilGUI;
-import com.darwinsys.io.FileIO;
 
 /**
  * Simple text editor, relying heavily on the Swing JTextArea.
@@ -73,6 +72,8 @@ public class Notepad {
 	private boolean doBackup = true;
 
 	private JMenu fm, em, hm;
+
+	private FileSaver fileSaver;
 
 	protected boolean dirty;
 
@@ -127,7 +128,7 @@ public class Notepad {
 
 			public void keyTyped(KeyEvent ev) {
 				if (ev.isControlDown() && ev.getKeyChar() == 19) {
-					System.out.println("Trying save");
+					System.out.println("Doing save");
 					try {
 						doSave();
 					} catch (IOException e) {
@@ -543,10 +544,13 @@ public class Notepad {
 	 * @throws IOException
 	 */
 	public final void doSave(File file) throws IOException {
-		if (doBackup && file.exists()) {
-			FileIO.copyFile(file, new File(file.getAbsolutePath() + ".bak"));
+
+		// save using FileSaver class
+		// XXX use doBackup.
+		if (fileSaver == null || !(fileSaver.getFile().equals(file))) {
+			fileSaver = new FileSaver(file);
 		}
-		PrintWriter w = new PrintWriter(new FileWriter(file));
+		PrintWriter w = new PrintWriter(fileSaver.getWriter());
 		BufferedReader is = new BufferedReader(
 			new StringReader(ta.getText()));
 		String line;
@@ -554,6 +558,7 @@ public class Notepad {
 			w.println(line);
 		}
 		w.close();
+		fileSaver.finish();
 		setFileName(file.getAbsolutePath());
 		setDirty(false);
 		doingSaveAs = false;
