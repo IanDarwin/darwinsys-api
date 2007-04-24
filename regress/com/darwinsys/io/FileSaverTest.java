@@ -61,6 +61,6 @@ public class FileSaverTest extends TestCase {
 			// Nothing to do
 		}
 		saver.finish();
-		saver.getOutputStream();
+		saver.getOutputStream(); // should work, since finish() survived
 	}
 }
