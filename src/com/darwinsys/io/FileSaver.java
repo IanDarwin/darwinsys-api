@@ -17,16 +17,16 @@ import java.io.Writer;
 /**
  * Save a user data file, as safely as we can.
  * The basic algorithm is:
- * <ol>
- * <li>We create a temporary file, in the same directory as the input
- * file so we can safely rename it. Set it to with deleteOnExit(true);
- * <li>Our client writes the user data to this file.  Data format or
- * translation errors, if any, will be thrown during this process,
- * leaving the user's original file intact. Client closes file.
- * <li>We delete the previous backup file, if one exists;
- * <li>We rename the user's previous file to filename.bak;
- * <li>We rename the temporary file to the save file.
- * </ol>
+ <ol>
+ <li>We create a temporary file, in the same directory as the input
+ file so we can safely rename it. Set it to with deleteOnExit(true);
+ <li>Our client writes the user data to this file.  Data format or
+ translation errors, if any, will be thrown during this process,
+ leaving the user's original file intact. Client closes file.
+ <li>We delete the previous backup file, if one exists;
+ <li>We rename the user's previous file to filename.bak;
+ <li>We rename the temporary file to the save file.
+ </ol>
  * This algorithm all but guarantees not to fail for reasons of
  * disk full, permission denied, etc.  Alternate algorithms could
  * be employed that would preserve the original file ownership and
@@ -88,7 +88,7 @@ public class FileSaver {
 	 * promote re-use (File objects are immutable so this
 	 * is at least moderately safe). Typical use would be:
 	 * <pre>
-	 * if (fileSaver == null || 
+	 * if (fileSaver == null ||
 	 *   !(fileSaver.getFile().equals(file))) {
 	 *		fileSaver = new FileSaver(file);
 	 * }
