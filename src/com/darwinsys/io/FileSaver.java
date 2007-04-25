@@ -83,6 +83,21 @@ public class FileSaver {
 		state = State.AVAILABLE;
 	}
 
+	/**
+	 * Return a reference to the contained File object, to
+	 * promote re-use (File objects are immutable so this
+	 * is at least moderately safe). Typical use would be:
+	 * <pre>
+	 * if (fileSaver == null || 
+	 *   !(fileSaver.getFile().equals(file))) {
+	 *		fileSaver = new FileSaver(file);
+	 * }
+	 * </pre>
+	 */
+	public File getFile() {
+		return inputFile;
+	}
+
 	/** Return an output file that the client should use to
 	 * write the client's data to.
 	 * @return An OutputStream, which should be wrapped in a
