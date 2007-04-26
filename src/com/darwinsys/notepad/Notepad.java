@@ -19,6 +19,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.prefs.*;
 
 import javax.print.Doc;
 import javax.print.DocFlavor;
@@ -67,9 +68,8 @@ public class Notepad {
 
 	private static List<Notepad> windows = new ArrayList<Notepad>();
 
+	/** True if this is not imbedded in another application */
 	private boolean isStandalone = true;
-
-	private boolean doBackup = true;
 
 	private JMenu fm, em, hm;
 
@@ -77,18 +77,28 @@ public class Notepad {
 
 	protected boolean dirty;
 
+	protected Preferences prefsNode = Preferences.userNodeForPackage(getClass());
+
 	public Notepad() {
 		this(true);
 	}
 
 	public Notepad(boolean isStandalone) {
+		this(Preferences.userNodeForPackage(Notepad.class), isStandalone);
+	}
+
+	public Notepad(Preferences prefs) {
+		this(prefs, true);
+	}
+
+	public Notepad(Preferences prefs, boolean isStandalone) {
+		this.prefsNode = prefs;
 
 		this.isStandalone = isStandalone;
 		// Allow override of "isStandalone" from cmd line for testing
 		String prop;
 		if ((prop = System.getProperty("STANDALONE")) != null) {
 			this.isStandalone = Boolean.parseBoolean(prop);
-			System.out.println("Standalone set to " + this.isStandalone + "(" + prop + ")");
 		}
 
 		theFrame = new JFrame();
@@ -99,6 +109,7 @@ public class Notepad {
 				closeThisWindow();
 			}
 		});
+		UtilGUI.monitorWindowPosition(theFrame, prefsNode);
 
 		ta = new JTextArea(30,70);
 		undoManager = new UndoManager();
@@ -144,7 +155,6 @@ public class Notepad {
 
 		createMenus();
 
-		UtilGUI.centre(theFrame);
 		Point loc = theFrame.getLocation();
 		synchronized(windows) {
 			int windowsCreated = windows.size();
