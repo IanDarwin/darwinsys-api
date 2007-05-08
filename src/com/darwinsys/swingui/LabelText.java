@@ -21,7 +21,7 @@ public class LabelText extends JPanel implements java.io.Serializable {
 	protected Font myFont;
 
 	/** Construct the object with no initial values.
-	 * To be usable as a JavaBean there MUST be a no-argument constructor.
+	 * To be usable as a JavaBean there must be a no-argument constructor.
 	 */
 	public LabelText() {
 		this("(LabelText)",  12);
@@ -34,17 +34,26 @@ public class LabelText extends JPanel implements java.io.Serializable {
 
 	/** Construct the object with given label and textfield size */
 	public LabelText(String label, int numChars) {
+		this(label, numChars, null);
+	}
+
+	/** Construct the object with given label, textfield size,
+	 * and "Extra" component
+	 * @param label The text to display
+	 * @param numChars The size of the text area
+	 * @param extra A third component such as a cancel button;
+	 * may be null, in which case only the label and textfield exist.
+	 */
+	public LabelText(String label, int numChars, JComponent extra) {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		theLabel = new JLabel(label);
 		add(theLabel);
 		theTextField = new JTextField(numChars);
 		add(theTextField);
-		//if (myFont != null) {
-		//	// See setFont() below!
-		//	theLabel.setFont(myFont);
-		//	theTextField.setFont(myFont);
-		//}
+		if (extra != null) {
+			add(extra);
+		}
 	}
 
 	/** Get the label's horizontal alignment */
@@ -78,16 +87,15 @@ public class LabelText extends JPanel implements java.io.Serializable {
 	}
 
 	/** Set the font used in both subcomponents. */
-	// public void setFont(Font f) {
-		// myFont = f;
-		// Since this class' constructors call to super() can trigger
+	public void setFont(Font f) {
+		// This class' constructors call to super() can trigger
 		// calls to setFont() (from Swing.LookAndFeel.installColorsAndFont),
-		// have to cache the font here.
-		// if (theLabel != null)
-			// theLabel.setFont(f);
-		// if (theTextField != null)
-			// theTextField.setFont(f);
-	// }
+		// before we create our components, so work around this.
+		if (theLabel != null)
+			theLabel.setFont(f);
+		if (theTextField != null)
+			theTextField.setFont(f);
+	}
 
 	/** Adds the ActionListener to receive action events from the textfield */
 	public void addActionListener(ActionListener l) {
