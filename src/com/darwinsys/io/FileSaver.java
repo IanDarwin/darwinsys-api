@@ -142,8 +142,9 @@ public class FileSaver {
 		// Delete the previous backup file if it exists;
 		backupFile.delete();
 
-		// Rename the user's previous file to itsName.bak;
-		if (!inputFile.renameTo(backupFile)) {
+		// Rename the user's previous file to itsName.bak,
+		// UNLESS this is a new file ;
+		if (inputFile.exists() && !inputFile.renameTo(backupFile)) {
 			throw new IOException("Could not rename file to backup file");
 		}
 
