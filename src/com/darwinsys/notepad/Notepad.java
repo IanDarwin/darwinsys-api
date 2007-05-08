@@ -139,7 +139,6 @@ public class Notepad {
 
 			public void keyTyped(KeyEvent ev) {
 				if (ev.isControlDown() && ev.getKeyChar() == 19) {
-					System.out.println("Doing save");
 					try {
 						doSave();
 					} catch (IOException e) {
