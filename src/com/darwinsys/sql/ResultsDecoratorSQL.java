@@ -39,59 +39,69 @@ import com.darwinsys.util.Verbosity;
  * @version $Id$
  */
 public class ResultsDecoratorSQL extends ResultsDecorator {
-	
+
 	public ResultsDecoratorSQL(PrintWriter out, Verbosity v) {
 		super(out, v);
 	}
-	
+
 	@Override
 	public int write(ResultSet rs) throws IOException, SQLException {
-		ResultSetMetaData md = rs.getMetaData();
+		ResultSetMetaData metadata = rs.getMetaData();
 		// This assumes you're not using a Join!!
-		String tableName = md.getTableName(1);
+		String tableName = metadata.getTableName(1);
 		if (tableName == null) {
 			tableName = "XXXTABLENAMEXXX";
 			System.err.println("Warning: at least one tablename null");
 		}
-		int colCount = md.getColumnCount();
+		int colCount = metadata.getColumnCount();
 		StringBuffer sb = new StringBuffer("insert into ").append(tableName).append("(");
 		for (int i = 1; i <= colCount; i++) {
-			sb.append(md.getColumnName(i));
+			sb.append(metadata.getColumnName(i));
 			if (i != colCount) {
 				sb.append(", ");
 			}
 		}
 		sb.append(") values (");
 		String insertCommand = sb.toString();
-		
+
 		int rowCount = 0;
 		while (rs.next()) {
 			++rowCount;
-			println(insertCommand);		
+			println(insertCommand);
+
 			for (int i = 1; i <= colCount; i++) {
 				String tmp = rs.getString(i);
 				if (rs.wasNull()) {
 					print("null");
 				} else {
-					int type = md.getColumnType(i);
-					// Don't quote numeric types; quote all others for now.
-					switch (type) {
+					// Numbers go unchanged; Strings get squote doubling
+					// and wrap in dquotes; dates/times/etc get wrapped
+					// in dquotes; default case goes unchanged.
+					switch (metadata.getColumnType(i)) {
 						case Types.BIGINT:
 						case Types.DECIMAL:
 						case Types.DOUBLE:
 						case Types.FLOAT:
 						case Types.INTEGER:
-						default:
-							print(tmp);
+							// Do nothing
 							break;
 						case Types.CHAR:
 						case Types.CLOB:
 						case Types.VARCHAR:
 						case Types.LONGVARCHAR:
-							tmp = tmp.replaceAll("'", "''");
-							print("'" + tmp + "'");
+							tmp = duplicateSingleQuotes(tmp);
+							tmp = wrapInDoubleQuotes(tmp);
 							break;
+						case Types.DATE:
+						case Types.TIME:
+						case Types.TIMESTAMP:
+							tmp = wrapInDoubleQuotes(tmp);
+							break;
+						default:
+							// Do Nothing
+						break;
 					}
+					print(tmp);
 				}
 				if (i != colCount) {
 					print( ", ");
@@ -102,10 +112,26 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 		return rowCount;
 	}
 
+	/**
+	 * @param input
+	 * @return
+	 */
+	private String duplicateSingleQuotes(String input) {
+		return input.replaceAll("'", "''");
+	}
+
+	/**
+	 * @param input
+	 * @return
+	 */
+	private String wrapInDoubleQuotes(String input) {
+		return String.format("'%s'", input);
+	}
+
 	@Override
 	public void printRowCount(int rowCount) throws IOException {
 		println("-- RowCount: " + rowCount);
-		
+
 	}
 	/* (non-Javadoc)
 	 * @see ResultsDecorator#getName()
