@@ -65,7 +65,8 @@ import com.darwinsys.util.Verbosity;
  *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... )
  * values (4, 'Ian', 'F', 'Darwin', ...);
  * </pre>
- * <p>TODO: Fix parsing so \\ escapes don't need to end with SQL semi-colon.
+ * <p>TODO Fix parsing so \\ escapes don't need to end with SQL semi-colon.
+ * <p>TODO add a "Manual Commit" (or "Undoable") mode, in CLI and GUI
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class SQLRunner {
@@ -219,9 +220,12 @@ public class SQLRunner {
 				newDecorator = jtableDecorator;
 				break;
 			default:
-				String values = OutputMode.values().toString();
 				System.err.println("invalid mode: "
-								+ outputMode + "; must be " + values);
+								+ outputMode + "; must be one of: ");
+				for (OutputMode t : OutputMode.values()) {
+					out.print(t); out.print(' ');
+				}
+				out.println();
 		}
 		if (currentDecorator != newDecorator) {
 			currentDecorator = newDecorator;
