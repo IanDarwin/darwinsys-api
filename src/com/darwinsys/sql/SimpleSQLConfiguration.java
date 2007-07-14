@@ -1,7 +1,8 @@
 package com.darwinsys.sql;
 
 /**
- * A SimpleSQLConfiguration is a POJO that represents the standard four JDBC paramaters as Strings,
+ * A SimpleSQLConfiguration is a POJO that represents the
+ * standard four JDBC paramaters as Strings,
  * and has an optional name.
  */
 public class SimpleSQLConfiguration implements Configuration {
@@ -51,12 +52,14 @@ public class SimpleSQLConfiguration implements Configuration {
 	public String getDriverName() {
 		return dbDriverName;
 	}
+
 	/* (non-Javadoc)
 	 * @see com.darwinsys.sql.Configuration#setDbDriverName(java.lang.String)
 	 */
 	public void setDriverName(String dbDriverName) {
 		this.dbDriverName = dbDriverName;
 	}
+
 	/* (non-Javadoc)
 	 * @see com.darwinsys.sql.Configuration#getDbPassword()
 	 */
@@ -70,6 +73,7 @@ public class SimpleSQLConfiguration implements Configuration {
 	public boolean hasPassword() {
 		return dbPassword != null && dbPassword.length() > 0;
 	}
+
 	/* (non-Javadoc)
 	 * @see com.darwinsys.sql.Configuration#setDbPassword(java.lang.String)
 	 */
@@ -87,12 +91,14 @@ public class SimpleSQLConfiguration implements Configuration {
 	public String getDbURL() {
 		return dbURL;
 	}
+
 	/* (non-Javadoc)
 	 * @see com.darwinsys.sql.Configuration#setDbURL(java.lang.String)
 	 */
 	public void setDbURL(String dbURL) {
 		this.dbURL = dbURL;
 	}
+
 	/* (non-Javadoc)
 	 * @see com.darwinsys.sql.Configuration#getDbUserName()
 	 */
@@ -115,7 +121,7 @@ public class SimpleSQLConfiguration implements Configuration {
 	}
 
 	/**
-	 * Set the name of this confiration
+	 * Set the name of this configuration
 	 */
 	public void setName(String name) {
 		this.name = name;
