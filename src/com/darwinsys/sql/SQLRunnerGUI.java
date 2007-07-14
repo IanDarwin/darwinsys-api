@@ -281,6 +281,7 @@ public class SQLRunnerGUI  {
 		mainWindow.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				mainWindow.dispose();
 				SQLRunner.exit(0);
 			}
 		});
