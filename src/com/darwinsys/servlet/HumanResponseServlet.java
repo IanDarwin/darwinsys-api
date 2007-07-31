@@ -19,7 +19,8 @@ import com.darwinsys.graphics.JigglyTextImageWriter;
 import com.darwinsys.security.PassPhrase;
 
 /**
- * Generate one of those annoying but necessary images that the user has to read
+ * Also known to some as "CAPTCHA", this servlet will
+ * generate one of those annoying but necessary images that the user has to read
  * and verify to confirm that she's a human being not a spambot. The complication is that we can't
  * generate the image back to the middle of a JSP, so we create
  * it in a temp file, and write the &lt;IMG&gt; tag back to the user
