@@ -44,7 +44,7 @@ public class MultipartResponse {
 		// Save the response object and output stream
 		res = response;
 		outputStream = response.getOutputStream();
-		out = new PrintWriter(outputStream);
+		out = new PrintWriter(outputStream, true);
 
 		// Set things up
 		res.setContentType("multipart/x-mixed-replace;boundary=" +
@@ -75,6 +75,7 @@ public class MultipartResponse {
 		out.println();
 		out.println("--" + BOUNDARY_TEXT);
 		out.flush();
+		outputStream.flush();
 		endedLastResponse = true;
 	}
 
@@ -84,6 +85,7 @@ public class MultipartResponse {
 		}
 		out.println("--" + BOUNDARY_TEXT + "--");
 		out.flush();
+		outputStream.flush();
 		// Not safe to re-use these after ending tag.
 		out = null;
 		outputStream = null;
