@@ -209,19 +209,21 @@ public class SQLRunnerGUI  {
 				if (prog.isEscape()) {
 					outputPanel.setSelectedIndex(0);
 				}
-				resultsStatusBar.showSuccess();	// If no exception thrown
-				try {
-					// Nested try here is deliberate, not a big deal if this call crashes
-					currentConnection.close();
-				} catch (SQLException ex) {
-					System.err.println("Warning: close caused " + ex);
-				}
+				resultsStatusBar.showSuccess();	// If no exception thrown!
 			} catch (Exception e) {
 				resultsStatusBar.showFailure();
 				eHandler.handleError(e);
 			} finally {
 				runButton.setEnabled(true);
 				busyDialog.setVisible(false);
+				try {
+					// Nested try here is deliberate, not a big deal if this call crashes
+					if (currentConnection != null) {
+						currentConnection.close();
+					}
+				} catch (SQLException ex) {
+					System.err.println("Warning: close caused " + ex);
+				}
 			}
 		}
 	};
@@ -305,6 +307,7 @@ public class SQLRunnerGUI  {
 		final JComboBox inTemplateChoice = new JComboBox();
 		// XXX Of course these should come from Properties and be editable...
 		inTemplateChoice.addItem("Input Template:");
+		inTemplateChoice.addItem("SELECT * from TABLE");
 		inTemplateChoice.addItem("SELECT * from TABLE where x = y");
 		inTemplateChoice.addItem("INSERT into TABLE(col,col) VALUES(val,val)");
 		inTemplateChoice.addItem("UPDATE TABLE set x = y where x = y");
