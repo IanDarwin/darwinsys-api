@@ -15,7 +15,7 @@ public class DefaultConfigurationManager implements ConfigurationManager {
 		try {
 			return ConnectionUtil.getConnection(config);
 		} catch (Exception e) {
-			throw new DataBaseException(e.toString());
+			throw new DataBaseException("Failed to get connection to " + config.getName(), e);
 		}
 	}
 
