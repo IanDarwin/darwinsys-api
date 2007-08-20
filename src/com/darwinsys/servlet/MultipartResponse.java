@@ -7,9 +7,37 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * MultipartResponse lets a servlet generate "server push" responses,
+ * A utility class to generate multipart/x-mixed-replace responses,
+ * the kind of responses that implement server push.
  * such as simple SHORT animations (if too long you run the server
  * out of open files/sockets!).
+
+ * <b>Note that Microsoft Internet Explorer does not understand
+ * this sort of response</b>.
+
+ * To use this class, first construct a new MultipartResponse passing
+ * to its constructor the servlet's response parameter. MultipartResponse
+ * uses the response object to fetch the servlet's output stream and
+ * to set the response's content type.
+
+ * Then, for each page of content, begin by calling startResponse()
+ * passing in the content type for that page. Send the content for the
+ * page by writing to the output stream as usual. A call to endResponse()
+ * ends the page and flushes the content so the client can see it. At
+ * this point a sleep() or other delay can be added until the next
+ * page is ready for sending.
+
+ * The call to endResponse() is optional. The startResponse() method
+ * knows whether the last response has been ended, and ends it itself
+ * if necessary. However, it's wise to call endResponse() if there's
+ * to be a delay between the time one response ends and the next begins.
+ * It lets the client display the latest response during the time it
+ * waits for the next one.
+
+ * Finally, after each response page has been sent, a call to the
+ * finish() method finishes the multipart response and sends a code
+ * telling the client there will be no more responses.
+
  * <p>Here is one usage example; another is in
  * www.darwinsys.com/demo/MultipartResponseDemoServlet
  * <pre>
@@ -47,7 +75,7 @@ public class MultipartResponse {
 		out = new PrintWriter(outputStream, true);
 
 		// Set things up
-		res.setContentType("multipart/x-mixed-replace;boundary=" +
+		res.setContentType("multipart/byteranges; boundary=" +
 				BOUNDARY_TEXT);
 		out.println();
 		out.println("--" + BOUNDARY_TEXT);
