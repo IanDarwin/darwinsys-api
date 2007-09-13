@@ -24,58 +24,68 @@ public class TextImageTag extends TagSupport {
 
 	private static final long serialVersionUID = 3257567299946231088L;
 	private static int W = 300, H = 200;
-	private static String imgDir = "imagetmp";
+	/** There must be a folder of this name in the web app
+	 * that is writable by the app server OS account.
+	 */
+	private static String imgDir = "tmp";
 	private String text;
 
 	/** Invoked at the end tag boundary, does the work */
 	public int doStartTag() throws JspException  {
+		OutputStream os = null;
+		ImageOutputStream ios = null;
 		try {
-			JspWriter out = pageContext.getOut();
-			if (text == null) {
-				out.println("<b>Error: text not set");
-			}
-	
-			// pre-alpha: use the text string as the file name: presto, simple caching.
-			// XXX Useless!! must create random filename, save in (static) Map(text,filename).
+			try {
+				JspWriter out = pageContext.getOut();
+				if (text == null) {
+					out.println("<b>Error: text not set");
+				}
 
-			File dir = new File(imgDir);
-			dir.mkdir();
-			File file = new File(dir, text);
-			if (!file.exists()) {
+				// XXX Should save filename in (static) Map(text,filename).
+				File fileForDir = new File(imgDir);
+				File file = File.createTempFile("img", "img", fileForDir);
+
 				// Create an Image
 				BufferedImage img =
 					new BufferedImage(W, H,
-					BufferedImage.TYPE_INT_RGB);
-		
+							BufferedImage.TYPE_INT_RGB);
+
 				// Get the Image's Graphics, and draw.
 				Graphics2D g = img.createGraphics();
-		
+
 				// In real life this would call some charting software...
 				g.setColor(Color.white);
 				g.fillRect(0,0, W, H);
 				g.setColor(Color.green);
 				g.fillOval(100, 75, 50, 50);
 				g.drawString(text, 10, 25);
-		
+
 				// Write the output
-				System.out.println("Creating output file " + file);
-				OutputStream os = new FileOutputStream(file);
-				ImageOutputStream ios = ImageIO.createImageOutputStream(os);
-		
+				System.out.println(
+						"TextImageTag.doStartTag(): Creating output file " + file);
+				os = new FileOutputStream(file);
+				ios = ImageIO.createImageOutputStream(os);
+
 				if (!ImageIO.write(img, "jpeg", ios)) {
-					System.err.println("Boo hoo, failed to write JPEG");
+					throw new IOException("Failed to write JPEG to " + file);
 				}
-				ios.close();
-				os.close();
+
+				out.println("<img src='" + file.getName() + "' alt='text image/>");
+				out.flush();
+			} finally {
+				if (ios != null)
+					ios.close();
+				if (os != null)
+					os.close();
 			}
-			out.println("<img src='" + file.getName() + "' alt='text image/>");
-			out.flush();
 		} catch (IOException ex) {
-			System.err.println("TextImageServleg.doEndTag: caught " + ex);
+			System.err.println("TextImageServleg.doStartTag: caught " + ex);
 		}
 		return EVAL_BODY_INCLUDE;
 	}
-	
+
+	// Attribute set/get
+
 	public String getText() {
 		return text;
 	}
