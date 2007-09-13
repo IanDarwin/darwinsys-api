@@ -10,25 +10,28 @@ import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
+import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-/** TextImageServlet - draw text as a graphic, so spam twerps can't robotically
- * harvest it, and can also be used in web forms to prevent robots from submitting
- * the form.
+/** TextImageServlet - draw text (e.g., email) as a graphic, so
+ * spam twerps will have to work harder to robotically
+ * harvest it.
  * <p><b>Must</b> be used as a JSP Tag: if you made this a servlet, the parameters
  * to it would be visible in the HTML (think about it...).
  */
 public class TextImageTag extends TagSupport {
 
 	private static final long serialVersionUID = 3257567299946231088L;
-	private static int W = 300, H = 200;
+	private static int W = 150, H = 100;
 	/** There must be a folder of this name in the web app
-	 * that is writable by the app server OS account.
+	 * that is writable by the app server's OS account
+	 * (must be absolute as it's passed to app.getRealPath()).
 	 */
-	private static String imgDir = "tmp";
+	private static String imgDir = "/tmp";
 	private String text;
+	private static boolean notifiedDirPath;
 
 	/** Invoked at the end tag boundary, does the work */
 	public int doStartTag() throws JspException  {
@@ -41,9 +44,15 @@ public class TextImageTag extends TagSupport {
 					out.println("<b>Error: text not set");
 				}
 
-				// XXX Should save filename in (static) Map(text,filename).
-				File fileForDir = new File(imgDir);
-				File file = File.createTempFile("img", "img", fileForDir);
+				ServletContext application = pageContext.getServletContext();
+				File fileForDir = new File(application.getRealPath(imgDir));
+				if (!notifiedDirPath) {
+					System.out.println("Temp dir is " + fileForDir.getAbsolutePath());
+					notifiedDirPath = true;
+				}
+				File file = File.createTempFile("img", ".jpg", fileForDir);
+
+				// XXX use fontMetrics to size the rectangle
 
 				// Create an Image
 				BufferedImage img =
@@ -53,11 +62,9 @@ public class TextImageTag extends TagSupport {
 				// Get the Image's Graphics, and draw.
 				Graphics2D g = img.createGraphics();
 
-				// In real life this would call some charting software...
 				g.setColor(Color.white);
 				g.fillRect(0,0, W, H);
 				g.setColor(Color.green);
-				g.fillOval(100, 75, 50, 50);
 				g.drawString(text, 10, 25);
 
 				// Write the output
@@ -70,7 +77,7 @@ public class TextImageTag extends TagSupport {
 					throw new IOException("Failed to write JPEG to " + file);
 				}
 
-				out.println("<img src='" + file.getName() + "' alt='text image/>");
+				out.println("<img src='" + imgDir + "/" + file.getName() + "' alt='text image'/>");
 				out.flush();
 			} finally {
 				if (ios != null)
