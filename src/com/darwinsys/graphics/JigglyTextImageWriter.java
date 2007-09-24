@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -18,7 +19,7 @@ import javax.imageio.stream.ImageOutputStream;
  * and not a spambot.
  * But, deliberately, does not know about the Servlet API.
  */
-public class JigglyTextImageWriter {
+public class JigglyTextImageWriter implements Serializable {
 
 	private final int width, height;
 	private final Font font;
