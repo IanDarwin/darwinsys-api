@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class TextImageTag extends TagSupport {
 
 	private static final long serialVersionUID = 3257567299946231088L;
-	private static int W = 150, H = 100;
+	private static int W = 200, H = 25;
 	/** There must be a folder of this name in the web app
 	 * that is writable by the app server's OS account
 	 * (must be absolute as it's passed to app.getRealPath()).
@@ -65,7 +65,8 @@ public class TextImageTag extends TagSupport {
 				g.setColor(Color.white);
 				g.fillRect(0,0, W, H);
 				g.setColor(Color.green);
-				g.drawString(text, 10, 25);
+
+				g.drawString(text, 10, 20);
 
 				// Write the output
 				System.out.println(
