@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-/** 
+/**
  * <p>
  * RelativeLayout, a Relative Layout Manager for Java J2SE.
  * Mainly for porting tired old code that uses x,y locations.
- * You really can't just assign x,y locations to components 
+ * You really can't just assign x,y locations to components
  * in Java Java J2SE - it breaks badly when the user resizes (and you can
  * <em>not</em> mandate that the user can't resize you -- see any book
  * on UI design for <em>that</em> little discussion -- and can also look
@@ -65,14 +65,14 @@ public class RelativeLayout implements LayoutManager {
 
 	/**
 	 * Called by AWT when the user uses the form add(name, Component).
-	 * Adds the specified component with the specified name to the layout. 
+	 * Adds the specified component with the specified name to the layout.
 	 *
 	 * @param	name	String with location for component c
 	 * <EM>Note</EM>: the "name" <EM>must</EM> contain x, y location, ie.,
 	 * <BR>add("" + 320 + "," + 100, new Button("Quit"));
 	 * <BR>or
 	 * <BR>add("320,100", new Button("Quit").
-	 * <BR>This adds the Button at x=320, y=100 when the Panel is 
+	 * <BR>This adds the Button at x=320, y=100 when the Panel is
 	 * at its original full size.
 	 * @param	comp	Component to be added.
 	 */
@@ -93,9 +93,9 @@ public class RelativeLayout implements LayoutManager {
 		Tracker t = new Tracker(x, y, comp);
 		curComps.add(t);
 	}
-	
+
 	/**
-	 * Called by AWT to lay out the components 
+	 * Called by AWT to lay out the components
 	 * in the target Container at its current size.
 	 *
 	 * @param	target	Container whose components are to be laid out.
@@ -124,7 +124,7 @@ public class RelativeLayout implements LayoutManager {
 	}
 
 	/**
-	 * Called from AWT to calculate the minimum size dimensions 
+	 * Called from AWT to calculate the minimum size dimensions
 	 * for the target panel given the components in it.
 	 * But we use our own list of named insertions, not the
 	 * list of Components that the container keeps.
@@ -133,14 +133,13 @@ public class RelativeLayout implements LayoutManager {
 	 */
 	public Dimension minimumLayoutSize(Container target) {
 		int minw = 0, minh = 0;
-		for (int i = 0; i<curComps.size(); i++) {
-			Tracker t = curComps.get(i);
+		for (Tracker t : curComps) {
 			Component tc = t.getComponent();
 			Dimension d = tc.getMinimumSize();
 			Point rl = t.getRequestedLoc();
 			minw = Math.max(minw, rl.x +d.width);
 			minh = Math.max(minh, rl.y +d.height);
-			// System.out.println("minLay, minw = " + minw 
+			// System.out.println("minLay, minw = " + minw
 			// + "; minh = " + minh);
 		}
 		return new Dimension(minw, minw);
@@ -161,19 +160,21 @@ public class RelativeLayout implements LayoutManager {
 			Point rl = t.getRequestedLoc();
 			prefw = Math.max(prefw, rl.x+d.width);
 			prefh = Math.max(prefh, rl.y+d.height);
-			// System.out.println("prefLay, prefw = " + 
+			// System.out.println("prefLay, prefw = " +
 			// prefw + "; prefh = " + prefh);
 		}
 		return new Dimension(prefw, prefh);
 	}
 
 	/**
-	 * Called by AWT to remove a given component from the layout. 
-	 *
+	 * Called by AWT to remove a given component from the layout.
 	 * @param	c	Component to be removed
 	 */
 	public void  removeLayoutComponent(Component c) {
-		curComps.remove(c);
+		for (Tracker t : curComps) {
+			if (t.getComponent() == c)
+				curComps.remove(t);
+		}
 	}
 
 	/**
