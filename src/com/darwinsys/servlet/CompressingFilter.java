@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet Filter to do compression.
- * @author Main class by Stephen Neal(?), hacked on by Ian Darwin
+ * @author Main class by Stephen Neal(?), hacked on by Ian Darwin.
+ * GzipResponseWrapper class by Ian Darwin.
+ * Status: UNPROVEN
  */
 public class CompressingFilter implements Filter {
 
@@ -29,13 +31,14 @@ public class CompressingFilter implements Filter {
 	}
 
 	/**
-	 * If the request is of type HTTP *and* the user's browser will 
+	 * If the request is of type HTTP *and* the user's browser will
 	 * accept GZIP encoding, do it; otherwise just pass the request on.
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
 	 *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
+
 		if (req instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) resp;
@@ -45,6 +48,7 @@ public class CompressingFilter implements Filter {
 				GZipResponseWrapper wrappedResponse = new GZipResponseWrapper(
 						response);
 				chain.doFilter(req, wrappedResponse);
+				wrappedResponse.flush();
 				return;
 			}
 		}
@@ -84,12 +88,21 @@ public class CompressingFilter implements Filter {
 			}
 		}
 
+		ServletOutputStream servletOutputStream;
+
 		/** getOutputStream() override that gives you the GzipOutputStream.
 		 * @see javax.servlet.ServletResponse#getOutputStream()
 		 */
 		public ServletOutputStream getOutputStream() throws IOException {
-			return new MyServletOutputStream(new GZIPOutputStream(
-				super.getOutputStream()));
+			servletOutputStream = super.getOutputStream();
+			return new MyServletOutputStream(
+				new GZIPOutputStream(
+						servletOutputStream));
 		}
+
+		public void flush() throws IOException {
+			servletOutputStream.flush();
+		}
+
 	}
 }
