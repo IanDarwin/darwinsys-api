@@ -130,6 +130,10 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 			if (nullable == ResultSetMetaData.columnNoNulls) {
 				print(" not null");
 			}
+			String defaultValue = rs.getString(13);
+			if (defaultValue != null) {
+				print(" default('" + defaultValue + "')");
+			}
 			println(",");
 		}
 		println(");");
