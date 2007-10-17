@@ -309,7 +309,7 @@ public class SQLRunnerGUI  {
 		final JComboBox inTemplateChoice = new JComboBox();
 		// XXX Of course these should be editable...
 		inTemplateChoice.addItem("Input Template:");
-		for (SQLTemplate t : SQLTemplate.DEFAULTS) {
+		for (SQLTemplate t : SQLTemplate.getList()) {
 			inTemplateChoice.addItem(t);
 		}
 		controlsArea.add(inTemplateChoice);

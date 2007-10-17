@@ -4,7 +4,7 @@ public class SQLTemplate {
 	private String alias;
 	private String template;
 
-	public final static SQLTemplate[] DEFAULTS = {
+	private final static SQLTemplate[] DEFAULTS = {
 		new SQLTemplate("Display tables", "\\dt"),
 		new SQLTemplate("Select", "SELECT * from TABLE"),
 		new SQLTemplate("Select w/where", "SELECT * from TABLE where x = y"),
@@ -16,6 +16,10 @@ public class SQLTemplate {
 		super();
 		this.alias = alias;
 		this.template = template;
+	}
+
+	public static SQLTemplate[] getList() {
+		return DEFAULTS;
 	}
 
 	@Override
