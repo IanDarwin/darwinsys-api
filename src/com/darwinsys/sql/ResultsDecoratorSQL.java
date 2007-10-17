@@ -123,12 +123,14 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 	public void displayTable(String tableName, ResultSet rs) throws IOException, SQLException {
 		System.out.println("ResultsDecoratorSQL.displayTable()");
 
-		if (!rs.next()) {
-			throw new IllegalStateException("displayTable: empty ResultSet");
-		}
 		println("create table " + tableName + " (");
 		while (rs.next()) {
-			println("\t" + rs.getString(4) + ' ' + rs.getString(6) + ",");
+			print("\t" + rs.getString(4) + ' ' + rs.getString(6));
+			int nullable = rs.getInt(11);
+			if (nullable == ResultSetMetaData.columnNoNulls) {
+				print(" not null");
+			}
+			println(",");
 		}
 		println(");");
 	}
