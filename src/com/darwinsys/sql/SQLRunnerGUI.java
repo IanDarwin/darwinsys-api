@@ -44,6 +44,7 @@ import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -144,7 +145,6 @@ public class SQLRunnerGUI  {
 			prog.setConfig(config);
 		}
 	}
-
 
 	/**
 	 * Set the selected Configuration Object in the Connections chooser
@@ -288,9 +288,9 @@ public class SQLRunnerGUI  {
 			}
 		});
 
-		FlowLayout layout = new FlowLayout();
-		layout.setAlignment(FlowLayout.LEADING);
-		final Container controlsArea = new JPanel(layout);
+		final Container controlsArea = new JPanel();
+		BoxLayout layout = new BoxLayout(controlsArea, BoxLayout.LINE_AXIS);
+		controlsArea.setLayout(layout);
 		mainWindow.add(controlsArea, BorderLayout.NORTH);
 
 		configurations = configManager.getConfigurations();
@@ -307,12 +307,11 @@ public class SQLRunnerGUI  {
 		controlsArea.add(passwdPromptCheckBox);
 
 		final JComboBox inTemplateChoice = new JComboBox();
-		// XXX Of course these should come from Properties and be editable...
+		// XXX Of course these should be editable...
 		inTemplateChoice.addItem("Input Template:");
-		inTemplateChoice.addItem("SELECT * from TABLE");
-		inTemplateChoice.addItem("SELECT * from TABLE where x = y");
-		inTemplateChoice.addItem("INSERT into TABLE(col,col) VALUES(val,val)");
-		inTemplateChoice.addItem("UPDATE TABLE set x = y where x = y");
+		for (SQLTemplate t : SQLTemplate.DEFAULTS) {
+			inTemplateChoice.addItem(t);
+		}
 		controlsArea.add(inTemplateChoice);
 
 		final JButton inTemplateButton = new JButton("Apply Template");
@@ -390,7 +389,8 @@ public class SQLRunnerGUI  {
 				if (inTemplateChoice.getSelectedIndex() == 0) {
 					return;
 				}
-				inputTextArea.setText((String)inTemplateChoice.getSelectedItem());
+				final SQLTemplate selectedItem = (SQLTemplate) inTemplateChoice.getSelectedItem();
+				inputTextArea.setText(selectedItem.getTemplate());
 			}
 		});
 
