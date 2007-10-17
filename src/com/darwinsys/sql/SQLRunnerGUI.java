@@ -288,7 +288,9 @@ public class SQLRunnerGUI  {
 			}
 		});
 
-		final Container controlsArea = new JPanel();
+		FlowLayout layout = new FlowLayout();
+		layout.setAlignment(FlowLayout.LEADING);
+		final Container controlsArea = new JPanel(layout);
 		mainWindow.add(controlsArea, BorderLayout.NORTH);
 
 		configurations = configManager.getConfigurations();
