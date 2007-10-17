@@ -322,6 +322,11 @@ public class SQLRunnerGUI  {
 		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
 		}
+
+		// If the mode is set to JTable, switch the
+		// tab to 1, else reset it to 0 (which is shared
+		// by Text, SQL, etc...
+		// XXX  should be a third tab for HTML
 		modeList.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e) {
 				mode = (OutputMode) modeList.getSelectedItem();
@@ -341,7 +346,18 @@ public class SQLRunnerGUI  {
 		runButton = new JButton(runAction);
 		controlsArea.add(runButton);
 
-		// used by Run...
+		JButton clearOutput = new JButton("Clear Output");
+		clearOutput.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        textTextArea.setText("");
+                resultsStatusBar.reset();
+		    }
+		});
+        controlsArea.add(clearOutput);
+
+        // END OF TOP ROW
+
+		// Used by Run...
 		busyDialog = new JDialog(mainWindow, "Running...");
 		JProgressBar busyIndicator = new JProgressBar();
 		busyIndicator.setIndeterminate(true);
@@ -377,15 +393,6 @@ public class SQLRunnerGUI  {
 				inputTextArea.setText((String)inTemplateChoice.getSelectedItem());
 			}
 		});
-
-		JButton clearOutput = new JButton("Clear Output");
-		clearOutput.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        textTextArea.setText("");
-                resultsStatusBar.reset();
-		    }
-		});
-        controlsArea.add(clearOutput);
 
         mainWindow.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 					inputAreaScrollPane,
