@@ -63,6 +63,11 @@ public class ResultsDecoratorText extends ResultsDecorator {
 	}
 
 	@Override
+	public void displayTable(String table, ResultSet rs) throws IOException, SQLException {
+		write(rs);
+	}
+
+	@Override
 	public void printRowCount(int rowCount) throws IOException {
 			println("Rows: " + rowCount);
 	}

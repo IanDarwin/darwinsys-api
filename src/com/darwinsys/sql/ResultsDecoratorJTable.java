@@ -123,6 +123,11 @@ public class ResultsDecoratorJTable extends ResultsDecorator {
 		return dataModel.getRowCount();
 	}
 
+	@Override
+	public void displayTable(String table, ResultSet rs) throws IOException, SQLException {
+		write(rs);
+	}
+
 	/** Return a printable name for this decorator
 	 * @see ResultsDecorator#getName()
 	 */

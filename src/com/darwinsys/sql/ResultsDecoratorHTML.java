@@ -66,6 +66,11 @@ public class ResultsDecoratorHTML extends ResultsDecorator {
 		return rowCount;
 	}
 
+	@Override
+	public void displayTable(String table, ResultSet rs) throws IOException, SQLException {
+		write(rs);
+	}
+
 	/** Return a printable name for this decorator
 	 * @see ResultsDecorator#getName()
 	 */

@@ -104,7 +104,9 @@ public class SQLRunner {
 
 	private ResultsDecorator currentDecorator;
 
-	private ResultsDecorator textDecorator;
+	/** Must be set at beginning */
+	private ResultsDecorator textDecorator =
+		new ResultsDecoratorText(out, verbosity);
 
 	private ResultsDecorator sqlDecorator;
 
@@ -187,9 +189,6 @@ public class SQLRunner {
 		ResultsDecorator newDecorator = null;
 		switch (outputMode) {
 			case t:
-				if (textDecorator == null) {
-					textDecorator = new ResultsDecoratorText(out, verbosity);
-				}
 				newDecorator = textDecorator;
 				break;
 			case h:
@@ -332,7 +331,7 @@ public class SQLRunner {
 			// Display list of tables
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getTables(null, null, "%", new String[]{"TABLE","VIEW"});
-			setOutputMode(OutputMode.t);
+			textDecorator.setWriter(out);
 			textDecorator.write(rs);
 			textDecorator.flush();
 		} else if (rest.startsWith("t")) {
@@ -342,11 +341,10 @@ public class SQLRunner {
 			if (upperCaseTableNames) {
 				tableName = tableName.toUpperCase();
 			}
-			System.out.println("# Display table " + tableName);
+			System.out.println("-- Display table " + tableName);
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getColumns(null, null, tableName, "%");
-			setOutputMode(OutputMode.t);
-			textDecorator.write(rs);
+			currentDecorator.displayTable(tableName, rs);
 			textDecorator.flush();
 		} else
 			throw new SyntaxException("\\d"  + rest + " invalid");

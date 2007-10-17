@@ -43,13 +43,16 @@ public abstract class ResultsDecorator {
 		this.out = wr;
 		this.verbosity = v;
 	}
-	
+
 	/** Print the name of this Decorator's output format */
 	public abstract String getName();
-	
+
 	/** Print the contents of a ResultSet */
 	public abstract int write(ResultSet rs) throws IOException, SQLException;
-	
+
+	/** Print the resultset as a table info */
+	public abstract void displayTable(String table, ResultSet rs) throws IOException, SQLException;
+
 	public void printRowCount(int n) throws IOException {
 		out.println("Row Count = " + n);
 	}

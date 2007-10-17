@@ -25,17 +25,18 @@
 
 package com.darwinsys.sql;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Types;
-import java.io.*;
-import java.sql.*;
 
 import com.darwinsys.util.Verbosity;
 
 /**
  * Print an SQL ResultSet in SQL-import format.
- * TODO: check all escaped characters needed! Test on PGSQL and DB2 at least...
+ *
  * @version $Id$
  */
 public class ResultsDecoratorSQL extends ResultsDecorator {
@@ -44,8 +45,11 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 		super(out, v);
 	}
 
+	/** Write a "normal" (data-holding) ResultSet
+	 */
 	@Override
 	public int write(ResultSet rs) throws IOException, SQLException {
+		System.out.println("ResultsDecoratorSQL.write()");
 		ResultSetMetaData metadata = rs.getMetaData();
 		// This assumes you're not using a Join!!
 		String tableName = metadata.getTableName(1);
@@ -112,7 +116,26 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 		return rowCount;
 	}
 
+	/** Display this resultset assuming it is a
+	 * Table description.
+	 */
+	@Override
+	public void displayTable(String tableName, ResultSet rs) throws IOException, SQLException {
+		System.out.println("ResultsDecoratorSQL.displayTable()");
+
+		if (!rs.next()) {
+			throw new IllegalStateException("displayTable: empty ResultSet");
+		}
+		println("create table " + tableName + " (");
+		while (rs.next()) {
+			println("\t" + rs.getString(4) + ' ' + rs.getString(6) + ",");
+		}
+		println(");");
+	}
+
+
 	/**
+	 * Double the quotes in a string
 	 * @param input
 	 * @return
 	 */
@@ -121,6 +144,7 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 	}
 
 	/**
+	 * Wrap a string in double quotes
 	 * @param input
 	 * @return
 	 */
