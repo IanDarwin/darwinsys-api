@@ -45,6 +45,10 @@ public class CompressingFilter implements Filter {
 			String acceptableEncodings = request.getHeader("accept-encoding");
 			if (acceptableEncodings != null
 					&& acceptableEncodings.indexOf("gzip") != -1) {
+
+				// Create a delegate for the Response object; all methods
+				// are directly delegated except getOutputStream.
+				// This wrapper class is defined below.
 				GZipResponseWrapper wrappedResponse = new GZipResponseWrapper(
 						response);
 				chain.doFilter(req, wrappedResponse);
@@ -68,8 +72,8 @@ public class CompressingFilter implements Filter {
 		/**
 		 * @param ressponse
 		 */
-		public GZipResponseWrapper(ServletResponse ressponse) {
-			super(ressponse);
+		public GZipResponseWrapper(ServletResponse response) {
+			super(response);
 		}
 
 		/** Inner inner class that is a ServletOutputStream.
@@ -79,6 +83,7 @@ public class CompressingFilter implements Filter {
 			private OutputStream os;
 
 			MyServletOutputStream(GZIPOutputStream os) {
+				super();
 				this.os = os;
 			}
 
@@ -88,6 +93,10 @@ public class CompressingFilter implements Filter {
 			}
 		}
 
+		/**
+		 * The original output stream that we are wrapping;
+		 * needs to be a field so we can flush() it.
+		 */
 		ServletOutputStream servletOutputStream;
 
 		/** getOutputStream() override that gives you the GzipOutputStream.
@@ -100,6 +109,10 @@ public class CompressingFilter implements Filter {
 						servletOutputStream));
 		}
 
+		/** Added method so we can be sure the GZipOutputStream
+		 * gets flushed.
+		 * @throws IOException
+		 */
 		public void flush() throws IOException {
 			servletOutputStream.flush();
 		}
