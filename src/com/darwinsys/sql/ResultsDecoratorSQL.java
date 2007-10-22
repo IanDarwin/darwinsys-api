@@ -49,7 +49,6 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 	 */
 	@Override
 	public int write(ResultSet rs) throws IOException, SQLException {
-		System.out.println("ResultsDecoratorSQL.write()");
 		ResultSetMetaData metadata = rs.getMetaData();
 		// This assumes you're not using a Join!!
 		String tableName = metadata.getTableName(1);
@@ -121,8 +120,7 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 	 */
 	@Override
 	public void displayTable(String tableName, ResultSet rs) throws IOException, SQLException {
-		System.out.println("ResultsDecoratorSQL.displayTable()");
-
+		
 		println("create table " + tableName + " (");
 		while (rs.next()) {
 			print("\t" + rs.getString(4) + ' ' + rs.getString(6));
