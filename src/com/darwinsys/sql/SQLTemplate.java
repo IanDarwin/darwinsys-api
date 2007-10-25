@@ -5,11 +5,12 @@ public class SQLTemplate {
 	private String template;
 
 	private final static SQLTemplate[] DEFAULTS = {
-		new SQLTemplate("Display tables", "\\dt"),
-		new SQLTemplate("Select", "SELECT * from TABLE"),
-		new SQLTemplate("Select w/where", "SELECT * from TABLE where x = y"),
-		new SQLTemplate("Insert", "INSERT into TABLE(col,col) VALUES(val,val)"),
-		new SQLTemplate("Update", "UPDATE TABLE set x = y where x = y"),
+		new SQLTemplate("Display table(s)", "\\dt"),
+		new SQLTemplate("Select", "Select * from TABLE"),
+		new SQLTemplate("Select w/where", "Select * from TABLE where x = y"),
+		new SQLTemplate("Insert", "Insert into TABLE(col,col) Values(val,val)"),
+		new SQLTemplate("Update", "Update TABLE set x = y where x = y"),
+		new SQLTemplate("Drop Table", "Drop Table TABLENAME"),
 	};
 
 	public SQLTemplate(String alias, String template) {
