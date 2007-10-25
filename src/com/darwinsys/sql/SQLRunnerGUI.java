@@ -314,9 +314,6 @@ public class SQLRunnerGUI  {
 		}
 		controlsArea.add(inTemplateChoice);
 
-		final JButton inTemplateButton = new JButton("Apply Template");
-		controlsArea.add(inTemplateButton);
-
 		modeList = new JComboBox();
 		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
@@ -384,7 +381,7 @@ public class SQLRunnerGUI  {
 		resultTypeName = OutputMode.j.toString();
 		outputPanel.addTab(resultTypeName, new JScrollPane(jtable));
 
-		inTemplateButton.addActionListener(new ActionListener() {
+		inTemplateChoice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (inTemplateChoice.getSelectedIndex() == 0) {
 					return;
