@@ -10,7 +10,7 @@ import com.darwinsys.security.PassPhrase;
 public class PassPhraseTest extends TestCase {
 
 	/*
-	 * Class under test for String getNext()
+	 * Test for String getNext()
 	 */
 	public void testGetNext() {
 		String s = PassPhrase.getNext();
@@ -20,7 +20,7 @@ public class PassPhraseTest extends TestCase {
 	}
 
 	/*
-	 * Class under test for String getNext(int)
+	 * Test for String getNext(int)
 	 */
 	public void testGetNextint() {
 		final int[] lengths = { 1, 5, 20, 200 };
@@ -32,6 +32,7 @@ public class PassPhraseTest extends TestCase {
 			assertEquals(j, s.length());
 		}
 	}
+	
 	public void testGetNextZero() {
 		try {
 			PassPhrase.getNext(0);
