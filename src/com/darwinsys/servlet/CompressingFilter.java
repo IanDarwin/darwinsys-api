@@ -99,14 +99,17 @@ public class CompressingFilter implements Filter {
 		 */
 		ServletOutputStream servletOutputStream;
 
+		/** The gzipped output stream */
+		GZIPOutputStream zippedOutputStream;
+		
 		/** getOutputStream() override that gives you the GzipOutputStream.
 		 * @see javax.servlet.ServletResponse#getOutputStream()
 		 */
 		public ServletOutputStream getOutputStream() throws IOException {
 			servletOutputStream = super.getOutputStream();
+			zippedOutputStream = new GZIPOutputStream(servletOutputStream);
 			return new MyServletOutputStream(
-				new GZIPOutputStream(
-						servletOutputStream));
+				zippedOutputStream);
 		}
 
 		/** Added method so we can be sure the GZipOutputStream
@@ -114,6 +117,7 @@ public class CompressingFilter implements Filter {
 		 * @throws IOException
 		 */
 		public void flush() throws IOException {
+			zippedOutputStream.flush();
 			servletOutputStream.flush();
 		}
 
