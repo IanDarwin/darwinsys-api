@@ -14,6 +14,45 @@ import javax.swing.JTextField;
  * whether the Cancel (X) button is inside or outside the textfield.
  * <p>
  * Actually, the options aren't available yet.
+ * <p>
+ * There is no facility to add a "Search" button, since today only
+ * dynamic searchboxes are in fashion. The normal way to use this is
+ * to create it, get the TextField from it, and add a KeyAdapter
+ * whose keyReleased method calls a setMatch method in your ListModel.
+ * Here is an example of a setMatch() method and the corresponding
+ * getElementAt() method from the ListModel.
+ * <pre>
+ 	// Set visible only the items that match the given text. no
+	// need to special-case for null str as String.contains("")
+	// is always true.	
+	public void setMatch(String match) {
+		for (ToDoItem t : list) {
+			final boolean vis = t.getText().contains(match);
+			t.setVisible(vis);
+		}
+		notifyListenersChanged(
+				new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, list.size()));
+	}
+	
+	// Almost all of the complexity of the visible list vs
+	// the full data list is hidden here.
+	// Specified-by: ListModel
+	public Object getElementAt(int virtualIndex) {
+		int visibles = 0;
+		for (ToDoItem t : list) {
+			if (t.isVisible()) {
+				if (visibles == virtualIndex) {
+					return t;
+				}
+				++visibles;
+			}
+		}
+		throw new IllegalStateException("Cant Happen");
+	}
+ * </pre>
+ * <p>The implementation of getSize() in the list model is parallel
+ * but simpler; it must of course count only elements that are visible.
+ * @see javax.swing.ListModel
  * @version $Id$
  */
 public class SearchBox extends JComponent {
