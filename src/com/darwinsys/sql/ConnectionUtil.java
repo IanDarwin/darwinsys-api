@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.darwinsys.database.DataBaseException;
+import com.darwinsys.util.Verbosity;
 
 /** Encapsulate the Connection-related operations that every
  * JDBC program seems to use.
@@ -21,11 +22,11 @@ import com.darwinsys.database.DataBaseException;
 public class ConnectionUtil {
 	/** The default config filename, relative to ${user.home} */
 	public static final String DEFAULT_NAME = ".db.properties";
-
 	/** The current config filename */
 	private static String configFileName =
 		System.getProperty("user.home") + File.separator + DEFAULT_NAME;
-
+	private static Verbosity verbosity = Verbosity.QUIET;
+	
 	/** Sets the full path of the config file to read.
 	 * @param configFileNam The FileName of the configuration file to use.
 	 */
@@ -112,10 +113,14 @@ public class ConnectionUtil {
 			throws ClassNotFoundException, SQLException {
 
 		// Load the database driver
-		System.out.println("Loading driver " + dbDriver);
+		if (verbosity != Verbosity.QUIET) {
+			System.out.println("Loading driver " + dbDriver);
+		}
 		Class.forName(dbDriver);
 
-		System.out.println("Connecting to DB " + dbUrl);
+		if (verbosity != Verbosity.QUIET) {
+			System.out.println("Connecting to DB " + dbUrl);
+		}
 		return DriverManager.getConnection(
 			dbUrl, dbUserName, dbPassword);
 	}
@@ -158,5 +163,41 @@ public class ConnectionUtil {
 			configs.add(getConfiguration(name));
 		}
 		return configs;
+	}
+	
+	/** Convert a TransactionIsolation int (defined in java.sql.Connection)
+	 * to the corresponding printable string.
+	 */
+	public static String transactionIsolationToString(int txisolation) {
+		switch(txisolation) {
+			case Connection.TRANSACTION_NONE: 
+				// transactions not supported.
+				return "TRANSACTION_NONE";
+			case Connection.TRANSACTION_READ_UNCOMMITTED: 
+				// All three phenomena can occur
+				return "TRANSACTION_NONE";
+			case Connection.TRANSACTION_READ_COMMITTED: 
+			// Dirty reads are prevented; non-repeatable reads and 
+			// phantom reads can occur.
+				return "TRANSACTION_READ_COMMITTED";
+			case Connection.TRANSACTION_REPEATABLE_READ: 
+				// Dirty reads and non-repeatable reads are prevented;
+				// phantom reads can occur.
+				return "TRANSACTION_REPEATABLE_READ";
+			case Connection.TRANSACTION_SERIALIZABLE:
+				// All three phenomena prvented; slowest!
+				return "TRANSACTION_SERIALIZABLE";
+			default:
+				throw new IllegalArgumentException(
+					txisolation + " not a valid TX_ISOLATION");
+		}
+	}
+
+	public static Verbosity getVerbosity() {
+		return verbosity;
+	}
+
+	public static void setVerbosity(Verbosity verbosity) {
+		ConnectionUtil.verbosity = verbosity;
 	}
 }
