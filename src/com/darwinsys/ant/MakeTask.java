@@ -1,5 +1,11 @@
 package com.darwinsys.ant;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
@@ -30,12 +36,23 @@ public class MakeTask extends Task {
 			if (target != null) {
 				sb.append(target);
 			}
+			List<String> command = new ArrayList<String>();
+			command.add("sh");
+			command.add("-c");
 			final String commandString = sb.toString();
 			System.out.println(commandString);
-			builder.command(commandString);
+			command.add(commandString);
+			builder.command(command);
 			final Process process = builder.start();
-			process.wait();
+			final InputStream inputStream = process.getInputStream();
+			final BufferedReader is = new BufferedReader(new InputStreamReader(inputStream));
+			String line;
+			while ((line = is.readLine()) != null) {
+				System.out.println(line);
+			}
+			process.waitFor();
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new BuildException("Unexpected Exception in process", e);
 		}
 	}

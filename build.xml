@@ -188,6 +188,13 @@
 		<java className="regress.RelativeLayoutTest" classpath="build"
 			fork="yes"/>
 	</target>
+	
+	<target name="testMakeTask">
+		<taskdef name="make" 
+			classname="com.darwinsys.ant.MakeTask"
+			classpath="build"/>
+		<make baseDir="regress"/>
+	</target>
 
 	<target name="clean">
 		<delete file="${fileiotest.dat}"/>
