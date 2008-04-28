@@ -2,6 +2,7 @@ package com.darwinsys.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.Filter;
@@ -11,15 +12,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.ServletResponseWrapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
  * Servlet Filter to do compression.
  * @author Main class by Stephen Neal(?), hacked on by Ian Darwin.
  * GzipResponseWrapper class by Ian Darwin.
- * Status: UNPROVEN
  */
 public class CompressingFilter implements Filter {
 
@@ -38,24 +38,32 @@ public class CompressingFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
-
-		if (req instanceof HttpServletResponse) {
+		System.out.println("CompressingFilter.doFilter()");
+		if (req instanceof HttpServletRequest) {
 			HttpServletRequest request = (HttpServletRequest) req;
+			System.out.println("CompressingFilter.doFilter(): " + request.getRequestURI());
 			HttpServletResponse response = (HttpServletResponse) resp;
+			// XXX should maybe use getHeaders() and iterate?
 			String acceptableEncodings = request.getHeader("accept-encoding");
 			if (acceptableEncodings != null
 					&& acceptableEncodings.indexOf("gzip") != -1) {
+
+				System.out.println("CompressingFilter.doFilter(): doing compression!");
 
 				// Create a delegate for the Response object; all methods
 				// are directly delegated except getOutputStream.
 				// This wrapper class is defined below.
 				GZipResponseWrapper wrappedResponse = new GZipResponseWrapper(
 						response);
-				chain.doFilter(req, wrappedResponse);
-				wrappedResponse.flush();
+				try {
+					chain.doFilter(req, wrappedResponse);
+				} finally {
+					wrappedResponse.flush();
+				}
 				return;
 			}
 		}
+		System.out.println("CompressingFilter.doFilter(): bottom");
 		chain.doFilter(req, resp);
 	}
 
@@ -67,16 +75,35 @@ public class CompressingFilter implements Filter {
 	 * Inner Class is a ServletResponse that does compression
 	 * @author Ian Darwin
 	 */
-	static class GZipResponseWrapper extends ServletResponseWrapper {
+	static class GZipResponseWrapper extends HttpServletResponseWrapper {
 
 		/**
-		 * @param ressponse
+		 * @param response
+		 * @throws IOException 
 		 */
-		public GZipResponseWrapper(ServletResponse response) {
+		public GZipResponseWrapper(HttpServletResponse response) throws IOException {
 			super(response);
+			createOutputStream();
 		}
 
-		/** Inner inner class that is a ServletOutputStream.
+		/**
+		 * @return 
+		 * @throws IOException
+		 */
+		private ServletOutputStream createOutputStream() throws IOException {
+			servletOutputStream = super.getOutputStream();
+			GZIPOutputStream zippedOutputStream = new GZIPOutputStream(servletOutputStream);
+			myServletOutputStream = new MyServletOutputStream(
+							zippedOutputStream);
+			return myServletOutputStream;
+		}
+		
+		private PrintWriter writer = null;
+		
+		private OutputStream stream = null;
+
+		/** Inner inner class that is just needed because
+		 * getOutputStream has to return a ServletOutputStream.
 		 * @author Ian Darwin
 		 */
 		static class MyServletOutputStream extends ServletOutputStream {
@@ -100,16 +127,31 @@ public class CompressingFilter implements Filter {
 		ServletOutputStream servletOutputStream;
 
 		/** The gzipped output stream */
-		GZIPOutputStream zippedOutputStream;
+		MyServletOutputStream myServletOutputStream;
 		
 		/** getOutputStream() override that gives you the GzipOutputStream.
+		 * XXX Assumes you only call this once!!
 		 * @see javax.servlet.ServletResponse#getOutputStream()
 		 */
 		public ServletOutputStream getOutputStream() throws IOException {
-			servletOutputStream = super.getOutputStream();
-			zippedOutputStream = new GZIPOutputStream(servletOutputStream);
-			return new MyServletOutputStream(
-				zippedOutputStream);
+			if (writer != null)
+	            throw new IllegalStateException("getWriter() was already called for this response");
+
+	        if (stream == null)
+	            stream = createOutputStream();
+	        
+			return myServletOutputStream;
+		}
+		
+		@Override
+		public PrintWriter getWriter() throws IOException {
+			if (stream != null) {
+				throw new IllegalStateException("getOutputStream was already called");
+			}
+			if (writer == null) {
+				writer = new PrintWriter(getOutputStream());
+			}
+			return writer;
 		}
 
 		/** Added method so we can be sure the GZipOutputStream
@@ -117,7 +159,7 @@ public class CompressingFilter implements Filter {
 		 * @throws IOException
 		 */
 		public void flush() throws IOException {
-			zippedOutputStream.flush();
+			myServletOutputStream.flush();
 			servletOutputStream.flush();
 		}
 
