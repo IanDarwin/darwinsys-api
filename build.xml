@@ -2,6 +2,10 @@
 
 	<!-- $Id$ -->
 
+	<!--
+	XXX Make Jar target not include docs; make jardocs target
+	-->
+
 	<property file="build.properties"/>
 
 	<!-- other properties -->
@@ -47,7 +51,7 @@
 
 	<target name="build-core" depends="init">
 		<javac destdir="${build}" srcdir="${src}"
-			classpath="${servletapi.jar}:${mail.jar}"
+			classpath="${servletapi.jar}:${mail.jar}:${junit.jar}"
 			debug="true" deprecation="true" fork="false">
 			<exclude name="regress/**"/>
 			<exclude name="com/darwinsys/macosui/**"/>
