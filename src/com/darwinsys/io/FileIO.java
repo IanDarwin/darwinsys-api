@@ -51,8 +51,12 @@ public class FileIO {
 			os = new BufferedOutputStream(new FileOutputStream(outName));
 			copyFile(is, os, false);
 		} finally {
-			is.close();
-			os.close();
+			if (is != null) {
+				is.close();
+			}
+			if (os != null) {
+				os.close();
+			}
 		}
 	}
 
@@ -125,15 +129,24 @@ public class FileIO {
 	 */
 	public void copyFileBuffered(String inName, String outName) throws
 			FileNotFoundException, IOException {
-		InputStream is = new FileInputStream(inName);
-		OutputStream os = new FileOutputStream(outName);
-		int count = 0;		// the byte count
-		byte[] b = new byte[BLKSIZ];	// the bytes read from the file
-		while ((count = is.read(b)) != -1) {
-			os.write(b, 0, count);
+		InputStream is = null;
+		OutputStream os = null;
+		try {
+			is = new FileInputStream(inName);
+			os = new FileOutputStream(outName);
+			int count = 0;		// the byte count
+			byte[] b = new byte[BLKSIZ];	// the bytes read from the file
+			while ((count = is.read(b)) != -1) {
+				os.write(b, 0, count);
+			}
+		} finally {
+			if (is != null) {
+				is.close();				
+			}
+			if (os != null) {
+				os.close();
+			}
 		}
-		is.close();
-		os.close();
 	}
 	
 	/**
