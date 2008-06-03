@@ -59,14 +59,14 @@ public class FileIOTest extends TestCase {
 	public void testReaderToString() {
 		try {
 			makeFileIOTestDat();
-			String s = FileIO.readerToString(new FileReader(FILENAME));
+			String s = FileIO.readerToString(new FileReader(tmpDir + "/" + FILENAME));
 
 			// Make sure that readerToString really reads from the file.
 			assertEquals(MESSAGE, s);
 
 			// Make sure that readerToString doesn't append gunk like
 			// extraneous nulls.
-			assertEquals(s.length(), new File(FILENAME).length());
+			assertEquals(s.length(), new File(tmpDir + "/" + FILENAME).length());
 
 		} catch (Exception ex) {
 			System.err.println(ex);
@@ -75,11 +75,12 @@ public class FileIOTest extends TestCase {
 	}
 	
     public void testCopyFileByName() {
-		String fileName = FILENAME;
-		String targetFileName = FILENAME + ".bak";
+		String fileName = tmpDir + "/" + FILENAME;
+		String targetFileName = tmpDir + "/" + FILENAME + ".bak";
 		try {
 			makeFileIOTestDat();
-			FileIO.copyFile(fileName, targetFileName);
+			FileIO.copyFile(fileName, 
+					targetFileName);
 			String s1 = FileIO.readerToString(new FileReader(fileName));
 			String s2 = FileIO.readerToString(new FileReader(targetFileName));
 			assertEquals(s1, s2);
@@ -90,8 +91,8 @@ public class FileIOTest extends TestCase {
 	}
     
     public void testCopyFileByFile() {
-		String fileName = FILENAME;
-		String targetFileName = FILENAME + ".bak";
+		String fileName = tmpDir + "/" + FILENAME;
+		String targetFileName = tmpDir + "/" + FILENAME + ".bak";
 		try {
 			makeFileIOTestDat();
 			FileIO.copyFile(fileName, targetFileName);
