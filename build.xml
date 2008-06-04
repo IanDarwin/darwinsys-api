@@ -1,4 +1,4 @@
-<project name="com.darwinsys.* package" default="regress" basedir=".">
+<project name="DarwinSys API package" default="regress" basedir=".">
 
 	<!-- $Id$ -->
 
