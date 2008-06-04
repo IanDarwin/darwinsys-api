@@ -1,7 +1,6 @@
 package com.darwinsys.lang;
 
 import junit.framework.TestCase;
-import com.darwinsys.lang.MutableInteger;
 
 /**
  * name - purpose

@@ -1,12 +1,12 @@
 package com.darwinsys.testing;
 
+import static com.darwinsys.testing.TestUtils.assertNoDefaultProperties;
+
 import java.util.Calendar;
 import java.util.Date;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-
-import static com.darwinsys.testing.TestUtils.assertNoDefaultProperties;
 
 public class TestUtilsTest extends TestCase {
 

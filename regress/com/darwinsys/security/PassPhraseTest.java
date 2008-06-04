@@ -2,8 +2,6 @@ package com.darwinsys.security;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.security.PassPhrase;
-
 /**
  * Test the PassPhrase class.
  */

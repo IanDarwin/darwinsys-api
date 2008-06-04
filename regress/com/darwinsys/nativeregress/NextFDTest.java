@@ -4,9 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.darwinsys.io.NextFD;
-
 import junit.framework.TestCase;
+
+import com.darwinsys.io.NextFD;
 
 public class NextFDTest extends TestCase {
 

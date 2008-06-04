@@ -2,8 +2,6 @@ package com.darwinsys.lang;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.lang.StringFormat;
-
 public class StringFormatTest extends TestCase {
 	String mesg = "JavaFun";
 

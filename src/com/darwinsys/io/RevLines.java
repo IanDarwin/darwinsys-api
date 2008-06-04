@@ -1,7 +1,8 @@
 package com.darwinsys.io;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Stack;
-import java.io.*;
 
 /**
  * Reverse a file by lines (simple algorithm, keeps file in memory).

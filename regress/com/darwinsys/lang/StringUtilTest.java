@@ -2,8 +2,6 @@ package com.darwinsys.lang;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.lang.StringUtil;
-
 public class StringUtilTest extends TestCase {
 
 	public void testToCommaList() {

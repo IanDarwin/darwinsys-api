@@ -1,7 +1,10 @@
 package com.darwinsys.io;
 
-import java.io.*;
-import java.text.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Class to do formatted dump ("hex dump") of data from various sources.

@@ -1,8 +1,13 @@
 package com.darwinsys.swingui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /** A label and text combination, inspired by
  * the LabelText control in Guy Eddon's ActiveX Components book

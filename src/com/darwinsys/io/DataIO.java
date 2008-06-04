@@ -1,6 +1,7 @@
 package com.darwinsys.io;
 
-import java.io.*;
+import java.io.DataInput;
+import java.io.IOException;
 
 /**
  * Some I-O primitives for datastreams.

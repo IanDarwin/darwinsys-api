@@ -1,6 +1,8 @@
 package com.darwinsys.lang;
 
-import java.text.*;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 
 /** Bare-minimum "String formatter": format a string to a given
  * maximum length with left, centre, or right justification.

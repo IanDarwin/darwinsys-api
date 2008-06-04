@@ -1,7 +1,8 @@
 package com.darwinsys.swingui;
 
 import java.awt.Window;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /** A WindowCloser - watch for Window Closing events, and
  * follow them up with setVisible(false), dispose(), and optionally

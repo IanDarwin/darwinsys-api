@@ -1,7 +1,7 @@
 package com.darwinsys.util;
 
-import java.util.Iterator;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 /** A GOF Adapter to make instances of old Enumeration interface
  * behave like new Iterator interface, so we only have to deal

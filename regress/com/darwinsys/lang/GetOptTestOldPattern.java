@@ -1,8 +1,8 @@
 package com.darwinsys.lang;
 
-import com.darwinsys.util.Debug;
-
 import junit.framework.TestCase;
+
+import com.darwinsys.util.Debug;
 
 /** Some test cases for GetOpt using the "traditional" coding pattern.
 * @author Ian F. Darwin, http://www.darwinsys.com/

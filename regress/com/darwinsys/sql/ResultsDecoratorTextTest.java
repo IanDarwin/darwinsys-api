@@ -4,9 +4,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 
-import com.darwinsys.util.Verbosity;
-
 import junit.framework.TestCase;
+
+import com.darwinsys.util.Verbosity;
 
 public class ResultsDecoratorTextTest extends TestCase {
 

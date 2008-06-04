@@ -157,8 +157,8 @@ public class SQLRunner {
 			dbMeta.getDatabaseProductName().indexOf("DB2") >= 0;
 		String dbName = dbMeta.getDatabaseProductName();
 		System.out.println("SQLRunner: Connected to " + dbName);
-		statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
+		statement = conn.createStatement();
+		
 		if (outputFileName == null) {
 			out = new PrintWriter(System.out);
 		} else {

@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-import com.darwinsys.io.Crawler;
-import com.darwinsys.io.FileHandler;
-
 import junit.framework.TestCase;
 
 public class CrawlerTest extends TestCase {
@@ -50,11 +47,15 @@ public class CrawlerTest extends TestCase {
 		assertTrue("crawler found at least one file in .", seenAnyFiles);
 	}
 
-	public void testExcludes() throws Exception {
+	public void testWithDirFilter() throws Exception {
 		String dir =  "." ;
-		final File tmpDir = new File(dir + "/tmpxxx");
-		tmpDir.mkdir();
+		final File tmpDir = File.createTempFile("tmp", ".dir", new File(dir));
+		tmpDir.delete(); tmpDir.mkdirs();
+		assertTrue(tmpDir.exists());
 		tmpDir.deleteOnExit();
+		File badFile = new File(tmpDir, "xxx");
+		badFile.createNewFile();
+		badFile.deleteOnExit();
 		FileHandler checksForBannedFile = new FileHandler() {
 			private File file;
 			public void visit(File f) {
@@ -76,8 +77,21 @@ public class CrawlerTest extends TestCase {
 			}
 
 		};
-		final Crawler crawler = new Crawler(javaFileFilter, checksForBannedFile);
-		crawler.addExcludeDirs(tmpDir.getCanonicalPath());
+		final FilenameFilter alwaysAcceptFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return true;
+			}
+			
+		};
+		final FilenameFilter dirFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				if (dir.equals(tmpDir))
+					return false;
+				return true;
+			}
+			
+		};
+		final Crawler crawler = new Crawler(alwaysAcceptFilter, dirFilter, checksForBannedFile);
 		new File(tmpDir, "xxx").createNewFile();
 		crawler.crawl(new File(dir));
 
@@ -89,8 +103,8 @@ public class CrawlerTest extends TestCase {
 			fail("Did not throw expected NPE");
 		} catch (NullPointerException e) {
 			// OK
-		} catch (Exception t) {
-			fail("Caught UNexcpeted exception " + t);
+		} catch (Throwable t) {
+			fail("Caught UNexpected exception " + t);
 		}
 	}
 }

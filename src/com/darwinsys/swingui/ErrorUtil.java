@@ -1,20 +1,19 @@
 package com.darwinsys.swingui;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JTextArea;
-import javax.swing.JOptionPane;
-
-// For DetailsDialog inner class
+import java.awt.event.ActionListener;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  * Convenience class for fielding Exceptions in a Swing App.

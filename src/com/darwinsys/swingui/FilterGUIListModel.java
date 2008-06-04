@@ -1,8 +1,11 @@
 package com.darwinsys.swingui;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.swing.ListModel;
-import javax.swing.event.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 /** FilterGUIListModel combines an ArrayList with a ListModel for ease of use.
  */

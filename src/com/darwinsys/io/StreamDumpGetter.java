@@ -1,6 +1,8 @@
 package com.darwinsys.io;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /** A DumpGetter that reads from a file. */
 public class StreamDumpGetter implements DumpGetter {

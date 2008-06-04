@@ -1,6 +1,7 @@
 package com.darwinsys.html;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Check a String to ensure that it contains either no HTML tags, or only

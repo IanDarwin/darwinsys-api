@@ -1,11 +1,11 @@
 package com.darwinsys.lang;
 
-import com.darwinsys.util.Debug;
-
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+
+import com.darwinsys.util.Debug;
 
 /** A class to implement UNIX-style (single-character) command line argument
  * parsing. Originally patterned after (but not using code from) the UNIX 

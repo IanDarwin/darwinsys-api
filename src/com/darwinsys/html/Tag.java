@@ -1,6 +1,6 @@
 package com.darwinsys.html;
 
-import java.io.*;
+import java.io.PrintWriter;
 
 /** A series of methods for writing HTML/XML tags.
  * Substantially less capable than Jakarta Element Constructor Set (ECS),

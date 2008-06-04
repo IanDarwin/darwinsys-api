@@ -4,8 +4,6 @@ import java.awt.Color;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.graphics.ColorName;
-
 public class ColorNameTest extends TestCase {
 	
 	public static void testLookup() {

@@ -1,6 +1,5 @@
 package com.darwinsys.net;
 
-import com.darwinsys.net.DNSUtils;
 import junit.framework.TestCase;
 
 public class DNSUtilsTest extends TestCase {

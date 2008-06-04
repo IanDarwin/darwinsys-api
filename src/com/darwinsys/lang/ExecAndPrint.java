@@ -1,7 +1,11 @@
 package com.darwinsys.lang;
 
-import com.darwinsys.io.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
+import com.darwinsys.io.FileIO;
 
 /**
  * ExecAndPrint runs a program using Runtime.exec(),

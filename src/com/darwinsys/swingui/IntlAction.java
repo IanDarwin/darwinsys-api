@@ -1,7 +1,10 @@
 package com.darwinsys.swingui;
 
-import java.util.*;
-import javax.swing.*;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 
 /** Class for creating an Internationalized Swing Action.
  * See also

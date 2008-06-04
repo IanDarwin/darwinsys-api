@@ -4,9 +4,6 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * Manually test out the InstallerUtils method(s).
  */
@@ -29,9 +26,5 @@ public class InstallerUtilsTest {
 
 		// Now test with HTML
 		InstallerUtils.acceptLicense(jf, "src/com/darwinsys/installers/package.html");
-	}
-
-	public Test suite() {
-		return new TestSuite();
 	}
 }

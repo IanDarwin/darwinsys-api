@@ -6,9 +6,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.lang.GetOpt;
-import com.darwinsys.lang.GetOptDesc;
-
 /** Some test cases for GetOpt using the "new" coding pattern
 * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$

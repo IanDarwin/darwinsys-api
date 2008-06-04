@@ -1,7 +1,5 @@
 package com.darwinsys.html;
 
-import com.darwinsys.html.SimpleTagValidator;
-
 import junit.framework.TestCase;
 
 /**

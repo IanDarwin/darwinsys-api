@@ -6,8 +6,6 @@ import javax.swing.JTextArea;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.io.TextAreaWriter;
-
 public class TextAreaWriterTest extends TestCase {
 
 	private static final String HELLO_WORLD = "Hello World";

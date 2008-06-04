@@ -1,8 +1,16 @@
 package com.darwinsys.mail;
 
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /** Mailer. No relation to Norman. Sends an email message.
  * My old Sender class, recast as a Bean for use in JSP's & elsewhere.
