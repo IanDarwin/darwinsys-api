@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.AssertionFailedError;
-
 public class TestUtils {
 
 	 /**
@@ -100,7 +98,7 @@ public class TestUtils {
 			}
 			System.out.printf("Field %s, value %s%n", name, target);
 			if (target == null || target.equals(Boolean.FALSE)) {
-				throw new AssertionFailedError("property " + p.name + " is default");
+				throw new AssertionError("property " + p.name + " is default");
 			}
 		}
 		System.out.println("assertNoDefaultProperties didn't find any problems");
