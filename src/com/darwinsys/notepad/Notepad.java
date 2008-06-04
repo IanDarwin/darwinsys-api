@@ -19,7 +19,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.prefs.*;
+import java.util.prefs.Preferences;
 
 import javax.print.Doc;
 import javax.print.DocFlavor;
