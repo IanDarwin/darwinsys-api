@@ -3,8 +3,6 @@ package com.darwinsys.io;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,7 +11,13 @@ import com.darwinsys.database.DataBaseException;
 /** Simple directory crawler, using a Filename Filter to select files and
  * the Visitor pattern to process each chosen file.
  * See the regression test CrawlerTest for a working example.
- * XXX Lots of things are static that should not be!!
+ * Uses a FilenameFilter for file inclusion/exclusion,
+ * and another FilenameFilter (optional) for directory
+ * inclusion/exclusion, giving flexibility to the crawling.
+ * Accepts a FileHandler (interface in same package) 
+ * strategy object to do the work on each file that 
+ * is ultimately accepted.
+ * XXX Several things are static that should not be!!
  * @author Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
@@ -25,8 +29,8 @@ public class Crawler implements Checkpointer {
 	private static FileHandler visitor;
 	/** The chooser for files by name; may be null! */
 	private FilenameFilter chooser;
-	/** A list of directories to exclude altogether (including sub-dirs). */
-	private List<String> excludeDirs = new ArrayList<String>();
+	/** The chooser for directories;  may be null! */
+	private FilenameFilter dirChooser = null;
 
 	/** An Error Handler that just prints the exception */
 	public static final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
@@ -47,10 +51,15 @@ public class Crawler implements Checkpointer {
 	private CrawlerCallback eHandler;
 
 	public Crawler(FilenameFilter chooser, FileHandler fileVisitor) {
+		this (chooser, null, fileVisitor);
+	}
+
+	public Crawler(FilenameFilter chooser, FilenameFilter dirChooser, FileHandler fileVisitor) {
 		if (chooser == null) {
 			throw new NullPointerException("Chooser may not be null");
 		}
 		this.chooser = chooser;
+		this.dirChooser = dirChooser;
 		setVisitor(fileVisitor);
 	}
 
@@ -68,21 +77,13 @@ public class Crawler implements Checkpointer {
 		}
 
 		for (File next : dir) {
-			String nextFileName = next.getName();
-			if (nextFileName == null) {
-				System.err.println("Warning: " + startDir +" contains null filename(s)");
-				continue;
-			}
-
 			// If appropriate, open up this sub-directory and take a look inside.
 			if (next.isDirectory()) {
-				/*
-				 * If the directory is not in our exclude list, can be read,
-				 * and we haven't already visited it, visit it.
-				 */
-				if (excludeDirs.contains(next.getCanonicalPath()))  {
+
+				if (dirChooser != null && !dirChooser.accept(next, null)) {
 					continue;
 				}
+
 				if (seen(next)) {
 					continue;
 				}
@@ -93,6 +94,13 @@ public class Crawler implements Checkpointer {
 					System.err.println("The directory " + next.getAbsolutePath() + " is not readable, ignored.");
 				}
 			} else {
+
+				String nextFileName = next.getName();
+				if (nextFileName == null) {
+					System.err.println("Warning: " + startDir +" contains null filename(s)");
+					continue;
+				}
+
 				// See if we want file by name. Then, if isFile(), process, else ignore quietly
 				// (this squelches lots of natterings about borked symlinks, which are not our worry).
 				int nextFreeFD = -1;
@@ -195,22 +203,5 @@ public class Crawler implements Checkpointer {
 
 	public static void setVisitor(FileHandler visitor) {
 		Crawler.visitor = visitor;
-	}
-
-	/**
-	 * Add a list of directories that should be excluded in crawling.
-	 * @param dirs
-	 */
-	public void addExcludeDirs(String ... dirs) {
-		for (String dir : dirs) {
-			try {
-				String fullDir = new File(dir).getCanonicalPath();
-				System.err.printf("Crawler.addExcludeDirs(): %s->%s%n", dir, fullDir);
-				excludeDirs.add(fullDir);
-			} catch (IOException e) {
-				System.err.printf("Could not getCanonPath(%s), leaving AS-IS!!%n", dir);
-				excludeDirs.add(dir);
-			}
-		}
 	}
 }
