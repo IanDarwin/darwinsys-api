@@ -32,7 +32,7 @@ import java.text.NumberFormat;
  * 00304: 18 4c 6a 61 76 61 2f 6c 61 6e 67 2f 53 74 72 69  .Ljava.lang.Stri
  * 00320: 6e 67 42 75 66 66 65 72 3b 01 00 03 74 78 74 01  ngBuffer....txt.
  * </pre>
- * @author Ian F. Darwin, http://www.darwinsys.com/contact.html
+ * @author Ian F. Darwin, http://www.darwinsys.com/contact.jsp
  * @version $Id$
  */
 public class Dumper {

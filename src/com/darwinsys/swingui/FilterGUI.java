@@ -27,7 +27,7 @@ import javax.swing.JPanel;
  * TODO: fix balancing (have main pack() then call adjustWidths()?).
  * Set single-selection mode on the scrolling lists.
  * And maybe find a more standard name for this thing.
- * @author	Ian Darwin, http://www.darwinsys.com/contact.html
+ * @author	Ian Darwin, http://www.darwinsys.com/contact.jsp
  * @version $Id$
  */
 public class FilterGUI<T> extends JComponent {
