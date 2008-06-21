@@ -22,7 +22,7 @@
 
 	<property name="deploy.dir" value="${user.home}/lib"/>
 
-	<property name="junit.jar"  value="${user.home}/lib/junit.jar"/>
+	<property name="junit.jar"  value="lib/junit-4.4.jar"/>
 
 	<!-- If Ant 1.5 barfs on this, just comment it out -->
 	<condition property="isMacOSX">
