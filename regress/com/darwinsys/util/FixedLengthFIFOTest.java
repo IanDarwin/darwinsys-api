@@ -1,6 +1,13 @@
 package com.darwinsys.util;
 
-import java.util.Calendar; import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Calendar;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.Iterator;
@@ -10,11 +17,9 @@ import java.util.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.darwinsys.util.FixedLengthFIFO;
-
 public class FixedLengthFIFOTest {
 	
-	private boolean chatterbox = true;
+	private final boolean chatterbox = false;
 	
 	private static final int SMALL_TEST_SIZE = 10;
 	private static final String JUNKSTRING = "fjdklsjfdls";
@@ -69,21 +74,27 @@ public class FixedLengthFIFOTest {
 	
 	@Test(expected=UnsupportedOperationException.class)
 	public void testIterator() throws Exception {
-		ff.add("Test data one");
-		ff.add("Test data two");
+		addaCoupleOfStrings();
 		Iterator<String> it = ff.iterator();
 		it.next();
 		it.remove();	// should throw
 	}
+
+	private void addaCoupleOfStrings() {
+		ff.add("Test data one");
+		ff.add("Test data two");
+	}
 	
 	@Test
 	public void testAlwaysCreatesIterator() {	
+		addaCoupleOfStrings();
 		Iterator it = ff.iterator();
 		Iterator it2 = ff.iterator();
 		assertTrue(it != it2);
 		while (it2.hasNext()) {
+			final Object next = it2.next();
 			if (chatterbox) {
-				System.out.println("Iterator 2 output: " + it2.next());
+				System.out.println("Iterator 2 output: " + next);
 			}
 		}
 	}
@@ -92,7 +103,7 @@ public class FixedLengthFIFOTest {
 	public void testThrowsConcurrentModificationException() {
 		// Check for concurrentmod
 		Iterator it3 = ff.iterator();
-		ff.add("any old thing");
+		addaCoupleOfStrings();
 		it3.hasNext();	// Should throw CME
 	}
 	
@@ -110,7 +121,9 @@ public class FixedLengthFIFOTest {
 	public void testToArrayArrayType() {
 		String[] o = ff.toArray(new String[0]);
 		assertNotNull(o);
-		System.out.println(o.getClass().getName());
+		if (chatterbox) {
+			System.out.println(o.getClass().getName());
+		}
 		Vector<String> vv = new Vector<String>();
 		Object ov = vv.toArray(new String[0]);
 		if (chatterbox) {
@@ -140,14 +153,12 @@ public class FixedLengthFIFOTest {
 	@Test
 	public void testSubList() {
 		FixedLengthFIFO<Integer> gg = new FixedLengthFIFO<Integer>(10);
-		Integer i1 = 10;
 		Integer i2 = 20;
 		Integer i3 = 30;
-		Integer i4 = 40;
-		gg.add(i1);
+		gg.add(10);
 		gg.add(i2);
 		gg.add(i3);
-		gg.add(i4);
+		gg.add(40);
 		
 		List<Integer> remnant = gg.subList(1,2);
 		assertEquals(2, remnant.size());
