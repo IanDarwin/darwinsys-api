@@ -56,7 +56,7 @@ public class ScaledNumberFormatFormatTest extends TestCase {
 
 	public void testFormat() {
 		String actual = sf.format(number);
-		System.out.println("Expect: " + expect + "; actual: " + actual);
+		// System.out.println("Expect: " + expect + "; actual: " + actual);
 		assertEquals(expect, expect, actual);
 	}
 }
