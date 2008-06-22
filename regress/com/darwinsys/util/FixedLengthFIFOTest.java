@@ -1,17 +1,21 @@
 package com.darwinsys.util;
 
-import java.util.Calendar;
+import java.util.Calendar; import static org.junit.Assert.*;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import com.darwinsys.util.FixedLengthFIFO;
 
-import junit.framework.TestCase;
-
-public class FixedLengthFIFOTest extends TestCase {
+public class FixedLengthFIFOTest {
+	
+	private boolean chatterbox = true;
+	
 	private static final int SMALL_TEST_SIZE = 10;
 	private static final String JUNKSTRING = "fjdklsjfdls";
 	// Number of elements here must be > SMALL_TEST_SIZE to test getting the last element
@@ -20,10 +24,12 @@ public class FixedLengthFIFOTest extends TestCase {
 	};
 	FixedLengthFIFO<String> ff;
 	
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		ff = new FixedLengthFIFO<String>(10);
 	}
 
+	@Test
 	public void testBasics() throws Exception {
 		ff.add("hello");
 		ff.add("goodbye");
@@ -43,6 +49,7 @@ public class FixedLengthFIFOTest extends TestCase {
 		assertNotSame(ff.indexOf(JUNKSTRING), ff.lastIndexOf(JUNKSTRING));
 	}
 	
+	@Test
 	public void testOnlyOne() throws Exception {
 		ff = new FixedLengthFIFO<String>(10);
 		String string = "One";
@@ -50,6 +57,7 @@ public class FixedLengthFIFOTest extends TestCase {
 		ff.remove(string);
 	}
 	
+	@Test
 	public void testLimits() throws Exception {
 		assertTrue(moreJunk.length > SMALL_TEST_SIZE);
 		for (String d : moreJunk) {
@@ -59,40 +67,36 @@ public class FixedLengthFIFOTest extends TestCase {
 		assertSame(ff.get(SMALL_TEST_SIZE-1), moreJunk[moreJunk.length-1]);
 	}
 	
+	@Test(expected=UnsupportedOperationException.class)
 	public void testIterator() throws Exception {
 		ff.add("Test data one");
 		ff.add("Test data two");
 		Iterator<String> it = ff.iterator();
-		try {
-			System.out.println("First element from first iterator: " + it.next());
-			it.remove();
-			fail("Iterator.remove() did not throw expected Exception");
-		} catch (UnsupportedOperationException e) {
-			// nothing to do
-		}
-		while (it.hasNext()) {
-			System.out.println("Iterator 1 output: " + it.next());
-		}
-		
-		// Get another
+		it.next();
+		it.remove();	// should throw
+	}
+	
+	@Test
+	public void testAlwaysCreatesIterator() {	
+		Iterator it = ff.iterator();
 		Iterator it2 = ff.iterator();
-		assertNotSame(it, it2);
+		assertTrue(it != it2);
 		while (it2.hasNext()) {
-			System.out.println("Iterator 2 output: " + it2.next());
-		}
-		
-		// Check for concurrentmod
-		Iterator it3 = ff.iterator();
-		ff.add("any old thing");
-		try {
-			Object o = it3.hasNext();
-			System.out.println(o);	// Not expected to print, but suppresses warnings.
-			fail("did not throw ConcurrentModificationException");
-		} catch (ConcurrentModificationException e) {
-			System.out.println("Did catch expected ConcurrentModificationException");
+			if (chatterbox) {
+				System.out.println("Iterator 2 output: " + it2.next());
+			}
 		}
 	}
 	
+	@Test(expected=ConcurrentModificationException.class)
+	public void testThrowsConcurrentModificationException() {
+		// Check for concurrentmod
+		Iterator it3 = ff.iterator();
+		ff.add("any old thing");
+		it3.hasNext();	// Should throw CME
+	}
+	
+	@Test
 	public void testTypes() {
 		FixedLengthFIFO<Date> ff = new FixedLengthFIFO<Date>(15);
 		ff.add(new Date());
@@ -102,15 +106,19 @@ public class FixedLengthFIFOTest extends TestCase {
 		assertSame(ff.get(1), today);
 	}
 	
+	@Test
 	public void testToArrayArrayType() {
 		String[] o = ff.toArray(new String[0]);
 		assertNotNull(o);
 		System.out.println(o.getClass().getName());
 		Vector<String> vv = new Vector<String>();
 		Object ov = vv.toArray(new String[0]);
-		System.out.println(ov.getClass().getName());
+		if (chatterbox) {
+			System.out.println(ov.getClass().getName());
+		}
 	}
 	
+	@Test
 	public void testLastIndex() {
 		int where = ff.size();
 		String d = "JKDJFLSJLKDJF";
@@ -119,6 +127,7 @@ public class FixedLengthFIFOTest extends TestCase {
 		assertEquals(where, ff.lastIndexOf(d));
 	}
 	
+	@Test
 	public void testSet() {
 		ff.add("hello");
 		ff.add("goodbye");
@@ -128,6 +137,7 @@ public class FixedLengthFIFOTest extends TestCase {
 		assertEquals("new", ff.get(0));
 	}
 	
+	@Test
 	public void testSubList() {
 		FixedLengthFIFO<Integer> gg = new FixedLengthFIFO<Integer>(10);
 		Integer i1 = 10;
