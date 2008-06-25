@@ -21,7 +21,7 @@ public class GetOptDescTest extends TestCase {
 		try {
 			new GetOptDesc('\0', null, false);
 		} catch (Exception e) {
-			System.out.println("Caught expected exception");
+			// System.out.println("Caught expected exception");
 		}
 	}
 }
