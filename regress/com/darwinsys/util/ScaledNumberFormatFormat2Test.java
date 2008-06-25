@@ -1,28 +1,31 @@
 package com.darwinsys.util;
 
 import com.darwinsys.util.ScaledNumberFormat;
-
-import junit.framework.*;
+import static org.junit.Assert.*;
+import org.junit.*;
 
 /** A few separate tests for ScaledNumberFormat parse and format */
-public class ScaledNumberFormatFormat2Test extends TestCase {
+public class ScaledNumberFormatFormat2Test {
 
 	private ScaledNumberFormat sf = new ScaledNumberFormat();
 
+	@Test
 	public void testFormatThreeArgs() throws Exception {
 		StringBuffer sb = new StringBuffer();
 		assertEquals("sb return", sb, sf.format("999999999", sb, null));
 		assertEquals("format3Args", "953M", sb.toString());
-		System.out.println("Format 3 args => " + sb.toString());
 	}
+
+	@Test
 	public void testNullInput() {
 		StringBuffer sb = new StringBuffer();
 		sf.format("", sb, null);
 		assertEquals("format3Args", "0B", sb.toString());
-		try {
-			sf.format(null, sb, null);
-		} catch (IllegalArgumentException ex) {
-			System.out.println("Caught expected IAE on null input");
-		}
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testNullThrowsIAE() {
+		StringBuffer sb = new StringBuffer();
+		sf.format(null, sb, null);	// should throw IAE
 	}
 }

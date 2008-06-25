@@ -11,18 +11,36 @@
 	<!-- other properties -->
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
-
+	<property name="build-instrumented" value="build-instrumented"/>
+	<property name="lib.dir" value="lib"/>
+		
 	<!-- Misc JAR files -->
 	<property name="servletapi.jar" value="lib/servletapi.jar"/>
 	<property name="mail.jar" value="lib/mail.jar"/>
+	<property name="cobertura.jar" value="lib/cobertura.jar"/>
 
 	<!-- Targets -->
 	<property name="obj.jar" value="darwinsys.jar"/>
 	<property name="src.jar" value="darwinsys-src.jar"/>
 
 	<property name="deploy.dir" value="${user.home}/lib"/>
+	<property name="reports-regress" value="reports-junit"/>
+	<property name="reports-coverage" value="reports-cobertura"/>
 
 	<property name="junit.jar"  value="lib/junit-4.4.jar"/>
+	<property name="ant-junit.jar"  value="lib/ant-junit.jar"/>
+	
+	<path id="all.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<dirset dir=".">
+			<include name="${build}"/>
+		</dirset>
+	</path>		
+		
+	<!-- Task Defs -->
+	<taskdef classpathref="all.classpath" resource="tasks.properties"/>
 
 	<!-- If Ant 1.5 barfs on this, just comment it out -->
 	<condition property="isMacOSX">
@@ -51,7 +69,7 @@
 
 	<target name="build-core" depends="init">
 		<javac destdir="${build}" srcdir="${src}"
-			classpath="${servletapi.jar}:${mail.jar}:${junit.jar}"
+			classpathref="all.classpath"
 			debug="true" deprecation="true" fork="false">
 			<exclude name="regress/**"/>
 			<exclude name="com/darwinsys/macosui/**"/>
@@ -60,7 +78,7 @@
 
 	<target name="build-macosx" depends="init" if="isMacOSX">
 		<javac destdir="${build}" srcdir="${src}"
-			classpath="${build}"
+			classpathref="all.classpath"
 			debug="true" deprecation="true" fork="false">
 			<include name="com/darwinsys/macosui/**"/>
 		</javac>
@@ -68,14 +86,23 @@
 
 	<target name="build-regress" depends="init">
 		<javac destdir="${build}" srcdir="${src}"
-			classpath="${build}:${junit.jar}"
+			classpathref="all.classpath"
 			debug="true" deprecation="true" fork="false">
 			<include name="regress/**"/>
 			<exclude name="regress/MacOSUITest.java"/>
 			<exclude name="com/**"/>
 		</javac>
 	</target>
-
+	
+	<target name="build-instrumented" depends="build">
+		<mkdir dir="${build-instrumented}"/>
+		<cobertura-instrument todir="${build-instrumented}">
+			<fileset dir="build">
+				<include name="**/*.class"/>
+			</fileset>
+		</cobertura-instrument>
+	</target>
+		
 	<target name="dist" depends="jar,src-jar"/>
 
 	<target name="jar" depends="docs,build">
@@ -103,9 +130,9 @@
 	 -->
 	<target name="docs">
 		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
-			classpath="${build}:${darwinsys.jar}:${servletapi.jar}:${mail.jar}"
+			classpathref="all.classpath"
 			packagenames="com.darwinsys.*"
-			maxmemory="32m"
+			maxmemory="48m"
 			windowtitle="com.darwinsys.* - Java Cookbook Utilities"
 			Version="true" Author="true" Use="true"
 			Overview="overview.html"
@@ -114,19 +141,18 @@
 				<include name="com/darwinsys/**" />
 				<exclude name="regress/**"/>
 			</packageset>
-			<bottom><![CDATA[<i>Copyright &#169; 1996-2004 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
+			<bottom><![CDATA[<i>Copyright &#169; 1996-2008 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
 		</javadoc>
 		<copy file="html/index.html" todir="${build}/docs"/>
 	</target>
 
 	<!-- Regression Tests -->
 	<target name="regress" depends="build">
-		<junit printsummary="withOutAndErr"
-			fork="no"
-			haltonfailure="no">
+		<junit printsummary="withOutAndErr" 
+			fork="true" haltonfailure="no" dir="${reports-regress}">
 				<classpath>
-						<pathelement location="${build}"/>
-						<pathelement location="${junit.jar}"/>
+					<pathelement location="${build-instrumented}"/>
+					<path refid="all.classpath"/>
 				</classpath>
 				<formatter type="xml"/>
 				<batchtest fork="yes" todir=".">
@@ -137,11 +163,15 @@
 				</batchtest>
 		</junit>
 		<junitreport>
-			<fileset dir=".">
-				<include name="TESTre-*.xml"/>
+			<fileset dir="${reports-regress}">
+				<include name="TEST-*.xml"/>
 			</fileset>
 			<report format="frames"/>
 		</junitreport>
+	</target>
+			
+	<target name="coverage">
+		<cobertura-report srcdir="${src.dir}" destdir="${reports-coverage}"/>
 	</target>
 
 	<!-- These regression tests require manual intervention, so not default -->

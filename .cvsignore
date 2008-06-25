@@ -1,7 +1,8 @@
-build
-docs
-fileiotest.dat
-TEST-*
-erewhon
+build*
 dist
+docs
+erewhon
 .fbwarnings
+fileiotest.dat
+reports-*
+TEST-*

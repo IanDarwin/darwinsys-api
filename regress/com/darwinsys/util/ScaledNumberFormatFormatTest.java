@@ -5,6 +5,7 @@ import com.darwinsys.util.ScaledNumberFormat;
 import junit.framework.*;
 
 /** A better "data driven" test suite for ScaledNumberFormat format
+ * ** DO NOT FOURIFY ** Leave as 3.8 to contrast with @Parameter version!
  */
 public class ScaledNumberFormatFormatTest extends TestCase {
 
