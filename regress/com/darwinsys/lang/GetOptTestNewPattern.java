@@ -14,7 +14,7 @@ public class GetOptTestNewPattern extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		System.out.println("GetOptTestNewPattern.setUp()");
+		// System.out.println("GetOptTestNewPattern.setUp()");
 		System.setProperty("debug.getopt", "sure");
 	}
 	
@@ -48,18 +48,19 @@ public class GetOptTestNewPattern extends TestCase {
 
 	private void checkShortArgResults(String argChars, String[] args, boolean shouldFail) {
 		int errs = 0;
-		System.out.println("** START NEW WAY ** " + argChars);
+		// System.out.println("** START NEW WAY ** " + argChars);
 		GetOpt go2 = new GetOpt(argChars);
 		Map<String,String> m = go2.parseArguments(args);
-		if (m.size() == 0)
-			System.out.println("NO ARGS MATCHED");
+		if (m.size() == 0) {
+			// System.out.println("NO ARGS MATCHED");
+		}
 		Iterator<Map.Entry<String,String>> it = m.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String,String> e = it.next();
 			String key = e.getKey();
 			String val = e.getValue();
 			char c = key.charAt(0);
-			System.out.print("Found " + c);
+			// System.out.print("Found " + c);
 			if (c == '?')
 				errs++;
 			if (val == null || val.equals(""))
@@ -72,20 +73,22 @@ public class GetOptTestNewPattern extends TestCase {
 		List filenames = go2.getFilenameList();
 		for (int i = 0; i < filenames.size(); i++) {
 			String fileName = (String)filenames.get(i);
-			System.out.println("Filename-like arg " + fileName);
+			// System.out.println("Filename-like arg " + fileName);
 			assertFalse(fileName.startsWith("-"));
 		}
 
 		if (shouldFail) {
-			if (errs != 0)
-				System.out.println("Expected error(s) found");
-			else
+			if (errs != 0) {
+				// System.out.println("Expected error(s) found");
+			} else {
 				System.out.println("** FAILURE ** Expected errors not found");
+			}
 		} else {
-			if (errs == 0)
-				System.out.println("Expected errs==0 found");
-			else
+			if (errs == 0) {
+				// System.out.println("Expected errs==0 found");
+			} else {
 				System.out.println("** FAILURE ** Expected errors not found");
+			}
 		}
 	}
 	
@@ -116,7 +119,7 @@ public class GetOptTestNewPattern extends TestCase {
 			String key = (String)e.getKey();
 			String val = (String)e.getValue();
 			char c = key.charAt(0);
-			System.out.println("checkLongArgResults() - c == " + c);
+			// System.out.println("checkLongArgResults() - c == " + c);
 			switch(c) {
 				case '?':
 					errs++;
@@ -136,8 +139,6 @@ public class GetOptTestNewPattern extends TestCase {
 		assertEquals(1, getopt.getFilenameList().size());
 		assertEquals("infile", getopt.getFilenameList().get(0));
 	}
-
-
 	
 	/**
 	 * Make sure the correct arguments get left in options,
