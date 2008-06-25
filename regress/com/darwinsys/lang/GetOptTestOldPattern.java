@@ -37,7 +37,7 @@ public class GetOptTestOldPattern  extends TestCase {
 	
 	void processUnixWay(String argChars, String[] args, boolean shouldFail) {
 
-		System.out.println("** START ** Getopt(" + argChars + ")");
+		// System.out.println("** START ** Getopt(" + argChars + ")");
 
 		GetOpt getopt = new GetOpt(argChars);
 
@@ -46,14 +46,14 @@ public class GetOptTestOldPattern  extends TestCase {
 		char c;
 		while ((c = getopt.getopt(args)) != 0) {
 			if (c == '?') {
-				System.out.print("Bad option");
+				// System.out.print("Bad option");
 				++errs;
 			} else {
-				System.out.print("Found " + c);
-				if (getopt.optarg() != null)
-					System.out.print("; Option " + getopt.optarg());
+				// .out.print("Found " + c);
+				//if (getopt.optarg() != null)
+				//	System.out.print("; Option " + getopt.optarg());
 			}
-			System.out.println();
+			//System.out.println();
 		}
 
 		// Process any filename-like arguments.
@@ -61,7 +61,7 @@ public class GetOptTestOldPattern  extends TestCase {
 		for (int i = getopt.getOptInd(); i<args.length; i++) {
 			Debug.printf("getopt", "%d %s%n", i, args[i]);
 			String fileName = args[i];
-			System.out.println("Filename-like arg " + fileName);
+			//System.out.println("Filename-like arg " + fileName);
 			assertFalse(fileName.startsWith("-"));
 		}
 	}
@@ -88,11 +88,11 @@ public class GetOptTestOldPattern  extends TestCase {
 		try {
 			char c;
 			while ((c = getopt.getopt(badArgs)) != GetOpt.DONE) {
-				System.out.println("Found argument " + c);
+				//System.out.println("Found argument " + c);
 			}
 			fail("Did not throw exception for -n option missing an argument");
 		} catch (IllegalArgumentException e) {
-			System.out.println("Caught expected IAE: " + e);
+			//System.out.println("Caught expected IAE: " + e);
 		}
 	}
 }
