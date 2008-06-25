@@ -29,7 +29,7 @@ public class GetOptConstructorTest extends TestCase {
 			new GetOpt(bad);
 			fail("GetOpt(null) did not throw expected exception");
 		} catch (IllegalArgumentException ex) {
-			System.err.println("Caught expected exception " + ex);
+			//
 		}
 	}
 
@@ -49,7 +49,7 @@ public class GetOptConstructorTest extends TestCase {
 			new GetOpt(":a:b");
 			fail("GetOpt(::) did not throw expected exception");
 		} catch (IllegalArgumentException ex) {
-			System.err.println("Caught expected exception " + ex);
+			//
 		}
 	}
 	
@@ -59,7 +59,7 @@ public class GetOptConstructorTest extends TestCase {
 			new GetOpt(bad);
 			fail("GetOpt(" + bad + ") did not throw expected exception");
 		} catch (IllegalArgumentException ex) {
-			System.err.println("Caught expected exception " + ex);
+			//
 		}
 	}
 }
