@@ -12,29 +12,27 @@ import junit.framework.TestCase;
 import com.darwinsys.util.FileProperties;
 
 public class FilePropertiesTest extends TestCase {
-	private static final String TEST_FILE_NAME = "erewhon";
 	Properties p;
-	File erewhon = new File(TEST_FILE_NAME);
+	File erewhon;
 
 	/** Set up for junit test.
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		erewhon.delete();
+		erewhon = File.createTempFile("filepropertiestest", "junk");
+		erewhon.deleteOnExit();
 		// no such file should exist; should not throw IOException
-		p = new FileProperties(TEST_FILE_NAME);
-
+		p = new FileProperties("no such file");
 	}
 
     public void testSet() throws Exception {
     	assertEquals("Properties p should be empty:", p.size(), 0);
 		p.setProperty("foo", "bar");
-		p.store(new FileOutputStream(TEST_FILE_NAME), "# test");
+		p.store(new FileOutputStream(erewhon), "# test");
 
-		p = new FileProperties(TEST_FILE_NAME);
-		System.out.println("This properties should be have foo=bar:");
-		p.list(System.out);
+		p = new FileProperties(erewhon.getAbsolutePath());
+		assertEquals("bar", p.getProperty("foo"));
 	}
 
     public void testInputStream() throws IOException {

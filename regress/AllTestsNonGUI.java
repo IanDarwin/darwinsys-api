@@ -13,13 +13,6 @@ import com.darwinsys.lang.MutableIntegerTest;
 import com.darwinsys.lang.StringFormatTest;
 import com.darwinsys.lang.StringUtilTest;
 import com.darwinsys.sql.ConnectionUtilTest;
-import com.darwinsys.util.ArrayIteratorTest;
-import com.darwinsys.util.FilePropertiesTest;
-import com.darwinsys.util.IndexListTest;
-import com.darwinsys.util.ScaledNumberFormatFormat2Test;
-import com.darwinsys.util.ScaledNumberFormatFormatTest;
-import com.darwinsys.util.ScaledNumberFormatParseTest;
-import com.darwinsys.util.VariableMapTest;
 
 /**
  * Test the non-GUI components (those that don't require interaction).
@@ -29,22 +22,16 @@ import com.darwinsys.util.VariableMapTest;
 @RunWith(value=Suite.class)
 @SuiteClasses(value={
 		ConnectionUtilTest.class,
-		FilePropertiesTest.class,
 		SimpleTagValidatorTest.class,
-		IndexListTest.class,
 		StringFormatTest.class,
-		ScaledNumberFormatFormatTest.class,
-		ScaledNumberFormatFormat2Test.class,
-		ScaledNumberFormatParseTest.class,
 		FileIOTest.class,
-		ArrayIteratorTest.class,
 		StringUtilTest.class,
 		GetOptConstructorTest.class,
 		GetOptDescTest.class,
 		GetOptTestOldPattern.class,
 		GetOptTestNewPattern.class,
 		MutableIntegerTest.class,
-		VariableMapTest.class,
+		com.darwinsys.util.AllTests.class,
 })
 
 public class AllTestsNonGUI {

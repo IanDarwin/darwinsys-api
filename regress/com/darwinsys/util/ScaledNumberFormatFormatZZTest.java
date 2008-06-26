@@ -4,8 +4,9 @@ import com.darwinsys.util.ScaledNumberFormat;
 import static org.junit.Assert.*;
 import org.junit.*;
 
-/** A few separate tests for ScaledNumberFormat parse and format */
-public class ScaledNumberFormatFormat2Test {
+/** Last few separate tests for ScaledNumberFormat parse and format
+ */
+public class ScaledNumberFormatFormatZZTest {
 
 	private ScaledNumberFormat sf = new ScaledNumberFormat();
 
