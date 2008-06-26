@@ -149,7 +149,8 @@
 	<!-- Regression Tests -->
 	<target name="regress" depends="build">
 		<junit printsummary="withOutAndErr" 
-			fork="true" haltonfailure="no" dir="${reports-regress}">
+			fork="true" forkmode="once" haltonfailure="no" 
+			dir="${reports-regress}">
 				<classpath>
 					<pathelement location="${build-instrumented}"/>
 					<path refid="all.classpath"/>
