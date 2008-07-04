@@ -46,7 +46,7 @@ public class RecurringEventDatePickerTest {
 	public void testFirstSunday() {
 		RecurringEventDatePicker mp = new RecurringEventDatePicker(1, Calendar.SUNDAY);
 		mp.today = makeDate(2010, 05, 01);
-		Calendar c = mp.getMeetingDate(0);
+		Calendar c = mp.getEventDate(0);
 		assertEquals(2010, c.get(Calendar.YEAR));
 		assertEquals(Calendar.MAY, c.get(Calendar.MONTH));
 		assertEquals(2, c.get(Calendar.DAY_OF_MONTH));
@@ -56,7 +56,7 @@ public class RecurringEventDatePickerTest {
 	public void testThirdMonday() {
 		RecurringEventDatePicker mp = new RecurringEventDatePicker(3, Calendar.MONDAY);
 		mp.today = makeDate(2010, 05, 05);
-		Calendar c = mp.getMeetingDate(0);
+		Calendar c = mp.getEventDate(0);
 		assertEquals(2010, c.get(Calendar.YEAR));
 		assertEquals(Calendar.MAY, c.get(Calendar.MONTH));
 		assertEquals(17, c.get(Calendar.DAY_OF_MONTH));
