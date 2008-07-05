@@ -18,7 +18,7 @@ import java.util.Calendar;
  * out.println("<li>" + dfm.format(mp.getEventDate(1));
  * out.println("<li>" + dfm.format(mp.getEventDate(2)); 
  * </pre>
- * @author Original code by Derek.
+ * @author Original code by Derek Marcotte.
  * @author Improvements and JUnit tests by Ian Darwin
  */
 public class RecurringEventDatePicker {
