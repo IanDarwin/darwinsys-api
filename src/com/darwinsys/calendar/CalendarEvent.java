@@ -34,6 +34,15 @@ public class CalendarEvent implements Serializable {
 		// all defaults
 	}
 	
+	/** Create an all day event */
+	public CalendarEvent(String description, String summary, String location,
+			int year, int month, int day) {
+		
+		this(EventType.ALLDAY, description, summary, location, year, month, day, 0, 0, 0, 0);
+		
+	}
+	
+	/** Create an Appointment, having start and end hours */
 	public CalendarEvent(String description, String summary, String location,
 			int year, int month, int day, 
 			int startHour, int endHour) {
@@ -42,6 +51,7 @@ public class CalendarEvent implements Serializable {
 		
 	}
 	
+	/** Create a CalendarEvent with all fields */
 	public CalendarEvent(EventType eventType, String description, String summary, String location,
 			int year, int month, int day, 
 			int startHour, int startMinute, int endHour, int endMinute) {
