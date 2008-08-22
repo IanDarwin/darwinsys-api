@@ -17,6 +17,7 @@ public class CalendarEvent implements Serializable {
 	private int year;
 	private int month;
 	private int day;
+	private EventType eventType = EventType.APPOINTMENT;
 	private int startHour, startMinute = 0;
 	private int endHour, endMinute = 0;
 	private String description = "";
@@ -37,14 +38,15 @@ public class CalendarEvent implements Serializable {
 			int year, int month, int day, 
 			int startHour, int endHour) {
 		
-		this(description, summary, location, year, month, day, startHour, 0, endHour, 0);
+		this(EventType.APPOINTMENT, description, summary, location, year, month, day, startHour, 0, endHour, 0);
 		
 	}
 	
-	public CalendarEvent(String description, String summary, String location,
+	public CalendarEvent(EventType eventType, String description, String summary, String location,
 			int year, int month, int day, 
 			int startHour, int startMinute, int endHour, int endMinute) {
 		super();
+		this.eventType = eventType;
 		this.year = year;
 		this.month = month;
 		this.day = day;
@@ -143,6 +145,14 @@ public class CalendarEvent implements Serializable {
 		this.attendees = attendees;
 	}
 
+	public EventType getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(EventType eventType) {
+		this.eventType = eventType;
+	}
+	
 	public Person getOrganizer() {
 		return organizer;
 	}
@@ -153,23 +163,23 @@ public class CalendarEvent implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + day;
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + endHour;
-		result = prime * result + endMinute;
-		result = prime * result
-				+ ((location == null) ? 0 : location.hashCode());
-		result = prime * result + month;
-		result = prime * result
-				+ ((showStatus == null) ? 0 : showStatus.hashCode());
-		result = prime * result + startHour;
-		result = prime * result + startMinute;
-		result = prime * result + ((summary == null) ? 0 : summary.hashCode());
-		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		result = prime * result + year;
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((attendees == null) ? 0 : attendees.hashCode());
+		result = PRIME * result + day;
+		result = PRIME * result + ((description == null) ? 0 : description.hashCode());
+		result = PRIME * result + endHour;
+		result = PRIME * result + endMinute;
+		result = PRIME * result + ((eventType == null) ? 0 : eventType.hashCode());
+		result = PRIME * result + ((location == null) ? 0 : location.hashCode());
+		result = PRIME * result + month;
+		result = PRIME * result + ((organizer == null) ? 0 : organizer.hashCode());
+		result = PRIME * result + ((showStatus == null) ? 0 : showStatus.hashCode());
+		result = PRIME * result + startHour;
+		result = PRIME * result + startMinute;
+		result = PRIME * result + ((summary == null) ? 0 : summary.hashCode());
+		result = PRIME * result + ((uuid == null) ? 0 : uuid.hashCode());
+		result = PRIME * result + year;
 		return result;
 	}
 	
@@ -177,11 +187,16 @@ public class CalendarEvent implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		final CalendarEvent other = (CalendarEvent) obj;
+		if (attendees == null) {
+			if (other.attendees != null)
+				return false;
+		} else if (!attendees.equals(other.attendees))
+			return false;
 		if (day != other.day)
 			return false;
 		if (description == null) {
@@ -193,12 +208,22 @@ public class CalendarEvent implements Serializable {
 			return false;
 		if (endMinute != other.endMinute)
 			return false;
+		if (eventType == null) {
+			if (other.eventType != null)
+				return false;
+		} else if (!eventType.equals(other.eventType))
+			return false;
 		if (location == null) {
 			if (other.location != null)
 				return false;
 		} else if (!location.equals(other.location))
 			return false;
 		if (month != other.month)
+			return false;
+		if (organizer == null) {
+			if (other.organizer != null)
+				return false;
+		} else if (!organizer.equals(other.organizer))
 			return false;
 		if (showStatus == null) {
 			if (other.showStatus != null)
@@ -223,5 +248,4 @@ public class CalendarEvent implements Serializable {
 			return false;
 		return true;
 	}
-
 }
