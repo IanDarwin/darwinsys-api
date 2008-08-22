@@ -1,9 +1,9 @@
 package com.darwinsys.calendar;
 
 public enum ShowStatus {
-       FREE,
-        BUSY,
-        TENTATIVE,
-        UNAVAILABLE,
+	FREE,
+	BUSY,
+	TENTATIVE,
+	UNAVAILABLE,
 }
 
