@@ -56,7 +56,7 @@ import java.io.Writer;
  * same file) but are not thread-safe and should not be shared
  * among different threads.
  * @author Extracted and updated by Ian Darwin from an older
- * application, prompted by discussion started by Brendon McLean
+ * application I wrote, prompted by discussion started by Brendon McLean
  * on a private mailing list.
  */
 public class FileSaver {
