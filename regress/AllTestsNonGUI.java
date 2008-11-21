@@ -31,7 +31,7 @@ import com.darwinsys.sql.ConnectionUtilTest;
 		GetOptTestOldPattern.class,
 		GetOptTestNewPattern.class,
 		MutableIntegerTest.class,
-		com.darwinsys.util.AllTests.class,
+		com.darwinsys.util.AllTests.class
 })
 
 public class AllTestsNonGUI {
