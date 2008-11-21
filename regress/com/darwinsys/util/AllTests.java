@@ -20,7 +20,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	ScaledNumberFormatFormatTest.class,
 	ScaledNumberFormatFormatZZTest.class,
 	ScaledNumberFormatParseTest.class,
-	VariableMapTest.class,
+	VariableMapTest.class
 })
 public class AllTests {
 	// No Code Needed
