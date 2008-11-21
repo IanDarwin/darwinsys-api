@@ -107,13 +107,11 @@ public class ResultsDecoratorJTable extends ResultsDecorator {
 
 			// LISTENER SUPPORT
 			public void addTableModelListener(TableModelListener l) {
-				// TODO Auto-generated method stub
-
+                // ??
 			}
 
 			public void removeTableModelListener(TableModelListener l) {
-				// TODO Auto-generated method stub
-
+                // ??
 			}
 		};
 
