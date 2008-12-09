@@ -77,6 +77,7 @@ public class REDemo extends JPanel {
 		JMenu file = new JMenu("File");
 		bar.add(file);
 		JMenuItem quitItem = new JMenuItem("Exit");
+		file.add(quitItem);
 		quitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				System.exit(0);
