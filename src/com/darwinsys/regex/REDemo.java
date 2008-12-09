@@ -1,7 +1,11 @@
 package com.darwinsys.regex;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -10,6 +14,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -22,6 +29,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
+import com.darwinsys.swingui.FontChooser;
+
 /** Standalone Swing GUI application for demonstrating REs.
  * @author	Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
@@ -31,11 +40,14 @@ public class REDemo extends JPanel {
 	private static final long serialVersionUID = 3257563988576317490L;
 	protected Pattern pattern;
 	protected Matcher matcher;
+	protected JLabel pattLabel, stringLabel;
 	protected JTextField patternTF, stringTF;
 	protected JCheckBox compiledOK;
 	protected JRadioButton match, find, findAll;
 	protected JTextField matchesTF;
 	protected JTextArea logTextArea;
+	/** UI components to update when the font changes */
+	protected Component[] fontChangers;
 	private static final Color[] Colors = {
 		Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.LIGHT_GRAY,
 		Color.MAGENTA, Color.ORANGE, Color.PINK, Color.WHITE
@@ -49,7 +61,7 @@ public class REDemo extends JPanel {
 	public static void main(String[] av) throws BadLocationException {
 		JFrame f = new JFrame("REDemo");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		REDemo comp = new REDemo();
+		REDemo comp = new REDemo(f);
 		f.setContentPane(comp);
 		f.pack();
 		f.setLocation(200, 200);
@@ -58,11 +70,37 @@ public class REDemo extends JPanel {
 
 	/** Construct the REDemo object including its GUI
 	 * @throws BadLocationException */
-	public REDemo() throws BadLocationException {
+	public REDemo(final JFrame parent) throws BadLocationException {
 		super();
 
+		JMenuBar bar = new JMenuBar();
+		JMenu menu = new JMenu("Options");
+		bar.add(menu);
+		JMenuItem fontItem = new JMenuItem("Font");
+		menu.add(fontItem);
+		final FontChooser fontChooser = new FontChooser(parent);
+		fontItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				fontChooser.setVisible(true);
+				Font font = fontChooser.getSelectedFont();
+				if (font == null) {
+					System.out.println("Nothing selected");
+					return;
+				}
+				System.out.println(font);
+				for (Component c : fontChangers) {
+					if (c != null) {
+						c.setFont(font);
+					}
+				}
+				parent.pack();
+			}
+		});
+		parent.setJMenuBar(bar);
+
 		JPanel top = new JPanel();
-		top.add(new JLabel("Pattern:", JLabel.RIGHT));
+		pattLabel = new JLabel("Pattern:", JLabel.RIGHT);
+		top.add(pattLabel);
 		patternTF = new JTextField(20);
 		patternTF.getDocument().addDocumentListener(new PatternListener());
 		top.add(patternTF);
@@ -93,7 +131,8 @@ public class REDemo extends JPanel {
 		bg.setSelected(find.getModel(), true);
 
 		JPanel strPane = new JPanel();
-		strPane.add(new JLabel("String:", JLabel.RIGHT));
+		stringLabel = new JLabel("String:", JLabel.RIGHT);
+		strPane.add(stringLabel);
 		stringTF = new JTextField(20);
 		stringTF.getDocument().addDocumentListener(new StringListener());
 		highlighter = stringTF.getHighlighter();
@@ -108,6 +147,14 @@ public class REDemo extends JPanel {
 		add(strPane);
 		add(switchPane);
 		add(logTextArea = new JTextArea(5,40));
+
+		// Now that the components are created, add them to the list
+		// that change fonts.
+		fontChangers = new Component[]{
+			pattLabel, patternTF, stringLabel, stringTF, 
+			match, find, findAll,
+			matchesTF, logTextArea
+		};
 	}
 
 	boolean matches;
