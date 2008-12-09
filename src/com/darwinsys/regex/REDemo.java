@@ -74,10 +74,19 @@ public class REDemo extends JPanel {
 		super();
 
 		JMenuBar bar = new JMenuBar();
-		JMenu menu = new JMenu("Options");
-		bar.add(menu);
+		JMenu file = new JMenu("File");
+		bar.add(file);
+		JMenuItem quitItem = new JMenuItem("Exit");
+		quitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				System.exit(0);
+			}
+		});
+
+		JMenu options = new JMenu("Options");
+		bar.add(options);
 		JMenuItem fontItem = new JMenuItem("Font");
-		menu.add(fontItem);
+		options.add(fontItem);
 		final FontChooser fontChooser = new FontChooser(parent);
 		fontItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
