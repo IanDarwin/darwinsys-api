@@ -30,17 +30,16 @@ public class ConnectionUtil {
 	/** Sets the full path of the config file to read.
 	 * @param configFileNam The FileName of the configuration file to use.
 	 */
-	public static void setConfigFileName(String configFileNam) {
-		configFileName = configFileNam;
+	public static void setConfigFileName(String configFileName) {
 		File file = new File(configFileName);
 		if (!file.canRead()) {
 			throw new IllegalArgumentException("Unreadable: " + configFileName);
 		}
-		try {
+		try { // to set saved filename to canonical path
 			ConnectionUtil.configFileName = file.getCanonicalPath();
 		} catch (IOException ex) {
 			System.err.println("Warning: IO error checking path: " + configFileName);
-			ConnectionUtil.configFileName = configFileName;
+			ConnectionUtil.configFileName = configFileName; // "undo"
 		}
 	}
 
