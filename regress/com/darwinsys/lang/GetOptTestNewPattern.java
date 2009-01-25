@@ -1,22 +1,24 @@
 package com.darwinsys.lang;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import com.darwinsys.util.Debug;
 
 /** Some test cases for GetOpt using the "new" coding pattern
 * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
-public class GetOptTestNewPattern extends TestCase {
-
-	@Override
-	protected void setUp() throws Exception {
-		// System.out.println("GetOptTestNewPattern.setUp()");
-		System.setProperty("debug.getopt", "sure");
-	}
+public class GetOptTestNewPattern {
 	
 	private String goodArgChars = "o:h";
 	private String goodArgs[]  = {
@@ -36,23 +38,28 @@ public class GetOptTestNewPattern extends TestCase {
 		new GetOptDesc('h', "help", false),
 	};
 
+	@Test
 	public void testGood() {
 		checkShortArgResults(goodArgChars, goodArgs, false);
 	}
+	
+	//@Test
 	public void testBadCharsGoodArgs() {
 		checkShortArgResults(badArgChars, goodArgs, false);
 	}
+	
+	@Test
 	public void testBadCharsBadArgs() {
 		checkShortArgResults(badArgChars, badArgs, true);
 	}
 
 	private void checkShortArgResults(String argChars, String[] args, boolean shouldFail) {
 		int errs = 0;
-		// System.out.println("** START NEW WAY ** " + argChars);
+		Debug.println("getopt", "** START NEW WAY ** " + argChars);
 		GetOpt go2 = new GetOpt(argChars);
 		Map<String,String> m = go2.parseArguments(args);
 		if (m.size() == 0) {
-			// System.out.println("NO ARGS MATCHED");
+			Debug.println("getopt", "NO ARGS MATCHED");
 		}
 		Iterator<Map.Entry<String,String>> it = m.entrySet().iterator();
 		while (it.hasNext()) {
@@ -60,14 +67,14 @@ public class GetOptTestNewPattern extends TestCase {
 			String key = e.getKey();
 			String val = e.getValue();
 			char c = key.charAt(0);
-			// System.out.print("Found " + c);
-			if (c == '?')
+			if (c == '?') {
+				System.err.print("Found " + c);
 				errs++;
+			}
 			if (val == null || val.equals(""))
-				System.out.print("; (no option)");
+				Debug.println("getopt", "; (no option)");
 			else
-				System.out.print("; Option " + val);
-			System.out.println();
+				Debug.println("getopt", "; Option " + val);
 		}
 
 		List filenames = go2.getFilenameList();
@@ -78,26 +85,24 @@ public class GetOptTestNewPattern extends TestCase {
 		}
 
 		if (shouldFail) {
-			if (errs != 0) {
-				// System.out.println("Expected error(s) found");
-			} else {
-				System.out.println("** FAILURE ** Expected errors not found");
+			if (errs == 0) {
+				fail("** FAILURE ** Expected errors not found");
 			}
 		} else {
-			if (errs == 0) {
-				// System.out.println("Expected errs==0 found");
-			} else {
-				System.out.println("** FAILURE ** Expected errors not found");
+			if (errs != 0) {
+				fail("** FAILURE ** Unexpected errors were found");
 			}
 		}
 	}
 	
+	@Test
 	public void testNewWayShort() {
 		GetOpt getopt = new GetOpt(newWayLongOptions);
 		Map<String,String> map = getopt.parseArguments(goodArgs);
 		checkLongArgResults(getopt, map);
 	}
 	
+	@Test
 	public void testNewWayLong() {
 		GetOpt getopt = new GetOpt(newWayLongOptions);
 		Map<String,String> map = getopt.parseArguments(goodLongArgs);
@@ -119,7 +124,7 @@ public class GetOptTestNewPattern extends TestCase {
 			String key = (String)e.getKey();
 			String val = (String)e.getValue();
 			char c = key.charAt(0);
-			// System.out.println("checkLongArgResults() - c == " + c);
+			Debug.println("getopt", "checkLongArgResults() - c == " + c);
 			switch(c) {
 				case '?':
 					errs++;
@@ -145,6 +150,7 @@ public class GetOptTestNewPattern extends TestCase {
 	 * and that rewind() resets everything(?) correctly.
 	 * XXX maybe split this test...
 	 */
+	@Test
 	public void testRewindLeavesFilenamesLeft() {
 		GetOpt getopt = new GetOpt("hn:");
 		final String oneArg[]  = {

@@ -1,9 +1,15 @@
 package com.darwinsys.lang;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-public class GetOptDescTest extends TestCase {
+import org.junit.Test;
 
+public class GetOptDescTest {
+
+	@Test
 	public void testGetOptDesc() {
 		GetOptDesc d;
 		d = new GetOptDesc('a', "foo", true);
@@ -17,11 +23,8 @@ public class GetOptDescTest extends TestCase {
 		assertFalse(d.takesArgument());
 	}
 
+	@Test(expected=IllegalArgumentException.class)
 	public void testGetOptDescFailures() {
-		try {
-			new GetOptDesc('\0', null, false);
-		} catch (Exception e) {
-			// System.out.println("Caught expected exception");
-		}
+		new GetOptDesc('\0', null, false);
 	}
 }
