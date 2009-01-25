@@ -2,33 +2,24 @@ package com.darwinsys.util;
 
 import java.util.NoSuchElementException;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 import com.darwinsys.util.ArrayIterator;
 
-public class ArrayIteratorTest extends TestCase {
+public class ArrayIteratorTest {
 
 	String[] TESTDATA = { "one", "two", "three" };
 
 	ArrayIterator it = new ArrayIterator(TESTDATA);
 
-	/** JUnit test classes require this constructor */
-	public ArrayIteratorTest(String name) {
-		super(name);
-	}
-
-	/** Simple tryout */
-	public void testGetting() {
+	@Test(expected=NoSuchElementException.class)
+	public void testGettingAndGettingTooMany() {
 		int i = 0;
 		while (it.hasNext()) {
 			assertEquals(TESTDATA[i++], it.next());
 		}
-
-		try {
-			it.next();		// EXPECT RUNTIME ERROR
-			fail("DID NOT GET EXPECTED EXCEPTION");
-		} catch (NoSuchElementException e) {
-			System.err.println("Got expected exception -- OK!");
-		}
+		// Do not split method here!!
+		it.next();		// EXPECT RUNTIME ERROR
 	}
 }

@@ -13,6 +13,8 @@ import java.util.zip.ZipEntry;
 
 import junit.framework.TestCase;
 
+import com.darwinsys.util.Debug;
+
 public class FileIOTest extends TestCase {
 	/** Test File name. */
 	public static final String FILENAME = "fileiotest.dat";
@@ -107,7 +109,7 @@ public class FileIOTest extends TestCase {
     
     public void testCopyRecursivelyFiles() throws IOException {
     	
-    	System.out.println("my tmpdir = " + tmpDir);
+    	Debug.println("fileio", "my tmpdir = " + tmpDir);
       
     	File thisTestWorkDir = new File(tmpDir, "testFrom");
     	File foo = null, bar = null;
@@ -175,7 +177,7 @@ public class FileIOTest extends TestCase {
     	
     public void testCopyRecursivelyFromJar() throws IOException {
         	
-    	System.out.println(" my tmpdir = " + tmpDir);
+    	Debug.println("fileio", " my tmpdir = " + tmpDir);
     	File targetFoo = null, targetBar = null, 
     	newDestDir = null;
     	File jarFile = new File(tmpDir, "test.jar");

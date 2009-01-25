@@ -1,6 +1,7 @@
 package com.darwinsys.lang;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Some test cases for GetOpt.
@@ -8,8 +9,9 @@ import junit.framework.TestCase;
  * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
-public class GetOptConstructorTest extends TestCase {
+public class GetOptConstructorTest  {
 
+	@Test
 	public void testOK() {
 		GetOpt getopt = new GetOpt("tn:");
 		assertEquals(2, getopt.options.length);
@@ -23,27 +25,26 @@ public class GetOptConstructorTest extends TestCase {
 		assertTrue(nDesc.takesArgument());
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
 	public void testForNull() {
-		try {
-			String bad = null;
-			new GetOpt(bad);
-			fail("GetOpt(null) did not throw expected exception");
-		} catch (IllegalArgumentException ex) {
-			//
-		}
+		String bad = null;
+		new GetOpt(bad);
+		fail("GetOpt(null) did not throw expected exception");
 	}
 
+	@Test(expected=IllegalArgumentException.class)
 	public void testForNoLetter() {
-		try {
-			new GetOpt("---");
-			fail("GetOpt(::) did not throw expected exception");
-		} catch (IllegalArgumentException ex) {
-			System.err.println("Caught expected exception " + ex);
-		}
+		new GetOpt("---");
+		fail("GetOpt(::) did not throw expected exception");
+	}
+	
+	@Test
+	public void testExtraLetters() {
 		new GetOpt("f:c:"); // this failed at one point - multiple : args
 		new GetOpt("foo"); // multiple occurrences of same letter - ok?
 	}
 
+	@Test
 	public void testForLeadingColon() {
 		try {
 			new GetOpt(":a:b");
@@ -53,6 +54,7 @@ public class GetOptConstructorTest extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testForExtraCruft() {
 		String bad = "abc@";
 		try {
