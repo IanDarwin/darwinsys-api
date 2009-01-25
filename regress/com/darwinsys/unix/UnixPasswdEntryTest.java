@@ -1,17 +1,31 @@
 package com.darwinsys.unix;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.List;
 import java.util.regex.Matcher;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class UnixPasswdEntryTest extends TestCase {
+public class UnixPasswdEntryTest {
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	/** Skip tests if not running on Unix */
+	private boolean isUnix() {
+		String os = System.getProperty("os.name");
+		// System.out.println("os.name = " + os);
+		if (os.contains("BSD") || os.contains("Linux"))
+			return true;
+		return false;
 	}
-
+	
+	/** Test that the regex appears to work */
+	@Test
 	public void testRegEx() {
+		if (!isUnix())
+			return;
 		String sample = "foo:*:101:102:Foo Bar:/home/foo:/bin/ksh";
 		Matcher m = UnixPasswdEntry.patt.matcher(sample);
 		assertTrue("line matches", m.matches());
@@ -24,7 +38,11 @@ public class UnixPasswdEntryTest extends TestCase {
 		assertEquals("match shell", "/bin/ksh", m.group(7));
 	}
 
+	/** Test for real from this system's password file */
+	@Test
 	public void testGetPwEntriesString() throws Exception {
+		if (!isUnix())
+			return;
 		List<UnixPasswdEntry> pwEntries = UnixPasswdEntry.getPwEntries();
 		assertNotNull(pwEntries);
 		assertTrue("at least root & current user", pwEntries.size() > 2);
