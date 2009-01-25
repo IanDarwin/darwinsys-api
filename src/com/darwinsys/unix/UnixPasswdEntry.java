@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
 
 /**
  * Structure of the readable password on a BSD system;
- * on Linux your "mailage" may vary.
+ * on Linux your milage may vary, and on MS-Windows
+ * you're out of luck...
  */
 public class UnixPasswdEntry {
 
@@ -28,7 +29,7 @@ public class UnixPasswdEntry {
 	private String shell; 		// User's login shell.
 
 	static final Pattern patt = Pattern.compile(
-		"(\\w+):(.*?):(\\d+):(\\d+):(.*?):([/\\w]+):([/\\w]*)");
+		"(\\w+):(.*?):(\\d+):(\\d+):(.*?):([/\\w]+):([-/\\w]*)");
 
 	public static List<UnixPasswdEntry> getPwEntries() throws IOException {
 		return getPwEntries(DEFAULT_FILE_NAME);
