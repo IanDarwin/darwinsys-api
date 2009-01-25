@@ -23,12 +23,12 @@ public class ResultsDecoratorTextTest extends TestCase {
 		// XXX rs = create using jmock...
 	}
 
-	public final void testWrite() {
-		fail("Not yet implemented");
-	}
-
-	public final void testPrintRowCount() {
-		fail("Not yet implemented");
-	}
+//	public final void testWrite() {
+//		fail("Not yet implemented");
+//	}
+//
+//	public final void testPrintRowCount() {
+//		fail("Not yet implemented");
+//	}
 
 }
