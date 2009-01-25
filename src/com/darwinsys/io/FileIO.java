@@ -22,6 +22,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.darwinsys.lang.StringUtil;
+import com.darwinsys.util.Debug;
 
 /**
  * Some file I-O primitives reimplemented in Java.
@@ -156,7 +157,7 @@ public class FileIO {
 	 * @throws IOException
 	 */
 	public static void copyRecursively(File fromDir, File toDir, boolean create) throws IOException {
-		System.out.printf("copyRecursively(%s, %s%n", fromDir, toDir);
+		Debug.printf("fileio", "copyRecursively(%s, %s%n", fromDir, toDir);
 		if (!fromDir.exists()) {
 			throw new IOException(
 				String.format("Source directory %s does not exist", fromDir));
@@ -247,7 +248,6 @@ public class FileIO {
 				}
 			}
 		}
-
 	}
 
 	// Methods that do reading.
