@@ -28,7 +28,7 @@ public class ConnectionUtil {
 	private static Verbosity verbosity = Verbosity.QUIET;
 	
 	/** Sets the full path of the config file to read.
-	 * @param configFileNam The FileName of the configuration file to use.
+	 * @param configFileName The FileName of the configuration file to use.
 	 */
 	public static void setConfigFileName(String configFileName) {
 		File file = new File(configFileName);
@@ -39,7 +39,7 @@ public class ConnectionUtil {
 			ConnectionUtil.configFileName = file.getCanonicalPath();
 		} catch (IOException ex) {
 			System.err.println("Warning: IO error checking path: " + configFileName);
-			ConnectionUtil.configFileName = configFileName; // "undo"
+			ConnectionUtil.configFileName = configFileName;
 		}
 	}
 
