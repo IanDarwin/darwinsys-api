@@ -30,10 +30,9 @@ public class TextAreaOutputStreamTest extends TestCase {
 		try {
 			oldOut = System.out;
 			System.setOut(new PrintStream(new TextAreaOutputStream(ta)));
-			System.out.println(HELLO_WORLD);
+			System.out.println(HELLO_WORLD); // part of test!
 			assertEquals(HELLO_WORLD, ta.getText());
 			System.setOut(oldOut);
-			System.out.println("If you don't see this, something is still wrong");
 		} finally {
 			if (oldOut != null)
 				oldOut.close();
