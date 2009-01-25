@@ -29,6 +29,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -365,12 +366,16 @@ public class SQLRunnerGUI  {
 		busyDialog.setLocationRelativeTo(mainWindow);
 
 		inputTextArea = new JTextArea(6, DISPLAY_COLUMNS);
+		// Switch to monospaced font
+		Font msFont = new Font("SansSerif", Font.PLAIN, inputTextArea.getFont().getSize());
+		inputTextArea.setFont(msFont);
 		JScrollPane inputAreaScrollPane = new JScrollPane(inputTextArea);
 		inputAreaScrollPane.setBorder(BorderFactory.createTitledBorder("SQL Command"));
 
 		outputPanel = new JTabbedPane();
 
 		textTextArea = new JTextArea(20, DISPLAY_COLUMNS);
+		textTextArea.setFont(msFont);
 		JScrollPane outputAreaScrollPane = new JScrollPane(textTextArea);
 		String resultTypeName;
 		resultTypeName = OutputMode.t.toString();
