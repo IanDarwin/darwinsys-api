@@ -1,9 +1,14 @@
 package com.darwinsys.io;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import com.darwinsys.lang.JarFileClassLoader;
 import com.darwinsys.util.Debug;
 
 public class ClassSourceUtils extends SourceUtils {
@@ -18,9 +23,9 @@ public class ClassSourceUtils extends SourceUtils {
 	 * @return List<Class<?>>
 	 */
 	public static List<Class<?>> classListFromSource(String name) {
-		result = new ArrayList<Class<?>>();
 		switch(classify(name)) {
 		case CLASS:
+			result = new ArrayList<Class<?>>();
 			try {
 					result.add(Class.forName(name));
 				} catch (ClassNotFoundException e) {
@@ -28,9 +33,9 @@ public class ClassSourceUtils extends SourceUtils {
 				}
 			break;
 		case JAR:
-			throw new IllegalStateException("code called before written");
-			//break;
+			return classListFromJar(name);
 		case DIRECTORY:
+			result = new ArrayList<Class<?>>();
 			doDir(name);
 			break;
 		}
@@ -78,13 +83,32 @@ public class ClassSourceUtils extends SourceUtils {
 		}
 	}
 	
-	public static List<Class<?>> classListFromJar(String name) {
-		File f = new File(name);
-		if (!f.exists() || !f.canRead()) {
-			throw new RuntimeException("Can't access file " + name);
+	public static List<Class<?>> classListFromJar(final String name) {
+		final List<Class<?>> results = new ArrayList<Class<?>>();
+		try {
+			final JarFile jf = new JarFile(name);
+			final JarFileClassLoader cl = new JarFileClassLoader(jf);
+			final Enumeration<JarEntry> entries = jf.entries();
+			while (entries.hasMoreElements()) {
+				final JarEntry jarEntry = entries.nextElement();
+				String entName = jarEntry.getName();
+				if (entName.endsWith(".class")) {
+					int n = entName.length();
+					try {
+						results.add(
+								cl.findClass(
+									entName.substring(0, n - 6).replace('/','.'), jarEntry));
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		throw new RuntimeException("Not finished");
-		//return null;
+		return results;
 	}
 		
 }
