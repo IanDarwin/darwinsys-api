@@ -9,6 +9,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.darwinsys.lang.JarFileClassLoader;
+import com.darwinsys.lang.DirectoryClassLoader;
 import com.darwinsys.util.Debug;
 
 public class ClassSourceUtils extends SourceUtils {
@@ -40,6 +41,11 @@ public class ClassSourceUtils extends SourceUtils {
 			break;
 		}
 		return result;
+	}
+	
+	private static List<Class<?>> classListFromDirectory(final String dirName) {
+		DirectoryClassLoader cl = new DirectoryClassLoader(dirName);
+		throw new IllegalStateException("not written yet");
 	}
 	
 	private static String startPath;
@@ -83,7 +89,7 @@ public class ClassSourceUtils extends SourceUtils {
 		}
 	}
 	
-	public static List<Class<?>> classListFromJar(final String name) {
+	private static List<Class<?>> classListFromJar(final String name) {
 		final List<Class<?>> results = new ArrayList<Class<?>>();
 		try {
 			final JarFile jf = new JarFile(name);
