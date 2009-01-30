@@ -7,11 +7,11 @@ import java.util.Map;
 
 import com.darwinsys.util.Debug;
 
-/** A class to implement UNIX-style (single-character) command line argument
+/** GetOpt implements UNIX-style (single-character) command line argument
  * parsing. Originally patterned after (but not using code from) the UNIX 
  * getopt(3) program, this has been redesigned to be more Java-friendly.
- * As a result, there are two ways of using it, which I shall very loosely
- * call "the Unix way" and "the Java way".
+ * As a result, there are two ways of using it, referred to as
+ * "the Unix way" and "the Java way".
  * <ol><li>Original (UNIX) model:
  * <pre>
         GetOpt go = new GetOpt("hno:");
