@@ -25,7 +25,7 @@ public class ClassSourceUtilsTest extends JarFileTestBase {
 		final List<Class<?>> list = 
 			ClassSourceUtils.classListFromSource("build");
 
-		System.out.println("testListDir() found" + list.size());
+		System.out.println("testListDir() found " + list.size());
 		assertTrue(list.size() > 1);
 	}
 	

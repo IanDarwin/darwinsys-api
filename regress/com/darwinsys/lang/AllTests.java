@@ -12,7 +12,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	GetOptDescTest.class,
 	GetOptTestNewPattern.class,
 	GetOptTestOldPattern.class,
-	JarFileClassLoaderTest.class,
 	MutableIntegerTest.class,
 	StringFormatTest.class,
 	StringUtilTest.class

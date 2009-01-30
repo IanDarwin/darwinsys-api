@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
+import com.darwinsys.util.Debug;
+
 import junit.framework.TestCase;
 
 public class CrawlerTest extends TestCase {
@@ -24,7 +26,7 @@ public class CrawlerTest extends TestCase {
 		public void visit(File f) {
 			this.file = f;
 			seenAnyFiles = true;
-			System.out.println(f.getAbsolutePath());
+			Debug.println("crawler", f.getAbsolutePath());
 		}
 
 		public void init() throws IOException {
@@ -63,7 +65,7 @@ public class CrawlerTest extends TestCase {
 				if (file.getAbsolutePath().startsWith(tmpDir.getAbsolutePath())) {
 						throw new IllegalStateException("FOUND");
 				}
-				System.out.println(f);
+				Debug.println("crawler", f);
 			}
 
 			public void init() throws IOException {

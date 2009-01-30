@@ -1,15 +1,15 @@
 package com.darwinsys.io;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.darwinsys.lang.JarFileClassLoader;
-import com.darwinsys.lang.DirectoryClassLoader;
 import com.darwinsys.util.Debug;
 
 public class ClassSourceUtils extends SourceUtils {
@@ -24,9 +24,9 @@ public class ClassSourceUtils extends SourceUtils {
 	 * @return List<Class<?>>
 	 */
 	public static List<Class<?>> classListFromSource(String name) {
+		result = new ArrayList<Class<?>>();
 		switch(classify(name)) {
 		case CLASS:
-			result = new ArrayList<Class<?>>();
 			try {
 					result.add(Class.forName(name));
 				} catch (ClassNotFoundException e) {
@@ -36,52 +36,57 @@ public class ClassSourceUtils extends SourceUtils {
 		case JAR:
 			return classListFromJar(name);
 		case DIRECTORY:
-			result = new ArrayList<Class<?>>();
-			doDir(name);
+			classListFromDirectory(name);
 			break;
 		}
 		return result;
 	}
 	
 	private static List<Class<?>> classListFromDirectory(final String dirName) {
-		DirectoryClassLoader cl = new DirectoryClassLoader(dirName);
-		throw new IllegalStateException("not written yet");
+		ClassLoader cl;
+		try {
+			cl = new URLClassLoader(new URL[]{new URL("file://" + dirName + "/")});
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException(dirName, e);
+		}
+		doDir(dirName, cl);
+		return result;
 	}
 	
 	private static String startPath;
 	
 	/** doDir - do one directory recursively */
-	private static void doDir(String name) {
+	private static void doDir(String name, ClassLoader cl) {
 		final File file = new File(name);
 		startPath = name;
-		doDir(file);
+		doDir(file, cl);
 	}
 	
 	/** doDir - do one directory recursively */
-	private static void doDir(File f) {
+	private static void doDir(File f, ClassLoader cl) {
 		final String name = f.getPath();
 		Debug.println("sourceutils", "SourceUtils.doDir(): " + name);
 		if (!f.exists()) {
 			throw new IllegalStateException(name + " does not exist");
 		}
 		if (f.isFile())
-			doFile(f);
+			doFile(f, cl);
 		else if (f.isDirectory()) {
 			File objects[] = f.listFiles();
 
 			for (int i=0; i<objects.length; i++)
-				doDir(objects[i]);
+				doDir(objects[i], cl);
 		} else
 			System.err.println("Unknown: " + name);
 	}
 
-	private static void doFile(File f) {
+	private static void doFile(File f, ClassLoader cl) {
 		final String name = f.getPath().substring(1+startPath.length());
 		Debug.println("sourceutils", "SourceUtils.doFile(): " + name);
-		if (name.endsWith(".class") && name.indexOf('$') == -1) {
+		if (name.endsWith(".class")) {
 			String className = name.substring(0, name.length() - 6).replace("/", ".");
 			try {
-				Class<?> c = Class.forName(className);
+				Class<?> c = cl.loadClass(className);
 				result.add(c);
 			} catch (ClassNotFoundException e) {
 				throw new IllegalArgumentException(e);
@@ -93,7 +98,10 @@ public class ClassSourceUtils extends SourceUtils {
 		final List<Class<?>> results = new ArrayList<Class<?>>();
 		try {
 			final JarFile jf = new JarFile(name);
-			final JarFileClassLoader cl = new JarFileClassLoader(jf);
+			final File jFile = new File(name);
+			ClassLoader cl = 
+				new URLClassLoader(new URL[]{new URL("file://" + jFile.getAbsolutePath())});
+
 			final Enumeration<JarEntry> entries = jf.entries();
 			while (entries.hasMoreElements()) {
 				final JarEntry jarEntry = entries.nextElement();
@@ -102,17 +110,16 @@ public class ClassSourceUtils extends SourceUtils {
 					int n = entName.length();
 					try {
 						results.add(
-								cl.findClass(
-									entName.substring(0, n - 6).replace('/','.'), jarEntry));
+								cl.loadClass(
+									entName.substring(0, n - 6).replace('/','.')));
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.err.println(e);
+						// But caught here so we go on to next one.
 					}
 				}
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new IllegalArgumentException(name, e);
 		}
 		return results;
 	}

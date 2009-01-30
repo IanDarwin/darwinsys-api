@@ -34,7 +34,7 @@ public class GetOptConstructorTest  {
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testForNoLetter() {
-		new GetOpt("---");
+		new GetOpt("::");
 		fail("GetOpt(::) did not throw expected exception");
 	}
 	
