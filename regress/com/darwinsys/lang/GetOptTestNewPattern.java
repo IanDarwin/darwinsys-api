@@ -36,6 +36,7 @@ public class GetOptTestNewPattern {
 	private GetOptDesc[] newWayLongOptions = {
 		new GetOptDesc('o', "output-file", true),
 		new GetOptDesc('h', "help", false),
+		new GetOptDesc('m', "hopping-mad", false),
 	};
 
 	@Test

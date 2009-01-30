@@ -44,7 +44,8 @@ import com.darwinsys.util.Debug;
             doFile(args[i]);
         }
  * </pre></li>
- * <li>Newer (Java) model, which allows long-named options:
+ * <li>Newer (Java) model, which allows long-named options (preceded with
+ * a single dash e.g., "-output-file /tmp/j":
  * <pre>
         boolean numeric_option = false;
         boolean errs = false;
@@ -190,7 +191,7 @@ public class GetOpt {
 	public Map<String,String> parseArguments(String[] argv) {
 		Map<String, String> optionsValueMap = new HashMap<String, String>();
 		fileNameArguments = new ArrayList<String>();
-		for (int i = 0; i < argv.length; i++) {	// Do not convert to foreach
+		for (int i = 0; i < argv.length; i++) {	// Can not use foreach, need i
 			Debug.println("getopt", "parseArg: i=" + i + ": arg " + argv[i]);
 			char c = getopt(argv);	// sets global "optarg"
 			if (c == DONE) {
@@ -246,7 +247,8 @@ public class GetOpt {
 
 		if (thisArg.startsWith("-")) {
 			for (GetOptDesc option : options) {
-				if (option.getArgLetter() == thisArg.charAt(1) ||
+				if ((thisArg.length() == 2 &&
+						option.getArgLetter() == thisArg.charAt(1)) ||
 				   (option.getArgName() != null &&
 					option.getArgName().equals(thisArg.substring(1)))) { // found it
 					// If it needs an option argument, get it.
