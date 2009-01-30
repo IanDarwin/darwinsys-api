@@ -9,6 +9,9 @@ import java.util.zip.ZipEntry;
 
 import org.junit.BeforeClass;
 
+/** Creates a Jar file from one of our classes, for use
+ * in testing Jar File utilities.
+ */
 public class JarFileTestBase {
 
 	/** The Java class name of the test subject */
