@@ -14,6 +14,7 @@ import com.darwinsys.util.Debug;
 
 public class ClassSourceUtils extends SourceUtils {
 		
+	private static final String DEBUG_TAG = "sourceutils";
 	private static List<Class<?>> result;
 	
 	/**
@@ -91,11 +92,11 @@ public class ClassSourceUtils extends SourceUtils {
 				for (String s : classpath) {
 					final URL anotherURL = makeFileURL(s);
 					urls.add(anotherURL);
-					System.out.println("XXX added " + anotherURL);
+					Debug.println(DEBUG_TAG, "added " + anotherURL);
 				}
 			}
 			final int extraElements = urls.size();
-			Debug.println("sourceutils", "Creating URLClassLoader for " + fileDirURL +
+			Debug.println(DEBUG_TAG, "Creating URLClassLoader for " + fileDirURL +
 					" with " + extraElements + " extra elements.");
 			cl = new URLClassLoader(urls.toArray(new URL[extraElements]));
 		} catch (Exception e) {
@@ -122,7 +123,7 @@ public class ClassSourceUtils extends SourceUtils {
 	/** doDir - do one directory recursively */
 	private static void doDir(File f, ClassLoader cl) {
 		final String name = f.getPath();
-		Debug.println("sourceutils", "SourceUtils.doDir(): " + name);
+		Debug.println(DEBUG_TAG, "SourceUtils.doDir(): " + name);
 		if (!f.exists()) {
 			throw new IllegalStateException(name + " does not exist");
 		}
@@ -141,10 +142,10 @@ public class ClassSourceUtils extends SourceUtils {
 		final String name = f.getPath().substring(1+startPath.length());
 		if (name.endsWith(".class")) {
 			String className = name.substring(0, name.length() - 6).replace("/", ".");
-			Debug.println("sourceutils", "SourceUtils.doFile(): '" + className + '\'');
+			Debug.println(DEBUG_TAG, "SourceUtils.doFile(): '" + className + '\'');
 			try {
 				Class<?> c = cl.loadClass(className);
-				Debug.println("sourceutils", "Loaded OK");
+				Debug.println(DEBUG_TAG, "Loaded OK");
 				result.add(c);
 			} catch (ClassNotFoundException e) {
 				throw new IllegalArgumentException(e);
