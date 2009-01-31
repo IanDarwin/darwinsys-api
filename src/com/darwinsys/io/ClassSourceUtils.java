@@ -1,6 +1,7 @@
 package com.darwinsys.io;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ClassSourceUtils extends SourceUtils {
 	 * as a Source, e.g., a Jar file, a class file or a directory.
 	 * @return List<Class<?>> List of all classes found in the source
 	 */
-	public static List<Class<?>> classListFromSource(String name) {
+	public static List<Class<?>> classListFromSource(String name, List<String> classpath) {
 		switch(classify(name)) {
 		case CLASS:
 			try {
@@ -36,21 +37,25 @@ public class ClassSourceUtils extends SourceUtils {
 				throw new IllegalArgumentException(e);
 			}
 		case JAR:
-			return classListFromJar(name);
+			return classListFromJar(name, classpath);
 		case DIRECTORY:
-			return classListFromDirectory(name);
+			return classListFromDirectory(name, classpath);
 		default:
 			throw new IllegalArgumentException(name);
 		}
 	}
 	
-	private static List<Class<?>> classListFromJar(final String name) {
+	public static List<Class<?>> classListFromSource(String classesToTest) {
+		return classListFromSource(classesToTest, null);
+	}
+	
+	private static List<Class<?>> classListFromJar(final String name, List<String> classpath) {
 		final List<Class<?>> results = new ArrayList<Class<?>>();
 		try {
 			final JarFile jf = new JarFile(name);
 			final File jFile = new File(name);
 			ClassLoader cl = 
-				new URLClassLoader(new URL[]{new URL("file://" + jFile.getAbsolutePath())});
+				new URLClassLoader(new URL[]{makeFileURL(jFile.getAbsolutePath())});
 
 			final Enumeration<JarEntry> entries = jf.entries();
 			while (entries.hasMoreElements()) {
@@ -74,14 +79,25 @@ public class ClassSourceUtils extends SourceUtils {
 		return results;
 	}
 	
-	private static List<Class<?>> classListFromDirectory(final String dirName) {
+	private static List<Class<?>> classListFromDirectory(final String dirName, List<String> classpath) {
 		result = new ArrayList<Class<?>>();		
 		ClassLoader cl;
 		try {
 			final File fileDir = new File(dirName);
-			final URL fileDirURL = new URL("file://" + fileDir.getCanonicalPath() + "/");
-			Debug.println("source", "Creating URLClassLoader for " + fileDirURL);
-			cl = new URLClassLoader(new URL[]{fileDirURL});
+			final URL fileDirURL = makeFileURL(fileDir.getCanonicalPath());
+			List<URL> urls = new ArrayList<URL>();
+			urls.add(fileDirURL);
+			if (classpath != null) {
+				for (String s : classpath) {
+					final URL anotherURL = makeFileURL(s);
+					urls.add(anotherURL);
+					System.out.println("XXX added " + anotherURL);
+				}
+			}
+			final int extraElements = urls.size();
+			Debug.println("sourceutils", "Creating URLClassLoader for " + fileDirURL +
+					" with " + extraElements + " extra elements.");
+			cl = new URLClassLoader(urls.toArray(new URL[extraElements]));
 		} catch (Exception e) {
 			throw new IllegalArgumentException(dirName, e);
 		}
@@ -89,6 +105,11 @@ public class ClassSourceUtils extends SourceUtils {
 		return result;
 	}
 	
+	private static URL makeFileURL(String s) throws IOException {
+		File f = new File(s);
+		return new URL("file://" + f.getCanonicalPath() + (f.isDirectory() ? "/" : ""));
+	}
+
 	private static String startPath;
 	
 	/** doDir - do one directory recursively */
@@ -123,6 +144,7 @@ public class ClassSourceUtils extends SourceUtils {
 			Debug.println("sourceutils", "SourceUtils.doFile(): '" + className + '\'');
 			try {
 				Class<?> c = cl.loadClass(className);
+				Debug.println("sourceutils", "Loaded OK");
 				result.add(c);
 			} catch (ClassNotFoundException e) {
 				throw new IllegalArgumentException(e);
