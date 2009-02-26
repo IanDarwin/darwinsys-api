@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -26,7 +28,6 @@ import javax.swing.event.ListSelectionListener;
  * setVisible(true) in the usual way.
  * <p>
  * Uses Listeners to ensure that Preview button isn't actually needed
- * (button is left in temporarily, for comfort's sake).
  * @author	Ian Darwin
  * @version $Id$
  */
@@ -80,6 +81,7 @@ public class FontChooser extends JDialog {
 		Container cp = getContentPane();
 
 		JPanel top = new JPanel();
+		top.setBorder(new TitledBorder(new EtchedBorder(), "Font"));
 		top.setLayout(new FlowLayout());
 
 		// This gives a longish list; most of the names that come
@@ -91,13 +93,13 @@ public class FontChooser extends JDialog {
 		fontNameChoice = new JList(fontList);
 		top.add(new JScrollPane(fontNameChoice));
 
+		fontNameChoice.setVisibleRowCount(fontSizes.length);
 		fontNameChoice.setSelectedValue("Serif", true);
 
 		fontSizeChoice = new JList(fontSizes);
 		top.add(fontSizeChoice);
 
-		fontSizeChoice.setSelectedIndex(10);
-
+		fontSizeChoice.setSelectedIndex(fontSizes.length * 3 / 4);
 
 		cp.add(top, BorderLayout.NORTH);
 
@@ -136,14 +138,6 @@ public class FontChooser extends JDialog {
 				previewFont();
 				dispose();
 				setVisible(false);
-			}
-		});
-
-		JButton pvButton = new JButton("Preview");
-		bot.add(pvButton);
-		pvButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				previewFont();
 			}
 		});
 
