@@ -18,11 +18,11 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
-	@SuppressWarnings("unchecked")
-	Map<Lock, Object> getLockStore() {
-		return (Map<Lock, Object>) locks;
+	Map<Lock, T> getLockStore() {
+		return locks;
 	}
-	final LockReaperImpl<T> lockReaper = new LockReaperImpl<T>(this, 1);
+	final LockReaperImpl<T> lockReaper = 
+		new LockReaperImpl<T>(this, 1); // timeout in minutes
 	public PessimisticLockManagerImpl() {
 		lockReaper.start();
 	}
