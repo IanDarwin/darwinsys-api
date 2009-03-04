@@ -9,6 +9,11 @@ import org.junit.Test;
 
 public class PessimisticLockManagerImplTest {
 
+	/** Number of seconds to sleep in reclaim test.
+	 * Must be > 60 (seconds per minute).
+	 */
+	private static final int NSEC = 70;
+
 	final PessimisticLockManagerImpl<Integer> mgr =
 		new PessimisticLockManagerImpl<Integer>();
 	
@@ -18,6 +23,7 @@ public class PessimisticLockManagerImplTest {
 		assertNotNull(l);
 		// ...
 		l.release();
+		assertTrue(l.isReleased());
 	}
 	
 	@Test(expected=LockManagementException.class)
@@ -40,8 +46,9 @@ public class PessimisticLockManagerImplTest {
 		Lock l = mgr.tryLock(123);
 		assertTrue(mgr.getLockStore().containsKey(l));
 		assertTrue(mgr.getLockStore().containsValue(123));
-		System.out.println("Timeout Test sleeping 90 s to simulate user activity");
-		Thread.sleep(90000);
+		System.out.println("Timeout Test sleeping " + NSEC + " s to simulate user activity");
+		Thread.sleep(NSEC * 1000);
+		assertTrue(l.isReleased());
 		assertFalse(mgr.getLockStore().containsKey(l));
 		assertFalse(mgr.getLockStore().containsValue(123));
 	}

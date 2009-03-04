@@ -41,6 +41,7 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 	public boolean releaseLock(Lock lock) {
 		if (locks.containsKey(lock)) {
 			locks.remove(lock);
+			((LockImpl)lock).setReleased(true);
 			return true;
 		}
 		return false;

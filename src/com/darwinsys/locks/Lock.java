@@ -4,5 +4,11 @@ package locks;
  * PessimisticLockManager.
  */
 public interface Lock {
+	/** Release this lock */
 	public void release();
+	/** Find out if this lock got released
+	 * (typically due to being timed out)
+	 * before we commit the action based on it.
+	 */
+	public boolean isReleased();
 }
