@@ -49,8 +49,8 @@ public class LockReaperImpl<T> extends Thread {
 				final long then = l.getCreationTime();
 				if (now - then > timeOutMinutes * 60000) {
 					System.out.println("Removing stale lock " + l);					
+					mgr.releaseLock(l);
 				}
-				mgr.releaseLock(l);
 			}
 			try {
 				Thread.sleep(1000 * sleepSeconds);
