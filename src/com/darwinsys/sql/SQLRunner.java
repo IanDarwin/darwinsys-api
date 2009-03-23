@@ -413,8 +413,8 @@ public class SQLRunner {
 			if (verbosity == Verbosity.VERBOSE || verbosity == Verbosity.DEBUG) {
 				currentDecorator.printRowCount(n);
 			}
-			currentDecorator.flush();
 		}
+		currentDecorator.flush();
 	}
 
 	/** Extract one statement from the given Reader.

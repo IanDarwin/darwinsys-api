@@ -137,6 +137,7 @@ public class SQLRunnerCLI {
 		String stmt;
 
 		System.out.printf("SQLRunner: starting %s%n", name);
+		System.out.flush();
 		while ((stmt = SQLRunner.getStatement(is)) != null) {
 			stmt = stmt.trim();
 			try {
@@ -146,5 +147,6 @@ public class SQLRunnerCLI {
 			}
 		}
 		System.out.printf("SQLRunner: %s done.%n", name);
+		System.out.flush();
 	}
 }
