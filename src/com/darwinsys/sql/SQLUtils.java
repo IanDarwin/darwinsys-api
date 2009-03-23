@@ -43,7 +43,7 @@ public class SQLUtils {
 		// Print one table row of data for each row in the resultset.
 		int rowNum = 0;
 		while (rs.next()) {
-			out.printf("<tr id='%s'>", rowNum++ % 2 == 1 ? style1 : style2);
+			out.printf("<tr class='%s'>", rowNum++ % 2 == 1 ? style1 : style2);
 			for (int i=1; i<=count; i++) {
 				String linkText = rs.getString(i);
 				if (md.getColumnName(i).equals(keyColName)) {
