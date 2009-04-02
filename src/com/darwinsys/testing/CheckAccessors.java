@@ -6,6 +6,7 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /** A JUnit helper to test the setter/getter pairs in
  * the given class(es).
@@ -24,13 +25,19 @@ public class TestAccessors {
 			c.isAnnotation()) {
 			return;
 		}
+		// Nor can abstract classes.
+		int mod = c.getModifiers();
+		if (Modifier.isAbstract(mod)) {
+			return;
+		}
 		final Object instance = c.newInstance();
 		final BeanInfo beanInfo = Introspector.getBeanInfo(c);
 		final PropertyDescriptor[] props = beanInfo.getPropertyDescriptors();
 		for (PropertyDescriptor p : props) {
 			final String propName = p.getName();
 			Method writeMethod = p.getWriteMethod();
-			if (writeMethod == null) {
+			if (writeMethod == null || 
+				!(Modifier.isPublic(writeMethod.getModifiers()))) {
 				// no set method not worth logging, i.e., Object.getClass()
 				continue;
 			}
