@@ -4,7 +4,9 @@ import org.junit.Test;
 
 public class TestAccessorsTest {
 
-	// JUnit 4 assert*() throw java.lang.AssertionError
+	// JUnit 4 assert*() throw java.lang.AssertionError;
+	// TestAccessors on BadClass should throw this exception
+	// due to the deliberate bug in BadClass (see below).
 	@Test(expected=AssertionError.class)
 	public final void testBadClass() throws Exception {
 		TestAccessors.process(BadClass.class);
@@ -21,6 +23,7 @@ public class TestAccessorsTest {
 		int i;
 		double d;
 		float f;
+		Integer ii;
 		public char getCh() {
 			return ch;
 		}
@@ -45,9 +48,16 @@ public class TestAccessorsTest {
 		public void setI(int i) {
 			this.i = i;
 		}
+		public Integer getIi() {
+			return ii;
+		}
+		public void setIi(Integer ii) {
+			this.ii = ii;
+		}
 	}
 
 	/** test data class, contains deliberate error
+	 * (setter returns wrong value)
 	 */
 	static class BadClass {
 		int i,j;
