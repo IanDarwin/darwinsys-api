@@ -25,9 +25,10 @@ public class TestAccessors {
 			c.isAnnotation()) {
 			return;
 		}
-		// Nor can abstract classes.
+		// Nor can abstract or non-public classes.
 		int mod = c.getModifiers();
-		if (Modifier.isAbstract(mod)) {
+		if (Modifier.isAbstract(mod) ||
+			!Modifier.isPublic(mod)) {
 			return;
 		}
 		final Object instance = c.newInstance();
@@ -46,9 +47,17 @@ public class TestAccessors {
 			if (value == null) {
 				continue;	// can't test this setter/getter
 			}
-			p.getWriteMethod().invoke(instance, new Object[]{value});
+			writeMethod.invoke(instance, new Object[]{value});
 			
-			Object back = p.getReadMethod().invoke(instance, new Object[0]);
+			final Method readMethod = p.getReadMethod();
+			if (readMethod == null)
+				continue;
+			mod = readMethod.getModifiers();
+			if (!(Modifier.isPublic(readMethod.getModifiers()))) {
+					// non-public get method not worth logging
+					continue;
+				}
+			Object back = readMethod.invoke(instance, new Object[0]);
 			assertEquals(c.getName() + "." + propName, value, back);
 		}
 	}
