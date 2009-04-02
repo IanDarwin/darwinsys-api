@@ -52,7 +52,13 @@ public class TestAccessors {
 			debug(c + ": newInstance fail: " + e);
 			return;
 		}
-		final BeanInfo beanInfo = Introspector.getBeanInfo(c);
+		
+		// Now get the list of "properties" (i.e.,
+		// setter/getter pairs.
+		// Don't get fields from any superclass, just
+		// the class under test:
+		final Class stopClass = c.getSuperclass();
+		final BeanInfo beanInfo = Introspector.getBeanInfo(c, stopClass);
 		final PropertyDescriptor[] props = beanInfo.getPropertyDescriptors();
 		for (PropertyDescriptor p : props) {
 			final String propName = p.getName();
