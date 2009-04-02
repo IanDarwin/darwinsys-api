@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public class TestAccessorsTest {
 
-	// JUnit 4 assert*() throw java.lang.AssertionError;
+	// JUnit 4 assert*() methods throw java.lang.AssertionError;
 	// TestAccessors on BadClass should throw this exception
 	// due to the deliberate bug in BadClass (see below).
 	@Test(expected=AssertionError.class)
