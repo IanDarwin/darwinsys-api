@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -45,17 +44,14 @@ public class TestAccessors {
 			debug(c + " is abstract");
 			return;
 		}
-		Constructor<?> con;
+		// c.getConstructor(new Class[0]) fails
+		final Object instance;
 		try {
-			con = c.getConstructor((Class[])null);
-			if (!isPublic(con)) {
-				debug(c + ": constructor not public");
-				return;
-			}
-		} catch (NoSuchMethodException ignore) {
-			debug(c + ": getConstructor: NoSuchMethodException");
+			instance = c.newInstance();
+		} catch (Exception e) {
+			debug(c + ": newInstance fail: " + e);
+			return;
 		}
-		final Object instance = c.newInstance();
 		final BeanInfo beanInfo = Introspector.getBeanInfo(c);
 		final PropertyDescriptor[] props = beanInfo.getPropertyDescriptors();
 		for (PropertyDescriptor p : props) {
