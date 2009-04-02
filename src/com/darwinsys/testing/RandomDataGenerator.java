@@ -1,5 +1,7 @@
 package com.darwinsys.testing;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Date;
 import java.util.Random;
 
@@ -44,15 +46,24 @@ public class RandomDataGenerator {
 		if (t == String.class) {
 			return Integer.toString(r.nextInt());
 		}
+		
+		// Remaining few special cases - alpabetical order
+		if (t == Color.class) {
+			return new Color(r.nextInt());
+		}
 		if (t == Date.class) {
 			return new Date(r.nextLong());
 		}
+		if (t == Font.class) {
+			return new Font("serif", Font.PLAIN, r.nextInt(144));
+		}
+		
+		// Court of last resort:
 		try {
 			return t.newInstance();
 		} catch (Exception e) {
-			System.err.println(e);
+			System.out.println("TestSettersGetters.getRandomValue() needs case for " + t);			
+			return null;	// you lose
 		}
-		System.out.println("TestSettersGetters.getRandomValue() needs case for " + t);
-		return null;
 	}
 }
