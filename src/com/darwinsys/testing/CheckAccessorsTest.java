@@ -2,17 +2,17 @@ package com.darwinsys.testing;
 
 import org.junit.Test;
 
-public class TestSettersGettersTest {
+public class TestAccessorsTest {
 
 	// JUnit 4 assert*() throw java.lang.AssertionError
 	@Test(expected=AssertionError.class)
 	public final void testBadClass() throws Exception {
-		TestSettersGetters.process(BadClass.class);
+		TestAccessors.process(BadClass.class);
 	}
 	
 	@Test
 	public final void testGoodClass() throws Exception {
-		TestSettersGetters.process(GoodClass.class);
+		TestAccessors.process(GoodClass.class);
 	}
 	
 	/** test data class with various types */

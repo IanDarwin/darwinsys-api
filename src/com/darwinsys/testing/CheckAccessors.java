@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 /** A JUnit helper to test the setter/getter pairs in
  * the given class(es).
  */
-public class TestSettersGetters {
+public class TestAccessors {
 
 	public static void process(final String className) throws Exception {
 		final Class<?> c = Class.forName(className);
