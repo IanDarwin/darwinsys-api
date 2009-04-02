@@ -1,5 +1,6 @@
 package com.darwinsys.testing;
 
+import java.util.Date;
 import java.util.Random;
 
 public class RandomDataGenerator {
@@ -9,6 +10,12 @@ public class RandomDataGenerator {
 	private static boolean b;
 	
 	public static Object getRandomValue(Class<?> t) {
+		if (t.isAnnotation() ||
+			t.isEnum() ||
+			t.isInterface()) {
+			// give up, boys, she's done.
+			return null;
+		}
 		if (t == byte.class) {
 			r.nextBytes(bytes);
 			return bytes[0];
@@ -36,6 +43,14 @@ public class RandomDataGenerator {
 		}
 		if (t == String.class) {
 			return Integer.toString(r.nextInt());
+		}
+		if (t == Date.class) {
+			return new Date(r.nextLong());
+		}
+		try {
+			return t.newInstance();
+		} catch (Exception e) {
+			System.err.println(e);
 		}
 		System.out.println("TestSettersGetters.getRandomValue() needs case for " + t);
 		return null;
