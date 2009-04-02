@@ -6,6 +6,7 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -19,6 +20,10 @@ public class TestAccessors {
 		process(c);
 	}
 	
+	private static boolean isPublic(Member m) {
+		return Modifier.isPublic(m.getModifiers());
+	}
+	
 	public static void process(final Class<?> c)  throws Exception {
 		// Many class-like things cannot be instantiated:
 		if (c.isInterface() ||
@@ -27,9 +32,8 @@ public class TestAccessors {
 			return;
 		}
 		// Nor can abstract or non-public classes.
-		int mod = c.getModifiers();
-		if (Modifier.isAbstract(mod) ||
-			!Modifier.isPublic(mod)) {
+		if (Modifier.isAbstract(c.getModifiers()) ||
+			!Modifier.isPublic(c.getModifiers())) {
 			return;
 		}
 		Constructor<?> con;
@@ -38,8 +42,7 @@ public class TestAccessors {
 		} catch (NoSuchMethodException ignore) {
 			return;
 		}
-		mod = con.getModifiers();
-		if (!Modifier.isPublic(mod)) {
+		if (!isPublic(con)) {
 			return;
 		}
 		final Object instance = c.newInstance();
@@ -49,7 +52,7 @@ public class TestAccessors {
 			final String propName = p.getName();
 			Method writeMethod = p.getWriteMethod();
 			if (writeMethod == null || 
-				!(Modifier.isPublic(writeMethod.getModifiers()))) {
+				!isPublic(writeMethod)) {
 				// no set method not worth logging, i.e., Object.getClass()
 				continue;
 			}
@@ -63,8 +66,7 @@ public class TestAccessors {
 			final Method readMethod = p.getReadMethod();
 			if (readMethod == null)
 				continue;
-			mod = readMethod.getModifiers();
-			if (!(Modifier.isPublic(readMethod.getModifiers()))) {
+			if (!isPublic(readMethod)) {
 					// non-public get method not worth logging
 					continue;
 				}
