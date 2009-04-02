@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -29,6 +30,16 @@ public class TestAccessors {
 		int mod = c.getModifiers();
 		if (Modifier.isAbstract(mod) ||
 			!Modifier.isPublic(mod)) {
+			return;
+		}
+		Constructor<?> con;
+		try {
+			con = c.getConstructor(new Class<?>[0]);
+		} catch (NoSuchMethodException ignore) {
+			return;
+		}
+		mod = con.getModifiers();
+		if (!Modifier.isPublic(mod)) {
 			return;
 		}
 		final Object instance = c.newInstance();
