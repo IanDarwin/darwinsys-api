@@ -15,6 +15,14 @@ import java.lang.reflect.Modifier;
  */
 public class TestAccessors {
 
+	private final static boolean debug = true;
+	
+	public static void debug(String s) {
+		if (debug) {
+			System.out.println(s);
+		}
+	}
+	
 	public static void process(final String className) throws Exception {
 		final Class<?> c = Class.forName(className);
 		process(c);
@@ -29,21 +37,23 @@ public class TestAccessors {
 		if (c.isInterface() ||
 			c.isEnum() ||
 			c.isAnnotation()) {
+			debug(c + " not an instantiable class");
 			return;
 		}
-		// Nor can abstract or non-public classes.
-		if (Modifier.isAbstract(c.getModifiers()) ||
-			!Modifier.isPublic(c.getModifiers())) {
+		// Nor can abstract classes.
+		if (Modifier.isAbstract(c.getModifiers())) {
+			debug(c + " is abstract");
 			return;
 		}
 		Constructor<?> con;
 		try {
-			con = c.getConstructor(new Class<?>[0]);
+			con = c.getConstructor((Class[])null);
+			if (!isPublic(con)) {
+				debug(c + ": constructor not public");
+				return;
+			}
 		} catch (NoSuchMethodException ignore) {
-			return;
-		}
-		if (!isPublic(con)) {
-			return;
+			debug(c + ": getConstructor: NoSuchMethodException");
 		}
 		final Object instance = c.newInstance();
 		final BeanInfo beanInfo = Introspector.getBeanInfo(c);
