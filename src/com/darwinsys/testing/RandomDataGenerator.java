@@ -18,26 +18,26 @@ public class RandomDataGenerator {
 			// give up, boys, she's done.
 			return null;
 		}
-		if (t == byte.class) {
+		if (t == byte.class || t == Byte.class) {
 			r.nextBytes(bytes);
 			return bytes[0];
 		}
-		if (t == char.class) {
+		if (t == char.class || t == Character.class) {
 			return (char)r.nextInt();
 		}
-		if (t == short.class) {
+		if (t == short.class || t == Short.class) {
 			return (short)r.nextInt();
 		}
-		if (t == int.class) {
+		if (t == int.class || t == Integer.class) {
 			return r.nextInt();
 		}
-		if (t == long.class) {
+		if (t == long.class || t == Long.class) {
 			return r.nextLong();
 		}
-		if (t == float.class) {
+		if (t == float.class || t == Float.class) {
 			return r.nextFloat();
 		}
-		if (t == double.class) {
+		if (t == double.class || t == Double.class) {
 			return r.nextGaussian();
 		}
 		if (t == boolean.class) {
@@ -60,6 +60,7 @@ public class RandomDataGenerator {
 		
 		// Court of last resort:
 		try {
+			System.out.println("Creating " + t);
 			return t.newInstance();
 		} catch (Exception e) {
 			System.out.println("TestSettersGetters.getRandomValue() needs case for " + t);			
