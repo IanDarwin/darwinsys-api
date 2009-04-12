@@ -16,8 +16,8 @@ import com.darwinsys.io.ClassSourceUtils;
  * JVM argument -Dtestaccessorsdir=DDD where DDD is the path to
  * top-level directory containing the classes.
  * Note that you must have all needed classes on your classpath
- * since the classes do get loaded and instantiated as part of this 
- * testing.
+ * since the classes being tested get loaded and instantiated as 
+ * part of this testing.
  */
 @RunWith(value=Parameterized.class)
 public class AllTestAccessorsDirectory {
