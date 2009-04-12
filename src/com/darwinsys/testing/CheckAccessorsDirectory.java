@@ -22,7 +22,7 @@ import com.darwinsys.io.ClassSourceUtils;
 @RunWith(value=Parameterized.class)
 public class CheckAccessorsDirectory {
 
-	public static final String DIRECTORY_KEY = "testaccessorsdir";
+	public static final String DIRECTORY_KEY = "accessorsClassDir";
 	private Class<?> clazz;
 
 	public CheckAccessorsDirectory(Object clazz) {
@@ -37,7 +37,7 @@ public class CheckAccessorsDirectory {
     /** This method provides data to the constructor for use in tests */
     @Parameters
     public static List<Class<?>[]> data() {
-		System.out.println("AllTestAccessorsDirectory.data()");
+		System.out.println("CheckAccessorsDirectory.data()");
 		final String dirName = System.getProperty(DIRECTORY_KEY);
 		if (dirName == null) {
 			throw new IllegalArgumentException(
@@ -47,7 +47,7 @@ public class CheckAccessorsDirectory {
 		final int numberOfClasses = foundClasses.size();
 		Class<?>[] classes = foundClasses.toArray(new Class<?>[numberOfClasses]);
 		System.out.printf(
-			"AllTestAccessorsDirectory.data(): found %d classes%n", foundClasses.size());
+			"CheckAccessorsDirectory.data(): found %d classes%n", foundClasses.size());
 
     	List<Class<?>[]> results = 
     		new ArrayList<Class<?>[]>(classes.length);
