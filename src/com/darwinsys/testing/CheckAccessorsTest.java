@@ -2,19 +2,19 @@ package com.darwinsys.testing;
 
 import org.junit.Test;
 
-public class TestAccessorsTest {
+public class CheckAccessorsTest {
 
 	// JUnit 4 assert*() methods throw java.lang.AssertionError;
 	// TestAccessors on BadClass should throw this exception
 	// due to the deliberate bug in BadClass (see below).
 	@Test(expected=AssertionError.class)
 	public final void testBadClass() throws Exception {
-		TestAccessors.process(BadClass.class);
+		CheckAccessors.process(BadClass.class);
 	}
 	
 	@Test
 	public final void testGoodClass() throws Exception {
-		TestAccessors.process(GoodClass.class);
+		CheckAccessors.process(GoodClass.class);
 	}
 	
 	/** test data class with various types */

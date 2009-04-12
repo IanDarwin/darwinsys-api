@@ -20,18 +20,18 @@ import com.darwinsys.io.ClassSourceUtils;
  * part of this testing.
  */
 @RunWith(value=Parameterized.class)
-public class AllTestAccessorsDirectory {
+public class CheckAccessorsDirectory {
 
 	public static final String DIRECTORY_KEY = "testaccessorsdir";
 	private Class<?> clazz;
 
-	public AllTestAccessorsDirectory(Object clazz) {
+	public CheckAccessorsDirectory(Object clazz) {
 		this.clazz = (Class<?>)clazz;
 	}
 	
 	@Test
 	public void testOneClass() throws Exception {
-		TestAccessors.process(clazz);
+		CheckAccessors.process(clazz);
 	}
 	
     /** This method provides data to the constructor for use in tests */
@@ -43,11 +43,11 @@ public class AllTestAccessorsDirectory {
 			throw new IllegalArgumentException(
 				"Must run with JVM arg -D" + DIRECTORY_KEY + "= starting directory");
 		}
-		final List<Class<?>> claimClasses = ClassSourceUtils.classListFromSource(dirName);
-		final int numberOfClasses = claimClasses.size();
-		Class<?>[] classes = claimClasses.toArray(new Class<?>[numberOfClasses]);
+		final List<Class<?>> foundClasses = ClassSourceUtils.classListFromSource(dirName);
+		final int numberOfClasses = foundClasses.size();
+		Class<?>[] classes = foundClasses.toArray(new Class<?>[numberOfClasses]);
 		System.out.printf(
-			"AllTestAccessorsDirectory.data(): found %d classes%n", claimClasses.size());
+			"AllTestAccessorsDirectory.data(): found %d classes%n", foundClasses.size());
 
     	List<Class<?>[]> results = 
     		new ArrayList<Class<?>[]>(classes.length);

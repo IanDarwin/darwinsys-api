@@ -12,7 +12,7 @@ import java.lang.reflect.Modifier;
 /** A JUnit helper to test the setter/getter pairs in
  * the given class(es).
  */
-public class TestAccessors {
+public class CheckAccessors {
 
 	private final static boolean debug = true;
 	
