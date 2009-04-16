@@ -117,6 +117,11 @@ public class ResultsDecoratorJTable extends ResultsDecorator {
 
 		// populate it
 		table.setModel(dataModel);
+		
+		// Something the UI interface design forgot
+		for (int i = 0; i < colCount; i++) {
+			// XXX put column name as tooltip
+		}
 
 		return dataModel.getRowCount();
 	}
