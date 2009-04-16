@@ -59,7 +59,7 @@ public class CheckAccessorsTest {
 	/** test data class, contains deliberate error
 	 * (setter returns wrong value)
 	 */
-	static class BadClass {
+	public static class BadClass {
 		int i,j;
 
 		public int getI() {
@@ -75,7 +75,7 @@ public class CheckAccessorsTest {
 		}
 
 		public void setJ(int j) {
-			this.j = j; // FindBugs M P UrF - expected
+			this.j = j; // FindBugs "M P UrF" - expected
 		}		
 	}
 }
