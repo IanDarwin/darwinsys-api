@@ -129,8 +129,11 @@ public class ClassSourceUtils extends SourceUtils {
 		}
 		if (f.isFile()) {
 			final String className = f.getPath().substring(1+startPath.length());
-			
-			result.add(doFile(f, cl, className));
+			try {
+				result.add(doFile(f, cl, className));
+			} catch (Exception e) {
+				System.err.println("Warning: non-classifiable: " + f);
+			}
 		}
 		else if (f.isDirectory()) {
 			File objects[] = f.listFiles();
