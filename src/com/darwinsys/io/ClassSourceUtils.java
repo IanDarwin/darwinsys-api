@@ -70,7 +70,7 @@ public class ClassSourceUtils extends SourceUtils {
 									entName.substring(0, n - 6).replace('/','.')));
 					} catch (ClassNotFoundException e) {
 						System.err.println(e);
-						// But caught here so we go on to next one.
+						// Caught here so we go on to next one.
 					}
 				}
 			}
@@ -106,7 +106,7 @@ public class ClassSourceUtils extends SourceUtils {
 		return result;
 	}
 	
-	private static URL makeFileURL(String s) throws IOException {
+	public static URL makeFileURL(String s) throws IOException {
 		File f = new File(s);
 		return new URL("file://" + f.getCanonicalPath() + (f.isDirectory() ? "/" : ""));
 	}
@@ -127,8 +127,11 @@ public class ClassSourceUtils extends SourceUtils {
 		if (!f.exists()) {
 			throw new IllegalStateException(name + " does not exist");
 		}
-		if (f.isFile())
-			doFile(f, cl);
+		if (f.isFile()) {
+			final String className = f.getPath().substring(1+startPath.length());
+			
+			result.add(doFile(f, cl, className));
+		}
 		else if (f.isDirectory()) {
 			File objects[] = f.listFiles();
 
@@ -138,18 +141,23 @@ public class ClassSourceUtils extends SourceUtils {
 			System.err.println("Unknown: " + name);
 	}
 
-	private static void doFile(File f, ClassLoader cl) {
-		final String name = f.getPath().substring(1+startPath.length());
+	public static Class<?> doFile(File f, ClassLoader cl) {
+		return doFile(f, cl, f.getName());
+	}
+	
+	private static Class<?> doFile(File f, ClassLoader cl, String name) {
+		
 		if (name.endsWith(".class")) {
 			String className = name.substring(0, name.length() - 6).replace("/", ".");
 			Debug.println(DEBUG_TAG, "SourceUtils.doFile(): '" + className + '\'');
 			try {
 				Class<?> c = cl.loadClass(className);
 				Debug.println(DEBUG_TAG, "Loaded OK");
-				result.add(c);
+				return c;
 			} catch (ClassNotFoundException e) {
 				throw new IllegalArgumentException(e);
 			}
 		}
+		throw new IllegalArgumentException(f.getAbsolutePath());
 	}
 }
