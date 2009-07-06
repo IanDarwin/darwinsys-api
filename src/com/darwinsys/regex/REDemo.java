@@ -113,7 +113,7 @@ public class REDemo extends JPanel {
 		JPanel top = new JPanel();
 		pattLabel = new JLabel("Pattern:", JLabel.RIGHT);
 		top.add(pattLabel);
-		patternTF = new JTextField(20);
+		patternTF = new JTextField(40);
 		patternTF.getDocument().addDocumentListener(new PatternListener());
 		top.add(patternTF);
 		top.add(new JLabel("Syntax OK?"));
@@ -145,7 +145,7 @@ public class REDemo extends JPanel {
 		JPanel strPane = new JPanel();
 		stringLabel = new JLabel("String:", JLabel.RIGHT);
 		strPane.add(stringLabel);
-		stringTF = new JTextField(20);
+		stringTF = new JTextField(40);
 		stringTF.getDocument().addDocumentListener(new StringListener());
 		highlighter = stringTF.getHighlighter();
 		onlyHighlight = highlighter.addHighlight(0, 0, DefaultHighlighter.DefaultPainter);
