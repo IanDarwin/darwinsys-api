@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +31,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
 import com.darwinsys.swingui.FontChooser;
+import com.darwinsys.swingui.UtilGUI;
 
 /** Standalone Swing GUI application for demonstrating REs.
  * @author	Ian Darwin, http://www.darwinsys.com/
@@ -43,7 +45,7 @@ public class REDemo extends JPanel {
 	protected JLabel pattLabel, stringLabel;
 	protected JTextField patternTF, stringTF;
 	protected JCheckBox compiledOK;
-	protected JRadioButton match, find, findAll;
+	protected JRadioButton match, findButton, findAll;
 	protected JTextField matchesTF;
 	protected JTextArea logTextArea;
 	/** UI components to update when the font changes */
@@ -124,21 +126,21 @@ public class REDemo extends JPanel {
 			}
 		};
 		JPanel switchPane = new JPanel();
-		ButtonGroup bg = new ButtonGroup();
+		ButtonGroup buttonGroup = new ButtonGroup();
 		match = new JRadioButton("Match");
 		match.setSelected(true);
 		match.addChangeListener(cl);
-		bg.add(match);
+		buttonGroup.add(match);
 		switchPane.add(match);
-		find = new JRadioButton("Find");
-		find.addChangeListener(cl);
-		bg.add(find);
-		switchPane.add(find);
+		findButton = new JRadioButton("Find");
+		findButton.addChangeListener(cl);
+		buttonGroup.add(findButton);
+		switchPane.add(findButton);
 		findAll = new JRadioButton("Find All");
 		findAll.addChangeListener(cl);
-		bg.add(findAll);
+		buttonGroup.add(findAll);
 		switchPane.add(findAll);
-		bg.setSelected(find.getModel(), true);
+		buttonGroup.setSelected(findButton.getModel(), true);
 
 		JPanel strPane = new JPanel();
 		stringLabel = new JLabel("String:", JLabel.RIGHT);
@@ -151,18 +153,42 @@ public class REDemo extends JPanel {
 		strPane.add(new JLabel("Matches:"));
 		matchesTF = new JTextField(3);
 		strPane.add(matchesTF);
+		
+		JPanel bottomPanel = new JPanel();
+		final JButton copyButton = new JButton("Copy Pattern");
+		bottomPanel.add(copyButton);
+		copyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				UtilGUI.setSystemClipboardContents(REDemo.this, patternTF.getText());
+			}
+		});
+		final JButton copyDoubledButton = new JButton("Copy Pattern Backslashed");
+		bottomPanel.add(copyDoubledButton);
+		copyDoubledButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				UtilGUI.setSystemClipboardContents(REDemo.this, patternTF.getText().replaceAll("\\\\", "\\\\\\\\"));
+			}
+		});
+		final JButton quitButton = new JButton("Exit");
+		bottomPanel.add(quitButton);
+		quitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				System.exit(0);
+			}
+		});
 
 		setLayout(new GridLayout(0, 1, 5, 5));
 		add(top);
 		add(strPane);
 		add(switchPane);
 		add(logTextArea = new JTextArea(5,40));
+		add(bottomPanel);
 
 		// Now that the components are created, add them to the list
 		// that change fonts.
 		fontChangers = new Component[]{
 			pattLabel, patternTF, stringLabel, stringTF, 
-			match, find, findAll,
+			match, findButton, findAll,
 			matchesTF, logTextArea
 		};
 	}
@@ -223,7 +249,7 @@ public class REDemo extends JPanel {
 			for (int i = 0; i <= matcher.groupCount(); i++) {
 				logTextArea.append(i + " " + matcher.group(i) + "\n");
 			}
-		} else if (find.isSelected() && matcher.find()) {
+		} else if (findButton.isSelected() && matcher.find()) {
 			setMatches(true);
 			setHighlightFromMatcher(matcher);
 			logTextArea.setText(matcher.group());
