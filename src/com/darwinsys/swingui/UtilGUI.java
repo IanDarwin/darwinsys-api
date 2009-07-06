@@ -1,9 +1,14 @@
 package com.darwinsys.swingui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.prefs.Preferences;
@@ -38,6 +43,21 @@ public class UtilGUI {
 		Dimension them = 
 			Toolkit.getDefaultToolkit().getScreenSize();
 		w.setBounds(0,0, them.width, them.height);
+	}
+	
+	/** 
+	 * Copy a string value to the system copy buffer
+	 */
+	public static void setSystemClipboardContents(Component c, String srcData) {
+		if (srcData != null) {
+			Clipboard clipboard = c.getToolkit().getSystemClipboard();
+			StringSelection contents = new StringSelection(srcData);
+			clipboard.setContents(contents, new ClipboardOwner() {
+				public void lostOwnership(Clipboard clipboard, Transferable contents) {
+					// don't care
+				}
+			});
+		}
 	}
 
 	/** Print a yes/no prompt; return true if the user presses yes
