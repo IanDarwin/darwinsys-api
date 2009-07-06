@@ -86,9 +86,9 @@ public class FixedLengthFIFO<T> implements List<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T[] toArray(T[] a) {
+	public <U> U[] toArray(U[] a) {
 		if (a.length < size) {
-            a = (T[])Array.newInstance(a.getClass().getComponentType(), n);
+            a = (U[])Array.newInstance(a.getClass().getComponentType(), n);
 		}
         System.arraycopy(data, 0, a, 0, n);
 		return a;
