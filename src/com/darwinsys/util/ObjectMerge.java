@@ -3,24 +3,22 @@ package rejmi.action;
 
 import java.lang.reflect.*;
 
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Name;
 
-import darwinian.contacts.Contact;
+@Name("objectMerge")
+public class ObjectMerge {
 
-@Name("contactMerge")
-public class ContactMerge {
+	@In Object left;
+	@In Object right;
 
-	@In Contact left;
-	@In Contact right;
-
-	Contact merge;
+	Object merge;
 
 	public void merge() throws Exception {
+		Class c = left.getClass();
 		if (left.getClass() != right.getClass()) {
 			throw new IllegalArgumentException(left + " class != " + right);
 		}
-		merge = new Contact();
-		Class c = left.getClass();
+		merge = c.newInstance();
 		Field[] fields = c.getFields();
 		for (Field f : fields) {
 			f.setAccessible(true);
