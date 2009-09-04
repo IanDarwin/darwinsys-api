@@ -1,26 +1,22 @@
-
 package rejmi.action;
 
 import java.lang.reflect.*;
 
-import org.jboss.seam.annotations.Name;
-
-@Name("objectMerge")
 public class ObjectMerge {
 
-	@In Object left;
-	@In Object right;
-
-	Object merge;
-
-	public void merge() throws Exception {
-		Class c = left.getClass();
+	public static Object merge(Object left, Object right) throws Exception {
+		Object merge = null;
+		Class<?> c = left.getClass();
 		if (left.getClass() != right.getClass()) {
 			throw new IllegalArgumentException(left + " class != " + right);
 		}
 		merge = c.newInstance();
-		Field[] fields = c.getFields();
+		Field[] fields = c.getDeclaredFields();
 		for (Field f : fields) {
+			int mod = f.getModifiers();
+			if (Modifier.isFinal(mod) ||
+				Modifier.isStatic(mod))
+				continue; // can not merge final or static
 			f.setAccessible(true);
 			Object l = f.get(left);
 			Object r = f.get(right);
@@ -37,6 +33,6 @@ public class ObjectMerge {
 				// they differ, leave it null
 			}
 		}
-		
+		return merge;
 	}
 }
