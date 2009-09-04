@@ -1,6 +1,7 @@
-package rejmi.action;
+package com.darwinsys.util;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public class ObjectMerge {
 
