@@ -291,6 +291,10 @@ public class FileIO {
 		return readerToString(new InputStreamReader(is));
 	}
 
+	public static String readAsString(String filename) throws IOException {
+		return readerToString(new FileReader(filename));
+	}
+	
 	/** Write a String as the entire content of a File */
 	public static void stringToFile(String text, String fileName)
 	throws IOException {
@@ -305,4 +309,5 @@ public class FileIO {
 	throws IOException {
 		return new BufferedReader(new FileReader(fileName));
 	}
+
 }
