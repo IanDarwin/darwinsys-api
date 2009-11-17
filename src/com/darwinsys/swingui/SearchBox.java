@@ -2,6 +2,7 @@ package com.darwinsys.swingui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -82,10 +83,14 @@ public class SearchBox extends JComponent {
 		if (imbed ) {
 			text.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			Dimension d = text.getPreferredSize();
-			d.height *= 2;
+			d.height *= 1.7;
 			text.setPreferredSize(d);
+			final Font xFont = clearButton.getFont();
+			Font newFont = xFont.deriveFont(xFont.getSize2D()*0.7f);
+			clearButton.setFont(newFont);
 			text.add(clearButton);
 		} else {
+			// Plain mode, add it beside the textfield
 			add(clearButton);
 		}
 		clearButton.addActionListener(clearer);
