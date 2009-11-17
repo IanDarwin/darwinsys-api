@@ -62,7 +62,7 @@ public class SearchBox extends JComponent {
 
 	private final JTextField text;
 
-	private final JButton cancelButton;
+	private final JButton clearButton;
 
 	private boolean imbed = true;
 
@@ -78,17 +78,17 @@ public class SearchBox extends JComponent {
 		}
 
 		add(text = new JTextField(10));
-		cancelButton = new JButton("X");
+		clearButton = new JButton("X");
 		if (imbed ) {
 			text.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			Dimension d = text.getPreferredSize();
 			d.height *= 2;
 			text.setPreferredSize(d);
-			text.add(cancelButton);
+			text.add(clearButton);
 		} else {
-			add(cancelButton);
+			add(clearButton);
 		}
-		cancelButton.addActionListener(clearer);
+		clearButton.addActionListener(clearer);
 	}
 
 	/** Construct the Search Box including its GUI with a default title
@@ -127,5 +127,9 @@ public class SearchBox extends JComponent {
 
 	public void setText(String text) {
 		this.text.setText(text);
+	}
+
+	public JButton getClearButton() {
+		return clearButton;
 	}
 }

@@ -14,11 +14,20 @@ public class SearchBoxDemo extends JFrame {
 		jf.setContentPane(sb);
 		jf.pack();
 		jf.setVisible(true);
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		sb.getTextField().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Would search for: " + sb.getText());
+				final String text = sb.getText();
+				if (text.length() > 0)
+					System.out.println("Would search for: " + text);
 			}			
+		});
+		// This is not normally required; it's just to make the demo complete :-)
+		sb.getClearButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Cleared!");
+			}	
 		});
 	}
 }
