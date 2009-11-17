@@ -1,5 +1,6 @@
 package com.darwinsys.swingui;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,18 +64,37 @@ public class SearchBox extends JComponent {
 
 	private final JButton cancelButton;
 
-	/** Construct the object including its GUI */
-	public SearchBox() {
+	private boolean imbed = true;
+
+	/** Construct the Search Box including its GUI.
+	 * @param borderStr The border title; if null, no titled border added
+	 */
+	public SearchBox(String borderStr) {
 		super();
 		setLayout(new FlowLayout()); // default
 		
-		this.setBorder(BorderFactory.createTitledBorder("Search"));
+		if (borderStr != null) {
+			this.setBorder(BorderFactory.createTitledBorder(borderStr));
+		}
 
 		add(text = new JTextField(10));
-
-		add(cancelButton = new JButton("X"));
-
+		cancelButton = new JButton("X");
+		if (imbed ) {
+			text.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			Dimension d = text.getPreferredSize();
+			d.height *= 2;
+			text.setPreferredSize(d);
+			text.add(cancelButton);
+		} else {
+			add(cancelButton);
+		}
 		cancelButton.addActionListener(clearer);
+	}
+
+	/** Construct the Search Box including its GUI with a default title
+	 */
+	public SearchBox() {
+		this("Search");
 	}
 	
 	// Fake up an Icon for the JButton instead of "X"
