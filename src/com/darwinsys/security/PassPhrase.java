@@ -47,7 +47,7 @@ public class PassPhrase {
 	 */
 	public static void main(String[] args) {
 		if (args.length == 0) {
-		System.out.println(getNext(MIN_LENGTH));
+			System.out.println(getNext(MIN_LENGTH));
 		} else {
 			for (String arg : args) {
 				System.out.println(getNext(Integer.parseInt(arg)));
