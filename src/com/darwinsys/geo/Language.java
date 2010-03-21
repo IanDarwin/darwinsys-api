@@ -1,4 +1,4 @@
-package lhb/model;
+package com.darwinsys.geo;
 
 public enum Language {
 	en("English"),
