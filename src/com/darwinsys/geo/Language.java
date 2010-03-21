@@ -10,7 +10,7 @@ public enum Language {
 	jp("Japanese"),
 	kr("Korean"),
 	pl("Polish"),
-	ru("Russian"),
+	ru("Russian");
 
 	private final String name;
 
