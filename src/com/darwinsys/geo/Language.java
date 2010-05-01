@@ -4,6 +4,7 @@ public enum Language {
 	en("English"),
 	cn_tw("Chinese(Cantonese)"),
 	cn_zh("Chinese(Mandarin)"),
+	cz("Czech"),
 	de("German"),
 	es("Spanish"),
 	fr("French"),
@@ -24,5 +25,8 @@ public enum Language {
 
 	public String getName() {
 		return name;
+	}
+	public void setName(String name) {
+		throw new IllegalArgumentException("enums are immutable");
 	}
 }
