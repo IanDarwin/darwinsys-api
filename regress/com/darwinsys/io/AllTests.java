@@ -8,10 +8,12 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(value=Suite.class)
 @SuiteClasses(value={
-	ClassSourceUtilsTest.class,
+	//ClassSourceUtilsTest.class,
 	CrawlerTest.class,
 	FileIOTest.class,
 	FileSaverTest.class,
+	ReloadableStringReaderTest.class,
+	//SourceUtilsTest.class,
 	TextAreaOutputStreamTest.class,
 	TextAreaWriterTest.class
 })
