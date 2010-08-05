@@ -17,6 +17,9 @@ public class ReloadableStringReader extends Reader {
 	public ReloadableStringReader(String input) {
 		setString(input);
 	}
+	public ReloadableStringReader() {
+		// empty
+	}
 
 	public void setString(String s) {
 		this.contents = s;
@@ -25,6 +28,9 @@ public class ReloadableStringReader extends Reader {
 	}
 
 	public int read() {
+		if (contents == null) {
+			throw new IllegalStateException("No string provided");
+		}
 		return (pos < contents.length() ? contents.charAt(pos++) : -1);
 	}
 
@@ -37,7 +43,7 @@ public class ReloadableStringReader extends Reader {
 		for (int i = 0; i < len; i++) {
 			int ch = read();
 			if (ch == -1) {
-				return n;
+				return n>0 ? n : -1;
 			}
 			data[i + off] = (char)ch;
 			++n;
