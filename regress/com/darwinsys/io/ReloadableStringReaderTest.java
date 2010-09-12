@@ -58,12 +58,14 @@ public class ReloadableStringReaderTest {
 	}
 
 	@Test
+	/** Read a few chars, change the string, ensure no missing or extra chars in stream */
 	public void testBaitAndSwitch() {
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i <= 5; i++)
-			System.out.print((char)target.read());
+			sb.append((char)target.read());
 		target.setString("Word");
 		for (int i = 0; i <= 3; i++)
-			System.out.print((char)target.read());
-		System.out.println();
+			sb.append((char)target.read());
+		assertEquals("baitAndSwitch", "Hello Word", sb.toString());
 	}
 }
