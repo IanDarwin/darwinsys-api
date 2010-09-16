@@ -278,7 +278,7 @@ public enum Country {
 
 	/**
 	 * Determine whether or not we're looking at either Canada or the US.
-	 * @return
+	 * @return false always; planned to return true if the country is either Canada or the USA
 	 */
 	public boolean isCanadaOrUS() {
 		return false;
