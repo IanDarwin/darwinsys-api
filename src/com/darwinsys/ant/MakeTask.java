@@ -9,6 +9,9 @@ import java.util.List;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+/**
+ * Feeble attempt at an Ant Task for running Make
+ */
 public class MakeTask extends Task {
 	
 	private String baseDir;
