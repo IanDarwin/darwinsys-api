@@ -17,7 +17,7 @@ public class PasswordStrength {
 
 	public static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	public static final String PUNCTUATION = "!.@$£#*()%~<>{}[]";
+	public static final String PUNCTUATION = "!.@$#*()%~<>{}[]";
 
 	public Strength checkPassword(final String password) {
 
