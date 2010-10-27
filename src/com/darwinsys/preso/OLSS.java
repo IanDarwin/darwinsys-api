@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+/** OLSS - the One Line Slide Show presenter */
 public class OLSS {
 	JFrame jf;
 	JLabel tf;
@@ -59,7 +60,6 @@ public class OLSS {
 		if (jf == null) {
 			jf = new JFrame();
 			jf.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-			jf.setVisible(true);
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		if (tf == null) {
@@ -115,6 +115,7 @@ public class OLSS {
 	
 	private void showPage(int n) {
 		tf.setText("<html>" + show.get(n));
+		jf.setVisible(true);
 		page = n;
 	}
 
