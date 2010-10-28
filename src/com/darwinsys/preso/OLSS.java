@@ -19,7 +19,7 @@ public class OLSS {
 	JFrame jf;
 	JLabel tf;
 	
-	int DEFAULT_SIZE = 60;
+	int DEFAULT_SIZE = 72;
 
 	/**
 	 * @param args
