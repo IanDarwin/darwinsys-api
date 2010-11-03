@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,6 +38,9 @@ public class OLSS {
 
 	private List<String> show = new ArrayList<String>();
 
+	private static Pattern urlPattern = 
+		Pattern.compile("http://([a-z.])+(/[\\w\\d.]+)+");
+
 	public void loadShow(String fileName) {
 		try {
 			BufferedReader is = new BufferedReader(new FileReader(fileName));
@@ -44,6 +48,12 @@ public class OLSS {
 			while ((line = is.readLine()) != null) {
 				if (line.length() == 0 || line.startsWith("#"))
 					continue;
+//				final Matcher matcher = urlPattern.matcher(line);
+//				if (matcher.find()) {
+//					String url = matcher.group(0);
+//					line += "<img src='" + QRFormatter.format(url)+ "'>";
+//					System.out.println(line);
+//				}
 				show.add(line);
 			}
 		} catch (IOException e) {
