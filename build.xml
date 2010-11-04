@@ -105,7 +105,7 @@
 		
 	<target name="dist" depends="jar,src-jar"/>
 
-	<target name="jar" depends="docs,build">
+	<target name="jar" depends="javadoc,build">
 		<mkdir dir="${build}/META-INF"/>
 		<copy file="darwintags.tld" todir="${build}/META-INF"/>
 		<jar jarfile="${build}/${obj.jar}"
@@ -114,7 +114,7 @@
 		</jar>
 	</target>
 
-	<target name="src-jar" depends="docs">
+	<target name="src-jar" depends="javadoc">
 		<jar jarfile="${build}/${src.jar}"
 			manifest="manifest.stub"
 			basedir="." includes="build.xml,src/**">
@@ -125,10 +125,10 @@
 		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
 	</target>
 
-	<!-- Docs now depends on regress: no point waiting for javadoc
+	<!-- javadoc now depends on regress: no point waiting for javadoc
 	 *** if the tests don't run!
 	 -->
-	<target name="docs">
+	<target name="javadoc">
 		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
 			classpathref="all.classpath"
 			packagenames="com.darwinsys.*"
