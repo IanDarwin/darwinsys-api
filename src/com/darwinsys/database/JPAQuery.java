@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 /*
  * Interactive query runner.
@@ -18,6 +18,11 @@ public class JPAQuery {
 
 	static EntityManagerFactory entityMgrFactory = null;
 
+	public enum Mode {
+		CONSOLE,
+		SWING
+	}
+
 	public static void main(String[] args) {
 
 		String unitName = args.length == 0 ?  "jpademo" : args[0];
@@ -27,7 +32,7 @@ public class JPAQuery {
 		// Do i/o initializations before JPA to fail fast
 		program.init();
 
-		System.out.println("JPAQuery.main() -- starting JPA");
+		System.out.println("JPAQuery.main() -- starting JPA " + unitName);
 
 		// This would be done for you
 		// were you running in an EE App Server
@@ -53,10 +58,11 @@ public class JPAQuery {
 	}
 		
 	Console console;
+	Mode mode = Mode.CONSOLE;
 
 	void init() {
-                if ((console = System.console()) == null) {
-			throw new RuntimeException("Can't get Console");
+        if ((console = System.console()) == null) {
+			mode = Mode.SWING;
 		}
 	}
 
@@ -70,21 +76,24 @@ public class JPAQuery {
 		while(true) {
 
 			try {
-			queryStr = console.readLine("Enter JPA Query: ");
-			if (queryStr == null || "quit".equals(queryStr)) {
-				return;
-			}
-
-			query = entityManager.createQuery(queryStr);
-
-			List<Object> list = query.getResultList();
-			System.out.println("Found " + list.size() + " results:");
-			for (Object o : list) {
-				System.out.println(o);
-			}
-			System.out.println();
+				queryStr = mode == Mode.CONSOLE ? 
+					console.readLine("Enter JPA Query: ") :
+					JOptionPane.showInputDialog(null, "Enter JPA Query: ");
+				if (queryStr == null || "quit".equals(queryStr)) {
+					return;
+				}
+	
+				query = entityManager.createQuery(queryStr);
+	
+				List<Object> list = query.getResultList();
+				System.out.println("Found " + list.size() + " results:");
+				for (Object o : list) {
+					System.out.println(o);
+				}
+				System.out.println();
 			} catch (Exception e) {
 				System.out.println("Error: " + e);
+				e.printStackTrace();
 			}
 		}
 
