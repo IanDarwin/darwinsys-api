@@ -1,4 +1,4 @@
-package demo;
+package com.darwinsys.database;
 
 import java.io.Console;
 import java.util.List;
@@ -10,9 +10,8 @@ import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /*
- * Interactive query runner.
- * Could be a nice general-purpose program but for the complexity
- * of setting JPA up for each project.
+ * Interactive query runner; ideal for testing query syntax once
+ * you've dealt with setting JPA up for your project.
  */
 public class JPAQuery {
 
