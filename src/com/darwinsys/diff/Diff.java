@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
   /**
-   * This Class implements the Difference Algorithm published in
-   * "An O(ND) Difference Algorithm and its Variations" by Eugene Myers
-   * Algorithmica Vol. 1 No. 2, 1986, p 251.  
+   * BSD-licensed Java implementation of "An O(ND) Difference Algorithm 
+   * and its Variations" by Eugene Myers, published in
+   * Algorithmica Vol. 1 No. 2, 1986, p 251.
+   * 
+   * C# version written by Mathias Hertel, http://www.mathertel.de
+   * Mathias Hertel's version ported to Java by Ian Darwin, http://www.darwinsys.com/
+   * Comments below this line are from Hertel's original.
+   * ----------------------------------------------------
    * 
    * There are many C, Java, Lisp implementations public available but they all seem to come
    * from the same source (diffutils) that is under the (unfree) GNU public License
@@ -23,7 +28,7 @@ import java.util.Hashtable;
    * The algorithm itself is comparing 2 arrays of numbers so when comparing 2 text documents
    * each line is converted into a (hash) number. See DiffText(). 
    * 
-   * Some chages to the original algorithm:
+   * Some changes to the original algorithm:
    * The original algorithm was described using a recursive approach and comparing zero indexed arrays.
    * Extracting sub-arrays and rejoining them is very performance and memory intensive so the same
    * (readonly) data arrays are passed arround together with their lower and upper bounds.
@@ -44,11 +49,11 @@ import java.util.Hashtable;
    * It is possible to reuse tehm when transfering them to members of the class.
    * See TODO: hints.
    * 
-   * diff.cs: A port of the algorythm to C#
+   * diff.cs: A port of the algorithm to C#
    * Copyright (c) by Matthias Hertel, http://www.mathertel.de
    * This work is licensed under a BSD style license. See http://www.mathertel.de/License.aspx
    * 
-   * Changes:
+   * Hertel's version Changes:
    * 2002.09.20 There was a "hang" in some situations.
    * Now I undestand a little bit more of the SMS algorithm. 
    * There have been overlapping boxes; that where analyzed partial differently.
@@ -71,12 +76,10 @@ import java.util.Hashtable;
    * 2008.05.31 Adjusted the testing code that failed because of the Optimize method (not a bug in the diff algorithm).
    * 2008.10.08 Fixing a test case and adding a new test case.
   */
-  public class Diff
-  {
+  public class Diff {
 
     /**details of one difference. */
-    public class Item
-    {
+    public static class Item {
       /**Start Line number in Data A. */
       public int StartA;
       /**Start Line number in Data B. */
@@ -86,28 +89,25 @@ import java.util.Hashtable;
       public int deletedA;
       /**Number of changes in Data B. */
       public int insertedB;
-    } // Item
+    }
 
     /**
      * Shortest Middle Snake Return Data
     */
-    private class SMSRD
-    {
+    private static class SMSRD {
       int x, y;
       // int u, v;  // 2002.09.20: no need for 2 points 
     }
 
-
-
     /**
      * Find the difference in 2 texts, comparing by textlines.
-     * @param /="TextA">A-version of the text (usualy the old one)</param>
-     * @param /="TextB">B-version of the text (usualy the new one)</param>
+     * @param TextA A-version of the text (usualy the old one)</param>
+     * @param TextB B-version of the text (usualy the new one)</param>
      * @return Returns a array of Items that describe the differences.</returns>
     */
-    public Item[] DiffText(String TextA, String TextB) {
-      return (DiffText(TextA, TextB, false, false, false));
-    } // DiffText
+    public static Item[] diffText(String TextA, String TextB) {
+      return (diffText(TextA, TextB, false, false, false));
+    }
 
 
     /**
@@ -116,14 +116,14 @@ import java.util.Hashtable;
      * each line is converted into a (hash) number. This hash-value is computed by storing all
      * textlines into a common hashtable so i can find dublicates in there, and generating a 
      * new number each time a new textline is inserted.
-     * @param /="TextA">A-version of the text (usualy the old one)</param>
-     * @param /="TextB">B-version of the text (usualy the new one)</param>
-     * @param /="trimSpace">When set to true, all leading and trailing whitespace characters are stripped out before the comparation is done.</param>
-     * @param /="ignoreSpace">When set to true, all whitespace characters are converted to a single space character before the comparation is done.</param>
-     * @param /="ignoreCase">When set to true, all characters are converted to their lowercase equivivalence before the comparation is done.</param>
+     * @param TextA A-version of the text (usualy the old one)</param>
+     * @param TextB B-version of the text (usualy the new one)</param>
+     * @param trimSpace When set to true, all leading and trailing whitespace characters are stripped out before the comparation is done.</param>
+     * @param ignoreSpace When set to true, all whitespace characters are converted to a single space character before the comparation is done.</param>
+     * @param ignoreCase When set to true, all characters are converted to their lowercase equivivalence before the comparation is done.</param>
      * @return Returns a array of Items that describe the differences.</returns>
     */
-    public Item[] DiffText(String TextA, String TextB, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase) {
+    public static Item[] diffText(String TextA, String TextB, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase) {
       // prepare the input-text and convert to comparable numbers.
       Hashtable h = new Hashtable(TextA.length() + TextB.length());
 
@@ -154,7 +154,7 @@ import java.util.Hashtable;
      * as the line that appends the changes, the difference sequence is modified so that the
      * appended line and not the starting line is marked as modified.
      * This leads to more readable diff sequences when comparing text files.
-     * @param /="Data">A Diff data buffer containing the identified changes.</param>
+     * @param Data A Diff data buffer containing the identified changes.</param>
     */
     private static void Optimize(DiffData Data) {
       int StartPos, EndPos;
@@ -179,8 +179,8 @@ import java.util.Hashtable;
 
     /**
      * Find the difference in 2 arrays of integers.
-     * @param /="ArrayA">A-version of the numbers (usualy the old one)</param>
-     * @param /="ArrayB">B-version of the numbers (usualy the new one)</param>
+     * @param ArrayA A-version of the numbers (usualy the old one)</param>
+     * @param ArrayB B-version of the numbers (usualy the new one)</param>
      * @return Returns a array of Items that describe the differences.</returns>
     */
     public Item[] DiffInt(int[] ArrayA, int[] ArrayB) {
@@ -204,17 +204,17 @@ import java.util.Hashtable;
     /**
      * This function converts all textlines of the text into unique numbers for every unique textline
      * so further work can work only with simple numbers.
-     * @param /="aText">the input text</param>
-     * @param /="h">This extern initialized hashtable is used for storing all ever used textlines.</param>
-     * @param /="trimSpace">ignore leading and trailing space characters</param>
+     * @param aText the input text</param>
+     * @param h This extern initialized hashtable is used for storing all ever used textlines.</param>
+     * @param trimSpace ignore leading and trailing space characters</param>
      * @return a array of integers.</returns>
     */
-    private static int[] DiffCodes(String aText, Hashtable h, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase) {
+    private static int[] DiffCodes(String aText, Hashtable<String, Integer> h, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase) {
       // get all codes of the text
       String[] Lines;
       int[] Codes;
       int lastUsedCode = h.size();
-      Object aCode;
+      Integer aCode;
       String s;
 
       // strip off all cr, only use lf as textline separator.
@@ -241,7 +241,7 @@ import java.util.Hashtable;
           h.put(s, lastUsedCode);
           Codes[i] = lastUsedCode;
         } else {
-          Codes[i] = Integer.valueOf((String)aCode);
+          Codes[i] = aCode;
         } // if
       } // for
       return (Codes);
@@ -250,20 +250,20 @@ import java.util.Hashtable;
 
     /**
      * This is the algorithm to find the Shortest Middle Snake (SMS).
-     * @param /="DataA">sequence A</param>
-     * @param /="LowerA">lower bound of the actual range in DataA</param>
-     * @param /="UpperA">upper bound of the actual range in DataA (exclusive)</param>
-     * @param /="DataB">sequence B</param>
-     * @param /="LowerB">lower bound of the actual range in DataB</param>
-     * @param /="UpperB">upper bound of the actual range in DataB (exclusive)</param>
-     * @param /="DownVector">a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.</param>
-     * @param /="UpVector">a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.</param>
+     * @param DataA sequence A</param>
+     * @param LowerA lower bound of the actual range in DataA</param>
+     * @param UpperA upper bound of the actual range in DataA (exclusive)</param>
+     * @param DataB sequence B</param>
+     * @param LowerB lower bound of the actual range in DataB</param>
+     * @param UpperB upper bound of the actual range in DataB (exclusive)</param>
+     * @param DownVector a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.</param>
+     * @param UpVector a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.</param>
      * @return a MiddleSnakeData record containing x,y and u,v</returns>
     */
     private static SMSRD SMS(DiffData DataA, int LowerA, int UpperA, DiffData DataB, int LowerB, int UpperB,
       int[] DownVector, int[] UpVector) {
 
-      SMSRD ret = null;
+      SMSRD ret = new SMSRD();
       int MAX = DataA.Length + DataB.Length + 1;
 
       int DownK = LowerA - LowerB; // the k-line to start the forward search
@@ -279,7 +279,7 @@ import java.util.Hashtable;
 
       int MaxD = ((UpperA - LowerA + UpperB - LowerB) / 2) + 1;
 
-      // Debug.Write(2, "SMS", String.Format("Search the box: A[{0}-{1}] to B[{2}-{3}]", LowerA, UpperA, LowerB, UpperB));
+      // System.out.println(2, "SMS", String.format("Search the box: A[{0}-{1}] to B[{2}-{3}]", LowerA, UpperA, LowerB, UpperB));
 
       // init vectors
       DownVector[DownOffset + DownK + 1] = LowerA;
@@ -289,7 +289,7 @@ import java.util.Hashtable;
 
         // Extend the forward path.
         for (int k = DownK - D; k <= DownK + D; k += 2) {
-          // Debug.Write(0, "SMS", "extend forward path " + k.ToString());
+          // System.out.println(0, "SMS", "extend forward path " + k.ToString());
 
           // find the only or better starting point
           int x, y;
@@ -323,7 +323,7 @@ import java.util.Hashtable;
 
         // Extend the reverse path.
         for (int k = UpK - D; k <= UpK + D; k += 2) {
-          // Debug.Write(0, "SMS", "extend reverse path " + k.ToString());
+          // System.out.println(0, "SMS", "extend reverse path " + k.ToString());
 
           // find the only or better starting point
           int x, y;
@@ -361,21 +361,21 @@ import java.util.Hashtable;
 
 
     /**
-     * This is the divide-and-conquer implementation of the longes common-subsequence (LCS) 
+     * This is the divide-and-conquer implementation of the longest common-subsequence (LCS) 
      * algorithm.
      * The published algorithm passes recursively parts of the A and B sequences.
      * To avoid copying these arrays the lower and upper bounds are passed while the sequences stay constant.
-     * @param /="DataA">sequence A</param>
-     * @param /="LowerA">lower bound of the actual range in DataA</param>
-     * @param /="UpperA">upper bound of the actual range in DataA (exclusive)</param>
-     * @param /="DataB">sequence B</param>
-     * @param /="LowerB">lower bound of the actual range in DataB</param>
-     * @param /="UpperB">upper bound of the actual range in DataB (exclusive)</param>
-     * @param /="DownVector">a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.</param>
-     * @param /="UpVector">a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.</param>
+     * @param DataA sequence A</param>
+     * @param LowerA lower bound of the actual range in DataA</param>
+     * @param UpperA upper bound of the actual range in DataA (exclusive)</param>
+     * @param DataB sequence B</param>
+     * @param LowerB lower bound of the actual range in DataB</param>
+     * @param UpperB upper bound of the actual range in DataB (exclusive)</param>
+     * @param DownVector a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.</param>
+     * @param UpVector a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.</param>
     */
     private static void LCS(DiffData DataA, int LowerA, int UpperA, DiffData DataB, int LowerB, int UpperB, int[] DownVector, int[] UpVector) {
-      // Debug.Write(2, "LCS", String.Format("Analyse the box: A[{0}-{1}] to B[{2}-{3}]", LowerA, UpperA, LowerB, UpperB));
+      // System.out.println(2, "LCS", String.format("Analyse the box: A[{0}-{1}] to B[{2}-{3}]", LowerA, UpperA, LowerB, UpperB));
 
       // Fast walkthrough equal lines at the start
       while (LowerA < UpperA && LowerB < UpperB && DataA.data[LowerA] == DataB.data[LowerB]) {
@@ -400,7 +400,7 @@ import java.util.Hashtable;
       } else {
         // Find the middle snakea and length of an optimal path for A and B
         SMSRD smsrd = SMS(DataA, LowerA, UpperA, DataB, LowerB, UpperB, DownVector, UpVector);
-        // Debug.Write(2, "MiddleSnakeData", String.Format("{0},{1}", smsrd.x, smsrd.y));
+        // System.out.println(2, "MiddleSnakeData", String.format("{0},{1}", smsrd.x, smsrd.y));
 
         // The path is from LowerX to (x,y) and (x,y) to UpperX
         LCS(DataA, LowerA, smsrd.x, DataB, LowerB, smsrd.y, DownVector, UpVector);
@@ -413,7 +413,7 @@ import java.util.Hashtable;
      * producing an edit script in forward order.  
      * dynamic array
      */
-    private Item[] CreateDiffs(DiffData DataA, DiffData DataB) {
+    private static Item[] CreateDiffs(DiffData DataA, DiffData DataB) {
       ArrayList<Item> a = new ArrayList<Item>();
       Item aItem;
       Item[] result;
@@ -463,7 +463,7 @@ import java.util.Hashtable;
 
   /** Data on one input file being compared.  
   */
-  class DiffData
+  static class DiffData
   {
 
     /**Number of elements (lines). */
@@ -481,7 +481,7 @@ import java.util.Hashtable;
 
     /**
      * Initialize the Diff-Data buffer.
-     * @param /="data">reference to the buffer</param>
+     * @param data reference to the buffer</param>
     */
     protected DiffData(int[] initData) {
       data = initData;
