@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /** Very simple mock object that can be loaded as a JDBC Driver.
  * @author ian
@@ -34,6 +36,11 @@ public class MockJdbcDriver implements Driver {
 
 	public boolean jdbcCompliant() {
 		return false;
+	}
+
+	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+		throw new IllegalStateException(
+				"I hadn't planned for this method to be called");
 	}
 
 }
