@@ -63,12 +63,9 @@ public enum USState {
 	WV("WEST VIRGINIA"),
 	WI("WISCONSIN"),
 	WY("WYOMING"),
-	AE("Armed Forces Africa"),
 	AA("Armed Forces Americas"),
-	AE("Armed Forces Canada"),
-	AE("Armed Forces Europe"),
-	AE("Armed Forces Middle East"),
 	AP("Armed Forces Pacific"),
+	AE("Armed Forces - Other"),
 	;
 	
 	private final String longName;
