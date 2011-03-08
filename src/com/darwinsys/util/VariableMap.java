@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** A HashMap with Variable substitution, using ${key} syntax.
+/** A Map with Variable substitution, using ${key} syntax.
  * VariableMap both holds variables and performs substitution
  * on a string using all held variables matched by ${varName}.
  * Supports java.beans PropertyChange notification so other parts
