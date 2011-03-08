@@ -15,25 +15,47 @@ import org.apache.commons.codec.binary.Base64;
 public class ConversationURL {
 	
 	/** Run a conversation and return the result, with no
-	 * postBogy and not credentials.
+	 * postBody and no credentials.
 	 * @param host The web service site address
 	 * @param port the port number (usually 80)
 	 * @param path The servlet or component path
-	 * @return
+	 * @return The result of the conversation.
+	 * @throws IOException 
 	 */
-	 public static String converse(String host, int port, String path) {
+	 public static String converse(String host, int port, String path) throws IOException {
 		 return converse(host, port, path, null, null, null);
 	 }
 	
+	 /** Run a conversation and return the result, with
+	  * the given postBody and no credentials.
+	  * @param host The web service site address
+	  * @param port the port number (usually 80)
+	  * @param path The servlet or component path
+	  * @param postBody The body to send (null == use GET)
+	  * @param userName Credentials
+	  * @param password Credentials
+	  * @return The result of the conversation.
+	  * @throws IOException 
+	  */
 	 public static String converse(String host, int port, String path, String postBody, String userName, String password) throws IOException {
 		 URL url = new URL("http", host, 80, path);
 		 return converse(url, postBody, userName, password);
 	 }
-	    
+	   
+	 /** Run a conversation and return the result, with
+	  * the given postBody and no credentials.
+	  * @param url The URL for the restful web service
+	  * @param postBody The body to send (null == use GET)
+	  * @param userName Credentials
+	  * @param password Credentials
+	  * @return The result of the conversation.
+	  * @throws IOException 
+	  */
 	 public static String converse(URL url, String postBody, String userName, String password) throws IOException {
 		 URLConnection conn = url.openConnection();
 		 if (userName != null || password != null) {
-	        String auth = Base64.encodeBase64(userName + ":" + password);
+			 String cred = userName + ":" + password;
+	        String auth = new String(Base64.encodeBase64(cred.getBytes()));
 	        conn.setRequestProperty("Authorization", auth);
 		 }
 	        boolean post = postBody != null;
