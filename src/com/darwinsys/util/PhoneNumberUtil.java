@@ -1,5 +1,7 @@
 package com.darwinsys.util;
 
+/** XXX MERGE WITH c.d.tel/DialWords, which works for simpler cases */
+@Deprecated
 public class PhoneNumberUtil {
 	
 	private static char[][] data = {
