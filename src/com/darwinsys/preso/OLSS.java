@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-/** OLSS - the One Line Slide Show presenter */
+/** OLSS - the One Line Slide Show presenter: one line per slide */
 public class OLSS {
 	JFrame jf;
 	JLabel tf;
