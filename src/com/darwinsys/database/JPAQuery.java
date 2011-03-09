@@ -46,7 +46,8 @@ public class JPAQuery {
 			program.run(entityManager);
 
 		} catch (Exception e) {
-			System.out.println("teh jpa she fail: " + e);
+			System.out.println("JPA failure: " + e);
+			e.printStackTrace();
 			return;
 		} finally {	
 			if (entityManager != null)
