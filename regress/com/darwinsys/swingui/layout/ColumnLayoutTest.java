@@ -1,4 +1,4 @@
-package com.darwinsys. swingui;
+package com.darwinsys.swingui.layout;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
