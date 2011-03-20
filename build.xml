@@ -63,7 +63,6 @@
 	<target name="init">
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
 		<mkdir dir="${build}"/> <!-- Ensure build directory exists -->
-		<mkdir dir="${reports-regress}"/>
 	</target>
 
 	<target name="build" depends="check,build-core,build-macosx,build-regress"/>
@@ -76,6 +75,15 @@
 			<exclude name="regress/**"/>
 			<exclude name="com/darwinsys/macosui/**"/>
 			<exclude name="com/darwinsys/ant/MakeTask.java"/>
+		</javac>
+	</target>
+
+	<target name="build-ant-task" depends="init">
+		<javac destdir="${build}" srcdir="${src}"
+			classpathref="all.classpath"
+			debug="true" deprecation="true" fork="false"
+			includeantruntime="true">	<!-- to compile Ant task -->
+			<include name="com/darwinsys/ant/MakeTask.java"/>
 		</javac>
 	</target>
 
@@ -137,7 +145,7 @@
 			classpathref="all.classpath"
 			packagenames="com.darwinsys.*"
 			maxmemory="48m"
-			windowtitle="com.darwinsys.* - Java Cookbook Utilities"
+			windowtitle="com.darwinsys.* - Ian Darwin / Java Cookbook Utilities"
 			Version="true" Author="true" Use="true"
 			Overview="overview.html"
 			>
@@ -152,9 +160,10 @@
 
 	<!-- Regression Tests -->
 	<target name="regress" depends="build">
+		<delete dir="${reports-regress}"/>
+		<mkdir  dir="${reports-regress}"/>
 		<junit printsummary="withOutAndErr" 
-			fork="true" forkmode="once" haltonfailure="no" 
-			dir="${reports-regress}">
+			fork="true" forkmode="once" haltonfailure="no">
 				<classpath>
 					<pathelement location="${build-instrumented}"/>
 					<path refid="all.classpath"/>
@@ -162,8 +171,13 @@
 				<formatter type="xml"/>
 				<batchtest fork="yes" todir="${reports-regress}">
 					 <fileset dir="regress">
-					     <include name="**/*Test.java"/>
-					     <exclude name="**/AllTest*.java"/>
+					     <include name="**/*Test.*"/>
+					     <exclude name="**/AllTest*.*"/>
+					     <exclude name="com/darwinsys/installers/InstallerUtilsTest.*"/>
+					     <exclude name="com/darwinsys/io/ClassSourceUtilsTest.*"/>
+					     <exclude name="com/darwinsys/io/SourceUtilsTest.*"/>
+					     <exclude name="com/darwinsys/macosui/MacOSUITest.*"/>
+					     <exclude name="com/darwinsys/swingui/*"/>
 					 </fileset>
 				</batchtest>
 		</junit>
@@ -171,7 +185,7 @@
 			<fileset dir="${reports-regress}">
 				<include name="TEST-*.xml"/>
 			</fileset>
-			<report format="frames"/>
+			<report format="frames" todir="${reports-regress}"/>
 		</junitreport>
 	</target>
 			
