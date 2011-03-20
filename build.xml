@@ -10,6 +10,7 @@
 
 	<!-- other properties -->
 	<property name="src" value="src"/>
+	<property name="regress" value="regress"/>
 	<property name="build" value="build"/>
 	<property name="build-instrumented" value="build-instrumented"/>
 	<property name="lib.dir" value="lib"/>
@@ -96,13 +97,12 @@
 	</target>
 
 	<target name="build-regress" depends="init">
-		<javac destdir="${build}" srcdir="${src}"
+		<javac destdir="${build}" srcdir="${regress}"
 			classpathref="all.classpath"
 			debug="true" deprecation="true" fork="false"
 			includeantruntime="false">
-			<include name="regress/**"/>
-			<exclude name="regress/MacOSUITest.java"/>
-			<exclude name="com/**"/>
+			<include name="**"/>
+			<exclude name="com/darwinsys/macosui/MacOSUITest.java"/>
 		</javac>
 	</target>
 	
