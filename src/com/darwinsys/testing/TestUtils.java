@@ -3,12 +3,17 @@ package com.darwinsys.testing;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Try to automate some testing, with mixed results.
+ * XXX TOTAL FAIL THIS IS - if field name is not
+ * the same as the Properties name
+ * @author ian
+ */
 public class TestUtils {
 
 	 /**
@@ -21,6 +26,10 @@ public class TestUtils {
 		Method getter, setter;
 		Prop(String name) {
 			this.name = name;
+		}
+		@Override
+		public String toString() {
+			return "Prop(" + name + ")";
 		}
 	 }
 
@@ -55,8 +64,7 @@ public class TestUtils {
 
 		// Class objects are singleton-like, compare with ==
 		if (c1 != c2) {
-			System.err.println("Warn: classes are different");
-			return false;
+			throw new IllegalArgumentException("Cannot compare " + c1 + " with " + c2);
 		}
 
 		Map<String, Prop> props = getProperties(c1);
@@ -64,7 +72,14 @@ public class TestUtils {
 			new ArrayList<String>(props.keySet());
 		for (String name : propNames) {
 			System.err.println("Trying property " + name);
-			if (!propsEquals(props.get(name).rawField, o1, o2)) {
+			final Prop prop = props.get(name);
+			if (prop == null) {
+				throw new IllegalStateException("No Prop descriptor found for " + name);
+			}
+			if (prop.rawField == null) {
+				throw new IllegalStateException("No RawField in Prop descriptor for " + name);
+			}
+			if (!propsEquals(prop.rawField, o1, o2)) {
 				return false;
 			}
 		}
@@ -109,39 +124,42 @@ public class TestUtils {
 		Map<String, Prop> propsMap = new HashMap<String, Prop>();
 		Field[] fields = c1.getDeclaredFields();
 		for (Field f : fields) {
-			int mods = f.getModifiers();
-			if (Modifier.isPrivate(mods)) {
-				continue;
-			}
-			String name = f.getName();
-			Prop p = propsMap.get(name);
+			f.setAccessible(true);  // bye-bye "private"
+			String fieldName = f.getName();
+			
+			// Put the entry in the props map,
+			// unless we already put it b/c of a method
+			Prop p = propsMap.get(fieldName);
 			if (p == null) {
-				p = new Prop(name);
-				propsMap.put(name, p);
+				p = new Prop(fieldName);
+				propsMap.put(fieldName, p);
 			}
+			p.rawField = f;
 		}
+		
 		Method[] methods = c1.getDeclaredMethods();
 		for (Method m : methods) {
-			int mods = m.getModifiers();
-			if (Modifier.isPrivate(mods)) {
+			m.setAccessible(true);  // bye-bye "private"
+			String methodName = m.getName();
+			if (!(methodName.startsWith("get") || methodName.startsWith("set"))) {
 				continue;
 			}
-			String name = m.getName();
-			if (!name.startsWith("get") || name.startsWith("set")) {
-				continue;
-			}
-			String propName = name.substring(3);
+			String propName = methodName.substring(3);
+			propName = propName.substring(0,1).toLowerCase() +
+				propName.substring(1);
+			// Put the entry in the props map,
+			// unless we already put it b/c of f's mate.
 			Prop p = propsMap.get(propName);
 			if (p == null) {
 				p = new Prop(propName);
 				propsMap.put(propName, p);
 			}
-			if (name.startsWith("get")) {
+			if (methodName.startsWith("get")) {
 				p.getter = m;
-			} else if (name.startsWith("set")) {
+			} else if (methodName.startsWith("set")) {
 				p.setter = m;
 			} else {
-				throw new IllegalStateException("invalid name " + name);
+				throw new IllegalStateException("invalid name " + methodName);
 			}
 		}
 		return propsMap;
@@ -149,8 +167,8 @@ public class TestUtils {
 
 	private static boolean propsEquals(Member member, Object o1, Object o2) {
 		if (member == null) {
-			System.err.println("Warning: member is null in propsEquals");
-			return false;
+			throw new IllegalStateException("Member is null in propsEquals");
+			//return false;
 		}
 		try {
 			if (member instanceof Field) {
@@ -158,13 +176,10 @@ public class TestUtils {
 				System.out.println(String.format("EqualsUtils.propsEquals(%s)", f.getName()));
 				Object val1 = f.get(o1);
 				Object val2 = f.get(o2);
-				System.err.println(val1);
-				System.err.println(val2);
 				return val1.equals(val2);
 			} else if (member instanceof Method) {
 				Method m = (Method)member;
 				String methodName = m.getName();
-				// System.out.println(String.format("EqualsUtils.propsEquals(%s())", methodName));
 				if (methodName.startsWith("set")) {
 					// only test getters here - see TGS
 					return true;

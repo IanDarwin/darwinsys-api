@@ -1,16 +1,16 @@
 package com.darwinsys.testing;
 
 import static com.darwinsys.testing.TestUtils.assertNoDefaultProperties;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import junit.framework.AssertionFailedError;
 
 public class TestUtilsTest {
 
@@ -21,12 +21,12 @@ public class TestUtilsTest {
 	static class Mock {
 		int i;
 		String j;
-		private Date d;
+		private Date date;
 		public Date getDate() {
-			return d;
+			return date;
 		}
 		public void setDate(Date d) {
-			this.d = d;
+			this.date = d;
 		}
 		@Override
 		public boolean equals(Object o) {
@@ -35,14 +35,20 @@ public class TestUtilsTest {
 			}
 			Mock m = (Mock)o;
 			if (this.i != m.i || this.j != m.j ||
-					!(this.d.equals(m.d))) {
+					!(this.date.equals(m.date))) {
 				return false;
 			}
 			return true;
 		}
 		@Override
 		public int hashCode() {
-			return i*51 | j.hashCode() | d.hashCode();
+			return i*51 | j.hashCode() | date.hashCode();
+		}
+		@Override
+		public String toString() {
+			return 
+				String.format("mock(%d,%s,@%x)",
+					i,j,super.hashCode());
 		}
 	}
 
@@ -51,13 +57,10 @@ public class TestUtilsTest {
 		System.out.println("TestUtilsTest.setup()");
 		c = Calendar.getInstance();
 		m1 = new Mock();
-		m1.i = 42;
-		m1.j = "Hello";
-		m1.d = c.getTime();
 		m2 = new Mock();
-		m2.i = m1.i;
-		m2.j = m1.j;
-		m2.d = m1.d;
+		m1.i = m2.i = 42;
+		m1.j = m2.j ="Hello";
+		m1.date = m2.date = c.getTime();
 		System.out.println(m1);System.out.println(m2);
 	}
 	
@@ -76,9 +79,11 @@ public class TestUtilsTest {
 		
 	@Test
 	public void testEqualsCalCal() {
+		Calendar c = Calendar.getInstance();
+		c.setTime(m2.date);
 		c.set(Calendar.YEAR, c.get(Calendar.YEAR) - 1);
-		m2.d = c.getTime();
-		assertFalse("equality1", TestUtils.equals(m1, m2));
+		m2.date = c.getTime();
+		assertFalse("dates", TestUtils.equals(m1, m2));
 	}
 
 	@Test
@@ -90,10 +95,10 @@ public class TestUtilsTest {
 		try {
 			assertNoDefaultProperties(m);
 			fail("Didn't find null properties in blank Mock");
-		} catch (AssertionFailedError e) {
+		} catch (AssertionError e) {
 			System.out.println("Caught expected " + e);
 		}
-		m.d = new Date();
+		m.date = new Date();
 		m.i = 1000;
 		m.j = "mockme";
 		assertNoDefaultProperties(m);
