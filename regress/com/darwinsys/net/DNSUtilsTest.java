@@ -4,8 +4,9 @@ import junit.framework.TestCase;
 
 public class DNSUtilsTest extends TestCase {
 
+	/** This test is obviously dependant upon my DNS server being up: YMMV. */
 	public final void testDNSUtils() throws Exception {
-		DNSUtils util = new DNSUtils("dns1.sympatico.ca");
+		DNSUtils util = new DNSUtils("ns0.darwinsys.com");
 		String mx = util.findMX("www.darwinsys.com");
 		System.out.println(mx);
 	}
