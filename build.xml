@@ -63,6 +63,7 @@
 	<target name="init">
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
 		<mkdir dir="${build}"/> <!-- Ensure build directory exists -->
+		<mkdir dir="${reports-regress}"/>
 	</target>
 
 	<target name="build" depends="check,build-core,build-macosx,build-regress"/>
@@ -159,7 +160,7 @@
 					<path refid="all.classpath"/>
 				</classpath>
 				<formatter type="xml"/>
-				<batchtest fork="yes" todir=".">
+				<batchtest fork="yes" todir="${reports-regress}">
 					 <fileset dir="regress">
 					     <include name="**/*Test.java"/>
 					     <exclude name="**/AllTest*.java"/>
