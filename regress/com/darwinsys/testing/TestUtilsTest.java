@@ -5,11 +5,18 @@ import static com.darwinsys.testing.TestUtils.assertNoDefaultProperties;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
-public class TestUtilsTest extends TestCase {
+public class TestUtilsTest {
 
+	Calendar c;
+	Mock m1, m2;
+	
 	/** Simple POJO mock for testing TestUtils */
 	static class Mock {
 		int i;
@@ -35,35 +42,46 @@ public class TestUtilsTest extends TestCase {
 		}
 		@Override
 		public int hashCode() {
-			return i | j.hashCode() | d.hashCode();
+			return i*51 | j.hashCode() | d.hashCode();
 		}
 	}
 
-	public void testEqualsObjectObject() {
-		Calendar c = Calendar.getInstance();
-		Mock m1 = new Mock();
+	@Before
+	public void setup() {
+		System.out.println("TestUtilsTest.setup()");
+		c = Calendar.getInstance();
+		m1 = new Mock();
 		m1.i = 42;
 		m1.j = "Hello";
 		m1.d = c.getTime();
-		Mock m2 = new Mock();
+		m2 = new Mock();
 		m2.i = m1.i;
 		m2.j = m1.j;
 		m2.d = m1.d;
 		System.out.println(m1);System.out.println(m2);
-		assertEquals(m1, m2);	// Really tests Mock's equal!
-		assertTrue(TestUtils.equals(m1, m1));
-		assertTrue(TestUtils.equals(m1, m2));
-		assertTrue(TestUtils.equals(m2, m1));
-		assertFalse(TestUtils.equals(m2, null));
+	}
+	
+	@Test
+	public void testEqualsObjectObject() {
+		assertEquals("equality1", m1, m2);	// First tests Mock's equal!
+		assertTrue("equality2", TestUtils.equals(m1, m1));
+		assertTrue("equality3", TestUtils.equals(m1, m2));
+		assertTrue("equality4", TestUtils.equals(m2, m1));
+		assertFalse("equality5", TestUtils.equals(m2, null));
 		m2.i++;
-		assertFalse(TestUtils.equals(m1, m2));
+		assertFalse("equality6", TestUtils.equals(m1, m2));
 		m2.i--;
-		assertTrue(TestUtils.equals(m2, m1));
+		assertTrue("equality7", TestUtils.equals(m2, m1));
+	}
+		
+	@Test
+	public void testEqualsCalCal() {
 		c.set(Calendar.YEAR, c.get(Calendar.YEAR) - 1);
 		m2.d = c.getTime();
-		assertFalse(TestUtils.equals(m1, m2));
+		assertFalse("equality1", TestUtils.equals(m1, m2));
 	}
 
+	@Test
 	public void testAssertNoDefaultProperties() throws Exception {
 		Object o = new Object();
 		assertNoDefaultProperties(o);
