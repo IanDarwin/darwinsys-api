@@ -1,23 +1,27 @@
 package com.darwinsys.sql;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
-import com.darwinsys.database.DataBaseException;
+import org.junit.Test;
 
 /**
  * Test for ConnectionUtils
  * @version $Id$
  */
-public class ConnectionUtilTest extends TestCase {
+public class ConnectionUtilTest {
 
-	final static String MOCK_JBDB_DRIVER = "mock.MockJdbcDriver";
+	final static String MOCK_JBDC_DRIVER = "com.darwinsys.sql.MockJDBCDriver";
 
+	@Test
 	public void testGetConfigurationNames() throws Exception {
 		System.out.println("ConnectionUtilTest.testList()");
 		Set<String> configs = ConnectionUtil.getConfigurationNames();
@@ -26,36 +30,40 @@ public class ConnectionUtilTest extends TestCase {
 			System.out.println(element);
 			hasConfigNames = true;
 		}
-		assertTrue(hasConfigNames);
+		assertTrue("config names", hasConfigNames);
 	}
 
+	@Test
 	public void testGetConnections() {
 		System.out.println("ConnectionUtilTest.testList()");
 		final List<Configuration> configs = ConnectionUtil.getConfigurations();
-		assertTrue(configs.size() > 1);
+		assertTrue("connection list", configs.size() > 1);
 	}
 
+	@Test
 	public void testHasPassword() throws Exception {
 		final Configuration c = ConnectionUtil.getConfigurations().get(0);
 		c.setPassword(null);
 		assertFalse(c.hasPassword());
 	}
 
+	@Test
+	public void testGetConnectionManualDriver() throws Exception {
+		final Connection c = ConnectionUtil.getConnection(
+				"jdbc:mock:some_url", MOCK_JBDC_DRIVER,
+				"operator", "secret");
+		assertNotNull("Get Conn from 4 params", c);
+	}
+	
+	@Test(expected=ClassNotFoundException.class)
 	public void testGetConnectionBadDriver() throws Exception {
-		try {
-			final Connection c = ConnectionUtil.getConnection("url", "mydriver",
-					"operator", "secret");
-			fail("getConnection w/ bad params Did not throw exception");
-			System.out.println(c);
-		} catch (ClassNotFoundException nfe) {
-			final String m = nfe.getMessage();
-			assertEquals("failing driver class name", "mydriver", m);
-			System.out.println("Caught expected ClassNotFoundException");
-		} catch (DataBaseException e) {
-			fail("Caught wrong exception " + e + "; check order of params");
-		}
+		final Connection c = ConnectionUtil.getConnection("url", "mydriver",
+				"operator", "secret");
+		fail("getConnection w/ bad params Did not throw exception");
+		System.out.println(c);
 	}
 
+	@Test
 	public void testPackageGetConfiguration() {
 		Properties p = new Properties();
 		final String DRIVERNAME = "someDriverName";
@@ -70,16 +78,5 @@ public class ConnectionUtilTest extends TestCase {
 		assertEquals(DRIVERNAME, conf.getDriverName());
 		assertEquals(DBURL, conf.getDbURL());
 		assertEquals(DBUSERNAME, conf.getUserName());
-	}
-
-	public void testGetConnectionBadURL() throws Exception {
-		try {
-			ConnectionUtil.getConnection("url",
-					MOCK_JBDB_DRIVER,
-					"operator", "secret");
-			fail("getConnection w/ bad params did not throw exception");
-		} catch (SQLException e) {
-			System.out.println("Caught expected Exception " + e);
-		}
 	}
 }
