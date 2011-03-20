@@ -45,6 +45,10 @@ public class RelativeLayoutTest {
 		f.pack();
 	}
 	
+	public RelativeLayoutTest() {
+		// empty
+	}
+	
 	@Test
 	public void trivialTest() {
 		try {
