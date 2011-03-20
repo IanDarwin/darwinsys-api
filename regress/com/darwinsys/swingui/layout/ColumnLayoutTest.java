@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Simple class to non-exhaustively test out RelLayout layout manager.
  */
-public class ColumnLayoutTest extends JFrame {
+public class ColumnLayoutTest {
 
 	private static final long serialVersionUID = 5311489466425902707L;
 	
@@ -25,16 +25,19 @@ public class ColumnLayoutTest extends JFrame {
 	 * Invoke directly from Java interpreter.
 	 */
 	public static void main(String[] av) {
-		new ColumnLayoutTest(ColumnLayout.X_AXIS, 0, 0).setVisible(true);
-		new ColumnLayoutTest(ColumnLayout.Y_AXIS, 0, 0).setVisible(true);
-		new ColumnLayoutTest(ColumnLayout.X_AXIS, 10, 10).setVisible(true);
-		new ColumnLayoutTest(ColumnLayout.Y_AXIS, 10, 10).setVisible(true);
+		JFrame jf = new JFrame("ColumnLayout1");
+		new ColumnLayoutTest(jf, ColumnLayout.X_AXIS, 0, 0);
+		jf = new JFrame("ColumnLayout1");
+		new ColumnLayoutTest(jf, ColumnLayout.Y_AXIS, 0, 0);
+		jf = new JFrame("ColumnLayout1");
+		new ColumnLayoutTest(jf, ColumnLayout.X_AXIS, 10, 10);
+		jf = new JFrame("ColumnLayout1");
+		new ColumnLayoutTest(jf, ColumnLayout.Y_AXIS, 10, 10);
 	}
 
 	/** Construct a Test test program. */
-	ColumnLayoutTest(int alignment, int hpad, int vpad) {
-		super("Column Layout Tester");
-		Container cp = getContentPane();
+	ColumnLayoutTest(JFrame jf, int alignment, int hpad, int vpad) {
+		Container cp = jf.getContentPane();
 		ColumnLayout cl = new ColumnLayout(alignment, hpad, vpad);
 		cp.setLayout(cl);
 		cp.add(new JButton("X"));
@@ -47,7 +50,8 @@ public class ColumnLayoutTest extends JFrame {
 				System.exit(0);
 			}
 		});
-		pack();
+		jf.pack();
+		jf.setVisible(true);
 	}
 	
 	public ColumnLayoutTest() {
