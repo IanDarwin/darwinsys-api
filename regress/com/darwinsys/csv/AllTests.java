@@ -8,7 +8,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(value=Suite.class)
 @SuiteClasses(value={
-	CSVExportTest.class
+	CSVExportTest.class,
+	CSVImportTest.class,
+	// CSVParserTest.class, -- It's abstract
+	CSVRETest.class
 })
 public class AllTests {
 	// No Code Needed

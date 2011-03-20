@@ -23,7 +23,7 @@ public class CSVRETest extends CSVParserTestBase {
 		List list = csv.parse("\"a\",,\"c\"");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
-		assertEquals(null, list.get(1));
+		assertEquals("", list.get(1));
 		assertEquals("c", list.get(2));
 	}
 	public void testNotAllQuoted() {
