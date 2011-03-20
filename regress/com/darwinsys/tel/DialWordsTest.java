@@ -21,14 +21,12 @@ public class DialWordsTest {
 	public void testNameToNumber() {
 		String[] x = DialWords.numberToName("5678");
 		assertEquals(81, x.length);
-
-//		for (int i = 0; i < x.length; i++) {
-//			System.out.print(x[i] + ' ');
-//		}
 		assertEquals("llll", x[0]); // XXX wrong, actually
+	}
+	public void testNameToNumber2() {
 		String[] y = DialWords.numberToName("6432");
 		assertEquals(81, y.length);
-		assertEquals("pppp", y[0]); // XXX ditto
+		assertEquals("oooo", y[0]); // XXX ditto
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
