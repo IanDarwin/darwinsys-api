@@ -22,6 +22,10 @@ public class ResultsDecoratorTextTest extends TestCase {
 		fixture = new ResultsDecoratorText(out, Verbosity.QUIET);
 		// XXX rs = create using jmock...
 	}
+	
+	public void testBogus() {
+		System.out.println("Totally bogus test of " + fixture + " passed");
+	}
 
 //	public final void testWrite() {
 //		fail("Not yet implemented");
