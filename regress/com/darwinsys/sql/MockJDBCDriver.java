@@ -2,6 +2,7 @@ package com.darwinsys.sql;
 
 import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
@@ -10,6 +11,14 @@ import java.util.logging.Logger;
 
 public class MockJDBCDriver implements Driver {
 
+	static {
+		try {
+			DriverManager.registerDriver(new MockJDBCDriver());
+		} catch (SQLException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
+	
 	public boolean acceptsURL(String url) throws SQLException {
 		return true;
 	}
