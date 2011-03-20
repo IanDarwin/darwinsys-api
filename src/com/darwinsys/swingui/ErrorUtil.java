@@ -71,7 +71,7 @@ public class ErrorUtil {
 				message += "; code=" + sexc.getErrorCode();
 				next = sexc.getNextException();
 			}
-			// else next = theExc.getCause();   // Comment out if < JDK 1.4
+				else next = theExc.getCause();   // Comment out if < JDK 1.4
 
 			String[] choices = next != null ? choicesMore : choicesNoMore;
 
