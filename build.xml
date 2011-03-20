@@ -137,14 +137,11 @@
 		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
 	</target>
 
-	<!-- javadoc now depends on regress: no point waiting for javadoc
-	 *** if the tests don't run!
-	 -->
 	<target name="javadoc">
 		<javadoc sourcepath="${src}" destdir="${build}/docs/api"
 			classpathref="all.classpath"
 			packagenames="com.darwinsys.*"
-			maxmemory="48m"
+			maxmemory="96m"
 			windowtitle="com.darwinsys.* - Ian Darwin / Java Cookbook Utilities"
 			Version="true" Author="true" Use="true"
 			Overview="overview.html"
