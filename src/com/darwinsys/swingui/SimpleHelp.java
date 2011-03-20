@@ -43,8 +43,8 @@ public class SimpleHelp extends JFrame implements HyperlinkListener {
 			", which is somewhat hyperlinked.");
 	
 		try {
-			URL url = new File(helpIndexFileName).toURL();
-			
+			URL url = new URL(new File(helpIndexFileName).getAbsolutePath());
+
 			// System.out.println("Creat-ing help window for " + url);
 			help = new JEditorPane(url);
 			// System.out.println("Done!");
