@@ -74,6 +74,7 @@
 			includeantruntime="false">
 			<exclude name="regress/**"/>
 			<exclude name="com/darwinsys/macosui/**"/>
+			<exclude name="com/darwinsys/ant/MakeTask.java"/>
 		</javac>
 	</target>
 
