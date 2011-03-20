@@ -2,10 +2,13 @@ package com.darwinsys.swingui.layout;
 
 import java.awt.Button;
 import java.awt.Container;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+
+import org.junit.Test;
 
 import com.darwinsys.swingui.layout.RelativeLayout;
 
@@ -40,5 +43,14 @@ public class RelativeLayoutTest extends JFrame {
 			}
 		});
 		pack();
+	}
+	
+	@Test
+	public void trivialTest() {
+		try {
+			main(null);
+		} catch (HeadlessException he) {
+			System.out.println("RelativeLayoutTest.test(): cannot test Headless");
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.darwinsys.swingui.layout;
 
 import java.awt.Container;
+import java.awt.HeadlessException;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -9,7 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.darwinsys.swingui.layout.EntryLayout;
+import org.junit.Test;
 
 /** Testbed for EntryLayout layout manager.
  * @author	Ian Darwin, http://www.darwinsys.com/
@@ -65,5 +66,14 @@ public class EntryLayoutTest {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocation(200, 200);
 		f.setVisible(true);
+	}
+	
+	@Test
+	public void trivialTest() {
+		try {
+			main(null);
+		} catch (HeadlessException he) {
+			System.out.println("EntryLayoutTest.test(): cannot test Headless");
+		}
 	}
 }

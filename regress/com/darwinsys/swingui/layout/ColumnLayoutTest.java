@@ -1,13 +1,14 @@
 package com.darwinsys.swingui.layout;
 
 import java.awt.Container;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import com.darwinsys.swingui.layout.ColumnLayout;
+import org.junit.Test;
 
 /**
  * Simple class to non-exhaustively test out RelLayout layout manager.
@@ -47,5 +48,18 @@ public class ColumnLayoutTest extends JFrame {
 			}
 		});
 		pack();
+	}
+	
+	public ColumnLayoutTest() {
+		// empty
+	}
+	
+	@Test
+	public void trivialTest() {
+		try {
+			main(null);
+		} catch (HeadlessException he) {
+			System.out.println("ColumnLayoutTest.test(): cannot test Headless");
+		}
 	}
 }
