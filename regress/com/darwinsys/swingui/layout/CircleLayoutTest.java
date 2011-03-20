@@ -1,11 +1,12 @@
 package com.darwinsys.swingui.layout;
 
 import java.awt.Container;
+import java.awt.HeadlessException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import com.darwinsys.swingui.layout.CircleLayout;
+import org.junit.Test;
 
 /** Testbed for CircleLayout layout manager.
  * @author	Ian Darwin, http://www.darwinsys.com/
@@ -13,8 +14,9 @@ import com.darwinsys.swingui.layout.CircleLayout;
  */
 public class CircleLayoutTest {
 
-	/** "main program" method - construct and show */
-	public static void main(String[] av) {
+	@Test
+	public void test() {
+		try {
 		final JFrame f = new JFrame("CircleLayout Demonstration");
 		Container cp = f.getContentPane();
 		cp.setLayout(new CircleLayout(true));
@@ -28,5 +30,8 @@ public class CircleLayoutTest {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocation(200, 200);
 		f.setVisible(true);
+		} catch (HeadlessException he) {
+			System.err.println("CircleLayoutTest.test(): ignored, running headless.");
+		}
 	}
 }
