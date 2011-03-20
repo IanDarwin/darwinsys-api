@@ -52,7 +52,7 @@ At the time UNIX was invented, memory was expensive.
 And indeed, even though you can buy a gigabyte of RAM to put in
 a notebook computer, memory is still considered a finite resource.
 User level programs are not permitted to use up all physical memory,
-as this would imping on other users' processes and on the
+as this would impinge on other users' processes and on the
 operating system itself.
 Thus, each user is administratively given a finite limit on the
 number of file descriptors that can be opened;
@@ -106,7 +106,7 @@ the number of file descriptors to 1,000 and tried again.
 It got further, but still failed. 
 I tried 4,096, and it still eventually failed.
 It was clear that one of those APIs that was so convenient for
-reading different file types was failing to close a Stream or Reader
+reading different file types was inconveniently failing to close a Stream or Reader
 in the case of error, thus leading to the program eventually
 collapsing with the classic "out of file descriptors" failure.
 </p>
@@ -127,10 +127,11 @@ generally can be expected to return the lowest-available file
 descriptor number
 (although only one system call, "dup(2)", technically guarantees
 to do so).
-Thus, if you open file a and save the fd, then close it,
-then call some API which opens and closes an arbitrary number of
+Thus, if you open file a and save the fd as 'a', then close 'a',
+then call some API which opens and correctly closes an arbitrary number of
 files,
-then open file a again, you should expect to get back the same fd.
+then open file a again, you should expect its fd, 'b', to be equal to 'a'.
+If not, the API has failed to close a file.
 Second, opening and closing a file on disk is relatively inexpensive.
 </p>
 <p>Java's security model provides reasonably fine-grained access
