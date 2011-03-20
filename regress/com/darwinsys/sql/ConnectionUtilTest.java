@@ -37,7 +37,7 @@ public class ConnectionUtilTest {
 	public void testGetConnections() {
 		System.out.println("ConnectionUtilTest.testList()");
 		final List<Configuration> configs = ConnectionUtil.getConfigurations();
-		assertTrue("connection list", configs.size() > 1);
+		assertTrue("connection list", configs.size() > 0);
 	}
 
 	@Test
