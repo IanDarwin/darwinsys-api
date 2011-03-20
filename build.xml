@@ -179,6 +179,7 @@
 	</target>
 
 	<!-- These regression tests require manual intervention, so not default -->
+	<!-- (implies that many are not actually tests, but demos... -->
 	<target name="regress.swingui" depends="build">
 		<echo           message="ErrorUtilCatchTest"/>
 		<java className="regress.ErrorUtilCatchTest" classpath="build"
@@ -192,8 +193,8 @@
 		<echo           message="LabelTextTest"/>
 		<java className="regress.LabelTextTest" classpath="build"
 			fork="yes"/>
-		<echo           message="SimpleHelpTest"/>
-		<java className="regress.SimpleHelpTest" classpath="build"
+		<echo           message="SimpleHelpDemo"/>
+		<java className="regress.SimpleHelpDemo" classpath="build"
 			fork="yes">
 			<arg value="../otherlang/help/index.html"/>
 			</java>
