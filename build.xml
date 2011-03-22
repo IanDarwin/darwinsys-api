@@ -35,9 +35,7 @@
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
-		<dirset dir=".">
-			<include name="${build}"/>
-		</dirset>
+		<pathelement location="${build}"/>
 	</path>		
 		
 	<!-- Task Defs -->
@@ -115,14 +113,20 @@
 		</cobertura-instrument>
 	</target>
 		
-	<target name="dist" depends="jar,src-jar"/>
+	<target name="dist" depends="jar,docs-jar,src-jar"/>
 
-	<target name="jar" depends="javadoc,build">
+	<target name="jar" depends="build">
 		<mkdir dir="${build}/META-INF"/>
 		<copy file="darwintags.tld" todir="${build}/META-INF"/>
 		<jar jarfile="${build}/${obj.jar}"
 			manifest="manifest.stub"
-			basedir="${build}" includes="META-INF/*,com/**/*.class,docs/**">
+			basedir="${build}" includes="META-INF/*,com/**/*.class">
+		</jar>
+	</target>
+
+	<target name="docs-jar" depends="javadoc">
+		<jar jarfile="${build}/${docs.jar}"
+			basedir="." includes="docs/**">
 		</jar>
 	</target>
 
@@ -131,10 +135,6 @@
 			manifest="manifest.stub"
 			basedir="." includes="build.xml,src/**">
 		</jar>
-	</target>
-
-	<target name="deploy" depends="jar">
-		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
 	</target>
 
 	<target name="javadoc">
@@ -153,6 +153,10 @@
 			<bottom><![CDATA[<i>Copyright &#169; 1996-2008 Ian F. Darwin. See <a href="http://javacook.darwinsys.com/license.html">license.html</a> for usage license.</i>]]></bottom>
 		</javadoc>
 		<copy file="html/index.html" todir="${build}/docs"/>
+	</target>
+
+	<target name="deploy" depends="jar">
+		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
 	</target>
 
 	<!-- Regression Tests -->
