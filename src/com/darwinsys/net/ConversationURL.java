@@ -41,7 +41,7 @@ public class ConversationURL {
 		 URL url = new URL("http", host, 80, path);
 		 return converse(url, postBody, userName, password);
 	 }
-	   
+	
 	 /** Run a conversation and return the result, with
 	  * the given postBody and no credentials.
 	  * @param url The URL for the restful web service
@@ -52,38 +52,39 @@ public class ConversationURL {
 	  * @throws IOException 
 	  */
 	 public static String converse(URL url, String postBody, String userName, String password) throws IOException {
-		 URLConnection conn = url.openConnection();
-		 if (userName != null || password != null) {
-			 String cred = userName + ":" + password;
-	        String auth = new String(Base64.encodeBase64(cred.getBytes()));
-	        conn.setRequestProperty("Authorization", auth);
-		 }
-	        boolean post = postBody != null;
-	        if (post)
-	        	conn.setDoInput(true);
-	        conn.setDoOutput(true);
-	        conn.setAllowUserInteraction(true);
-	        
-	        conn.connect();
+		URLConnection conn = url.openConnection();
+		if (userName != null || password != null) {
+			String cred = userName + ":" + password;
+			String auth = new String(Base64.encodeBase64(cred.getBytes()));
+			conn.setRequestProperty("Authorization", auth);
+		}
+		boolean post = postBody != null;
+		if (post) {
+			conn.setDoInput(true);
+		}
+		conn.setDoOutput(true);
+		conn.setAllowUserInteraction(true);
 		
-	        if (post) {
-	        	PrintWriter out = new PrintWriter(conn.getOutputStream());
-	        	out.println(postBody);
-	        	out.close();
-	        }
+		conn.connect();
+		
+		if (post) {
+			PrintWriter out = new PrintWriter(conn.getOutputStream());
+			out.println(postBody);
+			out.close();
+		}
 
-	        StringBuilder sb = new StringBuilder();
-	        BufferedReader in = new BufferedReader(
-	        		new InputStreamReader(conn.getInputStream()));
-	        String line;
+		StringBuilder sb = new StringBuilder();
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(conn.getInputStream()));
+		String line;
 
-	        while ((line = in.readLine()) != null) {
-	            sb.append(line);
-	        }
+		while ((line = in.readLine()) != null) {
+			sb.append(line);
+		}
 
-	        in.close();
-	        return sb.toString();
-	    }
+		in.close();
+		return sb.toString();
+	}
 	
 
 }
