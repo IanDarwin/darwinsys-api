@@ -1,4 +1,4 @@
-package locks;
+package com.darwinsys.locks;
 
 /** PessimisticLockManager keeps track of Locks and
 * their id's (which would normally be the (compound?)

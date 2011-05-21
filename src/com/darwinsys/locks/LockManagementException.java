@@ -1,4 +1,4 @@
-package locks;
+package com.darwinsys.locks;
 
 public class LockManagementException extends RuntimeException {
 

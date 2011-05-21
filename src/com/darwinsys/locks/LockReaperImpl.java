@@ -1,4 +1,4 @@
-package locks;
+package com.darwinsys.locks;
 
 import java.util.Date;
 import java.util.Map;

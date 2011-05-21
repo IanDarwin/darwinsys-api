@@ -1,4 +1,4 @@
-package locks;
+package com.darwinsys.locks;
 
 /** The representation of one lock in the
  * PessimisticLockManager.

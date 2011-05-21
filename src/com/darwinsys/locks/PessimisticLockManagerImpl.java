@@ -1,4 +1,4 @@
-package locks;
+package com.darwinsys.locks;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,20 +10,29 @@ import java.util.Map;
  * primary key of the row being locked).
  * Example:
  * PessimisticLockManager<Integer> mgr =
- * new PessimisticLockManagerImpl();
+ * 		new PessimisticLockManagerImpl();
  * Lock l = mgr.tryLock(123);
- * @author Ian Darwin, based on a design by Stephen Neal
+ * @author Ian Darwin, based on a design I got from Stephen Neal
  */
 public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> {
 
+	/** The time in minutes that locks will expired */
+	public static final int DEFAULT_TIMEOUT = 15;	
+	
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
 	Map<Lock, T> getLockStore() {
 		return locks;
 	}
-	final LockReaperImpl<T> lockReaper = 
-		new LockReaperImpl<T>(this, 1); // timeout in minutes
+	
+	final LockReaperImpl<T> lockReaper;
+	
 	public PessimisticLockManagerImpl() {
+		this(DEFAULT_TIMEOUT);
+	}
+	
+	public PessimisticLockManagerImpl(int timeout) {
+		lockReaper = new LockReaperImpl<T>(this, timeout); // timeout in minutes
 		lockReaper.start();
 	}
 	
