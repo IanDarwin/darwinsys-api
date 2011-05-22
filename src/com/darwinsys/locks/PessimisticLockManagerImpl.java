@@ -1,6 +1,8 @@
 package com.darwinsys.locks;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,10 +25,14 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 	
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
-	/** This is only exposed for testing; do not depend upon it! */
+	/** Return a clone of the Map */
 	public Map<Lock, T> getLockStore() {
-		System.out.println("PessimisticLockManagerImpl.getLockStore() is not a public API");
-		return locks;
+		return new HashMap<Lock, T>(locks);
+	}
+	
+	/** Return a clone of the keyset as a List */
+	public List<Lock> getLocks() {
+		return new ArrayList<Lock>(locks.keySet());
 	}
 	
 	private LockReaperImpl<T> lockReaper;
@@ -53,7 +59,10 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 		}
 	}
 	
-	public boolean releaseLock(Lock lock) {
+	/** Release the given lock.
+	 * Synchronized as it depends on "locks" being stable.
+	 */
+	public synchronized boolean releaseLock(Lock lock) {
 		if (locks.containsKey(lock)) {
 			locks.remove(lock);
 			((LockImpl)lock).setReleased(true);
@@ -62,6 +71,9 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 		return false;
 	}
 
+	/**
+	 *  Shutdown this LockManager; just tells its LockReaper to go away.
+	 */
 	public void close() {
 		lockReaper.setDone(true);
 	}
