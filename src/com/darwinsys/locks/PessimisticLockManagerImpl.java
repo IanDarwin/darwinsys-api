@@ -19,6 +19,7 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 	/** The time in minutes that locks will expired */
 	public static final int DEFAULT_TIMEOUT = 15;
 	private int timeout = DEFAULT_TIMEOUT;
+	Class<?> type;
 	
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
@@ -71,5 +72,11 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format(
+			"PessimisticLockManagerImpl with %d locks", locks.keySet().size());
 	}
 }
