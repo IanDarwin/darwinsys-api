@@ -31,6 +31,6 @@ public class LockImpl<T> implements Lock {
 	
 	@Override
 	public String toString() {
-		return "Lock[" + id + ']';
+		return "Lock[" + id + "time " + now + "]";
 	}
 }
