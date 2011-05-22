@@ -1,10 +1,10 @@
 package com.darwinsys.locks;
 
-public class LockManagementException extends RuntimeException {
+public class PessimisticLockException extends RuntimeException {
 
 	private static final long serialVersionUID = -6060487116987872592L;
 
-	public LockManagementException(String string) {
+	public PessimisticLockException(String string) {
 		super(string);
 	}
 

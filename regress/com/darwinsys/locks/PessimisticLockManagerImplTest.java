@@ -35,7 +35,7 @@ public class PessimisticLockManagerImplTest {
 		assertTrue(l.isReleased());
 	}
 	
-	@Test(expected=LockManagementException.class)
+	@Test(expected=PessimisticLockException.class)
 	public final void testTryLockExclusivity() {
 		mgr.tryLock(123);
 		mgr.tryLock(123);

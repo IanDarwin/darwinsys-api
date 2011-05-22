@@ -46,7 +46,7 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 			locks.put(l, id);
 			return l;
 		} else {			// Lock not available
-			throw new LockManagementException("Lock in use for " + id);
+			throw new PessimisticLockException("Lock in use for " + id);
 		}
 	}
 	
