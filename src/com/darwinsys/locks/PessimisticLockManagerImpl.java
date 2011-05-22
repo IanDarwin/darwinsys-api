@@ -22,7 +22,9 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 	
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
-	Map<Lock, T> getLockStore() {
+	/** This is only exposed for testing; do not depend upon it! */
+	public Map<Lock, T> getLockStore() {
+		System.out.println("PessimisticLockManagerImpl.getLockStore() is not a public API");
 		return locks;
 	}
 	
