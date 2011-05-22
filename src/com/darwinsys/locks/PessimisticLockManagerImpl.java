@@ -17,7 +17,8 @@ import java.util.Map;
 public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> {
 
 	/** The time in minutes that locks will expired */
-	public static final int DEFAULT_TIMEOUT = 15;	
+	public static final int DEFAULT_TIMEOUT = 15;
+	private int timeout = DEFAULT_TIMEOUT;
 	
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
@@ -25,15 +26,17 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 		return locks;
 	}
 	
-	final LockReaperImpl<T> lockReaper;
+	private LockReaperImpl<T> lockReaper;
 	
 	public PessimisticLockManagerImpl() {
-		this(DEFAULT_TIMEOUT);
+		setTimeout(DEFAULT_TIMEOUT);
 	}
 	
-	public PessimisticLockManagerImpl(int timeout) {
+	public void start() {
 		lockReaper = new LockReaperImpl<T>(this, timeout); // timeout in minutes
-		lockReaper.start();
+		if (!lockReaper.isAlive()) {
+			lockReaper.start();
+		}
 	}
 	
 	/** Try to get the lock for the given ID */
@@ -58,5 +61,13 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 
 	public void close() {
 		lockReaper.setDone(true);
+	}
+
+	public int getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
 	}
 }

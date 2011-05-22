@@ -22,6 +22,8 @@ package com.darwinsys.locks;
 * */
 public interface PessimisticLockManager<T> {
 	
+	void start();
+	
 	/** Try to get the lock for the given ID */
 	Lock tryLock(T id);
 	

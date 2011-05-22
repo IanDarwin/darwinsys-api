@@ -13,8 +13,8 @@ public class LockImpl<T> implements Lock {
 		this.now = System.currentTimeMillis();
 	}
 
-	public void release() {
-		mgr.releaseLock(this);
+	public boolean release() {
+		return mgr.releaseLock(this);
 	}
 	
 	public boolean isReleased() {
