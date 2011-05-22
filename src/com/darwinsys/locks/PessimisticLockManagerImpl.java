@@ -50,6 +50,9 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 	
 	/** Try to get the lock for the given ID */
 	public synchronized Lock tryLock(T id) {
+		if (lockReaper == null) {
+			start();
+		}
 		if (!locks.containsValue(id)) { // Lock available
 			Lock l = new LockImpl<T>(this, id);
 			locks.put(l, id);
