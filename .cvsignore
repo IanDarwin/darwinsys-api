@@ -7,3 +7,4 @@ fileiotest.dat
 reports-*
 TEST-*
 IGNORETHIS.xml
+TESTS-TestSuites.xml
