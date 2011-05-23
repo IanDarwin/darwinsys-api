@@ -27,6 +27,9 @@ public interface PessimisticLockManager<T> {
 	/** Try to get the lock for the given ID */
 	Lock tryLock(T id);
 	
+	/** Try to get the lock, with a reportable Owner */
+	Lock tryLock(T id, Object owner);
+	
 	/** Release the given lock. */
 	boolean releaseLock(Lock lock);
 }
