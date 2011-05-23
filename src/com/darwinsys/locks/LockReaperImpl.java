@@ -46,8 +46,6 @@ public class LockReaperImpl<T> extends Thread {
 			Map<Lock,T> map = ((PessimisticLockManagerImpl)mgr).getLockStore();
 			if (map.keySet().size() > 0) {
 				System.out.println("LockReaper: Locks currently held at " + new Date() + ":");
-			} else {
-				System.out.println("LockReaper: No locks held at " + new Date());
 			}
 			for (Lock lock : map.keySet()) {
 				LockImpl<T> l = (LockImpl) lock;
