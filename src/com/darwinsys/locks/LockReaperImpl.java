@@ -37,7 +37,7 @@ public class LockReaperImpl<T> extends Thread {
 	}
 	
 	/**
-	 * Does the work of reaping expired locks.
+	 * Reap expired locks.
 	 * @see java.lang.Thread#run()
 	 */
 	@Override
