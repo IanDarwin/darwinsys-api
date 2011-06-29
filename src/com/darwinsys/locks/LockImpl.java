@@ -1,5 +1,7 @@
 package com.darwinsys.locks;
 
+import java.util.Date;
+
 public class LockImpl<T> implements Lock {
 
 	private PessimisticLockManager<T> mgr;
@@ -41,6 +43,7 @@ public class LockImpl<T> implements Lock {
 	
 	@Override
 	public String toString() {
-		return "Lock[" + id + (owner != null ? ", " + owner : "") + "]";
+		Date when = new Date(getCreationTime());
+		return "Lock[" + id + (owner != null ? ", " + owner : "(nobody)") + "@" + when + "]";
 	}
 }
