@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.sun.istack.internal.NotNull;
 
 /** 
  * A subset of a Cookbook Recipe object, for demos that need it
@@ -19,7 +18,7 @@ public class MiniRecipe {
 	int id;
 	String title;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
+	//@NotNull
 	@JoinColumn(name = "owner")
 	MiniPerson owner;
 	Date creationDate;
