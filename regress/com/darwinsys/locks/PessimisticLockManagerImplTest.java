@@ -55,7 +55,7 @@ public class PessimisticLockManagerImplTest {
 		Lock l = mgr.tryLock(123);
 		assertTrue(mgr.getLockStore().containsKey(l));
 		assertTrue(mgr.getLockStore().containsValue(123));
-		System.out.println("Timeout Test sleeping " + SECONDS_TO_ENSURE_RECLAIM + " s to simulate user activity");
+		System.out.println("Timeout Test sleeping " + SECONDS_TO_ENSURE_RECLAIM + " seconds to simulate user activity");
 		Thread.sleep(SECONDS_TO_ENSURE_RECLAIM * 1000);
 		System.out.println("Done sleeping");
 		assertTrue(l.isReleased());
