@@ -16,7 +16,19 @@ public class LockImpl<T> implements Lock {
 		this.owner = owner;
 		this.now = System.currentTimeMillis();
 	}
+	
+	@Override
+	/** Just to make explicit that we use identity equals here */
+	public boolean equals(Object obj) {
+		return this == obj;
+	}
 
+	@Override
+	/** Just to silence complaints, since we implement equals() */
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
 	public boolean release() {
 		return mgr.releaseLock(this);
 	}
