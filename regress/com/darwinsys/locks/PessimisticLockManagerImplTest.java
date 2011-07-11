@@ -7,8 +7,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,8 +72,7 @@ public class PessimisticLockManagerImplTest {
 	public final void testTwoTriesOneRelease() {
 		Integer i = 123;
 		Lock l = mgr.tryLock(i);
-		final Map<Lock, Integer> lockStore = mgr.getLockStore();
-		assertEquals("t2t1r", 1, lockStore.keySet().size());
+		assertEquals("t2t1r", 1, mgr.getLocks().size());
 		try {
 			Integer i2 = 123;
 			mgr.tryLock(i2);
@@ -84,11 +81,11 @@ public class PessimisticLockManagerImplTest {
 		} catch (PessimisticLockException e) {
 			// OK
 		}
-		assertEquals("t2t1r", 1, lockStore.keySet().size());
+		assertEquals("t2t1r", 1, mgr.getLocks().size());
 		if (!l.release()) {
 			fail("Lock.release returned false, it did!");
 		}
-		assertEquals("t2t1r", 0, lockStore.keySet().size());		
+		assertEquals("t2t1r", 0, mgr.getLocks().size());		
 	}
 	
 	@After
