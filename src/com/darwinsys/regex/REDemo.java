@@ -240,7 +240,6 @@ public class REDemo extends JPanel {
 		setMatches(false);
 		setHighlightFromMatcher(null);
 
-		int n = matcher.groupCount();
 		matcher.reset(stringTF.getText());
 		if (match.isSelected() && matcher.matches()) {
 			setMatches(true);
@@ -254,13 +253,11 @@ public class REDemo extends JPanel {
 			setHighlightFromMatcher(matcher);
 			logTextArea.setText(matcher.group());
 		} else if (findAll.isSelected()) {
-			int i;
-			for (i = 0; i < n; i++) {
-				matcher.find();
-				logTextArea.append(i + ": " + matcher.group(i) + "\n");
+			int i = 0;
+			while (matcher.find()) {
+				logTextArea.append(i++ + ": " + matcher.group() + "\n");
 			}
 			if (i > 0) {
-				setHighlightFromMatcher(matcher);
 				setMatches(true);
 				return true;
 			}
