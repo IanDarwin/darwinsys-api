@@ -307,6 +307,14 @@ public class SQLRunnerGUI  {
 		passwdPromptCheckBox = new JCheckBox("Ask for passwd");
 		controlsArea.add(passwdPromptCheckBox);
 
+		JButton tb = new JButton("Test");
+		controlsArea.add(tb);
+		tb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				// XXX
+			}
+		});
+
 		final JComboBox inTemplateChoice = new JComboBox();
 		// XXX Of course these should be editable...
 		inTemplateChoice.addItem("Input Template:");
