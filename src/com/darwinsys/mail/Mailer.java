@@ -291,13 +291,15 @@ public class Mailer {
 	 * "(Darwin, Ian) <http://www.darwinsys.com/>".
 	 * Or even "Ian Darwin <http://www.darwinsys.com/>".
 	 */
-	protected List<String> tokenize(String s) {
+	protected List<String> tokenize(String addrs) {
 		List<String> al = new ArrayList<String>();
-		StringTokenizer tf = new StringTokenizer(s, ",");
-		// For each word found in the line
-		while (tf.hasMoreTokens()) {
-			// trim blanks, and add to list.
-			al.add(tf.nextToken().trim());
+		if (addrs != null) {
+			StringTokenizer tf = new StringTokenizer(addrs, ",");
+			// For each word found in the line
+			while (tf.hasMoreTokens()) {
+				// trim blanks, and add to list.
+				al.add(tf.nextToken().trim());
+			}
 		}
 		return al;
 	}
