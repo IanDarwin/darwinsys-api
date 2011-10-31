@@ -78,7 +78,7 @@ public class Dumper {
 	}
 
 	/** print one file, given an open InputStream */
-	public void dump(DumpGetter g) {
+	public void dump(DumpSource g) {
 		num.setLength(0);
 		txt.setLength(0);
 
@@ -88,17 +88,17 @@ public class Dumper {
 			int b = 0;
 			int column = 0;
 
-			while ((b=g.get()) != -1) {
-				// XXX sleazebag formatting - fix with 1.5 Format
-				if (b < 16)
-					num.append('0');
-				num.append(Integer.toString(b, 16));
+			while ((b=g.get()) != -1) {				
+				num.append(String.format("%02x", b & 0xff));
 				num.append(' ');
 				txt.append(Character.isLetterOrDigit((char)b) ? (char)b : '.');
 
 				if (++column % BYTES_PER_LINE == 0) {
 					endOfLine();
 				}
+			}
+			for ( ; column % BYTES_PER_LINE != 0 ; column++) {
+				num.append("   ");
 			}
 			// if partial line, output it.
 			if (++column % BYTES_PER_LINE != 0) {

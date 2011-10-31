@@ -1,11 +1,11 @@
 package com.darwinsys.io;
 
-import java.io.IOException;
-
-/** The general contract of a class to get bytes.
-  * Used in Dumper and related classes.
-  */
-public interface DumpGetter {
-	public int get() throws IOException;
+/**
+ * @deprecated Replaced by DumpSource
+ * @author Ian
+ *
+ */
+public interface DumpGetter extends DumpSource {
+	
 }
 

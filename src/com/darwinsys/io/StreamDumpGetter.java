@@ -4,8 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/** A DumpGetter that reads from a file. */
-public class StreamDumpGetter implements DumpGetter {
+/** A DumpSource that reads from a file. */
+public class StreamDumpGetter implements DumpSource {
 	private BufferedInputStream is;
 	public StreamDumpGetter(InputStream ois) throws IOException {
 		if (ois instanceof BufferedInputStream)
