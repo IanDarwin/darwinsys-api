@@ -32,4 +32,7 @@ public interface PessimisticLockManager<T> {
 	
 	/** Release the given lock. */
 	boolean releaseLock(Lock lock);
+
+	/** Get the timeout period for locks expiry, in minutes */
+	int getTimeout();
 }

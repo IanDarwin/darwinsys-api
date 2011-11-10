@@ -10,7 +10,7 @@ public class LockReaperImpl<T> extends Thread {
 	
 	private static final int DEFAULT_TIMEOUT_MINUTES = 15;
 	/** Time in MINUTES to expire locks */
-	private final int timeOutMinutes;
+	private int timeOutMinutes;
 	
 	/** Time in SECONDS to sleep between runs;
 	 * will not be an exact "interval timer" on most JVMs
@@ -43,6 +43,7 @@ public class LockReaperImpl<T> extends Thread {
 	@Override
 	public void run() {
 		while (!done) {
+			timeOutMinutes = mgr.getTimeout(); // update dynamically
 			Map<Lock,T> map = ((PessimisticLockManagerImpl)mgr).getLockStore();
 			if (map.keySet().size() > 0) {
 				System.out.println("LockReaper: Locks currently held at " + new Date() + ":");
