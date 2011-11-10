@@ -21,8 +21,7 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 	/** The time in minutes that locks will expired */
 	public static final int DEFAULT_TIMEOUT = 15;
 	private int timeout = DEFAULT_TIMEOUT;
-	Class<?> type;
-	
+
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
 	/** Return a clone of the Map */
