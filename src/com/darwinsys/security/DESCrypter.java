@@ -74,7 +74,7 @@ public class DESCrypter {
 			byte[] enc = ecipher.doFinal(utf8);
 
 			// Encode bytes to base64 to get a string
-			return new sun.misc.BASE64Encoder().encode(enc);
+			return Base64Coder.encodeLines(enc);
 
 		} catch (Throwable e) {
 			throw new RuntimeException("Encryption failure: " + e);
@@ -87,7 +87,7 @@ public class DESCrypter {
 	public String decrypt(String str) {
 		try {
 			// Decode base64 to get bytes
-			byte[] dec = new sun.misc.BASE64Decoder().decodeBuffer(str);
+			byte[] dec = Base64Coder.decode(str);
 
 			// Decrypt
 			byte[] utf8 = dcipher.doFinal(dec);
