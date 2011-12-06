@@ -61,6 +61,8 @@ public class DESCrypter {
 			throw new RuntimeException("DESCrypter: Constructor failure: " + e);
 		}
 	}
+	
+	private final static String PADDING = "   ";
 
 	/**
 	 * Encrypt the given string using DES
@@ -74,7 +76,13 @@ public class DESCrypter {
 			byte[] enc = ecipher.doFinal(utf8);
 
 			// Encode bytes to base64 to get a string
-			return Base64Coder.encodeLines(enc);
+			final String encoded = Base64Coder.encodeLines(enc);
+			final int n = encoded.length();
+			System.out.println("Encoded length = " + n);
+			final String padded = encoded + PADDING.substring(0, 4 - (n%4));
+			System.out.println("Padded length = " + padded.length());
+			return padded;
+
 
 		} catch (Throwable e) {
 			throw new RuntimeException("Encryption failure: " + e);
