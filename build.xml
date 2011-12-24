@@ -62,7 +62,10 @@
 	</target>
 
 	<target name="init">
+		<echo>Building DarwinSys API</echo>
+		<echo>build.xml version $Id$</echo>
 		<tstamp/> <!-- Set time stamp variables in case we need 'em-->
+		<echo>Build started on ${DSTAMP} at ${TSTAMP}</echo> 
 		<mkdir dir="${build}"/> <!-- Ensure build directory exists -->
 	</target>
 
