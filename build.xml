@@ -30,6 +30,8 @@
 
 	<property name="junit.jar"  value="lib/junit-4.4.jar"/>
 	<property name="ant-junit.jar"  value="lib/ant-junit.jar"/>
+
+	<property name="db.properties" value="${user.home}/.db.properties"/>
 	
 	<path id="all.classpath">
 		<fileset dir="${lib.dir}">
@@ -159,8 +161,24 @@
 		<copy file="${build}/${obj.jar}" todir="${deploy.dir}"/>
 	</target>
 
+	<!-- Setup .db.properties file for running unit tests -->
+	<available file="${db.properties}"
+		type="file" property="db.properties.present"/>
+	<target name="check.db.properties" unless="db.properties.present">
+		<echo>Creating dummy ${db.properties} file to run tests</echo>
+		<echo file="${db.properties}"># db.properties
+# Created by ant build.xml in ${user.dir}
+# This totally fake db.properties should be copied to your home directory.
+# Values here are just for running the JUnit tests on the ConnectionUtils
+test.DBDriver=com.darwinsys.sql.MockJDBCDriver
+test.DBURL=jdbc:mock:you_make_me_laugh
+test.DBUser=testName
+test.DBPassword=testPassword
+	</echo>
+	</target>
+
 	<!-- Regression Tests -->
-	<target name="regress" depends="build">
+	<target name="regress" depends="build,check.db.properties">
 		<delete dir="${reports-regress}"/>
 		<mkdir  dir="${reports-regress}"/>
 		<junit printsummary="withOutAndErr" 
