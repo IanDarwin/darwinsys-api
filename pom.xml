@@ -12,7 +12,6 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>regress</testSourceDirectory>
 		<!-- Maven takes 12 lines to say what Ant does in 2 attributes: source and target. -->
 		<plugins>
 			<plugin>
@@ -25,6 +24,16 @@
 					<excludes>
 						<exclude>com/darwinsys/ant/MakeTask.java</exclude>
 						<exclude>com/darwinsys/macosui/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12</version>
+				<configuration>
+					<excludes>
+						<exclude>**/MacOSUITest.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
