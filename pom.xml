@@ -6,6 +6,7 @@
 	<artifactId>darwinsys-api</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
+	<inceptionYear>1996</inceptionYear>
 
 	<name>Ian Darwin's random assortment of Java stuff</name>
 	<url>http://darwinsys.com</url>
