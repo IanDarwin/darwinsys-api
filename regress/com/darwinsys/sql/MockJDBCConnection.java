@@ -20,6 +20,8 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class MockJDBCConnection implements Connection {
+	
+	boolean isOpen = true;
 
 	public void abort(Executor executor) throws SQLException {
 		// TODO Auto-generated method stub
@@ -32,8 +34,7 @@ public class MockJDBCConnection implements Connection {
 	}
 
 	public void close() throws SQLException {
-		// TODO Auto-generated method stub
-
+		isOpen = false;
 	}
 
 	public void commit() throws SQLException {
@@ -147,8 +148,7 @@ public class MockJDBCConnection implements Connection {
 	}
 
 	public boolean isClosed() throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		return !isOpen;
 	}
 
 	public boolean isReadOnly() throws SQLException {
