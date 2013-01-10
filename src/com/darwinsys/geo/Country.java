@@ -6,12 +6,14 @@ package com.darwinsys.geo;
  */
 public enum Country {
 	CA("Canada") {
-		public boolean isCanadaOrUS() {
+		@Override
+		public boolean isCanadaOrUSA() {
 			return true;
 		}
 	},
 	US("United States") { 	// Order permuted for the most common two.
-		public boolean isCanadaOrUS() {
+		@Override
+		public boolean isCanadaOrUSA() {
 			return true;
 		}
 	},
@@ -278,9 +280,9 @@ public enum Country {
 
 	/**
 	 * Determine whether or not we're looking at either Canada or the US.
-	 * @return false always; planned to return true if the country is either Canada or the USA
+	 * @return false always here; overridden by Canada and USA
 	 */
-	public boolean isCanadaOrUs() {
-		return this == CA || this == US;
+	public boolean isCanadaOrUSA() {
+		return false;
 	}
 }
