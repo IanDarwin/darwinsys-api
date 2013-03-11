@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.IOException;
 
 /**
- * Some I-O primitives for datastreams.
+ * One I-O primitives for DataInputStream; should probably have just subclassed DataInputStream.
  * All methods are static, since there is no state.
  * @version $Id$
  */
@@ -28,4 +28,6 @@ public class DataIO {
 			((long)(is.readUnsignedByte() & 0xff) <<  8) |
 			((long)(is.readUnsignedByte() & 0xff) <<  0);
 	}
+    
+    // Don't think of adding readUnsignedShort; this already exists in DataInputStream. RTFM before coding.
 }
