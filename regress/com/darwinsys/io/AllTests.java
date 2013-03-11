@@ -10,6 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses(value={
 	//ClassSourceUtilsTest.class,
 	CrawlerTest.class,
+	DataIOTest.class,
 	FileIOTest.class,
 	FileSaverTest.class,
 	ReloadableStringReaderTest.class,
