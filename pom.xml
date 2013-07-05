@@ -10,6 +10,27 @@
 
 	<name>Ian Darwin's random assortment of Java stuff</name>
 	<url>http://darwinsys.com</url>
+	<licenses>
+		<license>
+		<name>BSD 3-Clause "New" or "Revised" license</name>
+		<url>http://opensource.org/licenses/BSD-2-Clause</url>
+		<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>cvs:pserver:anoncvs@cvs.darwinsys.com:/cvspublic</url>
+		<connection>cvs</connection>
+	</scm>
+	<developers>
+		<developer>
+		<id>ian</id>
+		<name>Ian Darwin</name>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
