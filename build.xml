@@ -43,15 +43,6 @@
 	<!-- Task Defs -->
 	<taskdef classpathref="all.classpath" resource="tasks.properties"/>
 
-	<!-- If Ant 1.5 barfs on this, just comment it out -->
-	<condition property="isMacOSX">
-		<and>
-			<os family="mac"/>
-			<os family="unix"/>
-		</and>
-	</condition>
-	<!-- -->
-
 	<!-- Test for junit.jar -->
 	<available file="${junit.jar}"
 		type="file" property="junit.jar.present"/>
@@ -69,7 +60,7 @@
 		<mkdir dir="${build}"/> <!-- Ensure build directory exists -->
 	</target>
 
-	<target name="build" depends="check,build-core,build-macosx,build-regress"/>
+	<target name="build" depends="check,build-core,build-regress"/>
 
 	<target name="build-core" depends="init">
 		<javac destdir="${build}" srcdir="${src}"
@@ -77,7 +68,6 @@
 			debug="true" deprecation="true" fork="false"
 			includeantruntime="false">
 			<exclude name="regress/**"/>
-			<exclude name="com/darwinsys/macosui/**"/>
 			<exclude name="com/darwinsys/ant/MakeTask.java"/>
 		</javac>
 	</target>
@@ -91,21 +81,12 @@
 		</javac>
 	</target>
 
-	<target name="build-macosx" depends="init" if="isMacOSX">
-		<javac destdir="${build}" srcdir="${src}"
-			classpathref="all.classpath"
-			debug="true" deprecation="true" fork="false">
-			<include name="com/darwinsys/macosui/**"/>
-		</javac>
-	</target>
-
 	<target name="build-regress" depends="init">
 		<javac destdir="${build}" srcdir="${regress}"
 			classpathref="all.classpath"
 			debug="true" deprecation="true" fork="false"
 			includeantruntime="false">
 			<include name="**"/>
-			<exclude name="com/darwinsys/macosui/MacOSUITest.java"/>
 		</javac>
 	</target>
 	
@@ -198,7 +179,6 @@ test.DBPassword=testPassword
 					     <exclude name="com/darwinsys/installers/InstallerUtilsTest.*"/>
 					     <exclude name="com/darwinsys/io/ClassSourceUtilsTest.*"/>
 					     <exclude name="com/darwinsys/io/SourceUtilsTest.*"/>
-					     <exclude name="com/darwinsys/macosui/MacOSUITest.*"/>
 					     <exclude name="com/darwinsys/swingui/*"/>
 					 </fileset>
 				</batchtest>
@@ -237,12 +217,6 @@ test.DBPassword=testPassword
 			</java>
 		<echo           message="WindowCloserTest (deprecated)"/>
 		<java className="regress.WindowCloserTest" classpath="build"
-			fork="yes"/>
-	</target>
-
-	<target name="regress.macosui" depends="build">
-		<echo           message="MacOSUITest"/>
-		<java className="regress.MacOSUITest" classpath="build"
 			fork="yes"/>
 	</target>
 
