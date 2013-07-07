@@ -12,6 +12,7 @@ public class ToDo {
 	static Preferences prefs = Preferences.userNodeForPackage(ToDo.class);
 
 	public static void main(String[] args) throws IOException {
+		Thread.currentThread().setName("ToDo");
 		String fileName = System.getProperty("user.home") + "/" + "TODO.txt";
 
 		Notepad n = new Notepad(prefs);
