@@ -1,1 +1,0 @@
-The Utilities package used throughout the book and elsewhere.
