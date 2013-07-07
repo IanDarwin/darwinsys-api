@@ -79,9 +79,7 @@ public class DESCrypter {
 			final String encoded = Base64Coder.encodeLines(enc);
 			final int n = encoded.length();
 			System.out.println("Encoded length = " + n);
-			final String padded = encoded + PADDING.substring(0, 4 - (n%4));
-			System.out.println("Padded length = " + padded.length());
-			return padded;
+			return encoded;
 
 
 		} catch (Throwable e) {
@@ -103,7 +101,7 @@ public class DESCrypter {
 			// Decode using utf-8
 			return new String(utf8, "UTF8");
 		} catch (Throwable e) {
-			throw new RuntimeException("Decryption failure: " + e);
+			throw new RuntimeException("Decryption failure: " + e, e);
 		}
 
 	}
