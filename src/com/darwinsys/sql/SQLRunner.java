@@ -356,7 +356,7 @@ public class SQLRunner {
 	 * @throws SQLException
 	 */
 	private static CachedRowSet cacheResultSet(ResultSet rs) throws SQLException {
-		CachedRowSet rows = new com.sun.rowset.WebRowSetImpl();
+		CachedRowSet rows = null;//new com.sun.rowset.WebRowSetImpl();
 		rows.populate(rs);
 		return rows;
 	}
