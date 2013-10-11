@@ -10,14 +10,10 @@ import javax.swing.JFrame;
 
 import org.junit.Test;
 
-import com.darwinsys.swingui.layout.RelativeLayout;
-
 /**
  * Simple class to non-exhaustively test out RelativeLayout layout manager.
  */
 public class RelativeLayoutTest {
-
-	private static final long serialVersionUID = -5153658589244661773L;
 
 	/**
 	 * Simple main program to test out RelativeLayout.
@@ -25,13 +21,14 @@ public class RelativeLayoutTest {
 	 */
 	public static void main(String[] av) {
 		JFrame f = new JFrame("Test");
-		new RelativeLayoutTest(f);
+		RelativeLayoutTest relativeLayoutTest = new RelativeLayoutTest();
+		relativeLayoutTest.setParentFrame(f);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
 
 	/** Construct a RelativeLayoutTest test program. */
-	public RelativeLayoutTest(JFrame f) {
+	public void setParentFrame(JFrame f) {
 		Button qb;			// quit
 		Container cp = f.getContentPane();
 		cp.setLayout(new RelativeLayout(300, 150));
