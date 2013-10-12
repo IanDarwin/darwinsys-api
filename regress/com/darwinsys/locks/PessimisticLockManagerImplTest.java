@@ -54,6 +54,7 @@ public class PessimisticLockManagerImplTest {
 		assertEquals("release", 0, mgr.getLockStore().keySet().size());
 	}
 	
+	@Ignore("test passes but takes 70 seconds")
 	@Test
 	public final void testTimeoutReclaimsLock() throws Exception {
 		Lock l = mgr.tryLock(123);
