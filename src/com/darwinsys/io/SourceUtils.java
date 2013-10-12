@@ -25,7 +25,7 @@ public class SourceUtils {
 		InputStream is = null;
 		try {
 			is = new FileInputStream(f);
-			int magic = is.read();
+			long magic = is.read();
 			String name = f.getName();
 			// The annoying magic numbers here are borrowed
 			// from my file(1) command, see /etc/magic or
