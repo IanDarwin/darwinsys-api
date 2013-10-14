@@ -8,8 +8,11 @@
 	<packaging>jar</packaging>
 	<inceptionYear>1996</inceptionYear>
 
-	<name>Ian Darwin's random assortment of Java stuff</name>
-	<url>http://darwinsys.com</url>
+	<name>
+		Ian Darwin's random assortment of Java stuff,
+		masquerading as a coherent "API"
+	</name>
+	<url>http://darwinsys.com/java/</url>
 	<licenses>
 		<license>
 		<name>BSD 3-Clause "New" or "Revised" license</name>
@@ -18,8 +21,7 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>cvs:pserver:anoncvs@cvs.darwinsys.com:/cvspublic</url>
-		<connection>cvs</connection>
+		<url>https://github.com/IanDarwin/darwinsys-api.git</url>
 	</scm>
 	<developers>
 		<developer>
@@ -33,8 +35,6 @@
 	</properties>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>regress</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -94,4 +94,35 @@
 	    <version>4.8.2</version>
 	  </dependency>
 	</dependencies>
+
+	<!-- The only profile we use is for signing releases. -->
+	<profiles>
+	  <profile>
+	    <id>release-sign-artifacts</id>
+	    <activation>
+	      <property>
+		<name>performRelease</name>
+		<value>true</value>
+	      </property>
+	    </activation>
+	    <build>
+	      <plugins>
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-gpg-plugin</artifactId>
+		  <version>1.1</version>
+		  <executions>
+		    <execution>
+		      <id>sign-artifacts</id>
+		      <phase>verify</phase>
+		      <goals>
+			<goal>sign</goal>
+		      </goals>
+		    </execution>
+		  </executions>
+		</plugin>
+	      </plugins>
+	    </build>
+	  </profile>
+	</profiles>
 </project>
