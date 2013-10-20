@@ -26,12 +26,16 @@ public class FileSaverTest extends TestCase {
 			// Create file in "." with known name and contents
 			FileIO.stringToFile(MESSAGE, FILENAME);
 			final File file = new File(FILENAME);
-			file.deleteOnExit();
 			// Create FileSaver to save it.
 			saver = new FileSaver(file);
 		} catch (IOException ex) {
 			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
 		}
+	}
+
+	@Override
+	public void tearDown() {
+		new File(FILENAME).delete();
 	}
 
 	/** Test that the overwritten file contains something reasonable,

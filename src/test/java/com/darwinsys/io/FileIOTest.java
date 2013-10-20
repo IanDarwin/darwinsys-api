@@ -41,7 +41,7 @@ public class FileIOTest extends TestCase {
 	}
 	
 	@Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		File file = new File(tmpDir, FILENAME);
 		if (file.exists()) {
 			file.delete();
