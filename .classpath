@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="com/darwinsys/ant/MakeTask.java" kind="src" path="src"/>
-	<classpathentry excluding="MacOSUITest.java" kind="src" path="regress"/>
+	<classpathentry excluding="com/darwinsys/ant/MakeTask.java" kind="src" path="src/main/java"/>
+	<classpathentry excluding="MacOSUITest.java" kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="demo"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
