@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class FileSaverTest extends TestCase {
 
 	/** Test File name. */
-	public static final String FILENAME = "fileiotest.dat";
+	public static final String FILENAME = "fileSaverTest.dat";
 
 	FileSaver saver;
 

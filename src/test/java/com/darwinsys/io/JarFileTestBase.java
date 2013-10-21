@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 
 /** Creates a Jar file from one of our classes, for use
  * in testing Jar File utilities.
+ * N.B. The .class file is in src/main/resources WITHOUT the .class extension
  */
 public class JarFileTestBase {
 
@@ -34,9 +35,9 @@ public class JarFileTestBase {
 		jf.putNextEntry(new ZipEntry("com/darwinsys/"));
 		jf.putNextEntry(new ZipEntry("com/darwinsys/util/"));
 		jf.putNextEntry(new ZipEntry(clazzFile));
-	    InputStream is = new FileInputStream("build" + "/" + clazzFile);
+		InputStream is =
+			JarFileTestBase.class.getResourceAsStream("/" + TESTCLASS);
 		FileIO.copyFile(is, jf, true);
-	
 	}
 
 }

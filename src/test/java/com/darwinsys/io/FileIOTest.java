@@ -46,6 +46,8 @@ public class FileIOTest extends TestCase {
 		if (file.exists()) {
 			file.delete();
 		}
+		String backupFileName = tmpDir + "/" + FILENAME + ".bak";
+		new File(backupFileName).delete();
 		if (tmpDir != null & tmpDir.exists()) {
 			tmpDir.delete();
 		}
