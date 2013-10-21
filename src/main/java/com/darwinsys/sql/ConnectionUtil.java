@@ -3,6 +3,7 @@ package com.darwinsys.sql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ import com.darwinsys.util.Verbosity;
  * JDBC program seems to use.
  */
 public class ConnectionUtil {
-	/** The default config filename, relative to ${user.home} */
+	/** The default config filename, relative to CLASSPATH and/or ${user.home} */
 	public static final String DEFAULT_NAME = ".db.properties";
 	/** The current config filename */
 	private static String configFileName =
@@ -52,12 +53,25 @@ public class ConnectionUtil {
 
 	/** Get a SimpleSQLConfiguration for the given config using the default or set property file name */
 	public static Configuration getConfiguration(String config) throws DataBaseException {
+		InputStream inputStream = null;
 		try {
 			Properties p = new Properties();
+			inputStream = ConnectionUtil.class.getResourceAsStream("/" + DEFAULT_NAME);
+			if (inputStream == null) {
+				inputStream = new FileInputStream(configFileName);
+			}
 			p.load(new FileInputStream(configFileName));
 			return getConfiguration(p, config);
 		} catch (IOException ex) {
 			throw new DataBaseException(ex.toString());
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException stupidException) {
+					// empty
+				}
+			}
 		}
 	}
 
