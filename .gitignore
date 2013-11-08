@@ -9,3 +9,4 @@ TEST-*
 IGNORETHIS.xml
 TESTS-TestSuites.xml
 target
+/fileiotest.dat.bak
