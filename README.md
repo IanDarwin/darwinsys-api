@@ -10,9 +10,12 @@ breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
 
 N.B. You MUST install a minimal $HOME/.db.properties to run
-the tests. This needs to be fixed, but for now, there it is.
+the tests under Maven.  The older Ant build.xml has a task
+for this, but is otherwise not up to date.
 
-# This totally fake db.properties should be copied to your home directory.
+This needs to be fixed, but for now, there it is. Rather, here it is:
+
+# This totally fake .db.properties should be copied to your home directory.
 # Values here are just for running the JUnit tests on the ConnectionUtils
 test.DBDriver=com.darwinsys.sql.MockJDBCDriver
 test.DBURL=jdbc:mock:you_make_me_laugh
