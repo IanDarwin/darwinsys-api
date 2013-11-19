@@ -12,12 +12,12 @@ get in touch in the usual way(s).
 N.B. You MUST install a minimal $HOME/.db.properties to run
 the tests. This needs to be fixed, but for now, there it is.
 
-# This is a placeholder!!
-test.DBDriver=org.mock.Driver
-test.DBURL=jdbc:mock://localhost/mock
-test.DBUser=testid
-test.DBPassword=fredzz
-
+# This totally fake db.properties should be copied to your home directory.
+# Values here are just for running the JUnit tests on the ConnectionUtils
+test.DBDriver=com.darwinsys.sql.MockJDBCDriver
+test.DBURL=jdbc:mock:you_make_me_laugh
+test.DBUser=testName
+test.DBPassword=testPassword
 
 Cheers
 
