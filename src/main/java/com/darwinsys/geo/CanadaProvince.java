@@ -13,7 +13,7 @@ public enum CanadaProvince {
 	NV("Nunavut"),
 	NW("North West Territories"),
 	ON("Ontario"),
-	PE("Prince Edward Islane"),
+	PE("Prince Edward Island"),
 	QC("Quebec"),
 	SK("Saskatchewan"),
 	YK("Yukon Territories"),
