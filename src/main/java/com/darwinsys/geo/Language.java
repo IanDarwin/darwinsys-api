@@ -29,4 +29,13 @@ public enum Language {
 	public void setName(String name) {
 		throw new IllegalArgumentException("enums are immutable");
 	}
+
+	public static Language valueOfIgnoreCase(String string) {
+		for (Language l : values()) {
+			if (l.getName().equalsIgnoreCase(string)) {
+				return l;
+			}
+		}
+		throw new IllegalArgumentException("Unknown language " + string);
+	}
 }
