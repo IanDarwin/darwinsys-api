@@ -1,7 +1,7 @@
 package com.darwinsys.util;
 
 public class ArrayIteratorDemo {
-		// BEGIN
+		// BEGIN main
 		private final static String[] names = {
 				"rose", "petunia", "tulip"
 		};
@@ -10,7 +10,7 @@ public class ArrayIteratorDemo {
 		for (String s : ait) {
 			System.out.println(s);
 		}
-		// END
+		// END main
 	}
 
 }

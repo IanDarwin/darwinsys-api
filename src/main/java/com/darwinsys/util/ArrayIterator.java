@@ -75,3 +75,4 @@ public class ArrayIterator<T> implements Iterable<T>, Iterator<T> {
 			"This demo Iterator does not implement the remove method");
 	}
 }
+// END main

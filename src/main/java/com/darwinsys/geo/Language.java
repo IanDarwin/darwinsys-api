@@ -36,6 +36,6 @@ public enum Language {
 				return cp;
 			}
 		}
-		throw new IllegalArgumentException("Can't find " + name);
+		throw new IllegalArgumentException("Unknown language " + string);
 	}
 }
