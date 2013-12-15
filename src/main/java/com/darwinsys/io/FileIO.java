@@ -27,8 +27,8 @@ import com.darwinsys.util.Debug;
 /**
  * Some file I-O primitives reimplemented in Java.
  * All methods are static, since there is no state.
- * @version $Id$
  */
+// BEGIN main
 public class FileIO {
 	
 	/** The size of blocking to use */
@@ -309,5 +309,5 @@ public class FileIO {
 	throws IOException {
 		return new BufferedReader(new FileReader(fileName));
 	}
-
 }
+// END main

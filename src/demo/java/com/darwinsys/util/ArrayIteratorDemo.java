@@ -3,11 +3,11 @@ package com.darwinsys.util;
 public class ArrayIteratorDemo {
 		// BEGIN main
 		private final static String[] names = {
-				"rose", "petunia", "tulip"
+			"rose", "petunia", "tulip"
 		};
 		public static void main(String[] args) {
-		ArrayIterator<String> ait = new ArrayIterator<>(names);
-		for (String s : ait) {
+		ArrayIterator<String> arrayIterator = new ArrayIterator<>(names);
+		for (String s : arrayIterator) {
 			System.out.println(s);
 		}
 		// END main
