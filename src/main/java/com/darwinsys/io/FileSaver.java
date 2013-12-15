@@ -59,6 +59,7 @@ import java.io.Writer;
  * application I wrote, prompted by discussion started by Brendon McLean
  * on a private mailing list.
  */
+// BEGIN main
 public class FileSaver {
 
 	private enum State {
@@ -155,3 +156,4 @@ public class FileSaver {
 		state = State.AVAILABLE;
 	}
 }
+// END main

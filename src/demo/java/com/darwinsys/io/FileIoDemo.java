@@ -1,10 +1,9 @@
-package io;
+package com.darwinsys.io;
 
-import com.darwinsys.util.FileIO;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import java.io.*;
-
-public class FileIODemo {
+public class FileIoDemo {
     public static void main(String[] av) {
         try {
             FileIO.copyFile("FileIO.java", "FileIO.bak");
