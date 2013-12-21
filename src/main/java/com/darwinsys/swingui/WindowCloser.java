@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
  * @author Ian F. Darwin
  * @version $Id$
  */
+// BEGIN main
 public class WindowCloser extends WindowAdapter {
 
 	/** The window we are to close */
@@ -39,3 +40,4 @@ public class WindowCloser extends WindowAdapter {
 			System.exit(0);
 	}
 }
+// END main

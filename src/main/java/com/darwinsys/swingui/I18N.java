@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
  * All convenience methods are static, for ease of use.
  * @version $Id$
  */
+// BEGIN main
 public class I18N {
 
 	/** Convenience routine to make a JButton */
@@ -69,3 +70,4 @@ public class I18N {
 		return result;
 	}
 }
+// END main

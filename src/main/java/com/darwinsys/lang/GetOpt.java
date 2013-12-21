@@ -100,6 +100,7 @@ import com.darwinsys.util.Debug;
  * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
+// BEGIN main
 public class GetOpt {
 	/** The List of File Names found after args */
 	protected List<String> fileNameArguments;
@@ -285,3 +286,4 @@ public class GetOpt {
 	}
 
 }
+// END main

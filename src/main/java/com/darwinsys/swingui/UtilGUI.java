@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 /** Utilities for GUI work.
  * @version $Id$
  */
+// BEGIN main
 public class UtilGUI {
 
 	/** Centre a Window, Frame, JFrame, Dialog, etc. */
@@ -115,3 +116,4 @@ public class UtilGUI {
 		});
 	}
 }
+// END main

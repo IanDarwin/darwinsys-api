@@ -15,6 +15,7 @@ import javax.swing.JTextField;
  * @author	Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
+// BEGIN main
 public class LabelText extends JPanel implements java.io.Serializable {
 
 	private static final long serialVersionUID = -8343040707105763298L;
@@ -112,3 +113,4 @@ public class LabelText extends JPanel implements java.io.Serializable {
 		theTextField.removeActionListener(l);
 	}
 }
+// END main

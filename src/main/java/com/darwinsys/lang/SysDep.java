@@ -5,6 +5,7 @@ package com.darwinsys.lang;
  * @author Ian Darwin
  * @version $Id$
  */
+// BEGIN main
 public class SysDep {
 	/** Return the name of the Null device on platforms which support it,
 	 * or "jnk" otherwise.
@@ -18,3 +19,4 @@ public class SysDep {
 		return "/dev/null";
 	}
 }
+// END main

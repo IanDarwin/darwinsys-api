@@ -21,6 +21,7 @@ import com.darwinsys.util.Debug;
  * @author Ian F. Darwin (translation into Java and removal of I/O)
  * @author Ben Ballard (rewrote advQuoted to handle '""' and for readability)
  */
+// BEGIN main
 public class CSVImport implements CSVParser {
 
 	public static final char DEFAULT_SEP = ',';
@@ -109,3 +110,4 @@ public class CSVImport implements CSVParser {
         }
     }
 }
+// END main

@@ -5,6 +5,7 @@ import java.util.List;
 
 /* Simple demo of CSV parser class.
  */
+// BEGIN main
 public class CSVSimple {
 	public static void main(String[] args) {
 		CSVImport parser = new CSVImport();
@@ -25,3 +26,4 @@ public class CSVSimple {
 		}
 	}
 }
+// END main
