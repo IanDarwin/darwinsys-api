@@ -47,3 +47,5 @@ public interface Model {
 	public void exit(int i);
 
 }
+// BEGIN main
+// END main

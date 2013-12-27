@@ -16,6 +16,7 @@ import org.junit.Test;
  * @author	Ian Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
+// BEGIN main
 public class EntryLayoutTest {
 
 	/** "main program" method - construct and show */
@@ -77,3 +78,4 @@ public class EntryLayoutTest {
 		}
 	}
 }
+// END main

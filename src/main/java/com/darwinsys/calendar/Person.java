@@ -1,5 +1,6 @@
 package com.darwinsys.calendar;
 
+// BEGIN main
 public class Person {
 	String firstName;
 	String lastName;
@@ -91,3 +92,4 @@ public class Person {
 		return true;
 	}
 }
+// END main

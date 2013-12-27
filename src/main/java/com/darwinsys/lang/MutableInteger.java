@@ -7,6 +7,7 @@ package com.darwinsys.lang;
  * Not subclassed from Integer, since Integer is final (for performance :-))
  * @version $Id$
  */
+// BEGIN main
 public class MutableInteger {
 	private int value = 0;
 
@@ -54,3 +55,4 @@ public class MutableInteger {
 		return Integer.parseInt(str);
 	}
 }
+// END main

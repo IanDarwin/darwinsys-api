@@ -31,6 +31,7 @@ import javax.mail.internet.MimeMessage;
  * @author Ian F. Darwin
  * @version $Id$
  */
+// BEGIN main
 public class Mailer {
 	/** The javamail session object. */
 	protected Session session;
@@ -304,3 +305,4 @@ public class Mailer {
 		return al;
 	}
 }
+// END main

@@ -31,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
  * @author	Ian Darwin
  * @version $Id$
  */
+// BEGIN main
 public class FontChooser extends JDialog {
 
 	private static final long serialVersionUID = 5363471384675038069L;
@@ -224,3 +225,4 @@ public class FontChooser extends JDialog {
 		return isItalic;
 	}
 }
+// END main

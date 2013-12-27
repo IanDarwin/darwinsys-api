@@ -27,6 +27,7 @@ import com.darwinsys.util.Debug;
  * @author Ian F. Darwin, http://www.darwinsys.com/
  * @version $Id$
  */
+// BEGIN main
 public class EntryLayout implements LayoutManager {
 	/** The array of widths, as decimal fractions (0.4 == 40%, etc.). */
 	protected final double[] widthPercentages;
@@ -168,3 +169,4 @@ public class EntryLayout implements LayoutManager {
 	}
 
 }
+// END main
