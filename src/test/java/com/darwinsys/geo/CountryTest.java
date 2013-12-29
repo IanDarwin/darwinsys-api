@@ -8,17 +8,19 @@ public class CountryTest {
 
 	@Test
 	public void testGetLongName() {
-		fail("not implemented");
+		assertEquals("Canada", Country.CA.toString());
 	}
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		assertEquals("Canada", Country.CA.toString());
 	}
 
 	@Test
 	public void testIsCanadaOrUSA() {
-		fail("Not yet implemented");
+		assertTrue(Country.CA.isCanadaOrUSA());
+		assertTrue(Country.US.isCanadaOrUSA());
+		assertFalse(Country.GB.isCanadaOrUSA());
 	}
 
 }
