@@ -4,24 +4,27 @@
 
 	<groupId>com.darwinsys</groupId>
 	<artifactId>darwinsys-api</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<inceptionYear>1996</inceptionYear>
 
-	<name>
+	<name>DarwinSys API</name>
+	<description>
 		Ian Darwin's random assortment of Java stuff,
 		masquerading as a coherent "API"
-	</name>
-	<url>http://darwinsys.com/java/</url>
+	</description>
+	<url>http://darwinsys.com/darwinsys-api/</url>
 	<licenses>
 		<license>
-		<name>BSD 3-Clause "New" or "Revised" license</name>
+		<name>BSD 2-Clause "New" or "Revised" license</name>
 		<url>http://opensource.org/licenses/BSD-2-Clause</url>
 		<distribution>repo</distribution>
 		</license>
 	</licenses>
 	<scm>
-		<url>https://github.com/IanDarwin/darwinsys-api.git</url>
+	    <connection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</connection>
+        <developerConnection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</developerConnection>
+		<url>git@github.com:IanDarwin/darwinsys-api.git</url>
 	</scm>
 	<developers>
 		<developer>
@@ -29,6 +32,12 @@
 		<name>Ian Darwin</name>
 		</developer>
 	</developers>
+	
+	 <parent>
+       <groupId>org.sonatype.oss</groupId>
+       <artifactId>oss-parent</artifactId>
+       <version>7</version>
+    </parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
