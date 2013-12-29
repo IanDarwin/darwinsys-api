@@ -32,9 +32,8 @@ import java.sql.SQLException;
 
 import com.darwinsys.util.Verbosity;
 
-/** Base class for a series of ResultSet printers.
- * @version $Id$
- */
+// BEGIN min
+/** Base class for a series of ResultSet printers. */
 public abstract class ResultsDecorator {
 	PrintWriter out;
 	Verbosity verbosity;
@@ -74,3 +73,4 @@ public abstract class ResultsDecorator {
 		this.out = out;
 	}
 }
+// END min

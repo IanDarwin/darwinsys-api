@@ -33,9 +33,9 @@ import java.sql.SQLException;
 
 import com.darwinsys.util.Verbosity;
 
+// BEGIN main
 /**
  * Print a ResultSet in plain text.
- * @version $Id$
  */
 public class ResultsDecoratorText extends ResultsDecorator {
 
@@ -69,7 +69,7 @@ public class ResultsDecoratorText extends ResultsDecorator {
 
 	@Override
 	public void printRowCount(int rowCount) throws IOException {
-			println("Rows: " + rowCount);
+		println("Rows: " + rowCount);
 	}
 
 	/* (non-Javadoc)
@@ -80,3 +80,4 @@ public class ResultsDecoratorText extends ResultsDecorator {
 		return "Plain text";
 	}
 }
+// END main
