@@ -13,21 +13,36 @@ import java.net.UnknownHostException;
  * @author Ian Darwin
  */
 public class KwikLinkChecker {
+	
+	static boolean verbose;
 
 	public static void main(String[] args) {
-		for (String url : args) {
-			LinkStatus stat = check(url);
-			if (!stat.ok)
+		for (String arg : args) {
+			if (arg.equals("-v")) {
+				verbose = true;
+				continue;
+			}
+			LinkStatus stat = check(arg);
+			if (verbose || !stat.ok)
 				System.out.println(stat.message);
 		}
 	}
 	
 	static LinkStatus check(String urlString) {
 		URL url;
+		HttpURLConnection conn = null;
+		HttpURLConnection.setFollowRedirects(false);
 		try {
 			url = new URL(urlString);
-			HttpURLConnection.setFollowRedirects(false);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn = (HttpURLConnection) url.openConnection();
+			switch (conn.getResponseCode()) {
+			case 200:
+				return new LinkStatus(true, urlString);
+			case 403:
+				return new LinkStatus(false,"403: " + urlString );
+			case 404:
+				return new LinkStatus(false,"404: " + urlString );
+			}
 			conn.getInputStream();
 			return new LinkStatus(true, urlString);
 		} catch (IllegalArgumentException | MalformedURLException e) {
@@ -36,11 +51,17 @@ public class KwikLinkChecker {
 		} catch (UnknownHostException e) {
 			return new LinkStatus(false, "Host invalid/dead: " + urlString);
 		} catch (FileNotFoundException e) {
-			return new LinkStatus(false,"NOT FOUND (404) " + urlString );
+			return new LinkStatus(false,"NOT FOUND (404) " + urlString);
 		} catch (ConnectException e) {
 			return new LinkStatus(false, "Server not listening: " + urlString);
 		} catch (IOException e) {
-			return new LinkStatus(false, e + ": " + urlString);
+			return new LinkStatus(false, e.toString()); // usually includes failing URL
+		} catch (Exception e) {
+			return new LinkStatus(false, "Unexpected exception! " + e);
+		} finally {
+			if (conn != null) {
+				conn.disconnect();
+			}
 		}
 	}
 }
