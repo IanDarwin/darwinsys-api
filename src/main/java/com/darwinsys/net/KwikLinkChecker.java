@@ -8,6 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+/** A very minimal link checker. 
+ * Typical usage: java -cp darwinsys-api.jar com.darwinsys.net.KwikLinkChecker
+ * @author Ian Darwin
+ */
 public class KwikLinkChecker {
 
 	public static void main(String[] args) {
