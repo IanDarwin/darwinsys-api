@@ -16,7 +16,9 @@ public class KwikLinkChecker {
 
 	public static void main(String[] args) {
 		for (String url : args) {
-			check(url);
+			LinkStatus stat = check(url);
+			if (!stat.ok)
+				System.out.println(stat.message);
 		}
 	}
 	
