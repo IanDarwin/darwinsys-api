@@ -60,6 +60,7 @@ import java.io.Writer;
  * on a private mailing list.
  */
 // BEGIN main
+// package com.darwinsys.io;
 public class FileSaver {
 
 	private enum State {

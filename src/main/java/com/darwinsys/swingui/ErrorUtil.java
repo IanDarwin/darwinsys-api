@@ -25,7 +25,6 @@ import javax.swing.JTextArea;
  * traceback in a dialog; tracebacks are <b>not</b> displayed unless
  * the user requests them.
  * @author Ian Darwin
- * @version $Id$
  */
 public class ErrorUtil {
 

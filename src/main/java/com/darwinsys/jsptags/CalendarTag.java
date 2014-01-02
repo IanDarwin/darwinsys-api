@@ -12,8 +12,6 @@ import com.darwinsys.servlet.HTMLDateUtils;
 /**
  * Calendar JSP Tag, cut down from Java Cookbook CalendarPage.jsp; just displays
  * current, does not have navigator.
- *
- * @version $Id$
  */
 public class CalendarTag extends TagSupport {
 
@@ -25,7 +23,7 @@ public class CalendarTag extends TagSupport {
 		try {
 			final JspWriter out = pageContext.getOut();
 
-			out.println("<!-- Start of output from $Id$ -->");
+			out.println("<!-- Start of output from CalendarTag.java -->");
 
 			// Calendar cal = Calendar.getInstance(Locale.CANADA);
 			HTMLDateUtils.printMonthCalendar(new PrintWriter(out));

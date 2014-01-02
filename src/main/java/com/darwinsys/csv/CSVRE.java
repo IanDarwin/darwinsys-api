@@ -19,9 +19,9 @@ import java.util.regex.Pattern;
  * 	new CSVRE().process(new BufferedReader(new InputStreamReader(System.in)));
  * }
  * </pre>
- * @version $Id$
  */
 // BEGIN main
+// package com.darwinsys.csv;
 public class CSVRE implements CSVParser {
 	/** The rather involved pattern used to match CSV's consists of three
 	 * alternations: the first matches a quoted field, the second unquoted,

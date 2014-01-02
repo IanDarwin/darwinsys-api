@@ -14,7 +14,6 @@ import org.junit.Test;
 
 /** Testbed for EntryLayout layout manager.
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 // BEGIN main
 public class EntryLayoutTest {

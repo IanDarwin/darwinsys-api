@@ -10,7 +10,6 @@ import org.junit.Test;
 
 /** Testbed for CircleLayout layout manager.
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class CircleLayoutTest {
 

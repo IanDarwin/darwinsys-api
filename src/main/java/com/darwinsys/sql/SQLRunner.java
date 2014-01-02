@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2004-2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -70,6 +69,7 @@ import com.darwinsys.util.Verbosity;
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 // BEGIN main
+// package com.darwinsys.sql;
 public class SQLRunner {
 
 	OutputMode outputMode = OutputMode.t;

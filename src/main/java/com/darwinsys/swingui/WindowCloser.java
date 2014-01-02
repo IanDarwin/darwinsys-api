@@ -1,3 +1,4 @@
+// BEGIN main
 package com.darwinsys.swingui;
 
 import java.awt.Window;
@@ -7,12 +8,8 @@ import java.awt.event.WindowEvent;
 /** A WindowCloser - watch for Window Closing events, and
  * follow them up with setVisible(false), dispose(), and optionally
  * ends (it all) with a System.exit(0).
- * <p>
  * @deprecated For simple closing, just use JFrame.setDefaultCloseOperation().
- * @author Ian F. Darwin
- * @version $Id$
  */
-// BEGIN main
 public class WindowCloser extends WindowAdapter {
 
 	/** The window we are to close */

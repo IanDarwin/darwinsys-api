@@ -3,7 +3,6 @@ package com.darwinsys.graphics;
 /*
  * Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 1996-2006.
  * All rights reserved. Software written by Ian F. Darwin and others.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

@@ -6,7 +6,6 @@ import java.io.IOException;
 /**
  * One I-O primitives for DataInputStream; should probably have just subclassed DataInputStream.
  * All methods are static, since there is no state.
- * @version $Id$
  */
 public class DataIO {
 

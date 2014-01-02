@@ -22,6 +22,8 @@ import com.darwinsys.util.Debug;
  * @author Ben Ballard (rewrote advQuoted to handle '""' and for readability)
  */
 // BEGIN main
+// package com.darwinsys.csv;
+
 public class CSVImport implements CSVParser {
 
 	public static final char DEFAULT_SEP = ',';

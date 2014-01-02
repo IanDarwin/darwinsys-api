@@ -1,11 +1,10 @@
+// BEGIN main
 package com.darwinsys.lang;
 
 /** Some things that are System Dependent.
  * All methods are static, like java.lang.Math.
  * @author Ian Darwin
- * @version $Id$
  */
-// BEGIN main
 public class SysDep {
 	/** Return the name of the Null device on platforms which support it,
 	 * or "jnk" otherwise.

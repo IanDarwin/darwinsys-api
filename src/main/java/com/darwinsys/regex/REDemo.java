@@ -35,7 +35,6 @@ import com.darwinsys.swingui.UtilGUI;
 
 /** Standalone Swing GUI application for demonstrating REs.
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class REDemo extends JPanel {
 

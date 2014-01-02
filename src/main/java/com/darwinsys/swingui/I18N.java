@@ -1,19 +1,14 @@
+// BEGIN main
 package com.darwinsys.swingui;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
-/** Set of convenience routines for internationalized code.
- * All convenience methods are static, for ease of use.
- * @version $Id$
+/** Convenience routines for internationalized code.
+ * All methods are static, for ease of use.
  */
-// BEGIN main
 public class I18N {
 
 	/** Convenience routine to make a JButton */

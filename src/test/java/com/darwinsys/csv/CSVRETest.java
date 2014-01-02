@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * JUnit tests for CSV RE
- * @version $Id$
  */
 public class CSVRETest extends CSVParserTestBase {
 

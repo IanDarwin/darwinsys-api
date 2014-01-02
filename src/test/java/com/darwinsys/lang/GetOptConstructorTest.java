@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
  * Some test cases for GetOpt.
  * 
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class GetOptConstructorTest  {
 

@@ -19,7 +19,6 @@ import java.awt.LayoutManager;
  * Note: The current version of ColumnLayout doesn't resize.</p>
  *
  * @author Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 
 public class ColumnLayout implements LayoutManager {

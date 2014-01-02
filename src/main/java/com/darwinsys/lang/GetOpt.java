@@ -98,9 +98,9 @@ import com.darwinsys.util.Debug;
  * <a href="http://jakarta.apache.org/commons/cli/">Jakarta Commons
  * Command Line Interface</a>.
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 // BEGIN main
+// package com.darwinsys.lang;
 public class GetOpt {
 	/** The List of File Names found after args */
 	protected List<String> fileNameArguments;

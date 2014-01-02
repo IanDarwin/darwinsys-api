@@ -17,9 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /** Utilities for GUI work.
- * @version $Id$
  */
 // BEGIN main
+// package com.darwinsys.swingui;
 public class UtilGUI {
 
 	/** Centre a Window, Frame, JFrame, Dialog, etc. */

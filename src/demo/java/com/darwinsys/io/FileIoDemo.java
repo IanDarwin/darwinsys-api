@@ -1,8 +1,8 @@
+// BEGIN main
 package com.darwinsys.io;
 
 import java.io.IOException;
 
-// BEGIN main
 public class FileIoDemo {
     public static void main(String[] av) {
         try {

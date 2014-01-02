@@ -28,7 +28,6 @@ import javax.swing.event.TableModelEvent;
  * </ul>
  *
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version	$Id$
  */
 public class ArrayListTablePanel<T> extends JPanel {
 

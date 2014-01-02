@@ -15,7 +15,6 @@ import org.junit.Test;
 
 /**
  * Test for ConnectionUtils
- * @version $Id$
  */
 public class ConnectionUtilTest {
 

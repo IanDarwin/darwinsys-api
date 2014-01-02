@@ -15,7 +15,6 @@ import com.darwinsys.util.Debug;
  * <li>Only works well if the container is approximately square.
  * </ul>
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class CircleLayout implements LayoutManager {
 

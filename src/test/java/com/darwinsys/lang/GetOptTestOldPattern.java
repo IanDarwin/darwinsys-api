@@ -11,7 +11,6 @@ import com.darwinsys.util.Debug;
 
 /** Some test cases for GetOpt using the "traditional" coding pattern.
 * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class GetOptTestOldPattern {
 	

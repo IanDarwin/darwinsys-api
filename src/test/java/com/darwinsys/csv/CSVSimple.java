@@ -1,11 +1,10 @@
+// BEGIN main
 package com.darwinsys.csv;
 
 import java.util.Iterator;
 import java.util.List;
 
-/* Simple demo of CSV parser class.
- */
-// BEGIN main
+/* Simple demo of CSV parser class. */
 public class CSVSimple {
 	public static void main(String[] args) {
 		CSVImport parser = new CSVImport();
@@ -16,7 +15,7 @@ public class CSVSimple {
 			System.out.println(it.next());
 		}
 
-		// Now test with a non-default separator
+		// Now try with a non-default separator
 		parser = new CSVImport('|');
 		list = parser.parse(
 			"\"LU\"|86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");

@@ -1,13 +1,12 @@
+// BEGIN main
 package com.darwinsys.util;
 
-// BEGIN main
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /** Demonstrate the Iterator and Iterable interfaces, showing how
  * to write a simple Iterator for an Array of Objects.
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version	$Id$
  */
 public class ArrayIterator<T> implements Iterable<T>, Iterator<T> {
 	/** The data to be iterated over. */

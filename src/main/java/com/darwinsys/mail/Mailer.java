@@ -29,9 +29,9 @@ import javax.mail.internet.MimeMessage;
  * }
  * </pre>
  * @author Ian F. Darwin
- * @version $Id$
  */
 // BEGIN main
+// package com.darwinsys.mail;
 public class Mailer {
 	/** The javamail session object. */
 	protected Session session;

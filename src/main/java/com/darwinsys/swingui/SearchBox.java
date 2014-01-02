@@ -55,7 +55,6 @@ import javax.swing.JTextField;
  * <p>The implementation of getSize() in the list model is parallel
  * but simpler; it must of course count only elements that are visible.
  * @see javax.swing.ListModel
- * @version $Id$
  */
 public class SearchBox extends JComponent {
 

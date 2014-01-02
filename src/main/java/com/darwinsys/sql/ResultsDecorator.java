@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2004-2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,6 +22,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+// BEGIN main
 package com.darwinsys.sql;
 
 import java.io.IOException;
@@ -32,7 +32,6 @@ import java.sql.SQLException;
 
 import com.darwinsys.util.Verbosity;
 
-// BEGIN main
 /** Base class for a series of ResultSet printers. */
 public abstract class ResultsDecorator {
 	PrintWriter out;

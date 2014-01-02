@@ -2,7 +2,6 @@ package com.darwinsys.util;
 
 /** Utilities for debugging
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version	$Id$
  */
 public class Debug {
 	private static final String DEBUG_STRING = "debug.";

@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
  * See also
  <a href="http://java.sun.com/docs/books/tutorial/uiswing/misc/action.html">
  * How to use Actions"</a>.
- * @version $Id$
  */
 public abstract class IntlAction extends AbstractAction {
 

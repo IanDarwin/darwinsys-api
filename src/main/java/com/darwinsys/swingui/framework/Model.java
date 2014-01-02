@@ -4,7 +4,6 @@ import java.awt.Graphics;
 
 /**
  * name & purpose.
- * $Id$
  */
 public interface Model {
 	
@@ -47,5 +46,3 @@ public interface Model {
 	public void exit(int i);
 
 }
-// BEGIN main
-// END main

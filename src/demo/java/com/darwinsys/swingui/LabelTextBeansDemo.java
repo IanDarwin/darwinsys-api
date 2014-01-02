@@ -14,9 +14,7 @@ import javax.swing.JPanel;
 
 /**
  * Demo of LabelText JavaBean
- * 
  * @author Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class LabelTextBeansDemo extends JFrame {
 
