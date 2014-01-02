@@ -22,6 +22,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+// BEGIN main
 package com.darwinsys.io;
 
 import java.io.IOException;
@@ -63,3 +64,4 @@ public final class TextAreaOutputStream extends OutputStream {
 		sb.append((char)b);
 	}
 }
+// END main
