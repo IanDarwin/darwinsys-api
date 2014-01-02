@@ -15,8 +15,8 @@ for this, but is otherwise not up to date.
 
 This needs to be fixed, but for now, there it is. Rather, here it is:
 
-# This totally fake .db.properties should be copied to your home directory.
-# Values here are just for running the JUnit tests on the ConnectionUtils
+\# This totally fake .db.properties should be copied to your home directory.
+\# Values here are just for running the JUnit tests on the ConnectionUtils
 test.DBDriver=com.darwinsys.sql.MockJDBCDriver
 test.DBURL=jdbc:mock:you_make_me_laugh
 test.DBUser=testName
