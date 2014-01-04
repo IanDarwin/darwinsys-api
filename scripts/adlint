@@ -1,18 +1,28 @@
 #!/bin/sh
 
+CHAPTERS="ch*"
+JARS_HOME=$HOME/lib
+DARWINSYS_JAR=${JARS_HOME}/darwinsys-api.jar
+
 echo "Checking snippets"
-sniplint
+sniplint ${CHAPTERS}
 
 echo "Checking images and includes"
 # image::images/jenkins-dashboard.png[]
 # include::src/main/resources/json/softwareinfo.json[]
 #                                                         stat(1) needs a -q option
-egrep -h '^(include|image)::' ch* | sed -e 's/include:://' -e 's/image:://' -e 's/\[.*\]$//' | 
+egrep -h '^(include|image)::' ${CHAPTERS} | sed -e 's/include:://' -e 's/image:://' -e 's/\[.*\]$//' | 
 	xargs ls >/dev/null
 
 echo "Checking xrefs"
-java XrefCheck ch* | sort
+java -cp ${DARWINSYS_JAR} com.darwinsys.tools.XrefCheck ${CHAPTERS} | sort
 
-echo "Finding XXX tags"
-grep -n XXX ch*
+echo "Finding ToDO tags"
+egrep -n XXX ${CHAPTERS}
+
+echo "Last but not least (but slowest): Running http link checker"
+java -cp ${DARWINSYS_JAR} com.darwinsys.net.KwikLinkChecker $* $(
+	grep link: ch* | sed -e 's/.*link:$\$//' -e 's/$$.*//'
+)
+
 
