@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Checking snippets"
+sniplint
+
+echo "Checking images and includes"
+# image::images/jenkins-dashboard.png[]
+# include::src/main/resources/json/softwareinfo.json[]
+#                                                         stat(1) needs a -q option
+egrep -h '^(include|image)::' ch* | sed -e 's/include:://' -e 's/image:://' -e 's/\[.*\]$//' | 
+	xargs ls >/dev/null
+
+echo "Checking xrefs"
+java XrefCheck ch* | sort
+
+echo "Finding XXX tags"
+grep -n XXX ch*
+
