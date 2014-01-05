@@ -1,4 +1,4 @@
-package com.darwinsys.net;
+package com.darwinsys.tools;
 
 class LinkStatus {
 	boolean ok;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
@@ -62,6 +63,8 @@ public class KwikLinkChecker {
 			return new LinkStatus(false,"NOT FOUND (404) " + urlString);
 		} catch (ConnectException e) {
 			return new LinkStatus(false, "Server not listening: " + urlString);
+		} catch (SocketException e) {
+			return new LinkStatus(false, e + ": " + urlString);
 		} catch (IOException e) {
 			return new LinkStatus(false, e.toString()); // usually includes failing URL
 		} catch (Exception e) {
