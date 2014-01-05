@@ -34,7 +34,7 @@ echo "Checking for ToDO tags"
 egrep -n 'XXX|\?\?\?' ${CHAPTERS}
 
 echo "Last but not least (but slowest): Running http link checker"
-java -cp ${DARWINSYS_JAR} com.darwinsys.net.KwikLinkChecker $* $(
+java -cp ${DARWINSYS_JAR} com.darwinsys.tools.KwikLinkChecker $* $(
 	grep link: ch* | sed -e 's/.*link:$\$//' -e 's/$$.*//'
 )
 
