@@ -8,8 +8,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-/** A very minimal link checker. 
- * Typical usage: java -cp darwinsys-api.jar com.darwinsys.net.KwikLinkChecker
+/**
+ * A very minimal link checker. 
+ * Typical usage: java -cp darwinsys-api.jar com.darwinsys.net.KwikLinkChecker file...
  * @author Ian Darwin
  */
 public class KwikLinkChecker {
@@ -28,6 +29,13 @@ public class KwikLinkChecker {
 		}
 	}
 	
+	// BEGIN main
+	/**
+	 * Check one HTTP link; not recursive. Returns a LinkStatus with boolean success,
+	 * and the filename or an error message in the message part of the LinkStatus.
+	 * The end of this method is one of the few places where a whole raft of different
+	 * "catch" clauses is actually needed for the intent of the program.
+	 */
 	static LinkStatus check(String urlString) {
 		URL url;
 		HttpURLConnection conn = null;
@@ -64,4 +72,5 @@ public class KwikLinkChecker {
 			}
 		}
 	}
+	// END main
 }
