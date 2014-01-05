@@ -3,9 +3,22 @@
 CHAPTERS="ch*"
 JARS_HOME=$HOME/lib
 DARWINSYS_JAR=${JARS_HOME}/darwinsys-api.jar
+TMP=$(mktemp /tmp/adlintXXXXXXXXX)
+TMP2=$(mktemp /tmp/adlint2XXXXXXXXX)
+trap "rm ${TMP} ${TMP2}" 0 1 15
 
 echo "Checking snippets"
-sniplint ${CHAPTERS}
+grep '^\[filename=' ${CHAPTERS} > ${TMP}
+for f in $(awk -F\" '{print $2}' ${TMP})
+do
+	if [ \! -f ${f} ]; then
+		echo ${f} NOT FOUND
+	fi
+done
+egrep -v ':\[filename="[a-zA-Z0-9_/.]+", language="java", identifier="main"\]$' ${TMP} > ${TMP2} && {
+	echo Dubious lines
+	cat  ${TMP2}
+}
 
 echo "Checking images and includes"
 # image::images/jenkins-dashboard.png[]
