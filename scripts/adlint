@@ -31,7 +31,7 @@ echo "Checking xrefs"
 java -cp ${DARWINSYS_JAR} com.darwinsys.tools.XrefCheck ${CHAPTERS} | sort
 
 echo "Checking for ToDO tags"
-egrep -n 'XXX|\?\?\?' ${CHAPTERS}
+egrep -n -i 'XXX|\?\?\?' ${CHAPTERS}
 
 echo "Last but not least (but slowest): Running http link checker"
 java -cp ${DARWINSYS_JAR} com.darwinsys.tools.KwikLinkChecker $* $(
