@@ -86,6 +86,47 @@ public class TestUtils {
 		return true;
 	}
 
+
+	/**
+	 * A debugging class to report on fields that differ, without using the
+	 * objects' equals() method.
+	 */
+	public static List<String> compareAll(Object o1, Object o2) {
+		List<String> different = new ArrayList<String>();
+		if (o1 == o2) {
+			return different;
+		}
+		// If either is null, don't compare anything
+		if (o1 == null || o2 == null) {
+			return different;
+		}
+		Class c1 = o1.getClass();
+		Class c2 = o2.getClass();
+
+		// Class objects are singleton-like, compare with ==
+		if (c1 != c2) {
+			throw new IllegalArgumentException("Cannot compare " + c1 + " with " + c2);
+		}
+
+		Map<String, Prop> props = getProperties(c1);
+		//List<String> propNames =
+			//new ArrayList<String>(props.keySet());
+		for (String name : props.keySet()) {
+			System.err.println("Trying property " + name);
+			final Prop prop = props.get(name);
+			if (prop == null) {
+				throw new IllegalStateException("No Prop descriptor found for " + name);
+			}
+			if (prop.rawField == null) {
+				throw new IllegalStateException("No RawField in Prop descriptor for " + name);
+			}
+			if (!propsEquals(prop.rawField, o1, o2)) {
+				different.add(name);
+			}
+		}
+		return different;
+	}
+
 	/**
 	 * A JUnit-like assertion method that uses reflection to
 	 * ensure that no properties have default values; useful for
