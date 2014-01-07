@@ -52,9 +52,6 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-					<excludes>
-						<exclude>com/darwinsys/ant/MakeTask.java</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
