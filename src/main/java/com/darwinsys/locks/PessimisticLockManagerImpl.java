@@ -11,10 +11,10 @@ import java.util.Map;
  * their id's (which would normally be the (compound?)
  * primary key of the row being locked).
  * Example:
- * PessimisticLockManager<Integer> mgr =
+ * PessimisticLockManager&lt;Integer&gt; mgr =
  * 		new PessimisticLockManagerImpl();
  * Lock l = mgr.tryLock(123);
- * @author Ian Darwin, based on a design I got from Stephen Neal
+ * @author Ian Darwin, based on a design from Stephen Neal
  */
 public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> {
 

@@ -101,9 +101,9 @@ import java.util.Hashtable;
 
     /**
      * Find the difference in 2 texts, comparing by textlines.
-     * @param TextA A-version of the text (usualy the old one)</param>
-     * @param TextB B-version of the text (usualy the new one)</param>
-     * @return Returns a array of Items that describe the differences.</returns>
+     * @param TextA A-version of the text (usualy the old one)
+     * @param TextB B-version of the text (usualy the new one)
+     * @return Returns a array of Items that describe the differences.
     */
     public static Item[] diffText(String TextA, String TextB) {
       return (diffText(TextA, TextB, false, false, false));
@@ -116,12 +116,12 @@ import java.util.Hashtable;
      * each line is converted into a (hash) number. This hash-value is computed by storing all
      * textlines into a common hashtable so i can find dublicates in there, and generating a 
      * new number each time a new textline is inserted.
-     * @param TextA A-version of the text (usualy the old one)</param>
-     * @param TextB B-version of the text (usualy the new one)</param>
-     * @param trimSpace When set to true, all leading and trailing whitespace characters are stripped out before the comparation is done.</param>
-     * @param ignoreSpace When set to true, all whitespace characters are converted to a single space character before the comparation is done.</param>
-     * @param ignoreCase When set to true, all characters are converted to their lowercase equivivalence before the comparation is done.</param>
-     * @return Returns a array of Items that describe the differences.</returns>
+     * @param TextA A-version of the text (usualy the old one)
+     * @param TextB B-version of the text (usualy the new one)
+     * @param trimSpace When set to true, all leading and trailing whitespace characters are stripped out before the comparation is done.
+     * @param ignoreSpace When set to true, all whitespace characters are converted to a single space character before the comparation is done.
+     * @param ignoreCase When set to true, all characters are converted to their lowercase equivivalence before the comparation is done.
+     * @return Returns a array of Items that describe the differences.
     */
     public static Item[] diffText(String TextA, String TextB, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase) {
       // prepare the input-text and convert to comparable numbers.
@@ -154,7 +154,7 @@ import java.util.Hashtable;
      * as the line that appends the changes, the difference sequence is modified so that the
      * appended line and not the starting line is marked as modified.
      * This leads to more readable diff sequences when comparing text files.
-     * @param Data A Diff data buffer containing the identified changes.</param>
+     * @param Data A Diff data buffer containing the identified changes.
     */
     private static void Optimize(DiffData Data) {
       int StartPos, EndPos;
@@ -179,9 +179,9 @@ import java.util.Hashtable;
 
     /**
      * Find the difference in 2 arrays of integers.
-     * @param ArrayA A-version of the numbers (usualy the old one)</param>
-     * @param ArrayB B-version of the numbers (usualy the new one)</param>
-     * @return Returns a array of Items that describe the differences.</returns>
+     * @param ArrayA A-version of the numbers (usualy the old one)
+     * @param ArrayB B-version of the numbers (usualy the new one)
+     * @return Returns a array of Items that describe the differences.
     */
     public Item[] DiffInt(int[] ArrayA, int[] ArrayB) {
       // The A-Version of the data (original data) to be compared.
@@ -204,10 +204,10 @@ import java.util.Hashtable;
     /**
      * This function converts all textlines of the text into unique numbers for every unique textline
      * so further work can work only with simple numbers.
-     * @param aText the input text</param>
-     * @param h This extern initialized hashtable is used for storing all ever used textlines.</param>
-     * @param trimSpace ignore leading and trailing space characters</param>
-     * @return a array of integers.</returns>
+     * @param aText the input text
+     * @param h This extern initialized hashtable is used for storing all ever used textlines.
+     * @param trimSpace ignore leading and trailing space characters
+     * @return a array of integers.
     */
     private static int[] DiffCodes(String aText, Hashtable<String, Integer> h, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase) {
       // get all codes of the text
@@ -250,15 +250,15 @@ import java.util.Hashtable;
 
     /**
      * This is the algorithm to find the Shortest Middle Snake (SMS).
-     * @param DataA sequence A</param>
-     * @param LowerA lower bound of the actual range in DataA</param>
-     * @param UpperA upper bound of the actual range in DataA (exclusive)</param>
-     * @param DataB sequence B</param>
-     * @param LowerB lower bound of the actual range in DataB</param>
-     * @param UpperB upper bound of the actual range in DataB (exclusive)</param>
-     * @param DownVector a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.</param>
-     * @param UpVector a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.</param>
-     * @return a MiddleSnakeData record containing x,y and u,v</returns>
+     * @param DataA sequence A
+     * @param LowerA lower bound of the actual range in DataA
+     * @param UpperA upper bound of the actual range in DataA (exclusive)
+     * @param DataB sequence B
+     * @param LowerB lower bound of the actual range in DataB
+     * @param UpperB upper bound of the actual range in DataB (exclusive)
+     * @param DownVector a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.
+     * @param UpVector a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.
+     * @return a MiddleSnakeData record containing x,y and u,v
     */
     private static SMSRD SMS(DiffData DataA, int LowerA, int UpperA, DiffData DataB, int LowerB, int UpperB,
       int[] DownVector, int[] UpVector) {
@@ -365,14 +365,14 @@ import java.util.Hashtable;
      * algorithm.
      * The published algorithm passes recursively parts of the A and B sequences.
      * To avoid copying these arrays the lower and upper bounds are passed while the sequences stay constant.
-     * @param DataA sequence A</param>
-     * @param LowerA lower bound of the actual range in DataA</param>
-     * @param UpperA upper bound of the actual range in DataA (exclusive)</param>
-     * @param DataB sequence B</param>
-     * @param LowerB lower bound of the actual range in DataB</param>
-     * @param UpperB upper bound of the actual range in DataB (exclusive)</param>
-     * @param DownVector a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.</param>
-     * @param UpVector a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.</param>
+     * @param DataA sequence A
+     * @param LowerA lower bound of the actual range in DataA
+     * @param UpperA upper bound of the actual range in DataA (exclusive)
+     * @param DataB sequence B
+     * @param LowerB lower bound of the actual range in DataB
+     * @param UpperB upper bound of the actual range in DataB (exclusive)
+     * @param DownVector a vector for the (0,0) to (x,y) search. Passed as a parameter for speed reasons.
+     * @param UpVector a vector for the (u,v) to (N,M) search. Passed as a parameter for speed reasons.
     */
     private static void LCS(DiffData DataA, int LowerA, int UpperA, DiffData DataB, int LowerB, int UpperB, int[] DownVector, int[] UpVector) {
       // System.out.println(2, "LCS", String.format("Analyse the box: A[{0}-{1}] to B[{2}-{3}]", LowerA, UpperA, LowerB, UpperB));
@@ -481,7 +481,7 @@ import java.util.Hashtable;
 
     /**
      * Initialize the Diff-Data buffer.
-     * @param data reference to the buffer</param>
+     * @param data reference to the buffer
     */
     protected DiffData(int[] initData) {
       data = initData;

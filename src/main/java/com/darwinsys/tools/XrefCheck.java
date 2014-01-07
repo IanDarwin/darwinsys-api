@@ -5,8 +5,9 @@ import java.util.*;
 import java.util.regex.*;
 
 /**
+ * AsciiDoc Xref checker:
  * Read one or more chapter files making up an AsciiDoc document; verify that every xref
- * (defined with <<name>>, see "ref") is defined elsewhere  as a label (defined with [[name]], see "decl").
+ * (defined with name, see "ref") is defined elsewhere as a label (defined with [[name]], see "decl").
  */
 public class XrefCheck {
 	private final static boolean VERBOSE_SELFTEST = false;

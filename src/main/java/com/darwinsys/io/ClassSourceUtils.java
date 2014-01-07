@@ -21,11 +21,11 @@ public class ClassSourceUtils extends SourceUtils {
 	 * Create a list of the Classes in a Source;
 	 * each class that is successfully loaded as though
 	 * by Class.forName() will be included in the list.
-	 * <br/>
+	 * <br>
 	 * <b>N.B.</b>: This method is not thread-safe!
 	 * @param name - the name of something that can be used
 	 * as a Source, e.g., a Jar file, a class file or a directory.
-	 * @return List<Class<?>> List of all classes found in the source
+	 * @return List&lt;Class&lt;?&gt;&gt; List of all classes found in the source
 	 */
 	public static List<Class<?>> classListFromSource(String name, List<String> classpath) {
 		switch(classify(name)) {

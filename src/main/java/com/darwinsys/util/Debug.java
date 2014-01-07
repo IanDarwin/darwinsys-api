@@ -3,13 +3,14 @@ package com.darwinsys.util;
 /** Utilities for debugging
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
+@Deprecated
 public class Debug {
 	private static final String DEBUG_STRING = "debug.";
 
 	/** Static method to see if a given category of debugging is enabled.
 	 * Enable by setting e.g., -Ddebug.fileio to debug file I/O operations.
-	 * For example:<br/>
-	 * if (Debug.isEnabled("fileio"))<br/>
+	 * For example:<br></br>
+	 * if (Debug.isEnabled("fileio"))<br></br>
 	 * 	System.out.println("Starting to read file " + fileName);
 	 */
 	public static boolean isEnabled(String category) {

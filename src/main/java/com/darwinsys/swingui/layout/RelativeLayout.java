@@ -12,10 +12,10 @@ import java.util.StringTokenizer;
 
 /**
  * <p>
- * RelativeLayout, a Relative Layout Manager for Java J2SE.
+ * RelativeLayout, a Relative Layout Manager for Java SE.
  * Mainly for porting tired old code that uses x,y locations.
  * You really can't just assign x,y locations to components
- * in Java Java J2SE - it breaks badly when the user resizes (and you can
+ * in Java SE - it breaks badly when the user resizes (and you can
  * <em>not</em> mandate that the user can't resize you -- see any book
  * on UI design for <em>that</em> little discussion -- and can also look
  * bad due to resolution independance.  Symantec Cafe 1.x, for example,
@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  *       add(label1);
  *       label1.setBounds(91,19,107,15);
  * </pre>
- * </p> <p>
+ * <p>
  * <em>Bleaarrgghh!!!</em>
  * To make it work properly at all resolutions and survive
  * user-initiated resize actions, change it to
@@ -36,7 +36,7 @@ import java.util.StringTokenizer;
  *	label1=new Label("Info Applet", Label.CENTER);
  *	add("91,19", label1);
  * </pre>
- * Note that it's actually <EM>less</EM> work to get it right.
+ * <p>Note that it's actually <EM>less</EM> work to get it right.
  * Symantec, Microsoft, and others, please take note!</p>
  * @author Ian Darwin, http://www.darwinsys.com/
  */

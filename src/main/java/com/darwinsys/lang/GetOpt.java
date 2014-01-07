@@ -14,81 +14,81 @@ import com.darwinsys.util.Debug;
  * "the Unix way" and "the Java way".
  * <ol><li>Original (UNIX) model:
  * <pre>
-        GetOpt go = new GetOpt("hno:");
-        boolean numeric_option = false;
-        String outFileName = "(standard output)";
-        char c;
-        while ((c = go.getopt(args)) != GetOpt.DONE) {
-            switch(c) {
-            case 'h':
-                doHelp(0);
-                break;
-            case 'n':
-                numeric_option = true;
-                break;
-            case 'o':
-                outFileName = go.optarg();
-                break;
-            default:
-                System.err.println("Unknown option character " + c);
-                doHelp(1);
-            }
-        }
-        System.out.print("Options: ");
-        System.out.print("Numeric: " + numeric_option + ' ');
-        System.out.print("Output: " + outFileName + "; ");
-        System.out.print("Inputs: ");
-        if (go.getOptInd() == args.length) {
-            doFile("(standard input)");
-        } else for (int i = go.getOptInd(); i < args.length; i++) {
-            doFile(args[i]);
-        }
+ *      GetOpt go = new GetOpt("hno:");
+ *      boolean numeric_option = false;
+ *      String outFileName = "(standard output)";
+ *      char c;
+ *      while ((c = go.getopt(args)) != GetOpt.DONE) {
+ *          switch(c) {
+ *          case 'h':
+ *              doHelp(0);
+ *              break;
+ *          case 'n':
+ *              numeric_option = true;
+ *              break;
+ *          case 'o':
+ *              outFileName = go.optarg();
+ *              break;
+ *          default:
+ *              System.err.println("Unknown option character " + c);
+ *              doHelp(1);
+ *          }
+ *      }
+ *      System.out.print("Options: ");
+ *      System.out.print("Numeric: " + numeric_option + ' ');
+ *      System.out.print("Output: " + outFileName + "; ");
+ *      System.out.print("Inputs: ");
+ *      if (go.getOptInd() == args.length) {
+ *          doFile("(standard input)");
+ *      } else for (int i = go.getOptInd(); i < args.length; i++) {
+ *          doFile(args[i]);
+ *      }
  * </pre></li>
  * <li>Newer (Java) model, which allows long-named options (preceded with
  * a single dash e.g., "-output-file /tmp/j":
  * <pre>
-        boolean numeric_option = false;
-        boolean errs = false;
-        String outputFileName = null;
+ *      boolean numeric_option = false;
+ *      boolean errs = false;
+ *      String outputFileName = null;
 
-        GetOptDesc options[] = {
-            new GetOptDesc('n', "numeric", false),
-            new GetOptDesc('o', "output-file", true),
-        };
-        GetOpt parser = new GetOpt(options);
-        Map<String,String> optionsFound = parser.parseArguments(argv);
-        Iterator<String> it = optionsFound.keySet().iterator();
-        while (it.hasNext()) {
-            String key = (String)it.next();
-            switch (key.charAt(0)) {
-                case 'n':
-                    numeric_option = true;
-                    break;
-                case 'o':
-                    outputFileName = optionsFound.get(key);
-                    break;
-                case '?':
-                    errs = true;
-                    break;
-                default:
-                    throw new IllegalStateException(
-                    "Unexpected option character: " + key);
-            }
-        }
-        if (errs) {
-            System.err.println("Usage: GetOptDemo [-n][-o file][file...]");
-        }
-        System.out.print("Options: ");
-        System.out.print("Numeric: " + numeric_option + ' ');
-        System.out.print("Output: " + outputFileName + "; ");
-        System.out.print("Input files: ");
-        List<Files> files = parser.getFilenameList();
-        for (String file : files) {
-            System.out.print(file);
-            System.out.print(' ');
-        }
-        System.out.println();
-	}
+ *      GetOptDesc options[] = {
+ *          new GetOptDesc('n', "numeric", false),
+ *          new GetOptDesc('o', "output-file", true),
+ *      };
+ *      GetOpt parser = new GetOpt(options);
+ *      Map<String,String> optionsFound = parser.parseArguments(argv);
+ *      Iterator<String> it = optionsFound.keySet().iterator();
+ *      while (it.hasNext()) {
+ *          String key = (String)it.next();
+ *          switch (key.charAt(0)) {
+ *              case 'n':
+ *                  numeric_option = true;
+ *                  break;
+ *              case 'o':
+ *                  outputFileName = optionsFound.get(key);
+ *                  break;
+ *              case '?':
+ *                  errs = true;
+ *                  break;
+ *              default:
+ *                  throw new IllegalStateException(
+ *                  "Unexpected option character: " + key);
+ *          }
+ *      }
+ *      if (errs) {
+ *          System.err.println("Usage: GetOptDemo [-n][-o file][file...]");
+ *      }
+ *      System.out.print("Options: ");
+ *      System.out.print("Numeric: " + numeric_option + ' ');
+ *      System.out.print("Output: " + outputFileName + "; ");
+ *      System.out.print("Input files: ");
+ *      List<Files> files = parser.getFilenameList();
+ *      for (String file : files) {
+ *          System.out.print(file);
+ *          System.out.print(' ');
+ *      }
+ *      System.out.println();
+ * }
  * </pre></li>
  * </ol>
  * <p>

@@ -81,8 +81,8 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/** Used internally: compute the layout and the maximal preferred
-	 * width & height
-	 * <br/>
+	 * width and height
+	 * <br>
 	 * TODO XXX NEED TO SCALE BY TARGSIZE?
 	 */
 	protected Dimension doLayout(Container target) {

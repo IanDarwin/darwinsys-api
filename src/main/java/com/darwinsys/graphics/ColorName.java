@@ -42,7 +42,7 @@ import java.awt.Color;
 /** A simple class for looking up Java AWT Color Names; I got tired
  * of including this code in every program that needed it!
  * (yes, this IS a hint to JavaSoft.).
- * <br/>
+ * <br>
  * TODO: Rewrite XColor from javasrc as a subclass of this.
  * @author	Ian Darwin, delinted by Bill Heinze
  */

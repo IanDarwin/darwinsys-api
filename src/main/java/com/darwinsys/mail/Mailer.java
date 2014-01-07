@@ -13,7 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /** Mailer. No relation to Norman. Sends an email message.
- * My old Sender class, recast as a Bean for use in JSP's & elsewhere.
+ * My old Sender class, recast as a Bean for use in JSP's and elsewhere.
  * Example usage:
  * <pre>
  * Mailer mb = new Mailer();
@@ -285,12 +285,11 @@ public class Mailer {
 		m.doSend();
 	}
 
-
-	/** Convert a list of addresses to an ArrayList. This will work
+	/** Convert a list of email addresses to an ArrayList. This will work
 	 * for simple names like "tom, mary@foo.com, 123.45@c$.com"
 	 * but will fail on certain complex (but RFC-valid) names like
-	 * "(Darwin, Ian) <http://www.darwinsys.com/>".
-	 * Or even "Ian Darwin <http://www.darwinsys.com/>".
+	 * "(Darwin, Ian) &lt;http://www.darwinsys.com/&gt;".
+	 * Or even "Ian Darwin &lt;http://www.darwinsys.com/&gt;".
 	 */
 	protected List<String> tokenize(String addrs) {
 		List<String> al = new ArrayList<String>();

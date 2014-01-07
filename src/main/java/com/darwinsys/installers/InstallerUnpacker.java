@@ -46,7 +46,6 @@ public class InstallerUnpacker implements Runnable {
 
 	/**
 	 * Start things running...
-	 * @throws InvocationTargetException
 	 */
 	public static void main(String[] args) {
 		System.out.println("InstallerUnpacker.main()");

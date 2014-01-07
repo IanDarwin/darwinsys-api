@@ -55,11 +55,14 @@ import com.darwinsys.util.Verbosity;
  * </ul>
  * <p>This class can also be used from within programs such as servlets, etc.;
  * see SQLRunnerGUI for an example of how to call.
- * <p>For example, this command and input:</pre>
+ * <p>For example, this command and input:
+ * <pre>
  * SQLrunner -c testdb
  * \ms;
  * select * from person where person_key=4;
- * </pre>might produce this output:<pre>
+ * </pre>
+ * might produce this output:
+ * <pre>
  * Executing : <<select * from person where person_key=4>>
  *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... )
  * values (4, 'Ian', 'F', 'Darwin', ...);

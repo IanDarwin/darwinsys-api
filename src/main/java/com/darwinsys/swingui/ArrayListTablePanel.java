@@ -22,7 +22,7 @@ import javax.swing.event.TableModelEvent;
  *
  * <p>TODO list:
  * <ul>
- * <li>Find a way to obviate passing Class when we have <T>
+ * <li>Find a way to obviate passing Class when we have &lt;T&gt;
  * <li>Debug MoveUp/MoveDown!
  * <li>add constructor options for Add, Remove, MoveUp/MoveDown buttons
  * </ul>

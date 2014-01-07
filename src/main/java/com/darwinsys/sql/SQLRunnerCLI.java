@@ -50,9 +50,6 @@ public class SQLRunnerCLI {
 
 	/**
 	 * main - parse arguments, construct SQLRunner object, open file(s), run scripts.
-	 * @throws ClassNotFoundException
-	 * @throws SQLException if anything goes wrong.
-	 * @throws DatabaseException if anything goes wrong.
 	 */
 	public static void main(final String[] args) {
 		String config = "default";

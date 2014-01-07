@@ -3,7 +3,7 @@ package com.darwinsys.swingui.framework;
 import java.awt.Graphics;
 
 /**
- * name & purpose.
+ * name and purpose.
  */
 public interface Model {
 	
