@@ -9,8 +9,8 @@ public class Debug {
 
 	/** Static method to see if a given category of debugging is enabled.
 	 * Enable by setting e.g., -Ddebug.fileio to debug file I/O operations.
-	 * For example:<br></br>
-	 * if (Debug.isEnabled("fileio"))<br></br>
+	 * For example:<br>
+	 * if (Debug.isEnabled("fileio"))<br>
 	 * 	System.out.println("Starting to read file " + fileName);
 	 */
 	public static boolean isEnabled(String category) {

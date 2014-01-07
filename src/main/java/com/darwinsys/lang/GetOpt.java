@@ -40,7 +40,7 @@ import com.darwinsys.util.Debug;
  *      System.out.print("Inputs: ");
  *      if (go.getOptInd() == args.length) {
  *          doFile("(standard input)");
- *      } else for (int i = go.getOptInd(); i < args.length; i++) {
+ *      } else for (int i = go.getOptInd(); i &lt; args.length; i++) {
  *          doFile(args[i]);
  *      }
  * </pre></li>
@@ -50,14 +50,14 @@ import com.darwinsys.util.Debug;
  *      boolean numeric_option = false;
  *      boolean errs = false;
  *      String outputFileName = null;
-
+ *
  *      GetOptDesc options[] = {
  *          new GetOptDesc('n', "numeric", false),
  *          new GetOptDesc('o', "output-file", true),
  *      };
  *      GetOpt parser = new GetOpt(options);
- *      Map<String,String> optionsFound = parser.parseArguments(argv);
- *      Iterator<String> it = optionsFound.keySet().iterator();
+ *      Map&lt;String,String&gt; optionsFound = parser.parseArguments(argv);
+ *      Iterator&lt;String&gt; it = optionsFound.keySet().iterator();
  *      while (it.hasNext()) {
  *          String key = (String)it.next();
  *          switch (key.charAt(0)) {
@@ -82,7 +82,7 @@ import com.darwinsys.util.Debug;
  *      System.out.print("Numeric: " + numeric_option + ' ');
  *      System.out.print("Output: " + outputFileName + "; ");
  *      System.out.print("Input files: ");
- *      List<Files> files = parser.getFilenameList();
+ *      List&lt;Files&gt; files = parser.getFilenameList();
  *      for (String file : files) {
  *          System.out.print(file);
  *          System.out.print(' ');

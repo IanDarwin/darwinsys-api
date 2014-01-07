@@ -63,8 +63,8 @@ import com.darwinsys.util.Verbosity;
  * </pre>
  * might produce this output:
  * <pre>
- * Executing : <<select * from person where person_key=4>>
- *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... )
+ * Executing : select * from person where person_key=4
+ * insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... )
  * values (4, 'Ian', 'F', 'Darwin', ...);
  * </pre>
  * <p>TODO Fix parsing so \\ escapes don't need to end with SQL semi-colon.
