@@ -64,7 +64,6 @@
 				<version>2.12</version>
 				<configuration>
 					<excludes>
-						<exclude>**/MacOSUITest.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
