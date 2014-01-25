@@ -106,7 +106,7 @@ public class TestUtilsTest {
 	}
 
 	@Test
-	public void testPropertyDiff() {
+	public void testPropertyDiff() throws Exception {
 		List<String> diffs = null;
 		diffs = TestUtils.compareAll(m1, m2);
 		assertTrue(0 == diffs.size());

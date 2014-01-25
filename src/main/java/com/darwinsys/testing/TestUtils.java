@@ -1,5 +1,7 @@
 package com.darwinsys.testing;
 
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
@@ -88,43 +90,30 @@ public class TestUtils {
 
 
 	/**
-	 * A debugging class to report on fields that differ, without using the
-	 * objects' equals() method.
+	 * A debugging method to report on fields that differ, *NOT* using the
+	 * target objects' equals() method.
 	 */
-	public static List<String> compareAll(Object o1, Object o2) {
-		List<String> different = new ArrayList<String>();
-		if (o1 == o2) {
-			return different;
+	public static List<String> compareAll(Object o1, Object o2) throws Exception  {
+		final List<String> diffs = new ArrayList<String>();
+		if (o1.getClass() != o2.getClass()) {
+			fail("Can't compare different classes");
 		}
-		// If either is null, don't compare anything
-		if (o1 == null || o2 == null) {
-			return different;
-		}
-		Class c1 = o1.getClass();
-		Class c2 = o2.getClass();
-
-		// Class objects are singleton-like, compare with ==
-		if (c1 != c2) {
-			throw new IllegalArgumentException("Cannot compare " + c1 + " with " + c2);
-		}
-
-		Map<String, Prop> props = getProperties(c1);
-		//List<String> propNames =
-			//new ArrayList<String>(props.keySet());
-		for (String name : props.keySet()) {
-			System.err.println("Trying property " + name);
-			final Prop prop = props.get(name);
-			if (prop == null) {
-				throw new IllegalStateException("No Prop descriptor found for " + name);
+		final Field[] fields = o1.getClass().getDeclaredFields();
+		for (Field f : fields) {
+			f.setAccessible(true); // yes, we compare private fields
+			Object f1 = f.get(o1);
+			Object f2 = f.get(o2);
+			if ((f1 == null) != (f2 == null)) { // only one is null => different
+				diffs.add(String.format("%s(%s,%s)", f.getName(), f1, f2)); 
+				continue;
 			}
-			if (prop.rawField == null) {
-				throw new IllegalStateException("No RawField in Prop descriptor for " + name);
-			}
-			if (!propsEquals(prop.rawField, o1, o2)) {
-				different.add(name);
+			if (f1 == null) // both are null => same
+				continue;
+			if (!f1.equals(f2)) {
+				diffs.add(String.format("%s(%s,%s)", f.getName(), f1, f2));
 			}
 		}
-		return different;
+		return diffs;
 	}
 
 	/**
