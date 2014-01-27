@@ -44,10 +44,10 @@ public class CSVRE implements CSVParser {
 		// For each line...
 		while ((line = input.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
-			final List list = parse(line);
+			final List<String> list = parse(line);
 			System.out.println("Found " + list.size() + " items.");
-			for (int i = 0; i < list.size(); i++) {
-				System.out.print(list.get(i) + ",");
+			for (String str : list) {
+				System.out.print(str + ",");
 			}
 			System.out.println();
 		}
