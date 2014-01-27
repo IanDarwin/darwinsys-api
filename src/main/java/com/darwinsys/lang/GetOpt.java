@@ -147,8 +147,8 @@ public class GetOpt {
 
 		// Pass One: just count the option letters in the pattern
 		int n = 0;
-		for (int i = 0; i<patt.length(); i++) {
-			if (patt.charAt(i) != ':')
+		for (char ch : patt.toCharArray()) {
+			if (ch != ':')
 				++n;
 		}
 		if (n == 0) {
@@ -156,7 +156,7 @@ public class GetOpt {
 				"No option letters found in " + patt);
 		}
 
-		// Pass Two: construct an array of GetOptDesc opjects.
+		// Pass Two: construct an array of GetOptDesc objects.
 		options = new GetOptDesc[n];
 		for (int i = 0, ix = 0; i<patt.length(); i++) {
 			final char c = patt.charAt(i);
