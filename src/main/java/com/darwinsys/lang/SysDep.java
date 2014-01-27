@@ -9,23 +9,27 @@ import java.io.File;
  */
 public class SysDep {
 
-	/** Return the name of the Null device on platforms which support it,
-	 * or "jnk" otherwise.
+	final static String UNIX_NULL_DEV = "/dev/null";
+	final static String WINDOWS_NULL_DEV = "NUL:";
+	final static String FAKE_NULL_DEV = "jnk";
+	
+	/** Return the name of the "Null Device" on platforms which support it,
+	 * or "jnk" (to create an obviously-well-named temp file) otherwise.
 	 */
 	public static String getDevNull() {
 
-		final String UNIX_NULL_DEV = "/dev/null";
-		if (new File(UNIX_NULL_DEV).exists()) {
+		if (new File(UNIX_NULL_DEV).exists()) {		// <1>
 			return UNIX_NULL_DEV;
 		}
 
-		String sys = System.getProperty("os.name");
-		if (sys==null || sys.indexOf("Mac") >= 0)
-			return "jnk";
-		if (sys.startsWith("Windows"))
-			return "NUL:";
+		String sys = System.getProperty("os.name"); // <2>
+		if (sys==null) {									// <3>
+			return FAKE_NULL_DEV;
 		}
-		return "jnk";
+		if (sys.startsWith("Windows")) {			// <4>
+			return WINDOWS_NULL_DEV;
+		}
+		return FAKE_NULL_DEV;						// <5>
 	}
 }
 // END main
