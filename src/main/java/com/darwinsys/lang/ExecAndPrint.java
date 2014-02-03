@@ -13,6 +13,7 @@ import com.darwinsys.io.FileIO;
  */
 public class ExecAndPrint {
 
+	// BEGIN main
 	/** Need a Runtime object for any of these methods */
 	protected final static Runtime r = Runtime.getRuntime();
 
@@ -34,6 +35,7 @@ public class ExecAndPrint {
 		}
 		return p.exitValue();
 	}
+	// END main
 
 	/** Run the command given as a String[], print its output to System.out */
 	public static int run(String[] cmd) throws IOException { 
