@@ -13,28 +13,30 @@ import org.junit.Test;
  */
 public class KwikLinkCheckerTest {
 
+	KwikLinkChecker checker = new KwikLinkChecker();
+
 	@Test
 	public void testCheckGood() {
-		assertTrue(KwikLinkChecker.check("http://ibm.com/").ok);
+		assertTrue(checker.check("http://ibm.com/").ok);
 	}
 	
 	@Test
 	public void testCheckBadHost() {
-		assertFalse(KwikLinkChecker.check("http://ibm.moc/").ok);
+		assertFalse(checker.check("http://ibm.moc/").ok);
 	}
 	
 	@Test
 	public void testCheck404() {
-		assertFalse(KwikLinkChecker.check("http://darwinsys.com/noSuchFileHere").ok);
+		assertFalse(checker.check("http://darwinsys.com/noSuchFileHere").ok);
 	}
 	
 	@Test
 	public void testBadUrl() {
-		assertFalse(KwikLinkChecker.check("http:foo-for-you").ok);
+		assertFalse(checker.check("http:foo-for-you").ok);
 	}
 	
 	@Test
 	public void testConnRefused() {
-		KwikLinkChecker.check("http://localhost:9999/");
+		checker.check("http://localhost:9999/");
 	}
 }

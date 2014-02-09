@@ -19,12 +19,13 @@ public class KwikLinkChecker {
 	static boolean verbose;
 
 	public static void main(String[] args) {
+		KwikLinkChecker checker = new KwikLinkChecker();
 		for (String arg : args) {
 			if (arg.equals("-v")) {
 				verbose = true;
 				continue;
 			}
-			LinkStatus stat = check(arg);
+			LinkStatus stat = checker.check(arg);
 			if (verbose || !stat.ok)
 				System.out.println(stat.message);
 		}
@@ -37,7 +38,7 @@ public class KwikLinkChecker {
 	 * The end of this method is one of the few places where a whole raft of different
 	 * "catch" clauses is actually needed for the intent of the program.
 	 */
-	static LinkStatus check(String urlString) {
+	public LinkStatus check(String urlString) {
 		URL url;
 		HttpURLConnection conn = null;
 		HttpURLConnection.setFollowRedirects(false);
