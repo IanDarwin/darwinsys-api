@@ -1,9 +1,11 @@
+// BEGIN package
 package com.darwinsys.mail;
+// END package
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -31,7 +33,6 @@ import javax.mail.internet.MimeMessage;
  * @author Ian F. Darwin
  */
 // BEGIN main
-// package com.darwinsys.mail;
 public class Mailer {
 	/** The javamail session object. */
 	protected Session session;
@@ -87,7 +88,7 @@ public class Mailer {
 	/** Set to as a string like "tom, mary, robin@host". Loses any
 	 * previously-set values. */
 	public void setToList(String s) {
-		toList = tokenize(s);
+		toList = Arrays.asList(s.split(",\\s+"));
 	}
 
 	/** Add one "to" recipient */
@@ -110,7 +111,7 @@ public class Mailer {
 	/** Set cc as a string like "tom, mary, robin@host". Loses any
 	 * previously-set values. */
 	public void setCcList(String s) {
-		ccList = tokenize(s);
+		ccList = Arrays.asList(s.split(",\\s+"));
 	}
 
 	/** Add one "cc" recipient */
@@ -133,7 +134,7 @@ public class Mailer {
 	/** Set bcc as a string like "tom, mary, robin@host". Loses any
 	 * previously-set values. */
 	public void setBccList(String s) {
-		bccList = tokenize(s);
+		bccList = Arrays.asList(s.split(",\\s+"));
 	}
 
 	/** Add one "bcc" recipient */
@@ -248,20 +249,7 @@ public class Mailer {
 		// Now the message body.
 		mesg.setText(body);
 
-		// Finally, send the message! (use static Transport method)
-		// Do this in a Thread as it sometimes is too slow for JServ
-		// new Thread() {
-			// public void run() {
-				// try {
-
-					Transport.send(mesg);
-
-				// } catch (MessagingException e) {
-					// throw new IllegalArgumentException(
-					// "Transport.send() threw: " + e.toString());
-				// }
-			// }
-		// }.start();
+		Transport.send(mesg);
 	}
 
 	/** Convenience method that does it all with one call.
@@ -283,25 +271,6 @@ public class Mailer {
 		m.setSubject(subject);
 		m.setBody(message);
 		m.doSend();
-	}
-
-	/** Convert a list of email addresses to an ArrayList. This will work
-	 * for simple names like "tom, mary@foo.com, 123.45@c$.com"
-	 * but will fail on certain complex (but RFC-valid) names like
-	 * "(Darwin, Ian) &lt;http://www.darwinsys.com/&gt;".
-	 * Or even "Ian Darwin &lt;http://www.darwinsys.com/&gt;".
-	 */
-	protected List<String> tokenize(String addrs) {
-		List<String> al = new ArrayList<String>();
-		if (addrs != null) {
-			StringTokenizer tf = new StringTokenizer(addrs, ",");
-			// For each word found in the line
-			while (tf.hasMoreTokens()) {
-				// trim blanks, and add to list.
-				al.add(tf.nextToken().trim());
-			}
-		}
-		return al;
 	}
 }
 // END main
