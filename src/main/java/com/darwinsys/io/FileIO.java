@@ -256,7 +256,7 @@ public class FileIO {
 	 * please do not use this to read a JPEG file, for example.
 	 */
 	public static String readerToString(Reader is) throws IOException {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		char[] b = new char[BLKSIZ];
 		int n;
 
