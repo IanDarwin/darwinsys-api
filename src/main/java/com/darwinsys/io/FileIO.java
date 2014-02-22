@@ -79,7 +79,7 @@ public class FileIO {
 	}
 	
 	/**
-	 * Copy a tree of files to directory, given File objects representing the files.
+	 * Copy a file to a directory, given File objects representing the files.
 	 * @param file File representing the source, must be a single file.
 	 * @param target File representing the location, may be file or directory.
 	 * @throws IOException
