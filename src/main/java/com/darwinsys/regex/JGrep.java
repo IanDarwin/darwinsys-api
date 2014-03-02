@@ -2,6 +2,7 @@ package com.darwinsys.regex;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -150,21 +151,22 @@ public class JGrep {
 		matcher = pattern.matcher("");
 	}
 
-	/** Process one command line arugment (file or directory)
+	/** Process one command line argument (file or directory)
+	 * @throws FileNotFoundException 
 	 */
-	public void process(File file) {
+	public void process(File file) throws FileNotFoundException {
 		if (file.isFile()) {
-			process(new BufferedReader(new FileReader(f)), f.getName());
+			process(new BufferedReader(new FileReader(file)), file.getName());
 			return;
 		}
-		if (file.isDir()) {
+		if (file.isDirectory()) {
 			for (File nf : file.listFiles()) {
 				process(nf);
 			}
 			return;
 		}
 		System.err.println(
-			"ERROR: neither file nor directory: " + f.getAbsolutePath());
+			"ERROR: neither file nor directory: " + file.getAbsolutePath());
 	}
 
 	/** Do the work of scanning one file
