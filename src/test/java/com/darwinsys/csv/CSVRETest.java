@@ -11,6 +11,7 @@ public class CSVRETest extends CSVParserTestBase {
 		csv = new CSVRE();
 	}
 
+	// @Test
 	public void testCanonical() {
 		List list = csv.parse("\"a\",\"b\",\"c\"");
 		assertEquals(3, list.size());
@@ -18,6 +19,7 @@ public class CSVRETest extends CSVParserTestBase {
 		assertEquals("b", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+	// @Test
 	public void testNullField() {
 		List list = csv.parse("\"a\",,\"c\"");
 		assertEquals(3, list.size());
@@ -25,6 +27,7 @@ public class CSVRETest extends CSVParserTestBase {
 		assertEquals("", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+	// @Test
 	public void testNotAllQuoted() {
 		List list = csv.parse("\"a\",b,\"c\"");
 		assertEquals(3, list.size());
@@ -32,6 +35,7 @@ public class CSVRETest extends CSVParserTestBase {
 		assertEquals("b", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+	// @Test
 	public void testAllUnQuoted() {
 		List list = csv.parse("a,b,c");
 		assertEquals(3, list.size());
@@ -39,9 +43,20 @@ public class CSVRETest extends CSVParserTestBase {
 		assertEquals("b", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+	// @Test
 	public void testMixedField() {
 		List list = csv.parse("\"LU\",86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
 		assertEquals(2, list.size());
+	}
+
+	// @Test
+	public void testBrokenQuotes() {
+		try {
+			csv.parse("one,two,\"three,four");
+			fail("Did not catch expected exception on bad input");
+		} catch (IllegalArgumentException expected) {
+			// do nothing
+		}
 	}
 
 	/**

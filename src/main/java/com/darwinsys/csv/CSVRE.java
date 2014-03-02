@@ -68,7 +68,10 @@ public class CSVRE implements CSVParser {
 			if (match.endsWith(",")) {	// trim trailing ,
 				match = match.substring(0, match.length() - 1);
 			}
-			if (match.startsWith("\"")) { // assume also ends with
+			if (match.startsWith("\"")) { // must also end with \"
+				if (!match.endsWith("\"")) {
+					throw new IllegalArgumentException("Quoted column missing end quote: " + line);
+				}
 				match = match.substring(1, match.length() - 1);
 			}
 			if (match.length() == 0) {
