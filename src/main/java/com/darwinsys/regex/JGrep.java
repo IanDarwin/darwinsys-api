@@ -119,14 +119,17 @@ public class JGrep {
 		}
 
 		if (argv.length == ix) {
+			dontPrintFileName = true; // Don't print filenames if stdin
 			if (recursive) {
 				System.err.println("Warning: recursive search of stdin!");
 			}
-			dontPrintFileName = true; // Don't print if stdin
 			prog.process(new InputStreamReader(System.in), null);
 		} else {
 			if (!dontPrintFileName)
 				dontPrintFileName = ix == argv.length - 1; // Nor if only one file.
+			if (recursive)
+				dontPrintFileName = false;				// unless a directory!
+
 			for (int i=ix; i<argv.length; i++) { // note starting index
 				try {
 					prog.process(new File(argv[i]));
