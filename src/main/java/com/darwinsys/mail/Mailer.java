@@ -41,7 +41,7 @@ public class Mailer {
 	/** The subject of the message. */
 	protected String subject;
 	/** The recipient ("To:"), as Strings. */
-	protected List<String> toList = new ArrayList<String>();
+	protected List<String> toList = new ArrayList<>();
 	/** The CC list, as Strings. */
 	protected List<String> ccList = new ArrayList<String>();
 	/** The BCC list, as Strings. */

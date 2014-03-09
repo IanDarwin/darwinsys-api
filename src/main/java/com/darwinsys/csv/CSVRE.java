@@ -57,7 +57,7 @@ public class CSVRE implements CSVParser {
 	 * @return List of Strings, minus their double quotes
 	 */
 	public List<String> parse(final String line) {
-		final List<String> list = new ArrayList<String>();
+		final List<String> list = new ArrayList<>();
 		final Matcher m = csvRE.matcher(line);
 		// For each field
 		while (m.find()) {
