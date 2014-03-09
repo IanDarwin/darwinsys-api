@@ -22,8 +22,6 @@ public class JGrep {
 	protected Pattern pattern;
 	/** The matcher for this pattern */
 	protected Matcher matcher;
-	/** The Reader for the current file */
-	protected BufferedReader reader;
 	/** Are we to only count lines, instead of printing? */
 	protected static boolean countOnly = false;
 	/** Are we to ignore case? */
@@ -159,7 +157,7 @@ public class JGrep {
 	 */
 	public void process(File file) throws FileNotFoundException {
 		if (file.isFile()) {
-			process(new BufferedReader(new FileReader(file)), file.getName());
+			process(new BufferedReader(new FileReader(file)), file.getAbsolutePath());
 			return;
 		}
 		if (file.isDirectory()) {
@@ -173,7 +171,6 @@ public class JGrep {
 	}
 
 	/** Do the work of scanning one file
-	 * XXX change to take a File object, so -R can use listFiles
 	 * @param	ifile	Reader	Reader object already open
 	 * @param	fileName String	Name of the input file
 	 */
@@ -182,26 +179,22 @@ public class JGrep {
 		String inputLine;
 		int matches = 0;
 
-		if (!dontPrintFileName) {
-			File f = new File(fileName);
-			if (f.isDirectory()) {
-				// We could warn, but better not natter by default...
-				return;
-			}
-		}
-
-		try {
-			reader = new BufferedReader(ifile);
+		try (BufferedReader reader = new BufferedReader(ifile)) {
 
 			while ((inputLine = reader.readLine()) != null) {
 				matcher.reset(inputLine);
 				if (matcher.find()) {
+					if (listOnly) {
+						System.out.println(fileName);
+						return;
+					}
 					if (countOnly)
 						matches++;
 					else {
-					if (!dontPrintFileName)
-						System.out.print(fileName + ": ");
-					System.out.println(inputLine);
+						if (!dontPrintFileName) {
+							System.out.print(fileName + ": ");
+						}
+						System.out.println(inputLine);
 					}
 				} else if (inVert) {
 					System.out.println(inputLine);
@@ -209,7 +202,6 @@ public class JGrep {
 			}
 			if (countOnly)
 				System.out.println(matches + " matches in " + fileName);
-			reader.close();
 		} catch (IOException e) { System.err.println(e); }
 	}
 }
