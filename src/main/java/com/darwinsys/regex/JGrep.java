@@ -21,7 +21,8 @@ import com.darwinsys.lang.GetOpt;
  * "JGrep -lri pattern file..." will fail. Getopt will hopefully be fixed soon.
  */
 public class JGrep {
-	private static final String USAGE = "Usage: JGrep pattern [-chilrsnv][-f pattfile][filename...]";
+	private static final String USAGE =
+		"Usage: JGrep pattern [-chilrsnv][-f pattfile][filename...]";
 	/** The pattern we're looking for */
 	protected Pattern pattern;
 	/** The matcher for this pattern */
@@ -98,6 +99,7 @@ public class JGrep {
 					break;
 				case '?':
 					System.err.println("Getopts was not happy!");
+					System.err.println(USAGE);
 					break;
 			}
 		}
