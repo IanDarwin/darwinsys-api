@@ -93,9 +93,13 @@ public class JGrep {
 				case 'v':
 					inVert = true;
 					break;
+				case '?':
+					System.err.println("Getopts was not happy!");
+					break;
 			}
 		}
 
+		System.out.println("After getopt: " + listOnly + "," + recursive);
 		int ix = go.getOptInd();
 
 		if (patt == null)
@@ -151,18 +155,26 @@ public class JGrep {
 	 * @throws FileNotFoundException 
 	 */
 	public void process(File file) throws FileNotFoundException {
+		if (!file.exists() || !file.canRead()) {
+			System.err.println("ERROR: can't read file " + file.getAbsolutePath());
+			return;
+		}
 		if (file.isFile()) {
 			process(new BufferedReader(new FileReader(file)), file.getAbsolutePath());
 			return;
 		}
 		if (file.isDirectory()) {
+			if (!recursive) {
+				System.err.println("ERROR: -r not specified but directory given " + file.getAbsolutePath());
+				return;
+			}
 			for (File nf : file.listFiles()) {
-				process(nf);
+				process(nf);	// "Recursion, n.: See Recursion."
 			}
 			return;
 		}
 		System.err.println(
-			"ERROR: neither file nor directory: " + file.getAbsolutePath());
+			"WEIRDNESS: neither file nor directory: " + file.getAbsolutePath());
 	}
 
 	/** Do the work of scanning one file
