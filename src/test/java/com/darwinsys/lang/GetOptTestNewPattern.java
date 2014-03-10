@@ -27,7 +27,7 @@ public class GetOptTestNewPattern {
 			"-help", "-output-file", "outfile", "infile"
 	};
 
-	private 	String badArgChars = "f1o";
+	private String badArgChars = "f1o";
 	private String badArgs[]  = {
 			"-h", "-o", "outfile", "infile"
 	};
