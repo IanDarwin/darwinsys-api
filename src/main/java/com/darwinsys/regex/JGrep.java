@@ -16,8 +16,12 @@ import com.darwinsys.lang.GetOpt;
 // BEGIN main
 /** A command-line grep-like program. Accepts some command-line options,
  * and takes a pattern and a list of text files.
+ * N.B. The current implementation of GetOpt does not allow combining short arguments,
+ * so put spaces e.g., "JGrep -l -r -i pattern file..." is OK, but
+ * "JGrep -lri pattern file..." will fail. Getopt will hopefully be fixed soon.
  */
 public class JGrep {
+	private static final String USAGE = "Usage: JGrep pattern [-chilrsnv][-f pattfile][filename...]";
 	/** The pattern we're looking for */
 	protected Pattern pattern;
 	/** The matcher for this pattern */
@@ -48,8 +52,7 @@ public class JGrep {
 	public static void main(String[] argv) {
 
 		if (argv.length < 1) {
-		    System.err.println(
-			"Usage: JGrep pattern [-chilrsnv][-f pattfile][filename...]");
+		    System.err.println(USAGE);
 		    System.exit(1);
 		}
 		String patt = null;
