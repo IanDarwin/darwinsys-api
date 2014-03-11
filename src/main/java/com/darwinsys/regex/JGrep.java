@@ -104,7 +104,6 @@ public class JGrep {
 			}
 		}
 
-		System.out.println("After getopt: " + listOnly + "," + recursive);
 		int ix = go.getOptInd();
 
 		if (patt == null)
