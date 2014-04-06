@@ -12,18 +12,22 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.darwinsys.lang.GetOpt;
-import com.darwinsys.util.Debug;
 
+// BEGIN main
 /** A command-line grep-like program. Accepts some command-line options,
  * and takes a pattern and a list of text files.
+ * N.B. The current implementation of GetOpt does not allow combining short arguments,
+ * so put spaces e.g., "JGrep -l -r -i pattern file..." is OK, but
+ * "JGrep -lri pattern file..." will fail. Getopt will hopefully be fixed soon.
  */
 public class JGrep {
+	private static final String USAGE =
+		"Usage: JGrep pattern [-chilrsnv][-f pattfile][filename...]";
 	/** The pattern we're looking for */
 	protected Pattern pattern;
 	/** The matcher for this pattern */
 	protected Matcher matcher;
-	/** The Reader for the current file */
-	protected BufferedReader reader;
+	private boolean debug;
 	/** Are we to only count lines, instead of printing? */
 	protected static boolean countOnly = false;
 	/** Are we to ignore case? */
@@ -41,16 +45,15 @@ public class JGrep {
 	/** Are we to process arguments recursively if directories? */
 	protected static boolean recursive = false;
 
-	/** Construct a Grep object for each pattern, and run it
+	/** Construct a Grep object for the pattern, and run it
 	 * on all input files listed in argv.
 	 * Be aware that a few of the command-line options are not
-	 * acted upon in this version - this is an exercise for the reader!
+	 * acted upon in this version - left as an exercise for the reader!
 	 */
 	public static void main(String[] argv) {
 
 		if (argv.length < 1) {
-		    System.err.println(
-			"Usage: JGrep pattern [-chilrsnv][-f pattfile][filename...]");
+		    System.err.println(USAGE);
 		    System.exit(1);
 		}
 		String patt = null;
@@ -63,21 +66,13 @@ public class JGrep {
 				case 'c':
 					countOnly = true;
 					break;
-				case 'f':
-					BufferedReader b = null;
-					try {
-						b = new BufferedReader(new FileReader(go.optarg()));
+				case 'f':	/* External file contains the pattern */
+					try (BufferedReader b = 
+						new BufferedReader(new FileReader(go.optarg()))) {
 						patt = b.readLine();
 					} catch (IOException e) {
 						System.err.println("Can't read pattern file " + go.optarg());
 						System.exit(1);
-					} finally {
-						if (b != null)
-							try {
-								b.close();
-							} catch (IOException e) {
-								/*CANTHAPPEN*/
-							}
 					}
 					break;
 				case 'h':
@@ -101,6 +96,10 @@ public class JGrep {
 					break;
 				case 'v':
 					inVert = true;
+					break;
+				case '?':
+					System.err.println("Getopts was not happy!");
+					System.err.println(USAGE);
 					break;
 			}
 		}
@@ -145,7 +144,9 @@ public class JGrep {
 	 * @param args the command-line options.
 	 */
 	public JGrep(String patt) throws PatternSyntaxException {
-		Debug.printf("JGrep.JGrep(%s)%n", patt);
+		if (debug) {
+			System.err.printf("JGrep.JGrep(%s)%n", patt);
+		}
 		// compile the regular expression
 		int caseMode = ignoreCase ?
 			Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE :
@@ -158,22 +159,29 @@ public class JGrep {
 	 * @throws FileNotFoundException 
 	 */
 	public void process(File file) throws FileNotFoundException {
+		if (!file.exists() || !file.canRead()) {
+			System.err.println("ERROR: can't read file " + file.getAbsolutePath());
+			return;
+		}
 		if (file.isFile()) {
-			process(new BufferedReader(new FileReader(file)), file.getName());
+			process(new BufferedReader(new FileReader(file)), file.getAbsolutePath());
 			return;
 		}
 		if (file.isDirectory()) {
+			if (!recursive) {
+				System.err.println("ERROR: -r not specified but directory given " + file.getAbsolutePath());
+				return;
+			}
 			for (File nf : file.listFiles()) {
-				process(nf);
+				process(nf);	// "Recursion, n.: See Recursion."
 			}
 			return;
 		}
 		System.err.println(
-			"ERROR: neither file nor directory: " + file.getAbsolutePath());
+			"WEIRDNESS: neither file nor directory: " + file.getAbsolutePath());
 	}
 
 	/** Do the work of scanning one file
-	 * XXX change to take a File object, so -R can use listFiles
 	 * @param	ifile	Reader	Reader object already open
 	 * @param	fileName String	Name of the input file
 	 */
@@ -182,26 +190,23 @@ public class JGrep {
 		String inputLine;
 		int matches = 0;
 
-		if (!dontPrintFileName) {
-			File f = new File(fileName);
-			if (f.isDirectory()) {
-				// We could warn, but better not natter by default...
-				return;
-			}
-		}
-
-		try {
-			reader = new BufferedReader(ifile);
+		try (BufferedReader reader = new BufferedReader(ifile)) {
 
 			while ((inputLine = reader.readLine()) != null) {
 				matcher.reset(inputLine);
 				if (matcher.find()) {
-					if (countOnly)
+					if (listOnly) {
+						// -l, print filename on first match, and we're done
+						System.out.println(fileName);
+						return;
+					}
+					if (countOnly) {
 						matches++;
-					else {
-					if (!dontPrintFileName)
-						System.out.print(fileName + ": ");
-					System.out.println(inputLine);
+					} else {
+						if (!dontPrintFileName) {
+							System.out.print(fileName + ": ");
+						}
+						System.out.println(inputLine);
 					}
 				} else if (inVert) {
 					System.out.println(inputLine);
@@ -209,7 +214,9 @@ public class JGrep {
 			}
 			if (countOnly)
 				System.out.println(matches + " matches in " + fileName);
-			reader.close();
-		} catch (IOException e) { System.err.println(e); }
+		} catch (IOException e) {
+			System.err.println(e);
+		}
 	}
 }
+// END main
