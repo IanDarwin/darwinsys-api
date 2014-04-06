@@ -70,7 +70,8 @@ public class CSVRE implements CSVParser {
 			}
 			if (match.startsWith("\"")) { // must also end with \"
 				if (!match.endsWith("\"")) {
-					throw new IllegalArgumentException("Quoted column missing end quote: " + line);
+					throw new IllegalArgumentException(
+						"Quoted column missing end quote: " + line);
 				}
 				match = match.substring(1, match.length() - 1);
 			}
