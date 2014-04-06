@@ -16,8 +16,8 @@ import com.darwinsys.lang.GetOpt;
 // BEGIN main
 /** A command-line grep-like program. Accepts some command-line options,
  * and takes a pattern and a list of text files.
- * N.B. The current implementation of GetOpt does not allow combining short arguments,
- * so put spaces e.g., "JGrep -l -r -i pattern file..." is OK, but
+ * N.B. The current implementation of GetOpt does not allow combining short 
+ * arguments, so put spaces e.g., "JGrep -l -r -i pattern file..." is OK, but
  * "JGrep -lri pattern file..." will fail. Getopt will hopefully be fixed soon.
  */
 public class JGrep {
@@ -160,16 +160,20 @@ public class JGrep {
 	 */
 	public void process(File file) throws FileNotFoundException {
 		if (!file.exists() || !file.canRead()) {
-			System.err.println("ERROR: can't read file " + file.getAbsolutePath());
+			System.err.println(
+				"ERROR: can't read file " + file.getAbsolutePath());
 			return;
 		}
 		if (file.isFile()) {
-			process(new BufferedReader(new FileReader(file)), file.getAbsolutePath());
+			process(new BufferedReader(new FileReader(file)), 
+				file.getAbsolutePath());
 			return;
 		}
 		if (file.isDirectory()) {
 			if (!recursive) {
-				System.err.println("ERROR: -r not specified but directory given " + file.getAbsolutePath());
+				System.err.println(
+					"ERROR: -r not specified but directory given " + 
+					file.getAbsolutePath());
 				return;
 			}
 			for (File nf : file.listFiles()) {
