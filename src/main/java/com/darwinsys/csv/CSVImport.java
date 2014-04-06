@@ -88,7 +88,7 @@ public class CSVImport implements CSVParser {
                     j++; // skip end quotes
                     break;
                 }
-            } else if (s.charAt(j) == '"' && j+1 == len) { // end quotes at end of line
+            } else if (s.charAt(j) == '"' && j+1 == len) { // end quotes @ line end
                 break; //done
 			}
 			sb.append(s.charAt(j));	// regular character.
