@@ -25,7 +25,6 @@ import javax.swing.JTextArea;
  * traceback in a dialog; tracebacks are <b>not</b> displayed unless
  * the user requests them.
  * @author Ian Darwin
- * @version $Id$
  */
 public class ErrorUtil {
 
@@ -45,10 +44,11 @@ public class ErrorUtil {
 		// Nothing to do
 	}
 
-	/** Convenience routine for use with AWT's dispatch thread. Usage:
+	/** Convenience routine for use with AWT's dispatch thread; this is the old,
+	 * never-supported and now often-doesn't-work method, but the code is still here.
+	 * Usage:
 	 * <pre>
-	 * System.setProperty("sun.awt.exception.handler",
-	 *		"com.darwinsys.swingui.ErrorUtil");
+	 * System.setProperty("sun.awt.exception.handler", "com.darwinsys.swingui.ErrorUtil");
 	 * </pre>
 	 */
 	public void handle(Throwable th) {
@@ -56,6 +56,7 @@ public class ErrorUtil {
 		showExceptions(null, th);
 	}
 		
+	// BEGIN main
 	/** Show the given Exception (and any nested Exceptions) in JOptionPane(s).
 	 */
 	public static void showExceptions(Component parent, Throwable theExc) {
@@ -90,8 +91,8 @@ public class ErrorUtil {
 			if (response == 0)			// "OK"
 				return;
 			if (response == 1) {		// "Details"
-				// show a JDialog with a JTextArea of printStackTrace();
-				if (detailsDialog == null)
+				// show ANOTHER JDialog with a JTextArea of printStackTrace();
+				if (detailsDialog == null) // first time, lazy creation
 					detailsDialog = new DetailsDialog((JFrame)parent);
 				detailsDialog.showStackTrace(theExc);
 			}
@@ -102,7 +103,7 @@ public class ErrorUtil {
 		} while (next != null);
 	}
 
-	/** Inner class Dialog to display the details of an Exception */
+	/** JDialog class to display the details of an Exception */
 	protected static class DetailsDialog extends JDialog {
 
 		private static final long serialVersionUID = -4779441441693785664L;
@@ -134,4 +135,5 @@ public class ErrorUtil {
 			setVisible(true);
 		}
 	}
+	// END main
 }

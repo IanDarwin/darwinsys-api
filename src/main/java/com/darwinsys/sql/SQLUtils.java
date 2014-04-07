@@ -67,7 +67,6 @@ public class SQLUtils {
 	 * @param rs
 	 * @param st
 	 * @param conn
-	 * @throws DatabaseException if any of the closes catches a SQLException.
 	 */
 	public static void cleanup(ResultSet rs, Statement st, Connection conn) {
 		try {

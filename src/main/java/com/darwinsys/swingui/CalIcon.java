@@ -22,7 +22,6 @@ import javax.swing.JFrame;
  * However, it should be excluded when using as an Icon, and 
  * true when using as a Component.
  * @author	Ian Darwin, http://www.darwinsys.com
- * @version $Id$
  */
 public class CalIcon extends JComponent implements Icon {
 

@@ -75,7 +75,7 @@ public class IndexList<T> implements List<T> {
 	}
 
 	/** removeAll removes all the elements in a Collection from this List
-	 * <br/>NOT IMPLEMENTED.
+	 * <br>NOT IMPLEMENTED.
 	 */
     public boolean removeAll(Collection c) {
 		throw new IllegalStateException(

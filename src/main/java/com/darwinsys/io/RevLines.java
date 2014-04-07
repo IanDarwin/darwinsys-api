@@ -6,7 +6,6 @@ import java.util.Stack;
 
 /**
  * Reverse a file by lines (simple algorithm, keeps file in memory).
- * @version $Id$
  */
 public class RevLines {
 	public static void main(String[] argv) throws Throwable {

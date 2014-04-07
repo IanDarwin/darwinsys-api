@@ -1,5 +1,7 @@
 package com.darwinsys.testing;
 
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
@@ -84,6 +86,34 @@ public class TestUtils {
 			}
 		}
 		return true;
+	}
+
+
+	/**
+	 * A debugging method to report on fields that differ, *NOT* using the
+	 * target objects' equals() method.
+	 */
+	public static List<String> compareAll(Object o1, Object o2) throws Exception  {
+		final List<String> diffs = new ArrayList<String>();
+		if (o1.getClass() != o2.getClass()) {
+			fail("Can't compare different classes");
+		}
+		final Field[] fields = o1.getClass().getDeclaredFields();
+		for (Field f : fields) {
+			f.setAccessible(true); // yes, we compare private fields
+			Object f1 = f.get(o1);
+			Object f2 = f.get(o2);
+			if ((f1 == null) != (f2 == null)) { // only one is null => different
+				diffs.add(String.format("%s(%s,%s)", f.getName(), f1, f2)); 
+				continue;
+			}
+			if (f1 == null) // both are null => same
+				continue;
+			if (!f1.equals(f2)) {
+				diffs.add(String.format("%s(%s,%s)", f.getName(), f1, f2));
+			}
+		}
+		return diffs;
 	}
 
 	/**

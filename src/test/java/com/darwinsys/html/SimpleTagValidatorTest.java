@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 /**
  * Test SimpleTagValidator
- * @version $Id$
  */
 public class SimpleTagValidatorTest extends TestCase {
 	SimpleTagValidator val = new SimpleTagValidator();

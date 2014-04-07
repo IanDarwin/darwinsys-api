@@ -19,7 +19,6 @@ import com.darwinsys.database.DataBaseException;
  * is ultimately accepted.
  * XXX Several things are static that should not be!!
  * @author Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class Crawler implements Checkpointer {
 

@@ -1,9 +1,11 @@
+// BEGIN package
 package com.darwinsys.mail;
+// END package
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -13,7 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /** Mailer. No relation to Norman. Sends an email message.
- * My old Sender class, recast as a Bean for use in JSP's & elsewhere.
+ * My old Sender class, recast as a Bean for use in JSP's and elsewhere.
  * Example usage:
  * <pre>
  * Mailer mb = new Mailer();
@@ -29,8 +31,8 @@ import javax.mail.internet.MimeMessage;
  * }
  * </pre>
  * @author Ian F. Darwin
- * @version $Id$
  */
+// BEGIN main
 public class Mailer {
 	/** The javamail session object. */
 	protected Session session;
@@ -39,7 +41,7 @@ public class Mailer {
 	/** The subject of the message. */
 	protected String subject;
 	/** The recipient ("To:"), as Strings. */
-	protected List<String> toList = new ArrayList<String>();
+	protected List<String> toList = new ArrayList<>();
 	/** The CC list, as Strings. */
 	protected List<String> ccList = new ArrayList<String>();
 	/** The BCC list, as Strings. */
@@ -86,7 +88,7 @@ public class Mailer {
 	/** Set to as a string like "tom, mary, robin@host". Loses any
 	 * previously-set values. */
 	public void setToList(String s) {
-		toList = tokenize(s);
+		toList = Arrays.asList(s.split(",\\s+"));
 	}
 
 	/** Add one "to" recipient */
@@ -109,7 +111,7 @@ public class Mailer {
 	/** Set cc as a string like "tom, mary, robin@host". Loses any
 	 * previously-set values. */
 	public void setCcList(String s) {
-		ccList = tokenize(s);
+		ccList = Arrays.asList(s.split(",\\s+"));
 	}
 
 	/** Add one "cc" recipient */
@@ -132,7 +134,7 @@ public class Mailer {
 	/** Set bcc as a string like "tom, mary, robin@host". Loses any
 	 * previously-set values. */
 	public void setBccList(String s) {
-		bccList = tokenize(s);
+		bccList = Arrays.asList(s.split(",\\s+"));
 	}
 
 	/** Add one "bcc" recipient */
@@ -247,20 +249,7 @@ public class Mailer {
 		// Now the message body.
 		mesg.setText(body);
 
-		// Finally, send the message! (use static Transport method)
-		// Do this in a Thread as it sometimes is too slow for JServ
-		// new Thread() {
-			// public void run() {
-				// try {
-
-					Transport.send(mesg);
-
-				// } catch (MessagingException e) {
-					// throw new IllegalArgumentException(
-					// "Transport.send() threw: " + e.toString());
-				// }
-			// }
-		// }.start();
+		Transport.send(mesg);
 	}
 
 	/** Convenience method that does it all with one call.
@@ -283,24 +272,5 @@ public class Mailer {
 		m.setBody(message);
 		m.doSend();
 	}
-
-
-	/** Convert a list of addresses to an ArrayList. This will work
-	 * for simple names like "tom, mary@foo.com, 123.45@c$.com"
-	 * but will fail on certain complex (but RFC-valid) names like
-	 * "(Darwin, Ian) <http://www.darwinsys.com/>".
-	 * Or even "Ian Darwin <http://www.darwinsys.com/>".
-	 */
-	protected List<String> tokenize(String addrs) {
-		List<String> al = new ArrayList<String>();
-		if (addrs != null) {
-			StringTokenizer tf = new StringTokenizer(addrs, ",");
-			// For each word found in the line
-			while (tf.hasMoreTokens()) {
-				// trim blanks, and add to list.
-				al.add(tf.nextToken().trim());
-			}
-		}
-		return al;
-	}
 }
+// END main

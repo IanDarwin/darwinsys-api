@@ -142,9 +142,9 @@ public class ConnectionUtil {
 		return getConnection(c.getDbURL(), c.getDriverName(), c.getUserName(), c.getPassword());
 	}
 
-	/** Generate a Set<String> of the config names available
+	/** Generate a Set&lt;String&gt; of the config names available
 	 * from the current configuration file.
-	 * @return Set<String> of the configurations
+	 * @return Set&lt;String&gt; of the configurations
 	 */
 	public static Set<String> getConfigurationNames() {
 		Set<String> configNames = new TreeSet<String>();

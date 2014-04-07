@@ -8,7 +8,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * BackRefTag - generate a href back to the referrer, initially for use on help.
- * @version $Id$
  */
 public class BackRefTag extends TagSupport {
 	

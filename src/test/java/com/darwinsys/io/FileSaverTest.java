@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-import junit.framework.TestCase;
+import org.junit.*;
 
-public class FileSaverTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class FileSaverTest {
 
 	/** Test File name. */
 	public static final String FILENAME = "fileSaverTest.dat";
@@ -20,7 +22,7 @@ public class FileSaverTest extends TestCase {
 		"The quick brown fox jumps over the lazy dog.";
 
 	/** Set up initial state data file state for testing */
-	@Override
+	@Before
 	public void setUp() {
 		try {
 			// Create file in "." with known name and contents
@@ -33,15 +35,23 @@ public class FileSaverTest extends TestCase {
 		}
 	}
 
-	@Override
+	@After
 	public void tearDown() {
 		new File(FILENAME).delete();
+	}
+
+	@AfterClass
+	public static void reallyClean() {
+		if (!new File(FILENAME + ".bak").delete()) {
+			throw new RuntimeException("Failed to delete " + FILENAME + ".bak");
+		}
 	}
 
 	/** Test that the overwritten file contains something reasonable,
 	 * and that nothing gets thrown in normal processing.
 	 * @throws IOException
 	 */
+	@Test
 	public void testOne() throws IOException {
 		final Writer writer = saver.getWriter();
 		PrintWriter out = new PrintWriter(writer);
@@ -56,6 +66,7 @@ public class FileSaverTest extends TestCase {
 	 * Test state forwarding
 	 * @throws IOException
 	 */
+	@Test
 	public void testFailures() throws IOException {
 		saver.getWriter();
 		try {

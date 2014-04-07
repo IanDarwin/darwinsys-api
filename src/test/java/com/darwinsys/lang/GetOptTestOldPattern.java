@@ -4,14 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.darwinsys.util.Debug;
 
 /** Some test cases for GetOpt using the "traditional" coding pattern.
 * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class GetOptTestOldPattern {
 	
@@ -19,9 +20,14 @@ public class GetOptTestOldPattern {
 	private String goodArgs[]  = {
 			"-h", "-o", "outfile", "infile"
 	};
-	private 	String badArgChars = "f1o";
+	private String badArgChars = "f1o";
 	private String badArgs[]  = {
 			"-h", "-o", "outfile", "infile"
+	};
+	
+	private String combinedArgChars = "ilr";
+	private String[] combinedArgs = {
+		"-ril", "infile"	
 	};
 
 	@Test
@@ -37,6 +43,11 @@ public class GetOptTestOldPattern {
 	@Test
 	public void testOldwayBadCharsBadArgs() {
 		processUnixWay(badArgChars, badArgs, true);
+	}
+	
+	@Test @Ignore("GetOpt cannot handle combined args yet!!")
+	public void testCombinedGood() {
+		processUnixWay(combinedArgChars, combinedArgs, false);
 	}
 	
 	void processUnixWay(String argChars, String[] args, boolean shouldFail) {
@@ -62,6 +73,10 @@ public class GetOptTestOldPattern {
 			Debug.printf("getopt", "%d %s%n", i, args[i]);
 			String fileName = args[i];
 			assertFalse(fileName.startsWith("-"));
+		}
+		
+		if (errs > 0 && !shouldFail) {
+			fail("Errors in this run");
 		}
 	}
 	

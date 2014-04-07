@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,6 +22,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+// BEGIN main
 package com.darwinsys.io;
 
 import java.io.IOException;
@@ -64,3 +64,4 @@ public final class TextAreaOutputStream extends OutputStream {
 		sb.append((char)b);
 	}
 }
+// END main

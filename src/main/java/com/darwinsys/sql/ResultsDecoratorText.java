@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2004-2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,6 +22,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+// BEGIN main
 package com.darwinsys.sql;
 
 import java.io.IOException;
@@ -35,7 +35,6 @@ import com.darwinsys.util.Verbosity;
 
 /**
  * Print a ResultSet in plain text.
- * @version $Id$
  */
 public class ResultsDecoratorText extends ResultsDecorator {
 
@@ -69,7 +68,7 @@ public class ResultsDecoratorText extends ResultsDecorator {
 
 	@Override
 	public void printRowCount(int rowCount) throws IOException {
-			println("Rows: " + rowCount);
+		println("Rows: " + rowCount);
 	}
 
 	/* (non-Javadoc)
@@ -80,3 +79,4 @@ public class ResultsDecoratorText extends ResultsDecorator {
 		return "Plain text";
 	}
 }
+// END main

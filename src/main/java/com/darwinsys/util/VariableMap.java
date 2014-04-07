@@ -80,9 +80,9 @@ public class VariableMap extends HashMap<String, String> {
 	 * in the variable substitution context) unless you
 	 * really understand what you're doing.
 	 * <p>
-	 * Example input: <kbd>lookFor(${USER})</kbd>
+	 * Example input: <pre>lookFor(${USER})</pre>
 	 * If USER variable in map contains PIE, the result will be
-	 * <kbd>lookFor(PIE)</kbd>.
+	 * <pre>lookFor(PIE)</pre>.
 	 * @param inString
 	 * @return The string after substitution
 	 */

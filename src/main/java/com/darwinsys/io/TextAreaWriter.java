@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,6 +22,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+// BEGIN main
 package com.darwinsys.io;
 
 import java.io.IOException;
@@ -37,11 +37,11 @@ import javax.swing.JTextArea;
  */
 public final class TextAreaWriter extends Writer {
 
-	private final JTextArea textArea;
+    private final JTextArea textArea;
 
-	public TextAreaWriter(final JTextArea textArea) {
-		this.textArea = textArea;
-	}
+    public TextAreaWriter(final JTextArea textArea) {
+        this.textArea = textArea;
+    }
 
     @Override
     public void flush(){ }
@@ -49,8 +49,9 @@ public final class TextAreaWriter extends Writer {
     @Override
     public void close(){ }
 
-	@Override
-	public void write(char[] cbuf, int off, int len) throws IOException {
-		textArea.append(new String(cbuf, off, len));		
-	}
+    @Override
+    public void write(char[] cbuf, int off, int len) throws IOException {
+        textArea.append(new String(cbuf, off, len));        
+    }
 }
+// END main

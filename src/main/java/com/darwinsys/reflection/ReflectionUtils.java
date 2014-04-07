@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Get the Constructors and methods
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class ReflectionUtils {
 

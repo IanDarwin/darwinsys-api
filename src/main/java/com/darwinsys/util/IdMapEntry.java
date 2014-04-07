@@ -5,7 +5,6 @@ package com.darwinsys.util;
  * in a database and a name or description of the item in the named row.
  * IdMapEntry objects are immutable.
  * <p>Rather like a java.util.Map.Entry but without needing to convert.
- * @version $Id$
  */
 public class IdMapEntry {
 	private final int id;

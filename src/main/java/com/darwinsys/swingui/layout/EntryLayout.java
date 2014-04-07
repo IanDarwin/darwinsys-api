@@ -25,8 +25,9 @@ import com.darwinsys.util.Debug;
  * added <B>must</B> be an even
  * multiple of the number of columns. If not, exceptions may be thrown!
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
+// BEGIN main
+// package com.darwinsys.swingui.layout;
 public class EntryLayout implements LayoutManager {
 	/** The array of widths, as decimal fractions (0.4 == 40%, etc.). */
 	protected final double[] widthPercentages;
@@ -168,3 +169,4 @@ public class EntryLayout implements LayoutManager {
 	}
 
 }
+// END main

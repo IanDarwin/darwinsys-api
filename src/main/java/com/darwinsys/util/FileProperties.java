@@ -23,7 +23,6 @@ import java.util.Properties;
  * the property key is not found in the original property list.
  *
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class FileProperties extends Properties {
 	private static final long serialVersionUID = 3760847843971053111L;

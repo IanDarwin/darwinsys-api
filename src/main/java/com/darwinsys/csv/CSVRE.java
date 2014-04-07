@@ -19,8 +19,9 @@ import java.util.regex.Pattern;
  * 	new CSVRE().process(new BufferedReader(new InputStreamReader(System.in)));
  * }
  * </pre>
- * @version $Id$
  */
+// BEGIN main
+// package com.darwinsys.csv;
 public class CSVRE implements CSVParser {
 	/** The rather involved pattern used to match CSV's consists of three
 	 * alternations: the first matches a quoted field, the second unquoted,
@@ -43,10 +44,10 @@ public class CSVRE implements CSVParser {
 		// For each line...
 		while ((line = input.readLine()) != null) {
 			System.out.println("line = `" + line + "'");
-			final List list = parse(line);
+			final List<String> list = parse(line);
 			System.out.println("Found " + list.size() + " items.");
-			for (int i = 0; i < list.size(); i++) {
-				System.out.print(list.get(i) + ",");
+			for (String str : list) {
+				System.out.print(str + ",");
 			}
 			System.out.println();
 		}
@@ -56,7 +57,7 @@ public class CSVRE implements CSVParser {
 	 * @return List of Strings, minus their double quotes
 	 */
 	public List<String> parse(final String line) {
-		final List<String> list = new ArrayList<String>();
+		final List<String> list = new ArrayList<>();
 		final Matcher m = csvRE.matcher(line);
 		// For each field
 		while (m.find()) {
@@ -67,7 +68,11 @@ public class CSVRE implements CSVParser {
 			if (match.endsWith(",")) {	// trim trailing ,
 				match = match.substring(0, match.length() - 1);
 			}
-			if (match.startsWith("\"")) { // assume also ends with
+			if (match.startsWith("\"")) { // must also end with \"
+				if (!match.endsWith("\"")) {
+					throw new IllegalArgumentException(
+						"Quoted column missing end quote: " + line);
+				}
 				match = match.substring(1, match.length() - 1);
 			}
 			if (match.length() == 0) {
@@ -78,3 +83,4 @@ public class CSVRE implements CSVParser {
 		return list;
 	}
 }
+// END main

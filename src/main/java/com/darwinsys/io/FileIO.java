@@ -1,22 +1,7 @@
+// BEGIN main
 package com.darwinsys.io;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -27,7 +12,6 @@ import com.darwinsys.util.Debug;
 /**
  * Some file I-O primitives reimplemented in Java.
  * All methods are static, since there is no state.
- * @version $Id$
  */
 public class FileIO {
 	
@@ -95,7 +79,7 @@ public class FileIO {
 	}
 	
 	/**
-	 * Copy a tree of files to directory, given File objects representing the files.
+	 * Copy a file to a directory, given File objects representing the files.
 	 * @param file File representing the source, must be a single file.
 	 * @param target File representing the location, may be file or directory.
 	 * @throws IOException
@@ -272,7 +256,7 @@ public class FileIO {
 	 * please do not use this to read a JPEG file, for example.
 	 */
 	public static String readerToString(Reader is) throws IOException {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		char[] b = new char[BLKSIZ];
 		int n;
 
@@ -309,5 +293,5 @@ public class FileIO {
 	throws IOException {
 		return new BufferedReader(new FileReader(fileName));
 	}
-
 }
+// END main

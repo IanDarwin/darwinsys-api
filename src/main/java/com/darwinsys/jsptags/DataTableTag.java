@@ -21,9 +21,9 @@ import com.darwinsys.sql.SQLUtils;
  * &lt;h3&gt;Products Apparently In Stock but Location = 0&lt;/h3&gt;
  * &lt;darwin:datatable dataSource="${applicationScope.myproject_DATASOURCE}"
  * 	style1="odd" style2="even"
- * 	pkey='sku' link='/productdetails.do?sku='>
+ * 	pkey='sku' link='/productdetails.do?sku='&gt;
  * 	select sku, stockCount, title from products
- *    where stockCount > 0 and location = 0
+ *    where stockCount &gt; 0 and location = 0
  * &lt;/darwin:datatable&gt;
  * </pre>
  * @author Ian Darwin

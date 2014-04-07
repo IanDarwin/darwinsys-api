@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 /** Test program for LabelText class.
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class LabelTextTest extends JPanel {
 

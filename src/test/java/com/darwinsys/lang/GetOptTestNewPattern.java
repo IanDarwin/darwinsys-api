@@ -16,7 +16,6 @@ import com.darwinsys.util.Debug;
 
 /** Some test cases for GetOpt using the "new" coding pattern
 * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class GetOptTestNewPattern {
 	
@@ -28,7 +27,7 @@ public class GetOptTestNewPattern {
 			"-help", "-output-file", "outfile", "infile"
 	};
 
-	private 	String badArgChars = "f1o";
+	private String badArgChars = "f1o";
 	private String badArgs[]  = {
 			"-h", "-o", "outfile", "infile"
 	};

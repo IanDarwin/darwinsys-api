@@ -1,0 +1,41 @@
+#!/bin/sh
+
+CHAPTERS="ch*"
+JARS_HOME=$HOME/lib
+DARWINSYS_JAR=${JARS_HOME}/darwinsys-api.jar
+TMP=$(mktemp /tmp/adlintXXXXXXXXX)
+TMP2=$(mktemp /tmp/adlint2XXXXXXXXX)
+trap "rm ${TMP} ${TMP2}" 0 1 15
+
+echo "Checking snippets"
+grep '^\[filename=' ${CHAPTERS} > ${TMP}
+for f in $(awk -F\" '{print $2}' ${TMP})
+do
+	if [ \! -f ${f} ]; then
+		echo ${f} NOT FOUND
+	fi
+done
+egrep -v ':\[filename="[a-zA-Z0-9_/.]+", language="java", identifier="main"\]$' ${TMP} > ${TMP2} && {
+	echo Dubious lines
+	cat  ${TMP2}
+}
+
+echo "Checking includes and images"
+# image::images/jenkins-dashboard.png[]
+# include::src/main/resources/json/softwareinfo.json[]
+#                                                         stat(1) needs a -q option
+egrep -h '^(include|image)::' ${CHAPTERS} | sed -e 's/include:://' -e 's/image:://' -e 's/\[.*\]$//' | 
+	xargs ls >/dev/null
+
+echo "Checking xrefs"
+java -cp ${DARWINSYS_JAR} com.darwinsys.tools.XrefCheck ${CHAPTERS} | sort
+
+echo "Checking for ToDO tags"
+egrep -n -i 'XXX|\?\?\?' ${CHAPTERS}
+
+echo "Last but not least (but slowest): Running http link checker"
+java -cp ${DARWINSYS_JAR} com.darwinsys.tools.KwikLinkChecker $* $(
+	grep link: ch* | sed -e 's/.*link:$\$//' -e 's/$$.*//'
+)
+
+

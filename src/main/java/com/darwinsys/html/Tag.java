@@ -7,7 +7,6 @@ import java.io.PrintWriter;
  * but simpler to get started with.
  * <p>
  * All methods are static for ease of use.
- * @version $Id$
  */
 public class Tag {
 	protected static final char LB = '<';

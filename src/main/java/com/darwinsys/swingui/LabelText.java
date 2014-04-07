@@ -13,8 +13,9 @@ import javax.swing.JTextField;
  * the LabelText control in Guy Eddon's ActiveX Components book
  * (2nd Edition, page 203). But done more simply.
  * @author	Ian Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
+// BEGIN main
+// package com.darwinsys.swingui;
 public class LabelText extends JPanel implements java.io.Serializable {
 
 	private static final long serialVersionUID = -8343040707105763298L;
@@ -112,3 +113,4 @@ public class LabelText extends JPanel implements java.io.Serializable {
 		theTextField.removeActionListener(l);
 	}
 }
+// END main

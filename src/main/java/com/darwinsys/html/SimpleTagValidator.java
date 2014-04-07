@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
  * It is <em>not</em> intended as a full-function HTML validator!
  * Nor is any claim advanced that this is a complete solution to preventing
  * Cross-Site Scripting. It is just, well, a SIMPLE Tag Validator.
- * @version $Id$
  */
 public class SimpleTagValidator {
 	/** The default list of OK tags.

@@ -9,13 +9,12 @@ import com.darwinsys.util.Debug;
 
 /** A simplistic CircleLayout implementation of the LayoutManager interface.
  * Components are drawn at their preferred size.
- * <br/>
+ * <br>
  * Bugs:
  * <ul>
  * <li>Only works well if the container is approximately square.
  * </ul>
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class CircleLayout implements LayoutManager {
 

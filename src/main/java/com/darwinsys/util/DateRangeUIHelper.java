@@ -12,9 +12,9 @@ import java.util.Date;
  * <pre>
  *  &lt;jsp:useBean name="my.dates" class="...DateRangeUIHelper"/&gt;
  * 	&lt;html:select ...&gt;
- *  &lt:html:options name="my.date" property="dateRangeValues"
+ *  &lt;html:options name="my.date" property="dateRangeValues"
  *       labelName="my.date" labelProperty="dateRangeLabels"
- *       />
+ *       /&gt;
  *
  *
  *   // Swing Example:
@@ -24,7 +24,7 @@ import java.util.Date;
  *   DateRangeUIHelper.Range r = (DateRangeUIHelpers.Range)jComboBox.getSelectedItem();
  *   Date startDate = DateRangeUIHelper.getDateFromRange(r.getChoiceValue());
  * </pre>
- * <p>For a runnable example, see regress.util.DateRangeUIHelper in the the darwinsys-api project.
+ * <p>For a runnable example, see test c.d.util.DateRangeUIHelper in the the darwinsys-api project.
  */
 public class DateRangeUIHelper {
 

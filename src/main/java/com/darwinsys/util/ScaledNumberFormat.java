@@ -17,7 +17,6 @@ import java.text.ParsePosition;
  * Rewritten in Java in January, 2001; re-synched with OpenBSD in 2004.
  *
  * @author Ian F. Darwin, http://www.darwinsys.com/
- * @version $Id$
  */
 public class ScaledNumberFormat extends Format {
 

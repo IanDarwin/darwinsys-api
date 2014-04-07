@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2004-2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -51,9 +50,6 @@ public class SQLRunnerCLI {
 
 	/**
 	 * main - parse arguments, construct SQLRunner object, open file(s), run scripts.
-	 * @throws ClassNotFoundException
-	 * @throws SQLException if anything goes wrong.
-	 * @throws DatabaseException if anything goes wrong.
 	 */
 	public static void main(final String[] args) {
 		String config = "default";

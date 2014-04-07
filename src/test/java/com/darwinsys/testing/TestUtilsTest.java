@@ -8,9 +8,11 @@ import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 public class TestUtilsTest {
 
@@ -56,12 +58,12 @@ public class TestUtilsTest {
 	public void setup() {
 		System.out.println("TestUtilsTest.setup()");
 		c = Calendar.getInstance();
+		// Start with m1 and m2 equal
 		m1 = new Mock();
 		m2 = new Mock();
 		m1.i = m2.i = 42;
 		m1.j = m2.j ="Hello";
 		m1.date = m2.date = c.getTime();
-		System.out.println(m1);System.out.println(m2);
 	}
 	
 	@Test
@@ -104,4 +106,15 @@ public class TestUtilsTest {
 		assertNoDefaultProperties(m);
 	}
 
+	@Test @Ignore("unknown test failure")
+	public void testPropertyDiff() throws Exception {
+		List<String> diffs = null;
+		diffs = TestUtils.compareAll(m1, m2);
+		assertTrue(0 == diffs.size());
+
+		m2.date = new Date();
+		diffs = TestUtils.compareAll(m1, m2);
+		assertEquals(1, diffs.size());
+		assertEquals("date", diffs.get(0));
+	}
 }

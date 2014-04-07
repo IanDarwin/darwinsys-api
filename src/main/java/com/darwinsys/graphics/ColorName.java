@@ -3,7 +3,6 @@ package com.darwinsys.graphics;
 /*
  * Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 1996-2006.
  * All rights reserved. Software written by Ian F. Darwin and others.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -43,7 +42,7 @@ import java.awt.Color;
 /** A simple class for looking up Java AWT Color Names; I got tired
  * of including this code in every program that needed it!
  * (yes, this IS a hint to JavaSoft.).
- * <br/>
+ * <br>
  * TODO: Rewrite XColor from javasrc as a subclass of this.
  * @author	Ian Darwin, delinted by Bill Heinze
  */

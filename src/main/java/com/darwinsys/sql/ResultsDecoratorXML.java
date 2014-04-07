@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2004-2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -37,7 +36,6 @@ import com.darwinsys.util.Verbosity;
 /**
  * This guy's primary raison d'etre is to generate an XML output file
  * for use in JUnit testing of the ResultsDecoratorSQL!
- * @version $Id$
  */
 public class ResultsDecoratorXML extends ResultsDecorator {
 	private static final String SUN_WEBROWSET_IMPL_CLASS = "com.sun.rowset.WebRowSetImpl";

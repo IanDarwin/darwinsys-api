@@ -4,7 +4,7 @@ package com.darwinsys.security;
  * Password Strength Metric, adapted from a JavaScript program at
  * http://www.intelligent-web.co.uk/examples/password.js.html
  * See also http://en.wikipedia.org/wiki/Password_strength and
- * http://cio-asia.com/PrinterFriendly.aspx?articleid=2560&pubid=5&issueid=63
+ * http://cio-asia.com/PrinterFriendly.aspx?articleid=2560&amp;pubid=5&amp;issueid=63
  */
 public class PasswordStrength {
 

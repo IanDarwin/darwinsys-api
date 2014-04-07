@@ -1,20 +1,35 @@
+// BEGIN main
 package com.darwinsys.lang;
 
+import java.io.File;
+
 /** Some things that are System Dependent.
- * All methods are static, like java.lang.Math.
+ * All methods are static.
  * @author Ian Darwin
- * @version $Id$
  */
 public class SysDep {
-	/** Return the name of the Null device on platforms which support it,
-	 * or "jnk" otherwise.
-	 */
-	public static String getDevNull() {
-		String sys = System.getProperty("os.name");
-		if (sys==null || sys.indexOf("Mac") >= 0)
-			return "jnk";
-		if (sys.startsWith("Windows"))
-			return "NUL:";
-		return "/dev/null";
-	}
+
+    final static String UNIX_NULL_DEV = "/dev/null";
+    final static String WINDOWS_NULL_DEV = "NUL:";
+    final static String FAKE_NULL_DEV = "jnk";
+    
+    /** Return the name of the "Null Device" on platforms which support it,
+     * or "jnk" (to create an obviously-well-named temp file) otherwise.
+     */
+    public static String getDevNull() {
+
+        if (new File(UNIX_NULL_DEV).exists()) {     // <1>
+            return UNIX_NULL_DEV;
+        }
+
+        String sys = System.getProperty("os.name"); // <2>
+        if (sys==null) {                            // <3>
+            return FAKE_NULL_DEV;
+        }
+        if (sys.startsWith("Windows")) {            // <4>
+            return WINDOWS_NULL_DEV;
+        }
+        return FAKE_NULL_DEV;                       // <5>
+    }
 }
+// END main

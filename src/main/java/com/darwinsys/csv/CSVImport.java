@@ -21,6 +21,9 @@ import com.darwinsys.util.Debug;
  * @author Ian F. Darwin (translation into Java and removal of I/O)
  * @author Ben Ballard (rewrote advQuoted to handle '""' and for readability)
  */
+// BEGIN main
+// package com.darwinsys.csv;
+
 public class CSVImport implements CSVParser {
 
 	public static final char DEFAULT_SEP = ',';
@@ -39,7 +42,7 @@ public class CSVImport implements CSVParser {
 	}
 
 	/** The fields in the current String */
-	protected List<String> list = new ArrayList<String>();
+	protected List<String> list = new ArrayList<>();
 
 	/** the separator char for this parser */
 	protected char fieldSep;
@@ -85,7 +88,7 @@ public class CSVImport implements CSVParser {
                     j++; // skip end quotes
                     break;
                 }
-            } else if (s.charAt(j) == '"' && j+1 == len) { // end quotes at end of line
+            } else if (s.charAt(j) == '"' && j+1 == len) { // end quote @ line end
                 break; //done
 			}
 			sb.append(s.charAt(j));	// regular character.
@@ -109,3 +112,4 @@ public class CSVImport implements CSVParser {
         }
     }
 }
+// END main

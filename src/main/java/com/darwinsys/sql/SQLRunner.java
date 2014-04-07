@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2004-2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -56,19 +55,24 @@ import com.darwinsys.util.Verbosity;
  * </ul>
  * <p>This class can also be used from within programs such as servlets, etc.;
  * see SQLRunnerGUI for an example of how to call.
- * <p>For example, this command and input:</pre>
+ * <p>For example, this command and input:
+ * <pre>
  * SQLrunner -c testdb
  * \ms;
  * select * from person where person_key=4;
- * </pre>might produce this output:<pre>
- * Executing : <<select * from person where person_key=4>>
- *  insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... )
+ * </pre>
+ * might produce this output:
+ * <pre>
+ * Executing : select * from person where person_key=4
+ * insert into PERSON(PERSON_KEY,  FIRST_NAME, INITIAL, LAST_NAME, ... )
  * values (4, 'Ian', 'F', 'Darwin', ...);
  * </pre>
  * <p>TODO Fix parsing so \\ escapes don't need to end with SQL semi-colon.
  * <p>TODO add a "Manual Commit" (or "Undoable") mode, in CLI and GUI
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
+// BEGIN main
+// package com.darwinsys.sql;
 public class SQLRunner {
 
 	OutputMode outputMode = OutputMode.t;
@@ -498,3 +502,4 @@ public class SQLRunner {
 
 
 }
+// END main

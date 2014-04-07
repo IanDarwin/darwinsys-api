@@ -1,3 +1,4 @@
+// BEGIN main
 package com.darwinsys.lang;
 
 /** A MutableInteger is like an Integer but mutable, to avoid the
@@ -5,7 +6,6 @@ package com.darwinsys.lang;
  * c = new Integer(c.getInt()+1)
  * which can get expensive if done a lot.
  * Not subclassed from Integer, since Integer is final (for performance :-))
- * @version $Id$
  */
 public class MutableInteger {
 	private int value = 0;
@@ -54,3 +54,4 @@ public class MutableInteger {
 		return Integer.parseInt(str);
 	}
 }
+// END main

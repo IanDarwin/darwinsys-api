@@ -1,8 +1,7 @@
 package com.darwinsys.swingui.framework;
 
 /**
- * name & purpose.
- * $Id$
+ * name and purpose
  */
 public interface View {
 

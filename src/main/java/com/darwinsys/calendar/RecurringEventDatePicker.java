@@ -14,9 +14,9 @@ import java.util.Calendar;
  * <pre>
  * RecurringEventDatePicker mp = new RecurringEventDatePicker(3, Calendar.WEDNESDAY);
  * DateFormat dfm = new SimpleDateFormat("MMMM dd, yyyy");
- * out.println("<li>" + dfm.format(mp.getEventDate(0));
- * out.println("<li>" + dfm.format(mp.getEventDate(1));
- * out.println("<li>" + dfm.format(mp.getEventDate(2)); 
+ * out.println("*" + dfm.format(mp.getEventDate(0));
+ * out.println("*" + dfm.format(mp.getEventDate(1));
+ * out.println("*" + dfm.format(mp.getEventDate(2)); 
  * </pre>
  * @author Original code by Derek Marcotte.
  * @author Improvements and JUnit tests by Ian Darwin

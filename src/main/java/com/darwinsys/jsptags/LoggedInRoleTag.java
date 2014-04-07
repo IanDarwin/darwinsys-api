@@ -6,7 +6,6 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * LoggedInRole - include body content if user is logged in as a user that has this "role".
- * @version $Id$
  */
 public class LoggedInRoleTag extends BodyTagSupport {
 

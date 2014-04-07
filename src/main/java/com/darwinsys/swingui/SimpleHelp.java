@@ -23,7 +23,6 @@ import javax.swing.text.Document;
  * Simple Help Frame based on JFC JEditorPane.
  * <p>
  * May someday rewrite using JavaHelp API.
- * @version $Id$
  */
 public class SimpleHelp extends JFrame implements HyperlinkListener {
 

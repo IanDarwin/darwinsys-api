@@ -20,7 +20,6 @@ import java.util.Set;
  * from scratch, but useful when order matters and yet you want the 
  * convenience of Map acccess.
  * @author  Ian F. Darwin
- * @version $Id$
  */
 public class PropertiesMap implements Map<String,String> {
 

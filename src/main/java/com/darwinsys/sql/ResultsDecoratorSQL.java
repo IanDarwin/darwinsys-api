@@ -1,5 +1,4 @@
 /* Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 2004-2006.
- * $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -36,8 +35,6 @@ import com.darwinsys.util.Verbosity;
 
 /**
  * Print an SQL ResultSet in SQL-import format.
- *
- * @version $Id$
  */
 public class ResultsDecoratorSQL extends ResultsDecorator {
 

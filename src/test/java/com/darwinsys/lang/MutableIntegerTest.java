@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 /**
  * name - purpose
- * @version $Id$
  */
 public class MutableIntegerTest extends TestCase {
 	MutableInteger target;
