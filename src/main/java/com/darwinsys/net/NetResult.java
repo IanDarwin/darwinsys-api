@@ -13,9 +13,17 @@ public class NetResult<T> {
         return status;
     }
 
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
     public T getPayload() {
         return payload;
     }
+
+	public void setPayload(T payload) {
+		this.payload = payload;
+	}
 
     public boolean isSuccess() {
         return status >= HttpURLConnection.HTTP_OK && status < HTTP_REDIRECTS;
