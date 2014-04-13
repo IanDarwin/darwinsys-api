@@ -48,7 +48,7 @@ public class FileIO {
 	/** Copy a file from an opened InputStream to opened OutputStream */
 	public static void copyFile(InputStream is, OutputStream os, boolean close) 
 	throws IOException {
-		byte[] b = new byte[BLKSIZ];				// the byte read from the file
+		byte[] b = new byte[BLKSIZ];			// the byte read from the file
 		int i;
 		while ((i = is.read(b)) != -1) {
 			os.write(b, 0, i);
@@ -140,7 +140,9 @@ public class FileIO {
 	 * @param toDir
 	 * @throws IOException
 	 */
-	public static void copyRecursively(File fromDir, File toDir, boolean create) throws IOException {
+	public static void copyRecursively(File fromDir, File toDir, boolean create)
+		throws IOException {
+
 		Debug.printf("fileio", "copyRecursively(%s, %s%n", fromDir, toDir);
 		if (!fromDir.exists()) {
 			throw new IOException(
