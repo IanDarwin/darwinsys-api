@@ -54,7 +54,9 @@ public class UtilGUI {
 			Clipboard clipboard = c.getToolkit().getSystemClipboard();
 			StringSelection contents = new StringSelection(srcData);
 			clipboard.setContents(contents, new ClipboardOwner() {
-				public void lostOwnership(Clipboard clipboard, Transferable contents) {
+				public void lostOwnership(Clipboard clipboard,
+					Transferable contents) {
+
 					// don't care
 				}
 			});
@@ -73,7 +75,9 @@ public class UtilGUI {
 	
 	/**	Save the X and Y locations in Preferences node provided.
 	 */
-	public static void setSavedLocation(final Preferences pNode, final Window w) {
+	public static void setSavedLocation(
+		final Preferences pNode, final Window w) {
+
 		Point where = w.getLocation();
 		int x = (int)where.getX();
 		pNode.putInt("mainwindow.x", Math.max(0, x));
@@ -91,9 +95,11 @@ public class UtilGUI {
 	
 	/** 
 	 * Track a Window's position across application restarts; location is saved
-	 * in a Preferences node that you pass in; we attach a ComponentListener to the Window.
+	 * in a Preferences node that you pass in; we attach a ComponentListener to
+	 * the Window.
 	 */
-	public static void monitorWindowPosition(final Window w, final Preferences pNode) {
+	public static void monitorWindowPosition(
+		final Window w, final Preferences pNode) {
 
 		// Get the current saved position, if any
 		Point p = getSavedLocation(pNode);
