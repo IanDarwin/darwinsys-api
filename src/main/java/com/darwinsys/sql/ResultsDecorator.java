@@ -49,7 +49,8 @@ public abstract class ResultsDecorator {
 	public abstract int write(ResultSet rs) throws IOException, SQLException;
 
 	/** Print the resultset as a table info */
-	public abstract void displayTable(String table, ResultSet rs) throws IOException, SQLException;
+	public abstract void displayTable(String table, ResultSet rs)
+		throws IOException, SQLException;
 
 	public void printRowCount(int n) throws IOException {
 		out.println("Row Count = " + n);

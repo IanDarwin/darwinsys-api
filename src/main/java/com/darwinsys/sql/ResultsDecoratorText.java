@@ -62,7 +62,9 @@ public class ResultsDecoratorText extends ResultsDecorator {
 	}
 
 	@Override
-	public void displayTable(String table, ResultSet rs) throws IOException, SQLException {
+	public void displayTable(String table, ResultSet rs)
+		throws IOException, SQLException {
+
 		write(rs);
 	}
 
