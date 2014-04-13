@@ -160,13 +160,13 @@ public class EntryLayout implements LayoutManager {
 			if (col == 0) {
 				x = hpad;
 			} else {
-				x += hpad * (col-1) + (int)(contSize.width * widthPercentages[col-1]);
+				x += hpad * (col-1) + 
+					(int)(contSize.width * widthPercentages[col-1]);
 			}
 			int y = vpad * (row) + (row * heights[row]) + (heights[row]-d.height);
 			Rectangle r = new Rectangle(x, y, colWidth, d.height);
 			c.setBounds(r);
 		}
 	}
-
 }
 // END main
