@@ -33,10 +33,11 @@ public class KwikLinkChecker {
 	
 	// BEGIN main
 	/**
-	 * Check one HTTP link; not recursive. Returns a LinkStatus with boolean success,
-	 * and the filename or an error message in the message part of the LinkStatus.
-	 * The end of this method is one of the few places where a whole raft of different
-	 * "catch" clauses is actually needed for the intent of the program.
+	 * Check one HTTP link; not recursive. Returns a LinkStatus with
+	 * boolean success, and the filename or an error message in the
+	 * message part of the LinkStatus.  The end of this method is one of
+	 * the few places where a whole raft of different "catch" clauses is
+	 * actually needed for the intent of the program.
 	 */
 	public LinkStatus check(String urlString) {
 		URL url;
@@ -67,7 +68,7 @@ public class KwikLinkChecker {
 		} catch (SocketException e) {
 			return new LinkStatus(false, e + ": " + urlString);
 		} catch (IOException e) {
-			return new LinkStatus(false, e.toString()); // usually includes failing URL
+			return new LinkStatus(false, e.toString()); // includes failing URL
 		} catch (Exception e) {
 			return new LinkStatus(false, "Unexpected exception! " + e);
 		} finally {
