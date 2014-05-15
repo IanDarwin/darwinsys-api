@@ -34,7 +34,8 @@ public class CSVRE implements CSVParser {
 
 	public static void main(final String[] argv) throws IOException {
 		System.out.println(CSV_PATTERN);
-		new CSVRE().process(new BufferedReader(new InputStreamReader(System.in)));
+		new CSVRE().process(
+			new BufferedReader(new InputStreamReader(System.in)));
 	}
 
 	/** Process one file. Delegates to parse() a line at a time */
