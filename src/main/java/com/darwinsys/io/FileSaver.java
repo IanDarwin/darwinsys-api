@@ -87,7 +87,7 @@ public class FileSaver {
 
 	/**
 	 * Return a reference to the contained File object, to
-	 * promote re-use (File objects are immutable so this
+	 * promote reuse (File objects are immutable so this
 	 * is at least moderately safe). Typical use would be:
 	 * <pre>
 	 * if (fileSaver == null ||

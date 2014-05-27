@@ -125,7 +125,7 @@ public class SQLRunner {
 	private boolean escape;
 
 	/** DB2 is the only one I know of today that requires table names
-	 * be given in upper case when getting table metadata
+	 * be given in uppercase when getting table metadata
 	 */
 	private boolean upperCaseTableNames;
 
@@ -350,7 +350,7 @@ public class SQLRunner {
 			textDecorator.flush();
 		} else if (rest.startsWith("t")) {
 			// Display one table. Some DatabaseMetaData implementations
-			// don't do ignorecase so, for now, convert to UPPER CASE.
+			// don't do ignorecase so, for now, convert to UPPERCASE.
 			String tableName = rest.substring(1).trim();
 			if (upperCaseTableNames) {
 				tableName = tableName.toUpperCase();
@@ -438,7 +438,7 @@ public class SQLRunner {
 	/** Extract one statement from the given Reader.
 	 * Ignore comments and null lines.
 	 * @return The SQL statement, up to but not including the ';' character.
-	 * May be null if not statement found.
+	 * May be null if no statement found.
 	 */
 	public static String getStatement(BufferedReader is)
 	throws IOException {

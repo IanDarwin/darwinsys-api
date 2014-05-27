@@ -132,7 +132,7 @@ public class GetOpt {
 	}
 
 	/** Construct a GetOpt parser, storing the set of option characters.
-	 * This is a legacy constructor for backwards compatibility.
+	 * This is a legacy constructor for backward compatibility.
 	 * That said, it is easier to use if you don't need long-name options,
 	 * so it has not been and will not be marked "deprecated".
 	 */
@@ -192,7 +192,7 @@ public class GetOpt {
 	public Map<String,String> parseArguments(String[] argv) {
 		Map<String, String> optionsValueMap = new HashMap<String, String>();
 		fileNameArguments = new ArrayList<String>();
-		for (int i = 0; i < argv.length; i++) {	// Can not use foreach, need i
+		for (int i = 0; i < argv.length; i++) {	// Cannot use foreach, need i
 			Debug.println("getopt", "parseArg: i=" + i + ": arg " + argv[i]);
 			char c = getopt(argv);	// sets global "optarg"
 			if (c == DONE) {

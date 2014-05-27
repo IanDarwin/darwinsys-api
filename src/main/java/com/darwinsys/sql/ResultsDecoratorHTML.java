@@ -24,11 +24,9 @@
 
 package com.darwinsys.sql;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+// BEGIN main
+import java.io.*;
+import java.sql.*;
 
 import com.darwinsys.util.Verbosity;
 
@@ -77,3 +75,4 @@ public class ResultsDecoratorHTML extends ResultsDecorator {
 		return "HTML";
 	}
 }
+// END main

@@ -14,8 +14,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/** Mailer. No relation to Norman. Sends an email message.
- * My old Sender class, recast as a Bean for use in JSP's and elsewhere.
+/** Mailer. No relation to Norman. Simply sends an email message.
  * Example usage:
  * <pre>
  * Mailer mb = new Mailer();
@@ -86,7 +85,7 @@ public class Mailer {
 	}
 
 	/** Set to as a string like "tom, mary, robin@host". Loses any
-	 * previously-set values. */
+	 * previously set values. */
 	public void setToList(String s) {
 		toList = Arrays.asList(s.split(",\\s+"));
 	}
@@ -109,7 +108,7 @@ public class Mailer {
 	}
 
 	/** Set cc as a string like "tom, mary, robin@host". Loses any
-	 * previously-set values. */
+	 * previously set values. */
 	public void setCcList(String s) {
 		ccList = Arrays.asList(s.split(",\\s+"));
 	}
@@ -132,7 +131,7 @@ public class Mailer {
 	}
 
 	/** Set bcc as a string like "tom, mary, robin@host". Loses any
-	 * previously-set values. */
+	 * previously set values. */
 	public void setBccList(String s) {
 		bccList = Arrays.asList(s.split(",\\s+"));
 	}
@@ -167,8 +166,7 @@ public class Mailer {
 	}
 
 	/** Check if all required fields have been set before sending.
-	 * Normally called e.g., by a JSP before calling doSend.
-	 * Is also called by doSend for verification.
+	 * Normally called before doSend; called by doSend for verification.
 	 */
 	public boolean isComplete() {
 		if (from == null    || from.length()==0) {

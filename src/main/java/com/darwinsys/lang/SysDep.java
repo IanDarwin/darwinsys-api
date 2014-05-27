@@ -14,7 +14,7 @@ public class SysDep {
     final static String FAKE_NULL_DEV = "jnk";
     
     /** Return the name of the "Null Device" on platforms which support it,
-     * or "jnk" (to create an obviously-well-named temp file) otherwise.
+     * or "jnk" (to create an obviously well-named temp file) otherwise.
      */
     public static String getDevNull() {
 

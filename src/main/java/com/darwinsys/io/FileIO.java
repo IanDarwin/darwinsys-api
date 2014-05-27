@@ -108,7 +108,7 @@ public class FileIO {
 		}
 	}
 
-	/** Copy a data file from one filename to another, alternate method.
+	/** Copy a data file from one filename to another, alternative method.
 	 * As the name suggests, use my own buffer instead of letting
 	 * the BufferedReader allocate and use the buffer.
 	 */
@@ -151,7 +151,8 @@ public class FileIO {
 		if (create) {
 			toDir.mkdirs();
 		} else if (!toDir.exists()) {
-			throw new IOException(String.format("Destination dir %s must exist", toDir));
+			throw new IOException(
+				String.format("Destination dir %s must exist", toDir));
 		}
 		for (File src : fromDir.listFiles()) {
 			if (src.isDirectory()) {
