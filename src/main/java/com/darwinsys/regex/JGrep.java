@@ -71,7 +71,8 @@ public class JGrep {
 						new BufferedReader(new FileReader(go.optarg()))) {
 						patt = b.readLine();
 					} catch (IOException e) {
-						System.err.println("Can't read pattern file " + go.optarg());
+						System.err.println(
+							"Can't read pattern file " + go.optarg());
 						System.exit(1);
 					}
 					break;
