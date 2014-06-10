@@ -3,6 +3,7 @@ package com.darwinsys.testing;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -20,6 +21,7 @@ import com.darwinsys.io.ClassSourceUtils;
  * part of this testing.
  */
 @RunWith(value=Parameterized.class)
+@Ignore // Needs custom -D on command line, disable by default
 public class CheckAccessorsDirectory {
 
 	public static final String DIRECTORY_KEY = "accessorsClassDir";
