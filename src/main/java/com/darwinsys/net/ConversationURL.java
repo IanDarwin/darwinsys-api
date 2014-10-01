@@ -39,7 +39,7 @@ public class ConversationURL {
 	  * @throws IOException 
 	  */
 	 public static String converse(String host, int port, String path, String postBody, String userName, String password) throws IOException {
-		 URL url = new URL("http", host, 80, path);
+		 URL url = port == 443 ? new URL("https", host, port, path) : new URL("http", host, port, path);
 		 return converse(url, postBody, userName, password);
 	 }
 	
