@@ -77,26 +77,30 @@
 		<artifactId>mail</artifactId>
 		<version>1.4.5</version>
 	</dependency>
-     	<dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>1.0</version>
-        </dependency>
-     	<dependency>
-     		<groupId>javax.servlet</groupId>
-     		<artifactId>servlet-api</artifactId>
-     		<version>2.5</version>
-     	</dependency>
+	<dependency>
+		<groupId>javax.persistence</groupId>
+		<artifactId>persistence-api</artifactId>
+		<version>1.0</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>2.5</version>
+		<scope>provided</scope>
+	</dependency>
 	<dependency>
 	    <groupId>javax.servlet.jsp</groupId>
 	    <artifactId>jsp-api</artifactId>
 	    <version>2.2.1-b03</version>
+		<scope>provided</scope>
 	</dependency>
      	
 	  <dependency>
 	    <groupId>junit</groupId>
 	    <artifactId>junit</artifactId>
 	    <version>4.8.2</version>
+		<!-- Do not change this scope to test unless you exclude the testing/ directory -->
+		<scope>compile</scope>
 	  </dependency>
 	</dependencies>
 
