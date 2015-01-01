@@ -55,6 +55,7 @@ public class FileIO {
 	 * @param is The input file
 	 * @param os The output file.
 	 * @param close True if you want the outputstream closed after use.
+	 * @throws IOException If the copy fails
 	 */
 	public static void copyFile(InputStream is, OutputStream os, boolean close) 
 	throws IOException {
@@ -163,6 +164,7 @@ public class FileIO {
 	 * Copy all objects in and under "fromdir", to their places in "todir".
 	 * @param fromDir The starting directory
 	 * @param toDir The destination directory
+	 * @param create True if you want the destination directory 'toDir' created
 	 * @throws IOException If anything goes wrong
 	 */
 	public static void copyRecursively(File fromDir, File toDir, boolean create)
@@ -270,13 +272,14 @@ public class FileIO {
 	// Methods that do reading.
 
 	/** Open a file and read the first line from it.
-	 * String inName The input file
-	 * @throws FileNotFoundException If inName cannot be opened
+	 * String input The input file
+	 * @return The line that was read from 'input'
+	 * @throws FileNotFoundException If input cannot be opened
 	 * @throws IOException If the reading fails
 	 */
-	public static String readLine(String inName)
+	public static String readLine(String input)
 	throws FileNotFoundException, IOException {
-		try (BufferedReader is = new BufferedReader(new FileReader(inName))) {
+		try (BufferedReader is = new BufferedReader(new FileReader(input))) {
 			String line = null;
 			line = is.readLine();
 			return line;
@@ -320,8 +323,8 @@ public class FileIO {
 	 * @throws IOException If reading fails
 	 * @return The string
 	 */
-	public static String readAsString(String filename) throws IOException {
-		return readerToString(new FileReader(filename));
+	public static String readAsString(String fileName) throws IOException {
+		return readerToString(new FileReader(fileName));
 	}
 	
 	/** Write a String as the entire content of a File

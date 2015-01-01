@@ -23,17 +23,30 @@ package com.darwinsys.locks;
  */
 public interface PessimisticLockManager<T> {
 	
+	/** Start the given lock manager */
 	void start();
 	
-	/** Try to get the lock for the given ID */
+	/** Try to get the lock for the given ID
+	 * @param id The primary key object, which must implement equals+hashCode correctly
+	 * @return The lock
+	 */
 	Lock tryLock(T id);
 	
-	/** Try to get the lock, with a reportable Owner */
+	/** Try to get the lock for the given ID, with reportable owner
+	 * @param id The primary key object, which must implement equals+hashCode correctly
+	 * @param owner An arbitrary object for reporting, but often the customer or user on 
+	 * whose behalf the app is locking the id.
+	 * @return The lock
+	 */
 	Lock tryLock(T id, Object owner);
 	
-	/** Release the given lock. */
+	/** Release the given lock. 
+	 * @param lock The lock
+	 */
 	boolean releaseLock(Lock lock);
 
-	/** Get the timeout period for locks expiry, in minutes */
+	/** Get the timeout period for locks expiry, in minutes 
+	 * @return Timeout period
+	 */
 	int getTimeout();
 }

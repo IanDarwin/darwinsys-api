@@ -115,17 +115,23 @@ public class GetOpt {
 	/** The current option argument. */
 	protected String optarg;
 
-	/** Retrieve the current option argument; UNIX variant spelling. */
+	/** Retrieve the current option argument; UNIX variant spelling.
+	 * @return The current option's argument.
+	 */
 	public String optarg() {
 		return optarg;
 	}
-	/** Retrieve the current option argument; Java variant spelling. */
+
+	/** Retrieve the current option argument; Java variant spelling.
+	 * @return The current option's argument.
+	 */
 	public String optArg() {
 		return optarg;
 	}
 
 	/** Construct a GetOpt parser, given the option specifications
 	 * in an array of GetOptDesc objects. This is the preferred constructor.
+	 * @param opt The option spec
 	 */
 	public GetOpt(final GetOptDesc[] opt) {
 		this.options = opt.clone();
@@ -135,33 +141,34 @@ public class GetOpt {
 	 * This is a legacy constructor for backward compatibility.
 	 * That said, it is easier to use if you don't need long-name options,
 	 * so it has not been and will not be marked "deprecated".
+	 * @param opt The option spec
 	 */
-	public GetOpt(final String patt) {
-		if (patt == null) {
-			throw new IllegalArgumentException("Pattern may not be null");
+	public GetOpt(final String opt) {
+		if (opt == null) {
+			throw new IllegalArgumentException("Options may not be null");
 		}
-		if (patt.charAt(0) == ':') {
+		if (opt.charAt(0) == ':') {
 			throw new IllegalArgumentException(
-				"Pattern incorrect, may not begin with ':'");
+				"Options pattern incorrect, may not begin with ':'");
 		}
 
 		// Pass One: just count the option letters in the pattern
 		int n = 0;
-		for (char ch : patt.toCharArray()) {
+		for (char ch : opt.toCharArray()) {
 			if (ch != ':')
 				++n;
 		}
 		if (n == 0) {
 			throw new IllegalArgumentException(
-				"No option letters found in " + patt);
+				"No option letters found in " + opt);
 		}
 
 		// Pass Two: construct an array of GetOptDesc objects.
 		options = new GetOptDesc[n];
-		for (int i = 0, ix = 0; i<patt.length(); i++) {
-			final char c = patt.charAt(i);
+		for (int i = 0, ix = 0; i<opt.length(); i++) {
+			final char c = opt.charAt(i);
 			boolean argTakesValue = false;
-			if (i < patt.length() - 1 && patt.charAt(i+1) == ':') {
+			if (i < opt.length() - 1 && opt.charAt(i+1) == ':') {
 				argTakesValue = true;
 				++i;
 			}
@@ -188,6 +195,8 @@ public class GetOpt {
 	 * @return a Map whose keys are Strings of length 1 (containing the char
 	 * from the option that was matched) and whose value is a String
 	 * containing the value, or null for a non-option argument.
+	 * @param argv The input arguments
+	 * @return The parsed arguments
 	 */
 	public Map<String,String> parseArguments(String[] argv) {
 		Map<String, String> optionsValueMap = new HashMap<String, String>();
@@ -210,6 +219,7 @@ public class GetOpt {
 
 	/** Get the list of filename-like arguments after options;
 	 * only for use if you called parseArguments.
+	 * @return The list of filename-like arguments
 	 */
 	public List<String> getFilenameList() {
 		if (fileNameArguments == null) {
@@ -222,6 +232,8 @@ public class GetOpt {
 	/** The true heart of getopt, whether used old way or new way:
 	 * returns one argument; call repeatedly until it returns DONE.
 	 * Side-effect: sets globals optarg, optind
+	 * @param argv The input arguments
+	 * @return One option character each time called, or DONE after last.
 	 */
 	public char getopt(String argv[]) {
 		Debug.println("getopt",
@@ -275,12 +287,9 @@ public class GetOpt {
 			done = true;
 			return DONE;
 		}
-		
-
-		
 	}
 
-	/** Return optind, the index into args of the last option we looked at */
+	/** @return optind, the index into args of the last option we looked at */
 	public int getOptInd() {
 		return optind;
 	}

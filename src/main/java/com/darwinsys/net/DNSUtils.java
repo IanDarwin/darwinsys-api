@@ -15,9 +15,10 @@ public class DNSUtils {
 	private DirContext ctx;
 	private Pattern p;
 	
-	/** Construct a DNSUtils object. 
+	/**
+	 * Construct a DNSUtils object. 
 	 * @param dnsHost The name of a host that runs a DNS server
-	 * @throws NamingException
+	 * @throws NamingException if the hostname cannot be found
 	 */
 	public DNSUtils(String dnsHost) throws NamingException {
 		System.out.println("DNSUtils: Creating DirContext");
@@ -28,12 +29,13 @@ public class DNSUtils {
 		p = Pattern.compile("(\\d+)\\s+([\\w.]+)");
 	}
 	
-	/** Find the MX record for a given host.
+	/**
+	 * Find the MX record for a given host.
 	 * This implementation returns the first DNS host listed;
 	 * a later version will sort them and pick the best one.
-	 * @param host
+	 * @param host The hostname
 	 * @return The MX host, or the input if there is no MX.
-	 * @throws NamingException
+	 * @throws NamingException If the hostname cannot be found
 	 */
 	public String findMX(String host) throws NamingException {
 		System.out.println("DNSUtils: Getting attributes...");

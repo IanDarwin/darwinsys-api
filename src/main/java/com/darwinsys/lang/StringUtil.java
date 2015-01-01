@@ -1,9 +1,7 @@
 package com.darwinsys.lang;
 
-/** Miscellaneous string utilities:
- * arrayToCommaList - print an array with commas, "and";
- * subst - simple substitute (like 1-4's String.subst but not RE-based)
- * .
+/** 
+ * Miscellaneous string utilities:
  */
 public class StringUtil {
 	
@@ -11,6 +9,9 @@ public class StringUtil {
 
 	/** Format an array of Object as a list with commas,
 	 * like "apples, oranges, and bananas");
+	 * XXX Should have a boolean for the final comma :-)
+	 * @param array The objects to be stringified
+	 * @return a pretty list
 	 */
 	public static String arrayToCommaList(Object[] array) {
 		StringBuffer sb = new StringBuffer();
@@ -29,12 +30,21 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/** Reverse a String */
+	/** Reverse a String character by character, 'not now' returns 'won ton'
+	 * @input The string to reverse
+	 * @reverse The reversed string
+	 */
 	public static String reverse(String str) {
 		return new StringBuffer(str).reverse().toString();
 	}
 	
-	/** Simple string substitution (not RE-based). */
+	/** 
+	 * Replace all occurrences of one string with another (not RE-based).
+	 * @param oldStr The string to be replaced
+	 * @param newStr The string to replace it with
+	 * @param input The string in which do do the replacement
+	 * @return The string with replacements done
+	 */
 	public static String subst(String oldStr, String newStr, String input) {
 		int where = 0;
 		StringBuffer sb = new StringBuffer(input);
@@ -44,34 +54,8 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/** Backwards-compability: StringBuffer.indexOf(String, int) added in
-	 * JDK 1-4, but we need it here and one of my servers is on JDK 1-3.
-	 */
+	// For backwards compatability only, do not use in new code.
 	public static int indexOf(StringBuffer sb, String str, int fromIndex) {
-
-		// Reject the impossible at once
-		if (sb == null || str == null) {
-			throw new NullPointerException(
-				"input strings may not be null");
-		}
-		if (fromIndex < 0) {
-			throw new ArrayIndexOutOfBoundsException(
-				fromIndex + " is negative");
-		}
-		if (fromIndex + str.length() > sb.length())
-			return -1;
-
-		// OK, hunt and peck.
-		int i;
-		for ( ; fromIndex < sb.length(); fromIndex++) { 
-			boolean foundThisRound = true;
-		 	for (i = 0; foundThisRound && i < str.length(); i++) {
-				if (sb.charAt(fromIndex + i) != str.charAt(i))
-					foundThisRound = false;
-			}
-			if (foundThisRound)
-				return fromIndex;
-		}
-		return -1;
+		return sb.indexOf(str, fromIndex);
 	}
 }

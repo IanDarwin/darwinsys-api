@@ -14,7 +14,8 @@ public class Tag {
 	protected static final char END = '/';
 
 	/** Output an empty tag.
-	 * @return The simple tag
+	 * @param out The destination
+	 * @param tag The tag name
 	 */
 	public static void dotag(PrintWriter out, String tag) {
 		startTag(out, tag);

@@ -22,13 +22,16 @@ public class LockReaperImpl<T> extends Thread {
 	/** Flag to allow the Thread to terminate when finished */
 	private boolean done;
 	
-	/** Construct a Reaper with the default timeout */
+	/** Construct a Reaper with the default timeout
+	 * @param mgr The lock manager
+	 */
 	public LockReaperImpl(PessimisticLockManager<T> mgr) {
 		this(mgr, DEFAULT_TIMEOUT_MINUTES);
 	}
 	
 	/** Construct a Reaper with the given number of
 	 * minutes' timeout
+	 * @param mgr The lock manager
 	 * @param minutes Minutes to timeout
 	 */
 	public LockReaperImpl(PessimisticLockManager<T> mgr, int minutes) {

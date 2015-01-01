@@ -15,6 +15,7 @@ public class SysDep {
     
     /** Return the name of the "Null Device" on platforms which support it,
      * or "jnk" (to create an obviously well-named temp file) otherwise.
+	 * @return The name to use for output.
      */
     public static String getDevNull() {
 

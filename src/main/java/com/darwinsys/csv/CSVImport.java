@@ -79,6 +79,7 @@ public class CSVImport implements CSVParser {
 	 * @param s The input string
 	 * @param sb The output stringbuffer
 	 * @param i the starting position
+	 * @return the next position
 	 */
 	protected int advQuoted(String s, StringBuffer sb, int i)
 	{
@@ -104,6 +105,7 @@ public class CSVImport implements CSVParser {
 	 * @param s The input string
 	 * @param sb The output stringbuffer
 	 * @param i the starting position
+	 * @return the next position
 	 */
 	protected int advPlain(String s, StringBuffer sb, int i)
 	{

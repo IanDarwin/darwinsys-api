@@ -13,6 +13,7 @@ public interface Lock {
 	/** Find out if this lock got released
 	 * (typically due to being timed out)
 	 * before we commit the action based on it.
+	 * @return True if the lock has been released
 	 */
 	public boolean isReleased();
 }

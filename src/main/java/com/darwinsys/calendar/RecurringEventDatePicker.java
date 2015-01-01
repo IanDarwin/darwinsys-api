@@ -50,7 +50,9 @@ public class RecurringEventDatePicker {
 
 	/**
 	 * Get the event date for the 'n'th next meeting
-	 * @param meetingsAway the number of meetings into the future you're interested in.
+	 * @param meetingsAway the number of meetings into the future that
+	 * you're interested in.
+	 * @return The given date
 	 */
 	public Calendar getEventDate(int meetingsAway) {
 		

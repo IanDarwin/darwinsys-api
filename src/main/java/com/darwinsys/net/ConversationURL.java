@@ -21,7 +21,7 @@ public class ConversationURL {
 	 * @param port the port number (usually 80)
 	 * @param path The servlet or component path
 	 * @return The result of the conversation.
-	 * @throws IOException 
+	 * @throws IOException if the conversation failed
 	 */
 	 public static String converse(String host, int port, String path) throws IOException {
 		 return converse(host, port, path, null, null, null);
@@ -36,7 +36,7 @@ public class ConversationURL {
 	  * @param userName Credentials
 	  * @param password Credentials
 	  * @return The result of the conversation.
-	  * @throws IOException 
+	  * @throws IOException if the conversation failed
 	  */
 	 public static String converse(String host, int port, String path, String postBody, String userName, String password) throws IOException {
 		 URL url = port == 443 ? new URL("https", host, port, path) : new URL("http", host, port, path);
@@ -50,7 +50,7 @@ public class ConversationURL {
 	  * @param userName Credentials
 	  * @param password Credentials
 	  * @return The result of the conversation.
-	  * @throws IOException 
+	  * @throws IOException if the conversation failed
 	  */
 	 public static String converse(URL url, String postBody, String userName, String password) throws IOException {
 		 InputStream converseStream = converseStream(url, postBody, userName, password);
@@ -75,7 +75,7 @@ public class ConversationURL {
 	  * @param userName Credentials
 	  * @param password Credentials
 	  * @return The result of the conversation.
-	  * @throws IOException 
+	  * @throws IOException if the conversation failed
 	  */
 	 public static InputStream converseStream(URL url, String postBody, String userName, String password) throws IOException {
 		URLConnection conn = url.openConnection();
@@ -100,5 +100,4 @@ public class ConversationURL {
 		}
 		return conn.getInputStream();
 	 }
-		
 }

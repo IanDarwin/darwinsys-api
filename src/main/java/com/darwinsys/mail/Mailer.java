@@ -52,29 +52,27 @@ public class Mailer {
 	/** The verbosity setting */
 	protected boolean verbose;
 
-	/** Get from */
 	public String getFrom() {
 		return from;
 	}
 
-	/** Set from */
 	public void setFrom(String fm) {
 		from = fm;
 	}
 
-	/** Get subject */
 	public String getSubject() {
 		return subject;
 	}
 
-	/** Set subject */
 	public void setSubject(String subj) {
 		subject = subj;
 	}
 
 	// SETTERS/GETTERS FOR TO: LIST
 
-	/** Get tolist, as an array of Strings */
+	/** Get tolist, as an array of Strings.
+	 * @return The list of recipients
+	 */
 	public List<String> getToList() {
 		return toList;
 	}
@@ -97,76 +95,75 @@ public class Mailer {
 
 	// SETTERS/GETTERS FOR CC: LIST
 
-	/** Get cclist, as an array of Strings */
+	/** @return cclist, as an array of Strings */
 	public List<String> getCcList() {
 		return ccList;
 	}
 
-	/** Set cc list to an ArrayList of Strings */
+	/** @param cc list to an ArrayList of Strings */
 	public void setCcList(ArrayList<String> cc) {
 		ccList = cc;
 	}
 
-	/** Set cc as a string like "tom, mary, robin@host". Loses any
+	/** @param cc as a string like "tom, mary, robin@host". Loses any
 	 * previously set values. */
-	public void setCcList(String s) {
-		ccList = Arrays.asList(s.split(",\\s+"));
+	public void setCcList(String cc) {
+		ccList = Arrays.asList(cc.split(",\\s+"));
 	}
 
-	/** Add one "cc" recipient */
+	/** @param cc one recipient */
 	public void addCc(String cc) {
 		ccList.add(cc);
 	}
 
 	// SETTERS/GETTERS FOR BCC: LIST
 
-	/** Get bcclist, as an array of Strings */
+	/** @return bcclist, as an array of Strings */
 	public List<String> getBccList() {
 		return bccList;
 	}
 
-	/** Set bcc list to an ArrayList of Strings */
+	/** @param bcc list to an ArrayList of Strings */
 	public void setBccList(List<String> bcc) {
 		bccList = bcc;
 	}
 
 	/** Set bcc as a string like "tom, mary, robin@host". Loses any
-	 * previously set values. */
+	 * previously set values.
+	 * @param s The list of bcc's
+	 */
 	public void setBccList(String s) {
 		bccList = Arrays.asList(s.split(",\\s+"));
 	}
 
-	/** Add one "bcc" recipient */
+	/** @param bcc one "bcc" recipient to be added */
 	public void addBcc(String bcc) {
 		bccList.add(bcc);
 	}
 
 	// SETTER/GETTER FOR MESSAGE BODY
 
-	/** Get message */
 	public String getBody() {
 		return body;
 	}
 
-	/** Set message */
 	public void setBody(String text) {
 		body = text;
 	}
 
 	// SETTER/GETTER FOR VERBOSITY
 
-	/** Get verbose */
 	public boolean isVerbose() {
 		return verbose;
 	}
 
-	/** Set verbose */
 	public void setVerbose(boolean v) {
 		verbose = v;
 	}
 
 	/** Check if all required fields have been set before sending.
 	 * Normally called before doSend; called by doSend for verification.
+	 * @return True if message is complete enough to send
 	 */
 	public boolean isComplete() {
 		if (from == null    || from.length()==0) {
@@ -197,6 +194,7 @@ public class Mailer {
 	}
 
 	/** Send the message.
+	 * @throws MessagingException if the message cannot be sent
 	 */
 	public synchronized void doSend() throws MessagingException {
 
@@ -256,6 +254,7 @@ public class Mailer {
 	 * @param sender - your email address
 	 * @param subject - the subject line
 	 * @param message - the entire message body as a String with embedded \n's
+	 * @throws MessagingException if the message cannot be sent
 	 */
 	public static void send(String mailhost,
 		String recipient, String sender,

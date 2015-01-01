@@ -24,12 +24,16 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 
 	private Map<Lock, T> locks = new HashMap<Lock, T>();
 	
-	/** Return a clone of the Map */
+	/** Return a clone of the Map
+	 * @return A copy of the map
+	 */
 	public Map<Lock, T> getLockStore() {
 		return new HashMap<Lock, T>(locks);
 	}
 	
-	/** Return a clone of the keyset as a List */
+	/** Return a clone of the keyset as a List
+	 * @return A copy of the keyset
+	 */
 	public List<Lock> getLocks() {
 		return new ArrayList<Lock>(locks.keySet());
 	}
@@ -40,6 +44,7 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 		setTimeout(DEFAULT_TIMEOUT);
 	}
 	
+	/* @inheritdoc */
 	public void start() {
 		lockReaper = new LockReaperImpl<T>(this, timeout); // timeout in minutes
 		if (!lockReaper.isAlive()) {
@@ -47,18 +52,12 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 		}
 	}
 	
-	/** Try to get the lock for the given ID
-	 * @param id The primary key object, which must implement equals+hashCode correctly
-	 */
+	/* @inheritdoc */
 	public Lock tryLock(T id) {
 		 return tryLock(id, null);
 	}
 	
-	/** Try to get the lock for the given ID, with reportable owner
-	 * @param id The primary key object, which must implement equals+hashCode correctly
-	 * @param owner An arbitrary object for reporting, but often the customer or user on 
-	 * whose behalf the app is locking the id.
-	 */
+	/* @inheritdoc */
 	public synchronized Lock tryLock(T id, Object owner) {
 		if (lockReaper == null) {
 			start();
@@ -74,6 +73,7 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 	
 	/** Release the given lock.
 	 * Synchronized as it depends on "locks" being stable.
+	 * @return True if the lock could be removed
 	 */
 	public synchronized boolean releaseLock(Lock lock) {
 		if (locks.containsKey(lock)) {
