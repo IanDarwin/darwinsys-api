@@ -172,15 +172,19 @@ public class ScaledNumberFormat extends Format {
 	 * Parse a String containing a Human Scaled Number.
 	 *
 	 * @see ScaledNumberFormat#parseObject(java.lang.String)
+	 * @param str The String to be parsed
 	 */
-	public Object parseObject(String arg0) throws ParseException {
-		return parseObject(arg0, null);
+	public Object parseObject(String str) throws ParseException {
+		return parseObject(str, null);
 	}
 
 	/*
 	 * Format the given Number as a Scaled Numeral, returning the Stringbuffer
 	 * (updated), and <em>ignoring</em> the FieldPosition. Method signature is
 	 * overkill, but required as a subclass of Format.
+	 * @param on The number to be formatted
+	 * @param sb The stringbuffer to contain the results
+	 * @param fp The position
 	 */
 	@Override
 	public StringBuffer format(Object on, StringBuffer sb, FieldPosition fp) {
@@ -204,6 +208,8 @@ public class ScaledNumberFormat extends Format {
 	 * Non-standard overload:
 	 * Format a double as a Scaled Numeral; just truncate to a long, and call
 	 * format(long).
+	 * @param n Number to format
+	 * @return Formatted number
 	 */
 	public String format(double n) {
 		return format((long) n);
@@ -213,6 +219,7 @@ public class ScaledNumberFormat extends Format {
 	 * Non-standard overload;
 	 * Format a given long as a Scaled Numeral. This method is the REAL
 	 * FORMATTING ENGINE.
+	 * @param number Number to format
 	 */
 	public String format(long number) {
 		long fract = 0;

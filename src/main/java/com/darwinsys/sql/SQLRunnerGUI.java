@@ -120,7 +120,7 @@ public class SQLRunnerGUI  {
 
 	/**
 	 * Allow a main application to provide its own error handler.
-	 * @param eHandler
+	 * @param eHandler The error handler
 	 */
 	public void setErrorHandler(SQLRunnerErrorHandler eHandler) {
 		this.eHandler = eHandler;

@@ -14,7 +14,7 @@ import java.util.Map;
  * Try to automate some testing, with mixed results.
  * XXX TOTAL FAIL THIS IS - if field name is not
  * the same as the Properties name
- * @author ian
+ * @author Ian
  */
 public class TestUtils {
 
@@ -42,10 +42,9 @@ public class TestUtils {
 	 * If both objects are null (not possible in the usual
 	 * use case), treat as true. If one is null, safely
 	 * return false. Otherwise, use the Reflection API.
-	 * @param o1
-	 * @param o2
-	 * @return True if o1 and o2 should be equal under the
-	 * general contract of Object.equals
+	 * @param o1 An object to compare
+	 * @param o2 Another object to compare
+	 * @return True iff o1 and o2 should be equal under the general contract of Object.equals
 	 * @see java.lang.Object#equals(Object o2);
 	 */
 	public static boolean equals(Object o1, Object o2) {

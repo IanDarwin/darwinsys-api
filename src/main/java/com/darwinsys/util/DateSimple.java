@@ -8,16 +8,16 @@ import java.util.GregorianCalendar;
  * deprecated baggage of java.util.Date.
  * Objects of this type are immutable.
  */
-
+@Deprecated // Use Java 8 date/time API
 public class DateSimple {
 	int year;
 	int month;
 	int day;
 
 	/**
-	 * @param year
-	 * @param month
-	 * @param day
+	 * @param year The year
+	 * @param month The Month
+	 * @param day The Day of Month
 	 */
 	public DateSimple(int year, int month, int day) {
 		super();

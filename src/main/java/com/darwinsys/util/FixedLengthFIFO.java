@@ -12,7 +12,7 @@ import java.util.ListIterator;
  * A Fixed-size FIFO.
  * Development of this program was funded by the Toronto Centre for
  * Phenogenomics (www.phenogenomics.ca).
- * XXX Could reduce code size by basing on AbstractList.
+ * XXX TODO reduce code size by basing on AbstractList.
  */
 public class FixedLengthFIFO<T> implements List<T> {
 	private final int size;
@@ -97,7 +97,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	/** Add an element to the FIFO. Unlike a normal List, this FIFO
 	 * will not grow indefinitely, but adding will not make the FIFO
 	 * exceed its fixed size.
-	 * @param o
+	 * @param o The object to add
 	 * @return True, since you can always add one more object.
 	 */
 	public boolean add(T o) {
@@ -122,6 +122,9 @@ public class FixedLengthFIFO<T> implements List<T> {
 		return remove(i) != null;
 	}
 	
+	/** Remove the given element by its index
+	 * @param i The element number to remove
+	 */
 	public T remove(int i) {
 		++generation;
 		if (i > n) {

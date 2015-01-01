@@ -185,7 +185,7 @@ public class SQLRunner {
 	}
 
 	/** Set the output mode.
-	 * @param outputMode Must be a value equal to one of the MODE_XXX values.
+	 * @param outputModeName Must be a value equal to one of the MODE_XXX values.
 	 * @throws IllegalArgumentException if the mode is not valid.
 	 */
 	void setOutputMode(String outputModeName) {
@@ -194,7 +194,7 @@ public class SQLRunner {
 			System.err.println(
 			"invalid mode: " + outputMode + "; must be t, h or s"); }
 
-		outputMode = OutputMode.valueOf(outputModeName);
+		this.outputMode = OutputMode.valueOf(outputModeName);
 		setOutputMode(outputMode);
 	}
 
@@ -267,7 +267,7 @@ public class SQLRunner {
 		}
 	 * </pre>
 	 * @param scriptFile the file to run
-	 * @throws SyntaxException
+	 * @throws SyntaxException on invalid script input
 	 */
 	@Deprecated
 	public void runScript(String scriptFile)

@@ -95,8 +95,8 @@ public class DataTableTag extends BodyTagSupport {
 	}
 
 	/** Get the connection from the saved DataSource.
-	 * @return
-	 * @throws SQLException
+	 * @return The Connection
+	 * @throws SQLException On database error
 	 */
 	private Connection getConnection() throws SQLException, JspException {
 		if (dataSource == null) {

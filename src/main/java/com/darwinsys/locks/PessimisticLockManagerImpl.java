@@ -44,7 +44,7 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 		setTimeout(DEFAULT_TIMEOUT);
 	}
 	
-	/* @inheritdoc */
+	/* @inheritDoc */
 	public void start() {
 		lockReaper = new LockReaperImpl<T>(this, timeout); // timeout in minutes
 		if (!lockReaper.isAlive()) {
@@ -52,12 +52,12 @@ public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> 
 		}
 	}
 	
-	/* @inheritdoc */
+	/* @inheritDoc */
 	public Lock tryLock(T id) {
 		 return tryLock(id, null);
 	}
 	
-	/* @inheritdoc */
+	/* @inheritDoc */
 	public synchronized Lock tryLock(T id, Object owner) {
 		if (lockReaper == null) {
 			start();

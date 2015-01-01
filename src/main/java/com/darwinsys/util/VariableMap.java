@@ -83,7 +83,7 @@ public class VariableMap extends HashMap<String, String> {
 	 * Example input: <pre>lookFor(${USER})</pre>
 	 * If USER variable in map contains PIE, the result will be
 	 * <pre>lookFor(PIE)</pre>.
-	 * @param inString
+	 * @param inString The input string
 	 * @return The string after substitution
 	 */
 	public String substVars(String inString) {

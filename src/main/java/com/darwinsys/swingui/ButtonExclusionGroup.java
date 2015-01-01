@@ -49,9 +49,9 @@ public class ButtonExclusionGroup {
 	}
 	
 	/**
-	 * Construct a ButtonExclusionGroup with two buttons
-	 * @param b1
-	 * @param b2
+	 * Convenience constructor - create a ButtonExclusionGroup with exactly two buttons (common use case).
+	 * @param b1 The first button
+	 * @param b2 The next button
 	 */
 	public ButtonExclusionGroup(AbstractButton b1, AbstractButton b2) {
 		add(b1);
@@ -65,6 +65,7 @@ public class ButtonExclusionGroup {
 	 */
 	private PropertyChangeListener listener = new PropertyChangeListener() {
 
+		@Override /** @inheritDoc */
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (!"enabled".equals(evt.getPropertyName())) {
 				return;
@@ -85,17 +86,21 @@ public class ButtonExclusionGroup {
 		}
 	};
 	
-	/** Returns the selected button.*/
+	/** @return the selected button. */
 	AbstractButton getEnabled() {
 		return enabled;
 	}
 	
-	/** Returns whether a Button is the enabled one.*/
+	/** @returns Whether a Button is the enabled one.
+	 * @param b The button to be tested.
+	 */
 	boolean isSelected(AbstractButton b) {
 		return b == enabled;
 	}
 
-	/** Sets given Button to be the Enabled one.*/
+	/** Sets given Button to be the Enabled one.
+	 * @param b The button to be enabled.
+	 */
 	void setEnabled(AbstractButton b) {
 		if (enabled != null) 
 			enabled.setEnabled(false);
@@ -105,25 +110,29 @@ public class ButtonExclusionGroup {
 	
 	// Collection management.
 	
-	/** Adds the button to the group.*/
+	/** Adds the button to the group.
+	 * @param b The button to be added.
+	 */
 	void add(AbstractButton b) {
 		buttons.add(b);
 		b.addPropertyChangeListener(listener);
 		
 	}
 	
-	/** Removes the button from the group.*/
+	/** Removes the button from the group.
+	 * @param b The button to be removed
+	 */
 	void remove(AbstractButton b) {
 		b.removePropertyChangeListener(listener);
 		buttons.remove(b);
 	}
 	
-	/** Returns the number of buttons in the group.*/
+	/** @return the number of buttons in the group. */
 	int getButtonCount() {
 		return buttons.size();
 	}
 
-	/** Returns all the buttons that are participating in this group.*/
+	/** @rturn all the buttons that are participating in this group. */
 	Iterator<AbstractButton> getElements() {
 		return buttons.iterator();
 	}

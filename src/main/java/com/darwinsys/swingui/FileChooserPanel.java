@@ -80,7 +80,7 @@ public class FileChooserPanel extends JPanel {
 	}
 	
 	/** Construct a FileChooserPanel with a default label
-	 * @param par
+	 * @param par The component to add
 	 */
 	public FileChooserPanel(JFrame par) {
 		this(par, DEFAULT_LABEL);
@@ -97,9 +97,10 @@ public class FileChooserPanel extends JPanel {
 		fileNameTextField.setText(text);
 	}
 	
-	// PROPERT CHANGE SUPPORT
+	// PROPERTY CHANGE SUPPORT
 	
 	/** Minimal property change notification
+	 * @param chosenFile the file that was changed
 	 */
 	public void firePropertyChangeEvent(File chosenFile) {
 		PropertyChangeEvent evt = 

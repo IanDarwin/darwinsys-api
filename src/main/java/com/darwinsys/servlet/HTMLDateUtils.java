@@ -17,7 +17,7 @@ public class HTMLDateUtils {
 	/**
 	 * Generate a small HTML month calendar for the current month onto the given PrintWriter
 	 * @param out The PrintWriter
-	 * @throws IOException
+	 * @throws IOException if anything fails to write
 	 */
 	public static void printMonthCalendar(PrintWriter out)
 	throws IOException {
@@ -26,6 +26,9 @@ public class HTMLDateUtils {
 
 	/**
 	 * Generate a small HTML month calendar for the given month onto the given PrintWriter
+	 * @param out The Output
+	 * @param calendar The Month
+	 * @throws IOException if anything fails to write
 	 */
 	public static void printMonthCalendar(PrintWriter out, Calendar calendar)
 	throws IOException {

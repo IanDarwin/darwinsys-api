@@ -19,12 +19,13 @@ public class DateRangeUIHelperDemo extends JFrame {
 	private static final long serialVersionUID = -1621211822931751327L;
 
 	/**
-	 * @param args
+	 * @param args You guessed it
 	 */
 	public static void main(String[] args) {
 		new DateRangeUIHelperDemo().setVisible(true);
 	}
 	
+	/** Construct a GUI */
 	public DateRangeUIHelperDemo() {
 		super(DateRangeUIHelperDemo.class.getName());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,5 +50,4 @@ public class DateRangeUIHelperDemo extends JFrame {
 		});
 		pack();
 	}
-
 }

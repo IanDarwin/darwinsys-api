@@ -141,8 +141,8 @@ public class Crawler implements Checkpointer {
 	}
 
 	/**
-	 * @param next
-	 * @throws IOException
+	 * @param next The file to visit
+	 * @throws IOException If any IO code does so
 	 */
 	private void visitFile(File next) throws IOException {
 		if (verbose) {
@@ -156,9 +156,9 @@ public class Crawler implements Checkpointer {
 	/**
 	 * Keep track of whether we have seen this directory, to avoid looping
 	 * when people get crazy with symbolic links.
-	 * @param next
+	 * @param next The next file to process
 	 * @return True iff we have seen this directory before.
-	 * @throws IOException
+	 * @throws IOException On error
 	 */
 	private boolean seen(File next) throws IOException {
 		String path = next.getCanonicalPath();

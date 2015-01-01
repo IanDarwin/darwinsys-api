@@ -41,7 +41,7 @@ public interface Model {
 	// MISCELLANY
 	
 	/**
-	 * @param i
+	 * @param i The exit status
 	 */
 	public void exit(int i);
 

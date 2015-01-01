@@ -33,11 +33,14 @@ public class CompressingFilter implements Filter {
 	/**
 	 * If the request is of type HTTP *and* the user's browser will
 	 * accept GZIP encoding, do it; otherwise just pass the request on.
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 * @param req The ServletRequest
+	 * @param resp The ServletResponse
+	 * @param chain The FilterChain
+	 * @throws IOException on error
+	 * @throws ServletException on error
 	 */
-	public void doFilter(ServletRequest req, ServletResponse resp,
-			FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+	throws IOException, ServletException {
 		System.out.println("CompressingFilter.doFilter()");
 		if (req instanceof HttpServletRequest) {
 			HttpServletRequest request = (HttpServletRequest) req;
@@ -78,8 +81,8 @@ public class CompressingFilter implements Filter {
 	static class GZipResponseWrapper extends HttpServletResponseWrapper {
 
 		/**
-		 * @param response
-		 * @throws IOException 
+		 * @param response The ServletResponse
+		 * @throws IOException If anything fails to read or write
 		 */
 		public GZipResponseWrapper(HttpServletResponse response) throws IOException {
 			super(response);
@@ -87,8 +90,8 @@ public class CompressingFilter implements Filter {
 		}
 
 		/**
-		 * @return 
-		 * @throws IOException
+		 * @return The OutputStream
+		 * @throws IOException If anything fails to read or write
 		 */
 		private ServletOutputStream createOutputStream() throws IOException {
 			servletOutputStream = super.getOutputStream();
@@ -114,9 +117,11 @@ public class CompressingFilter implements Filter {
 				this.os = os;
 			}
 
-			/** Delegate the write() to the GzipOutputStream */
-			public void write(int arg0) throws IOException {
-				os.write(arg0);
+			/** Delegate the write() to the GzipOutputStream
+			 * @param val The int value to write
+			 */
+			public void write(int val) throws IOException {
+				os.write(val);
 			}
 		}
 
@@ -132,6 +137,7 @@ public class CompressingFilter implements Filter {
 		/** getOutputStream() override that gives you the GzipOutputStream.
 		 * XXX Assumes you only call this once!!
 		 * @see javax.servlet.ServletResponse#getOutputStream()
+		 * @return The output stream
 		 */
 		public ServletOutputStream getOutputStream() throws IOException {
 			if (writer != null)

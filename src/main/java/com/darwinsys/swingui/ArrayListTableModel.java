@@ -78,7 +78,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 		return methods.size();
 	}
 
-	/** @inheritdoc */
+	/** @inheritDoc */
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return true;
 	}

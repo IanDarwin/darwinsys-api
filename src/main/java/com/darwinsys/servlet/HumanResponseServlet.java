@@ -62,12 +62,14 @@ public class HumanResponseServlet extends HttpServlet {
 
 	private JigglyTextImageWriter jiggler;
 
+	/** @inheritDoc */
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
 		super.init(arg0);
 		jiggler = new JigglyTextImageWriter(new Font("SansSerif", Font.BOLD, 24), W, H); // XXX initparams
 	}
 
+	/** @inheritDoc */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -114,8 +116,8 @@ public class HumanResponseServlet extends HttpServlet {
 	 * Return true iff the user entered the correct string.
 	 * Designed to be called from the target servlet,
 	 * just to encapsulate the logic for this all in one place.
-	 * @param session
-	 * @param input
+	 * @param session The HttpSession
+	 * @param input The user's input, to match against what's saved in 'session'
 	 * @return True if the user input matches what's in the session.
 	 */
 	public boolean isValidString(HttpSession session, String input) {

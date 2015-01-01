@@ -43,6 +43,7 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 	}
 
 	/** Write a "normal" (data-holding) ResultSet
+	 * @param rs The resultset
 	 */
 	@Override
 	public int write(ResultSet rs) throws IOException, SQLException {
@@ -114,6 +115,10 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 
 	/** Display this resultset assuming it is a
 	 * Table description.
+	 * @param tableName Table name
+	 * @param rs The results
+	 * @throws IOException on failure
+	 * @throws SQLException on database failure
 	 */
 	@Override
 	public void displayTable(String tableName, ResultSet rs) throws IOException, SQLException {
@@ -137,8 +142,8 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 
 	/**
 	 * Double the quotes in a string
-	 * @param input
-	 * @return
+	 * @param input The input string to be doubled
+	 * @return The doubled string
 	 */
 	private String duplicateSingleQuotes(String input) {
 		return input.replaceAll("'", "''");
@@ -146,8 +151,8 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 
 	/**
 	 * Wrap a string in double quotes
-	 * @param input
-	 * @return
+	 * @param input The string to be wrapped
+	 * @return The wrapped string
 	 */
 	private String wrapInDoubleQuotes(String input) {
 		return String.format("'%s'", input);

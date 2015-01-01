@@ -12,21 +12,27 @@ import java.net.Socket;
  */
 public class StreamServerDemo {
 
+	public static void main(String[] args) throws Throwable {
+		StreamServer server = new StreamServer(4567, new MyStreamHandlerFactory());
+		System.out.printf("Server listening in %d%n", server.getPort());
+		server.runServer();
+	}
+
 	/**
 	 * This method must be thread-safe!
-	 * @param sock
-	 * @throws IOException
+	 * @param sock The socket
+	 * @throws IOException On error
 	 */
 	private static void doConversation(Socket sock) throws IOException {
 		System.out.println("StreamServerDemo.doConversation(): accepted connection");
-		BufferedReader is = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-		String line;
-		while ((line = is.readLine()) != null) {
-			System.out.println(line);
+		try (BufferedReader is = new BufferedReader(new InputStreamReader(sock.getInputStream()))) {
+			String line;
+			while ((line = is.readLine()) != null) {
+				System.out.println(line);
+			}
+			PrintWriter out = new PrintWriter(sock.getOutputStream());
+			out.println("OK");
 		}
-		PrintWriter out = new PrintWriter(sock.getOutputStream());
-		out.println("OK");
-		sock.close();
 	}
 
 	/**
@@ -34,19 +40,17 @@ public class StreamServerDemo {
 	 */
 	static class MyStreamHandlerFactory implements StreamServerHandlerFactory, StreamServerHandler {
 
+		/** @inheritDoc */
 		public StreamServerHandler getHandler(ServerSocket serverSock, Socket clientSocket) {
 			return this;
 		}
 
+		/** @inheritDoc */
 		public void handle(Socket sock) throws IOException {
 			doConversation(sock);
 		}
 
 	}
-	public static void main(String[] args) throws Throwable {
-		StreamServer server = new StreamServer(4567, new MyStreamHandlerFactory());
-		System.out.printf("Server listening in %d%n", server.getPort());
-		server.runServer();
-	}
+
 
 }

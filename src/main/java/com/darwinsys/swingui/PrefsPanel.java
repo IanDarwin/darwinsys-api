@@ -9,7 +9,7 @@ import javax.swing.JTabbedPane;
 
 /**
  * A simple Preferences Panel
- * @author ian
+ * @author Ian Darwin
  */
 public class PrefsPanel extends JPanel implements Serializable {
 
@@ -43,16 +43,16 @@ public class PrefsPanel extends JPanel implements Serializable {
 	}
 
 	/**
-	 * @param comp
-	 * @param labelKey
-	 * @param image
+	 * @param comp The component to add
+	 * @param labelKey The labelkey with which to add it
+	 * @param image The icon to display
 	 */
 	public void add(JComponent comp, String labelKey, Icon image) {
 		tabPane.add(labelKey, comp);
 	}
 	
 	/**
-	 * @param which
+	 * @param which Which panel to use
 	 */
 	public void add(PredefinedPanel which) {
 		switch (which) {
