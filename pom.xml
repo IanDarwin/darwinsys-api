@@ -3,7 +3,7 @@
 
 	<groupId>com.darwinsys</groupId>
 	<artifactId>darwinsys-api</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.5</version>
 	<packaging>jar</packaging>
 	<inceptionYear>1995</inceptionYear>
 
@@ -104,18 +104,25 @@
 	  </dependency>
 	</dependencies>
 
-	<!-- The only profile we use is for signing releases. -->
+	<!-- The only profile we use is for releases. -->
 	<profiles>
-	  <profile>
-	    <id>release-sign-artifacts</id>
-	    <activation>
-	      <property>
-		<name>performRelease</name>
-		<value>true</value>
-	      </property>
-	    </activation>
-	    <build>
+		<profile> 
+		<id>release</id>
+		<build>
 	      <plugins>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-javadoc-plugin</artifactId>
+			  <version>2.9.1</version>
+			  <executions>
+				<execution>
+				  <id>attach-javadocs</id>
+				  <goals>
+					<goal>jar</goal>
+				  </goals>
+				</execution>
+			  </executions>
+			</plugin>
 		<plugin>
 		  <groupId>org.apache.maven.plugins</groupId>
 		  <artifactId>maven-gpg-plugin</artifactId>
