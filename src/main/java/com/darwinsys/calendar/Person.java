@@ -32,7 +32,9 @@ public class Person {
 		this.lastName = lastName;
 	}
 	
-	/** synthetic field, made from firstname and lastname */
+	/** synthetic field, made from firstname and lastname
+	 * @return The printable form of the name
+	 */
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}

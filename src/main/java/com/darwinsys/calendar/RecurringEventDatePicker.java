@@ -18,6 +18,7 @@ import java.util.Calendar;
  * out.println("*" + dfm.format(mp.getEventDate(1));
  * out.println("*" + dfm.format(mp.getEventDate(2)); 
  * </pre>
+ * XXX TODO Revise for Java 8 date/time API.
  * @author Original code by Derek Marcotte.
  * @author Improvements and JUnit tests by Ian Darwin
  */
@@ -32,8 +33,8 @@ public class RecurringEventDatePicker {
 
 	/**
 	 * Construct a RecurringEventDatePicker
-	 * @param weekOfMonth
-	 * @param dayOfWeek
+	 * @param weekOfMonth The recurrence week of the month
+	 * @param dayOfWeek The recurrence day of the week
 	 */
 	public RecurringEventDatePicker(int weekOfMonth, int dayOfWeek) {
 		super();
@@ -47,6 +48,10 @@ public class RecurringEventDatePicker {
 		this.dayOfWeek = dayOfWeek;
 	}
 
+	/**
+	 * Get the event date for the 'n'th next meeting
+	 * @param meetingsAway the number of meetings into the future you're interested in.
+	 */
 	public Calendar getEventDate(int meetingsAway) {
 		
 		// start from today

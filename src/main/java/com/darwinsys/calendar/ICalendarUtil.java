@@ -15,38 +15,40 @@ public class ICalendarUtil {
 
 	/**
 	 * Write the given event in iCalendar format to the given PrintWriter.
-	 * XXX Some of this is a bit Scalix-specific; try to 
-	 * clean that up according to the iCal/vCal standard.
+	 * XXX Some of this is a bit specific to older software;
+	 * may need to clean up according to current iCal/vCal standard?
+	 * @param pw PrintWriter to output the event to
+	 * @param evt The event itself
 	 */
-	public static void writeEvent(PrintWriter pw, CalendarEvent a) {
+	public static void writeEvent(PrintWriter pw, CalendarEvent evt) {
 		pw.println("BEGIN:VCALENDAR");
 		pw.println("CALSCALE:GREGORIAN");
 		pw.println("VERSION:2.0");
 		pw.println("METHOD:PUBLISH");
 		pw.println("BEGIN:VEVENT");
-		pw.printf("UID: %s%n", a.getUuid());
+		pw.printf("UID: %s%n", evt.getUuid());
 		Calendar c = Calendar.getInstance();
 		pw.printf("LAST-MODIFIED:%s%n", dateString(c));
 		pw.printf("DTSTAMP:%s%n", dateString(c));
 		pw.printf("DTSTART:%s%n", 
-				dateString(a.getYear(), a.getMonth(), a.getDay(), a.getStartHour(), a.getStartMinute()));
+				dateString(evt.getYear(), evt.getMonth(), evt.getDay(), evt.getStartHour(), evt.getStartMinute()));
 		pw.printf("DTEND:%s%n", 
-				dateString(a.getYear(), a.getMonth(), a.getDay(), a.getEndHour(), a.getEndMinute()));
+				dateString(evt.getYear(), evt.getMonth(), evt.getDay(), evt.getEndHour(), evt.getEndMinute()));
 		pw.println("TRANSP:OPAQUE");
-		pw.printf("X-MICROSOFT-CDO-BUSYSTATUS: %s%n", a.getShowStatus());
+		pw.printf("X-MICROSOFT-CDO-BUSYSTATUS: %s%n", evt.getShowStatus());
 		pw.println("SEQUENCE:0");
-		pw.println("DESCRIPTION: " + a.getDescription());
-		pw.println("SUMMARY: " + a.getSummary());
-		pw.println("LOCATION: " + a.getLocation());
+		pw.println("DESCRIPTION: " + evt.getDescription());
+		pw.println("SUMMARY: " + evt.getSummary());
+		pw.println("LOCATION: " + evt.getLocation());
 		pw.println("CLASS:PUBLIC");
-		if (a.getOrganizer() != null) {
-			Person o = a.getOrganizer();
+		if (evt.getOrganizer() != null) {
+			Person o = evt.getOrganizer();
 			pw.printf(
 			"ORGANIZER;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=%s:MAILTO:%s%n",
 			o.getFullName(), o.getEmail());
 		}
-		if (a.getAttendees() != null) {
-			for (Person attendee : a.getAttendees()) {
+		if (evt.getAttendees() != null) {
+			for (Person attendee : evt.getAttendees()) {
 				pw.printf(
 				"ATTENDEE;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=%s:MAILTO:%s%n",
 				attendee.getFullName(), attendee.getEmail());

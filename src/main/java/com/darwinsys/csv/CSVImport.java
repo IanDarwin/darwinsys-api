@@ -75,7 +75,11 @@ public class CSVImport implements CSVParser {
 		return list;
 	}
 
-	/** advQuoted: quoted field; return index of next separator */
+	/** advQuoted: quoted field; return index of next separator
+	 * @param s The input string
+	 * @param sb The output stringbuffer
+	 * @param i the starting position
+	 */
 	protected int advQuoted(String s, StringBuffer sb, int i)
 	{
 		int j;
@@ -96,7 +100,11 @@ public class CSVImport implements CSVParser {
 		return j;
 	}
 
-	/** advPlain: unquoted field; return index of next separator */
+	/** advPlain: unquoted field; return index of next separator
+	 * @param s The input string
+	 * @param sb The output stringbuffer
+	 * @param i the starting position
+	 */
 	protected int advPlain(String s, StringBuffer sb, int i)
 	{
 		int j;

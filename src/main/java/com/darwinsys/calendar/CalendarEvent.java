@@ -42,7 +42,16 @@ public class CalendarEvent implements Serializable {
 		
 	}
 	
-	/** Create an Appointment, having start and end hours */
+	/** Create an Appointment, having start and end hours
+	 * @param description The text of the event
+	 * @param summary Short description
+	 * @param location Where the event is
+	 * @param year The year
+	 * @param month The Month
+	 * @param day The day
+	 * @param startHour the starting time
+	 * @param endHour the ending time
+	 */
 	public CalendarEvent(String description, String summary, String location,
 			int year, int month, int day, 
 			int startHour, int endHour) {
@@ -51,7 +60,19 @@ public class CalendarEvent implements Serializable {
 		
 	}
 	
-	/** Create a CalendarEvent with all fields */
+	/** Create a CalendarEvent with all fields
+	 * @param eventType The type
+	 * @param description The text of the event
+	 * @param summary Short description
+	 * @param location Where the event is
+	 * @param year The year
+	 * @param month The Month
+	 * @param day The day
+	 * @param startHour the starting time
+	 * @param startMinute the starting time
+	 * @param endHour the ending time
+	 * @param endHour the ending time
+	 */
 	public CalendarEvent(EventType eventType, String description, String summary, String location,
 			int year, int month, int day, 
 			int startHour, int startMinute, int endHour, int endMinute) {

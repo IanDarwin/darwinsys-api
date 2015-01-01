@@ -38,7 +38,10 @@ public class CSVRE implements CSVParser {
 			new BufferedReader(new InputStreamReader(System.in)));
 	}
 
-	/** Process one file. Delegates to parse() a line at a time */
+	/** Process one file. Delegates to parse() a line at a time
+	 * @param input the Reader containing the data to parse
+	 * @throws java.io.IOException If the reader does
+	 */
 	public void process(final BufferedReader input) throws IOException {
 		String line;
 
@@ -55,6 +58,7 @@ public class CSVRE implements CSVParser {
 	}
 
 	/** Parse one line.
+	 * @param line the input
 	 * @return List of Strings, minus their double quotes
 	 */
 	public List<String> parse(final String line) {
