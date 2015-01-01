@@ -5,8 +5,9 @@ public class DiffChunk<T> {
 	private T data;
 	
 	/**
-	 * @param data
-	 * @param type
+	 * Construct a DiffChunk
+	 * @param data The data
+	 * @param type The type
 	 */
 	public DiffChunk(T data, DiffType type) {
 		super();
@@ -14,10 +15,16 @@ public class DiffChunk<T> {
 		this.type = type;
 	}
 
+	/** Get the data in a chunk.
+	 * @return The data.
+	 */
 	public T getData() {
 		return data;
 	}
 
+	/** Get the type of data in a chunk.
+	 * @return The type.
+	 */
 	public DiffType getType() {
 		return type;
 	}
