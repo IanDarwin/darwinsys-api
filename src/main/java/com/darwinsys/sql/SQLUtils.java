@@ -18,10 +18,10 @@ public class SQLUtils {
 	/** Process resultset, formatting it as HTML
 	 * @param rs The valid ResultSet, which will be closed.
 	 * @param out A PrintWriter to generate HTML to.
+	 * @param titleStyle CSS style name for title row (may be same as style1)
 	 * @param style1 CSS style name for title and data rows 2, 4, 6, ...
 	 * @param style2 CSS style name for data rows 1, 3, 5, ...
-	 * @param titleStyle CSS style name for title row (may be same as style1)
-	 * @throws SQLException
+	 * @throws SQLException If the database reports an error
 	 */
 	public static void resultSetToHTML(
 			final ResultSet rs, final PrintWriter out,
@@ -64,9 +64,9 @@ public class SQLUtils {
 	}
 
 	/** Close a resultset, statement and connection in the correct order.
-	 * @param rs
-	 * @param st
-	 * @param conn
+	 * @param rs ResultSet
+	 * @param st Statement
+	 * @param conn Connection
 	 */
 	public static void cleanup(ResultSet rs, Statement st, Connection conn) {
 		try {

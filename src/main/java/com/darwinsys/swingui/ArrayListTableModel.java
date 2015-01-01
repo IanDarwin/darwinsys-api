@@ -1,6 +1,5 @@
 package com.darwinsys.swingui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -32,20 +31,25 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	/** for caching, shared by get/set ValueAt */
 	private Object current  = null;
 
-	/** Constructor requires the list of objects */
+	/** Constructor 
+ 	 * @param m the list of objects
+ 	 */
 	public ArrayListTableModel(List m) {
 		methods = m;
 	}
 
 	/** Allow the model to load the ArrayList all at once, as when
 	 * loading a file.
+	 * @param m the list of objects
 	 */
-	void setListData(ArrayList v) {
-		methods = v;
+	void setListData(List m) {
+		methods = m;
 		invalidateCache();
 	}
 
-	/** Get the name of a given column, from the list provided by subclass */
+	/** Get the name of a given column, from the list provided by subclass
+	 * @param n The number of the column to get
+	 */
 	public String getColumnName(int n) {
 		if (columnNames == null)
 			throw new IllegalStateException("columnNames not set");
@@ -56,7 +60,9 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 		return columnNames[n];
 	}
 
-	/** Get the class of a given column, from the list provided by subclass */
+	/** Get the class of a given column, from the list provided by subclass
+	 * @param n The number of the column to get
+	 */
 	public Class<?> getColumnClass(int n) {
 		if (columnClasses == null)
 			throw new IllegalStateException("columnClasses not set");
@@ -67,14 +73,12 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 		return columnClasses[n];
 	}
 
-	/** Returns the number of objects in the list. */
+	/** @return the number of objects in the list. */
 	public int getRowCount()  {
 		return methods.size();
 	}
 
-	/** All cells are editable.
-	 * Subclasses can override this if only some cells should be editable.
-	 */
+	/** @inheritdoc */
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return true;
 	}
@@ -88,6 +92,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	 *			...
 	 *		}
 	 * </pre>
+	 * @param row The number of the column to get
 	 */
 	public Object getCached(int row) {
 		if (row != prevRow) {

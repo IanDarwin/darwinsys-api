@@ -81,6 +81,12 @@ public class ClassSourceUtils extends SourceUtils {
 		return results;
 	}
 	
+	/**
+	 * Tries to find all the classes in the given directory and set of classpath elements
+	 * @param dirName Starting directory
+	 * @param classpath List of classpath elements
+	 * @return List of classes
+	 */
 	private static List<Class<?>> classListFromDirectory(final String dirName, List<String> classpath) {
 		result = new ArrayList<Class<?>>();		
 		ClassLoader cl;
@@ -114,14 +120,20 @@ public class ClassSourceUtils extends SourceUtils {
 
 	private static String startPath;
 	
-	/** doDir - do one directory recursively */
+	/** doDir - do one directory recursively
+	 * @param name The input
+	 * @param cl The classloader
+	 */
 	private static void startDir(String name, ClassLoader cl) {
 		final File file = new File(name);
 		startPath = name;
 		doDir(file, cl);
 	}
 	
-	/** doDir - do one directory recursively */
+	/** doDir - do one directory recursively
+	 * @param f The input file
+	 * @param cl The ClassLoader
+	 */
 	private static void doDir(File f, ClassLoader cl) {
 		final String name = f.getPath();
 		Debug.println(DEBUG_TAG, "SourceUtils.doDir(): " + name);

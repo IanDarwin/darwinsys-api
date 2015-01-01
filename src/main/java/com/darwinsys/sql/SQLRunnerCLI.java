@@ -41,7 +41,9 @@ import com.darwinsys.util.Verbosity;
  */
 public class SQLRunnerCLI {
 
-	/** print help; called from several places in main */
+	/** print help and exit; called from several places in main 
+	 * @param i The exit code.
+	 */
 	private static void doHelp(int i) {
 		System.out.println(
 		"Usage: SQLRunner [-f configFile] [-c config] [SQLscript[ ...]");
@@ -50,6 +52,7 @@ public class SQLRunnerCLI {
 
 	/**
 	 * main - parse arguments, construct SQLRunner object, open file(s), run scripts.
+	 * @param args You guessed it.
 	 */
 	public static void main(final String[] args) {
 		String config = "default";

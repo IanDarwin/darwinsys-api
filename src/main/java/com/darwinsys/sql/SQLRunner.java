@@ -139,8 +139,8 @@ public class SQLRunner {
 	 * @param user String for the username
 	 * @param password String for the password, normally in cleartext
 	 * @param outputMode One of the MODE_XXX constants.
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException If driver not found
+	 * @throws SQLException On data error
 	 */
 	public SQLRunner(String driver, String dbUrl, String user, String password,
 			String outputFile, String outputMode)
@@ -149,11 +149,19 @@ public class SQLRunner {
 		commonSetup(outputFile, outputMode);
 	}
 
-	public SQLRunner(Connection c, String outputFile, String outputModeName)
+	/**
+	 * Create a SQLRunner from an open connection
+	 * @param conn The existing connection
+	 * @param outputFile The output
+	 * @param outputModeName The output mode
+	 * @throws IOException On IO Error
+	 * @throws SQLException On data error
+	 */
+	public SQLRunner(Connection conn, String outputFile, String outputModeName)
 		throws IOException, SQLException {
 
 		// set up the SQL input
-		conn = c;
+		this.conn = conn;
 		commonSetup(outputFile, outputModeName);
 	}
 
@@ -192,6 +200,7 @@ public class SQLRunner {
 
 	/** Assign the correct ResultsDecorator, creating them on the fly
 	 * using lazy evaluation.
+	 * param outputMode One of the MODE_XXX values.
 	 */
 	void setOutputMode(OutputMode outputMode) {
 		ResultsDecorator newDecorator = null;
@@ -257,6 +266,7 @@ public class SQLRunner {
 			}
 		}
 	 * </pre>
+	 * @param scriptFile the file to run
 	 * @throws SyntaxException
 	 */
 	@Deprecated
@@ -284,7 +294,11 @@ public class SQLRunner {
 			}
 		}
 	 * </pre>
-	 * @throws SyntaxException
+	 * @param is The input
+	 * @param name Not used
+	 * @throws IOException If something fails
+	 * @throws SQLException If the data fails
+	 * @throws SyntaxException You guessed it.
 	 */
 	@Deprecated
 	public void runScript(BufferedReader is, String name)
@@ -299,7 +313,8 @@ public class SQLRunner {
 
 	/**
 	 * Process an escape, like "\ms;" for mode=sql.
-	 * @throws SyntaxException
+	 * @param str The input string
+	 * @throws SyntaxException on error
 	 */
 	private void doEscape(String str)
 		throws IOException, SQLException, SyntaxException  {
@@ -333,8 +348,12 @@ public class SQLRunner {
 
 	/**
 	 * Display - generate output for \dt and similar escapes
-	 * @param rest - what to display - the argument with the \d stripped off
 	 * XXX: Move more formatting to ResultsDecorator: listTables(rs), listColumns(rs)
+	 * @param rest - what to display - the argument with the \d stripped off
+	 * @throws IOException If something fails
+	 * @throws SQLException If the data fails
+	 * @throws SyntaxException You guessed it.
+
 	 */
 	private void display(String rest)
 		throws IOException, SQLException, SyntaxException {
@@ -365,9 +384,9 @@ public class SQLRunner {
 	}
 
 	/**
-	 * @param rs
-	 * @return
-	 * @throws SQLException
+	 * @param rs The resultset
+	 * @return The rowset
+	 * @throws SQLException On any database error
 	 */
 	private static CachedRowSet cacheResultSet(ResultSet rs) throws SQLException {
 		CachedRowSet rows = null;//new com.sun.rowset.WebRowSetImpl();
@@ -376,7 +395,8 @@ public class SQLRunner {
 	}
 
 	/** Set the output to the given filename.
-	 * @param fileName
+	 * @param fileName The output
+	 * @throws IOException if the output fails
 	 */
 	public void setOutputFile(String fileName) throws IOException {
 		if (fileName == null) {
@@ -391,7 +411,7 @@ public class SQLRunner {
 
 	/** Set the output to the given Writer; immediately 
 	 * update the textDecorator so \dt works...
-	 * @param writer
+	 * @param writer The output
 	 */
 	public void setOutputFile(PrintWriter writer) {
 		out = writer;
@@ -400,7 +420,10 @@ public class SQLRunner {
 
 	/** Run one Statement, and format results as per Update or Query.
 	 * Called from runScript or from user code.
-	 * @throws SyntaxException
+	 * @param rawString The sql statement 
+	 * @throws IOException If something fails
+	 * @throws SQLException If the data fails
+	 * @throws SyntaxException You guessed it.
 	 */
 	public void runStatement(final String rawString)
 		throws IOException, SQLException, SyntaxException {
@@ -437,8 +460,10 @@ public class SQLRunner {
 
 	/** Extract one statement from the given Reader.
 	 * Ignore comments and null lines.
+	 * @param is The input
 	 * @return The SQL statement, up to but not including the ';' character.
 	 * May be null if no statement found.
+	 * @throws IOException on io error
 	 */
 	public static String getStatement(BufferedReader is)
 	throws IOException {
@@ -480,6 +505,10 @@ public class SQLRunner {
 		return null;
 	}
 
+	/**
+	 * Close this SQLRunner.
+	 * @throws SQLException If the database gets upset.
+	 */
 	public void close() throws SQLException {
 		if (statement != null) {
 			statement.close();

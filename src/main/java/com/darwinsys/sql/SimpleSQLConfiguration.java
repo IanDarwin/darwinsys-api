@@ -14,10 +14,11 @@ public class SimpleSQLConfiguration implements Configuration {
 
 	/**
 	 * Construct a SimpleSQLConfiguration object with a name and parameters
-	 * @param dbURL
-	 * @param dbDriverName
-	 * @param dbUserName
-	 * @param dbPassword
+	 * @param name Name for display
+	 * @param dbURL JDBC URL
+	 * @param dbDriverName Driver class name
+	 * @param dbUserName DB User Login
+	 * @param dbPassword DB User password
 	 */
 	public SimpleSQLConfiguration(String name, String dbURL, String dbDriverName, String dbUserName,
 			String dbPassword) {
@@ -31,10 +32,10 @@ public class SimpleSQLConfiguration implements Configuration {
 
 	/**
 	 * Construct a SimpleSQLConfiguration object with no name
-	 * @param dbURL
-	 * @param dbDriverName
-	 * @param dbUserName
-	 * @param dbPassword
+	 * @param dbURL JDBC URL
+	 * @param dbDriverName Driver class name
+	 * @param dbUserName DB User Login
+	 * @param dbPassword DB User password
 	 */
 	public SimpleSQLConfiguration(String dbURL, String dbDriverName, String dbUserName,
 			String dbPassword) {
@@ -113,16 +114,10 @@ public class SimpleSQLConfiguration implements Configuration {
 		this.dbUserName = dbUserName;
 	}
 
-	/**
-	 * Get the name of this configuration
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * Set the name of this configuration
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}

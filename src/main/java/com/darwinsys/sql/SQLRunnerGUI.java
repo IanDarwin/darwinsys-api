@@ -128,6 +128,7 @@ public class SQLRunnerGUI  {
 
 	/**
 	 * Default main method for standalone use.
+	 * @param args You guessed it.
 	 */
 	public static void main(String[] args) {
 		String config = null;
@@ -230,7 +231,9 @@ public class SQLRunnerGUI  {
 
 	Action runAction = new AbstractAction("Run") {
 
-		/** Called each time the user presses the Run button */
+		/** Called each time the user presses the Run button
+		 * @param evt The input event
+		 */
 		public void actionPerformed(ActionEvent evt) {
 
 			// Run this action handler under its own Thread, so we don't block the EventDispatch thread...
@@ -263,6 +266,7 @@ public class SQLRunnerGUI  {
 
 	/**
 	 * Constructor for main GUI
+	 * @param configManager The configuration
 	 */
 	public SQLRunnerGUI(ConfigurationManager configManager) {
 		this(configManager, "SQLRunner");
@@ -270,6 +274,8 @@ public class SQLRunnerGUI  {
 
 	/**
 	 * Constructor for main GUI
+	 * @param configManager The configuration
+	 * @param title The titlebar title
 	 */
 	public SQLRunnerGUI(ConfigurationManager configManager, String title) {
 
@@ -421,7 +427,7 @@ public class SQLRunnerGUI  {
 
 	/**
 	 * Prompt for a password, and wait until the user enters it.
-	 * @param prompt
+	 * @param prompt The prompt string
 	 * @return The new password.
 	 */
 	@SuppressWarnings("serial")
