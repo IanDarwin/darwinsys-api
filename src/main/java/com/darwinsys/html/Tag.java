@@ -13,26 +13,39 @@ public class Tag {
 	protected static final char RB = '>';
 	protected static final char END = '/';
 
-	/** Output an empty tag */
+	/** Output an empty tag.
+	 * @return The simple tag
+	 */
 	public static void dotag(PrintWriter out, String tag) {
 		startTag(out, tag);
 		endTag(out, tag);
 	}
 
-	/** Output an body-content tag */
+	/** 
+	 * Output an body-content tag.
+	 * @param out The printwriter to write to
+	 * @param tag The tag name
+	 * @param content The body content
+	 */
 	public static void doTag(PrintWriter out, String tag, String content) {
 		startTag(out, tag);
 		out.println(content);
 		endTag(out, tag);
 	}
 
-	/** Output a start tag */
+	/** Output a start tag.
+	 * @param out The destination writer
+	 * @param tag The tag name
+	 */
 	public static void startTag(PrintWriter out, String tag) {
 		out.print(
 			new StringBuffer(LB).append(tag).append(RB).toString());
 	}
 
-	/** Output an end tag */
+	/** Output an end tag.
+	 * @param out The destination writer
+	 * @param tag The tag name
+	 */
 	public static void endTag(PrintWriter out, String tag) {
 		out.print(
 			new StringBuffer(LB).append(END).append(tag).append(RB).toString());

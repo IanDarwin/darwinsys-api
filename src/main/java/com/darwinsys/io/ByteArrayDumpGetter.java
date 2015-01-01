@@ -1,6 +1,6 @@
 package com.darwinsys.io;
 
-/** A Getter that reads from an in-memory array of bytes */
+/** A DumpSource that reads from an in-memory array of bytes */
 public class ByteArrayDumpGetter implements DumpSource {
 
 	private byte[] data;

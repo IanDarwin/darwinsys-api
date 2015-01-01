@@ -27,7 +27,10 @@ public class SimpleTagValidator {
 		okTags = OKTAGS;
 	}
 	
-	/** Construct a Validator using a non-default OK list */
+	/** 
+	 * Construct a Validator using a non-default OK list
+	 * @param okTagList The acceptable tags.
+	 */
 	public SimpleTagValidator(final String[] okTagList) {
 		okTags = new String[okTagList.length];
 		System.arraycopy(okTagList, 0, okTags, 0, okTagList.length);
@@ -83,6 +86,7 @@ public class SimpleTagValidator {
 	 * Usage example:
 	 * <code>System.out.printf("Valid tags are %01s\n", val.tagsAsString());</code> 
 	 * @param useCommas True to include commas ("a, b, c"); false just space ("a b c").
+	 * @return The list of tags, appended into a single string
 	 */
 	public String getTagsAsString(boolean useCommas) {
 		StringBuffer sb = new StringBuffer();

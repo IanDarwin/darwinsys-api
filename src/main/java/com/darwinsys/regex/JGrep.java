@@ -140,9 +140,10 @@ public class JGrep {
 		}
 	}
 
-	/** Construct a JGrep object.
-	 * @param patt The pattern to look for
-	 * @param args the command-line options.
+	/**
+	 * Construct a JGrep object.
+	 * @param patt The regex to look for
+	 * @throws PatternSyntaxException if pattern is not a valid regex
 	 */
 	public JGrep(String patt) throws PatternSyntaxException {
 		if (debug) {

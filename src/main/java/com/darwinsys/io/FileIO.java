@@ -26,7 +26,13 @@ public class FileIO {
 		// Nothing to do
 	}
 
-    /** Copy a file from one filename to another */
+    /** Copy a file from one filename to another
+	 * @param inName Name of the input file
+	 * @param outName Name of the output file
+	 * @throws IOException if the reading or writing fails
+	 * @throws FileNotFoundException If the file named in 'inName' cannot 
+	 * be read.
+	 */
     public static void copyFile(String inName, String outName)
 	throws FileNotFoundException, IOException {
 		BufferedInputStream is = null;
@@ -45,7 +51,11 @@ public class FileIO {
 		}
 	}
 
-	/** Copy a file from an opened InputStream to opened OutputStream */
+	/** Copy a file from an opened InputStream to opened OutputStream
+	 * @param is The input file
+	 * @param os The output file.
+	 * @param close True if you want the outputstream closed after use.
+	 */
 	public static void copyFile(InputStream is, OutputStream os, boolean close) 
 	throws IOException {
 		byte[] b = new byte[BLKSIZ];			// the byte read from the file
@@ -58,7 +68,12 @@ public class FileIO {
 			os.close();
     }
 
-	/** Copy a file from an opened Reader to opened Writer */
+	/** Copy a file from an opened Reader to opened Writer
+	 * @param is The input file
+	 * @param os The output file.
+	 * @param close True if you want the outputstream closed after use.
+	 * @throws IOException if the reading or writing fails
+	 */
 	public static void copyFile(Reader is, Writer os, boolean close) 
 	throws IOException {
 		int b;				// the byte read from the file
@@ -71,7 +86,13 @@ public class FileIO {
 			os.close();
     }
 
-	/** Copy a file from a filename to a PrintWriter. */
+	/** Copy a file from a filename to a PrintWriter.
+	 * @param inName The input file
+	 * @param pw The output file.
+	 * @param close True if you want the outputstream closed after use.
+	 * @throws IOException if the reading or writing fails
+	 * @throws FileNotFoundException If the file named in 'inName' cannot 
+	 */
 	public static void copyFile(String inName, PrintWriter pw, boolean close) 
 	throws FileNotFoundException, IOException {
 		BufferedReader ir = new BufferedReader(new FileReader(inName));
@@ -82,7 +103,7 @@ public class FileIO {
 	 * Copy a file to a directory, given File objects representing the files.
 	 * @param file File representing the source, must be a single file.
 	 * @param target File representing the location, may be file or directory.
-	 * @throws IOException
+	 * @throws IOException If the copy fails
 	 */
 	public static void copyFile(File file, File target) throws IOException {
 		if (!file.exists() || !file.isFile() || !(file.canRead())) {
@@ -111,9 +132,13 @@ public class FileIO {
 	/** Copy a data file from one filename to another, alternative method.
 	 * As the name suggests, use my own buffer instead of letting
 	 * the BufferedReader allocate and use the buffer.
+	 * @param inName The input source
+	 * @param outName The output destination
+	 * @throws IOException if the reading or writing fails
+	 * @throws FileNotFoundException If the file named in 'inName' cannot 
 	 */
-	public void copyFileBuffered(String inName, String outName) throws
-			FileNotFoundException, IOException {
+	public void copyFileBuffered(String inName, String outName) 
+	throws FileNotFoundException, IOException {
 		InputStream is = null;
 		OutputStream os = null;
 		try {
@@ -135,10 +160,10 @@ public class FileIO {
 	}
 	
 	/**
-	 * Copy all objects found in and under "fromdir", to their places in "todir".
-	 * @param fromDir
-	 * @param toDir
-	 * @throws IOException
+	 * Copy all objects in and under "fromdir", to their places in "todir".
+	 * @param fromDir The starting directory
+	 * @param toDir The destination directory
+	 * @throws IOException If anything goes wrong
 	 */
 	public static void copyRecursively(File fromDir, File toDir, boolean create)
 		throws IOException {
@@ -171,6 +196,11 @@ public class FileIO {
 		copyRecursively(fromDir, toDir, false);
 	}
 	
+	/**
+	 * Delete a directory tree recursively
+	 * @param startDir Top of the tree to delete
+	 * @throws IOException if anything goes wrong.
+	 */
 	public static void deleteRecursively(File startDir) throws IOException {
 		
 		String startDirPath = startDir.getCanonicalPath();
@@ -199,9 +229,9 @@ public class FileIO {
 	/**
 	 * Copy a tree of files to directory, given File objects representing the files.
 	 * @param base File representing the source, must be a single file.
-	 * @param startingDir
+	 * @param startingDir The starting point
 	 * @param toDir File representing the location, may be file or directory.
-	 * @throws IOException 
+	 * @throws IOException If the copy fails
 	 */
 	public static void copyRecursively(JarFile base, JarEntry startingDir,
 			File toDir) throws IOException {
@@ -238,25 +268,27 @@ public class FileIO {
 	}
 
 	// Methods that do reading.
-	/** Open a file and read the first line from it. */
+
+	/** Open a file and read the first line from it.
+	 * String inName The input file
+	 * @throws FileNotFoundException If inName cannot be opened
+	 * @throws IOException If the reading fails
+	 */
 	public static String readLine(String inName)
 	throws FileNotFoundException, IOException {
-		BufferedReader is = null;
-		try {
-		is = new BufferedReader(new FileReader(inName));
-		String line = null;
-		line = is.readLine();
-		is.close();
-		return line;
-		} finally {
-			if (is != null) 
-				is.close();
+		try (BufferedReader is = new BufferedReader(new FileReader(inName))) {
+			String line = null;
+			line = is.readLine();
+			return line;
 		}
 	}
-	
+
 	/** Read the entire content of a Reader into a String;
 	 * of course Readers should only be used for text files;
 	 * please do not use this to read a JPEG file, for example.
+	 * @param is The input
+	 * @return The string
+	 * @throws IOException If reading fails
 	 */
 	public static String readerToString(Reader is) throws IOException {
 		StringBuilder sb = new StringBuilder();
@@ -272,26 +304,43 @@ public class FileIO {
 		return sb.toString();
 	}
 
-	/** Read the content of a Stream into a String */
+	/** Read the content of a Stream into a String
+	 * @param is The input
+	 * @return The string
+	 * @throws IOException If reading fails
+	 */
 	public static String inputStreamToString(InputStream is)
 	throws IOException {
 		return readerToString(new InputStreamReader(is));
 	}
 
+	/**
+	 * Read a file into a string
+	 * @param fileName The input
+	 * @throws IOException If reading fails
+	 * @return The string
+	 */
 	public static String readAsString(String filename) throws IOException {
 		return readerToString(new FileReader(filename));
 	}
 	
-	/** Write a String as the entire content of a File */
+	/** Write a String as the entire content of a File
+	 * @param text The string to write
+	 * @param fileName The destination
+	 * @throws IOException If reading fails
+	 */
 	public static void stringToFile(String text, String fileName)
 	throws IOException {
-		BufferedWriter os = new BufferedWriter(new FileWriter(fileName));
-		os.write(text);
-		os.flush();
-		os.close();
+		try (BufferedWriter os = new BufferedWriter(new FileWriter(fileName))){
+			os.write(text);
+		}
 	}
 
-	/** Open a BufferedReader from a named file. */
+	/** Open a BufferedReader from a named file.
+	 * @param fileName The input
+	 * @return The reader to read from
+	 * @throws IOException If reading fails
+	 */
 	public static BufferedReader openFile(String fileName)
 	throws IOException {
 		return new BufferedReader(new FileReader(fileName));

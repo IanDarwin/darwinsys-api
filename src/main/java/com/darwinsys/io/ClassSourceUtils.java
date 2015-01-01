@@ -25,6 +25,7 @@ public class ClassSourceUtils extends SourceUtils {
 	 * <b>N.B.</b>: This method is not thread-safe!
 	 * @param name - the name of something that can be used
 	 * as a Source, e.g., a Jar file, a class file or a directory.
+	 * @param classpath List<String> of classpath entries
 	 * @return List&lt;Class&lt;?&gt;&gt; List of all classes found in the source
 	 */
 	public static List<Class<?>> classListFromSource(String name, List<String> classpath) {

@@ -4,19 +4,16 @@ import java.io.DataInput;
 import java.io.IOException;
 
 /**
- * One I-O primitives for DataInputStream; should probably have just subclassed DataInputStream.
+ * One I-O primitives for DataInputStream; should probably have just 
+ * subclassed DataInputStream.
  * All methods are static, since there is no state.
  */
 public class DataIO {
 
-	/** Nobody should need to create an instance; all methods are static */
-	private DataIO() { 
-		// nothing to do
-	}
-
     /** Read an unsigned int from a DataInput
 	 * @param is DataInput (DataInputStream, RandomAccessFile, etc).
 	 * @return long, to hold an unsigned int.
+	 * @throws IOException if the DataInput does so
 	 */
     public static long readUnsignedInt(DataInput is) throws IOException {
 		// Need to read 4 bytes from the input, unsigned.
@@ -28,5 +25,6 @@ public class DataIO {
 			((long)(is.readUnsignedByte() & 0xff) <<  0);
 	}
     
-    // Don't think of adding readUnsignedShort; this already exists in DataInputStream. RTFM before coding.
+    // Don't think of adding readUnsignedShort; this already exists in 
+	// DataInputStream. Read JavaDoc before coding.
 }

@@ -26,6 +26,12 @@ public class JigglyTextImageWriter implements Serializable {
 	private int nextColor;
 	private final Random random = new Random();
 
+	/**
+	 Construct a JigglyTextImageWriter
+	 * @param font The font to use for text
+	 * @param width The width of the canvas.
+	 * @param height The height of the canvas.
+	 */
 	public JigglyTextImageWriter(Font font, int width, int height) {
 		super();
 		this.font = font;
@@ -33,7 +39,12 @@ public class JigglyTextImageWriter implements Serializable {
 		this.height = height;
 	}
 
-	/** generate the image and output it. */
+	/** 
+	 * generate the image and output it.
+	 * @param msg The text to write
+	 * @param os The OutputStream to write the image to
+	 * @throws java.io.IOException If output fails.
+	 */
 	public void write(String msg, OutputStream os) throws IOException{
 
 		BufferedImage img =

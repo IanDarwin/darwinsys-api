@@ -76,8 +76,10 @@ public class Dumper {
 		txt.setLength(0);
 	}
 
-	/** print one file, given an open InputStream */
-	public void dump(DumpSource g) {
+	/** print one file, given an open InputStream
+	 * @param ds The data source
+	 */
+	public void dump(DumpSource ds) {
 		num.setLength(0);
 		txt.setLength(0);
 
@@ -87,7 +89,7 @@ public class Dumper {
 			int b = 0;
 			int column = 0;
 
-			while ((b=g.get()) != -1) {				
+			while ((b=ds.get()) != -1) {				
 				num.append(String.format("%02x", b & 0xff));
 				num.append(' ');
 				txt.append(Character.isLetterOrDigit((char)b) ? (char)b : '.');

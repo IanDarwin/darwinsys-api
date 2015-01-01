@@ -78,6 +78,7 @@ public class ColorName {
 	};
 
 	/** Lookup a given string
+	 * @param	name The name of the color to look for.
 	 * @return	The java.awt.Color corresponding, or null.
 	 */
 	public static Color getColor(String name) {
@@ -91,6 +92,4 @@ public class ColorName {
 		}
 		return null;
 	}
-
-
 }

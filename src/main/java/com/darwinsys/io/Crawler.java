@@ -64,7 +64,7 @@ public class Crawler implements Checkpointer {
 
 	/** Crawl one set of directories, starting at startDir.
 	 * Calls itself recursively.
-	 * @param startDir
+	 * @param startDir The starting directory
 	 * @throws IOException if File.getCanonicalPath() does so.
 	 */
 	public void crawl(File startDir) throws IOException {
