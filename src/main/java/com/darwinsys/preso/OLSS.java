@@ -9,13 +9,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-/** OLSS - the One Line Slide Show presenter: one line per slide */
+/** OLSS - the One Line Slide Show presenter: one line per slide, generates
+ * HTML, shows in a JFrame
+ * XXX Allow to save the HTML so you can use your browser...
+ */
 public class OLSS {
 	JFrame jf;
 	JLabel tf;
@@ -23,7 +27,7 @@ public class OLSS {
 	int DEFAULT_SIZE = 72;
 
 	/**
-	 * @param args
+	 * Main driver program
 	 */
 	public static void main(String[] args) {
 		OLSS driver = new OLSS();
@@ -37,28 +41,50 @@ public class OLSS {
 	}
 
 	private List<String> show = new ArrayList<String>();
+	private boolean ignoreLinks;
 
 	private static Pattern urlPattern = 
 		Pattern.compile("http://([a-z.])+(/[\\w\\d.]+)+");
 
+	/**
+	 * Load the show
+	 * @param fileName The input
+	 */
 	public void loadShow(String fileName) {
+		try (BufferedReader is = new BufferedReader(new FileReader(fileName))) {
+			loadShow(is);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Load the show
+	 * @param is The input
+	 */
+	public void loadShow(BufferedReader is) {
 		try {
-			BufferedReader is = new BufferedReader(new FileReader(fileName));
 			String line;
 			while ((line = is.readLine()) != null) {
 				if (line.length() == 0 || line.startsWith("#"))
 					continue;
-//				final Matcher matcher = urlPattern.matcher(line);
-//				if (matcher.find()) {
-//					String url = matcher.group(0);
-//					line += "<img src='" + QRFormatter.format(url)+ "'>";
-//					System.out.println(line);
-//				}
+				if (!ignoreLinks) {
+					final Matcher matcher = urlPattern.matcher(line);
+					if (matcher.find()) {
+						String url = matcher.group(0);
+						line += "<img src='" + QRFormatter.format(url)+ "'>";
+						System.out.println(line);
+					}
+				}
 				show.add(line);
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public List<String> getShow() {
+		return show;
 	}
 
 	public void quit() {

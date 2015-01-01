@@ -5,7 +5,8 @@ import java.net.URLEncoder;
 
 public class QRFormatter {
 
-	private static int SIZE = 128;
+	private static int DEFAULT_SIZE = 128;
+	private static int size = DEFAULT_SIZE;
 
 	public static String format(String url) {
 		String encodedURL = url;
@@ -16,14 +17,14 @@ public class QRFormatter {
 		}
 		return String.format(
 			"http://chart.apis.google.com/chart?cht=qr&chs=%d&chl=%s",
-			SIZE, encodedURL);
+			size, encodedURL);
 	}
 
 	public int getWidth() {
-		return SIZE;
+		return size;
 	}
 
 	public int getHeight() {
-		return SIZE;
+		return size;
 	}
 }
