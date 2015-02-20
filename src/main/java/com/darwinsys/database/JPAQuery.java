@@ -9,10 +9,11 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
-/*
+/**
  * Interactive query runner; ideal for testing query syntax once
  * you've dealt with setting JPA up for your project.
  */
+@Deprecated // Use the version in jpademo instead, it has persistence.xml!
 public class JPAQuery {
 
 	static EntityManagerFactory entityMgrFactory = null;
