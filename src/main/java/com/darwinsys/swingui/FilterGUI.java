@@ -14,6 +14,12 @@ import javax.swing.JPanel;
 /** FilterGUI implements a back-and-forth list, ie, two columns of items, in
  * which items can be moved back and forth between them with "Add" and "Del"
  * buttons.
+ * Also known as:
+ *	Dual Listbox 
+ *	Dual Multiselect
+ * and many other names, according to 
+ * http://ux.stackexchange.com/questions/73852/).
+ * 
  * This is meant to provide a framework for Java programs that want
  * to provide chaining of various filters, or any other example where
  * you want to move items between an inactive list and an active list.
