@@ -1,4 +1,4 @@
-package com.darwinsys.filtergui;
+package com.darwinsys.swingui.filtergui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;

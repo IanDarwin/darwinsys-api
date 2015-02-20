@@ -1,4 +1,4 @@
-package com.darwinsys.filtergui;
+package com.darwinsys.swingui.filtergui;
 
 /** A trivial filter baseclass used in testing FilterGUI */
 public abstract class MyFilter {
