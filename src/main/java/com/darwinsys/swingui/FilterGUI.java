@@ -15,10 +15,15 @@ import javax.swing.JPanel;
  * which items can be moved back and forth between them with "Add" and "Del"
  * buttons.
  * Also known as:
+ *	Shuttle
+ *	Shuffle
+ *	List Builder
+ *	Accumulator
  *	Dual Listbox 
  *	Dual Multiselect
  * and many other names, according to 
- * http://ux.stackexchange.com/questions/73852/).
+ * http://ux.stackexchange.com/questions/73852/ and
+ * http://stackoverflow.com/questions/2852995/.
  * 
  * This is meant to provide a framework for Java programs that want
  * to provide chaining of various filters, or any other example where
