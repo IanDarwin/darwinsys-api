@@ -18,10 +18,10 @@ import javax.swing.JTextArea;
 /**
  * Convenience class for fielding Exceptions in a Swing App.
  * Displays exceptions in a JOptionPane, and follows chained
- * exceptions, both the 1.x SQLException.getNextExeption() and
+ * exceptions, both the old SQLException.getNextExeption() and
  * the more general Exception.getCause().
  * <p>
- * The user (will be able to) press a Details... button to see the
+ * The user can press a Details... button to see the stack
  * traceback in a dialog; tracebacks are <b>not</b> displayed unless
  * the user requests them.
  * @author Ian Darwin
