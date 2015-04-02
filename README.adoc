@@ -13,7 +13,6 @@ off some of its leaves as time goes by. He will try to avoid
 breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
 
-.*Build*
 image::http://img.shields.io/badge/license-BSD2-green.svg[link="http://github.com/IanDarwin/darwinsys-api"]
 image::https://img.shields.io/maven-central/v/org.apache.maven/apache-maven.svg"[link="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22darwinsys-api%22"]
 
