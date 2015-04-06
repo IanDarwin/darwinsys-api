@@ -12,6 +12,8 @@
 
 <body>
 
+<p><b>ToDo</b>: This is a demo, not a test. Turn it into a real test, maybe with Arquillian.</p>
+
 <table border='1'>
 
 <tr><td colspan='3'>Test of DarwinTags</td></tr>
