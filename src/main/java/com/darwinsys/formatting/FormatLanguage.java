@@ -8,8 +8,9 @@ package com.darwinsys.formatting;
  * in text and use mouse editing, but the content is sadly stored in HTML).
  */
 public enum FormatLanguage {
-	PLAIN,
-	HTML,
 	ASCIIDOC,
+	HTML,
+	MARKDOWN,
+	PLAIN,
 	WIKI
 }
