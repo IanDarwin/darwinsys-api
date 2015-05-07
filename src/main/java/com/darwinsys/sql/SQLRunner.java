@@ -37,6 +37,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
 
 import com.darwinsys.util.Verbosity;
 
@@ -389,7 +391,8 @@ public class SQLRunner {
 	 * @throws SQLException On any database error
 	 */
 	private static CachedRowSet cacheResultSet(ResultSet rs) throws SQLException {
-		CachedRowSet rows = null;//new com.sun.rowset.WebRowSetImpl();
+		RowSetFactory rowSetFactory = RowSetProvider.newFactory();
+		CachedRowSet rows = rowSetFactory.createCachedRowSet();
 		rows.populate(rs);
 		return rows;
 	}
