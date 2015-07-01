@@ -13,6 +13,9 @@ off some of its leaves as time goes by. He will try to avoid
 breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
 
+As of 1.1.0, Java 8 (JDK 1.8) is now the minimum to build and use this API.
+For Java 6 or 7 you have to stick to version 1.0.5.
+
 .*Build*
 image:http://img.shields.io/badge/license-BSD2-green.svg[link="http://github.com/IanDarwin/darwinsys-api"]
 image:https://maven-badges.herokuapp.com/maven-central/com.darwinsys/darwinsys-api/badge.svg[
