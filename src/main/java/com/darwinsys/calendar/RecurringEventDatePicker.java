@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -103,6 +102,10 @@ public class RecurringEventDatePicker {
 		}
 		
 		return thisMeeting;
+	}
+	
+	public LocalDateTime getEventLocalDateTime(int meetingsAway) {
+		return LocalDateTime.of(getEventLocalDate(meetingsAway), hourOfDay);
 	}
 	
 	/**
