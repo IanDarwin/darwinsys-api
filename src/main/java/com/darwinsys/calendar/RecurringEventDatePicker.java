@@ -90,33 +90,19 @@ public class RecurringEventDatePicker {
 	 */
 	public LocalDate getEventLocalDate(int meetingsAway) {
 
-		LocalDate thisMeeting = meetingForMonth(now);
-		// has the meeting already happened this month
+		LocalDate thisMeeting = now.with(TemporalAdjusters.dayOfWeekInMonth(weekOfMonth,dayOfWeek));
+		// Has the meeting already happened this month?
 		if (thisMeeting.isBefore(now)) {
 			// start from next month
 			meetingsAway++;
 		}
 		if (meetingsAway > 0) {
-			thisMeeting = meetingForMonth(
-				thisMeeting.plusMonths(meetingsAway));
+			thisMeeting = thisMeeting.plusMonths(meetingsAway).with(TemporalAdjusters.dayOfWeekInMonth(weekOfMonth,dayOfWeek));
 		}
-		
 		return thisMeeting;
 	}
 	
 	public LocalDateTime getEventLocalDateTime(int meetingsAway) {
 		return LocalDateTime.of(getEventLocalDate(meetingsAway), hourOfDay);
-	}
-	
-	/**
-	 * Get the meeting in the month of the given LocalDate
-	 * for this RecurringDatePicker
-	 * @param dateWithMonth A date in the same month as the meeting
-	 * @return The date of the meeting
-	 */
-	public LocalDate meetingForMonth(LocalDate dateWithMonth) {
-		return
-			dateWithMonth.with(TemporalAdjusters.firstInMonth(dayOfWeek))
-				.plusWeeks(Math.max(0, weekOfMonth - 1));
 	}
 }
