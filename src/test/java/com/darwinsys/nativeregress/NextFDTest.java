@@ -7,6 +7,7 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import com.darwinsys.io.NextFD;
+import com.darwinsys.unix.UnixPasswdEntryTest;
 
 public class NextFDTest extends TestCase {
 
@@ -20,6 +21,9 @@ public class NextFDTest extends TestCase {
 	 * Test method for 'com.darwinsys.io.NextFD.getNextFD()'
 	 */
 	public void testGetNextFD() throws IOException {
+		
+		if (!UnixPasswdEntryTest.isUnix())
+			return;
 
 		int start = NextFD.getNextFD();
 		System.out.println("nextfd returned " + start);
