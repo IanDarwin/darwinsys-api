@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -20,6 +20,13 @@ public class ConnectionUtilTest {
 
 	final static String MOCK_JBDC_DRIVER = "com.darwinsys.sql.MockJDBCDriver";
 
+	@BeforeClass
+	public static void setupConfigs() {
+		// This works on Maven and Eclipse. Other build tools: yer on yer own.
+		ConnectionUtil.setConfigFileName("target/classes/db.properties");
+	}
+	
+	/** Check that we have at least one configuration */
 	@Test
 	public void testGetConfigurationNames() throws Exception {
 		System.out.println("ConnectionUtilTest.testList()");
@@ -56,10 +63,9 @@ public class ConnectionUtilTest {
 	
 	@Test(expected=ClassNotFoundException.class)
 	public void testGetConnectionBadDriver() throws Exception {
-		final Connection c = ConnectionUtil.getConnection("url", "mydriver",
+		ConnectionUtil.getConnection(
+				"jdbc:foo:bar", "NoSuchDriver",
 				"operator", "secret");
-		fail("getConnection w/ bad params Did not throw exception");
-		System.out.println(c);
 	}
 
 	@Test
