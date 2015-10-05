@@ -73,6 +73,9 @@ public class FileSaver {
 	private final File inputFile;
 	private final File tmpFile;
 	private final File backupFile;
+	
+	private OutputStream mOutputStream;
+	private Writer mWriter;
 
 	public FileSaver(File input) throws IOException {
 
@@ -111,9 +114,9 @@ public class FileSaver {
 		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
-		OutputStream out = new FileOutputStream(tmpFile);
+		mOutputStream = new FileOutputStream(tmpFile);
 		state = State.INUSE;
-		return out;
+		return mOutputStream;
 	}
 
 	/** Return an output file that the client should use to
@@ -127,9 +130,9 @@ public class FileSaver {
 		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
-		Writer out = new FileWriter(tmpFile);
+		mWriter = new FileWriter(tmpFile);
 		state = State.INUSE;
-		return out;
+		return mWriter;
 	}
 
 	/** Close the output file and rename the temp file to the original name.
@@ -140,14 +143,24 @@ public class FileSaver {
 		if (state != State.INUSE) {
 			throw new IllegalStateException("FileSaver not in use");
 		}
+		
+		// Ensure both are closed before we try to rename.
+		if (mOutputStream != null) {
+			mOutputStream.close();
+		}
+		if (mWriter != null) {
+			mWriter.close();
+		}
 
 		// Delete the previous backup file if it exists;
-		backupFile.delete();
+		if (backupFile.exists() && !backupFile.delete()) {
+			throw new IOException("Failed to delete backup file " + backupFile);
+		}
 
 		// Rename the user's previous file to itsName.bak,
 		// UNLESS this is a new file ;
 		if (inputFile.exists() && !inputFile.renameTo(backupFile)) {
-			throw new IOException("Could not rename file to backup file");
+			throw new IOException("Could not rename file to backup file " + backupFile);
 		}
 
 		// Rename the temporary file to the save file.
