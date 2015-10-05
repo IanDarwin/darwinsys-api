@@ -35,19 +35,20 @@ public class FileSaverTest {
 		}
 	}
 
-	/** Clean up: try to delete the main file and the bak file */
-	@After
+	/** Clean up: try to delete all artifacts after test */
+	@Before @After
 	public void reallyClean() {
 		// Do not care if either of these fails
 		new File(FILENAME).delete();
 		new File(FILENAME + ".bak").delete();
+		new File(FILENAME + ".tmp").delete();
 	}
 
 	/** Test that the overwritten file contains something reasonable,
 	 * and that nothing gets thrown in normal processing.
 	 * @throws IOException
 	 */
-	@Test @Ignore
+	@Test
 	public void testOne() throws IOException {
 		final Writer writer = saver.getWriter();
 		PrintWriter out = new PrintWriter(writer);
