@@ -30,7 +30,7 @@ public class Tag {
 	 */
 	public static void doTag(PrintWriter out, String tag, String content) {
 		startTag(out, tag);
-		out.println(content);
+		out.print(content);
 		endTag(out, tag);
 	}
 
@@ -39,8 +39,7 @@ public class Tag {
 	 * @param tag The tag name
 	 */
 	public static void startTag(PrintWriter out, String tag) {
-		out.print(
-			new StringBuffer(LB).append(tag).append(RB).toString());
+		out.print(new StringBuffer().append(LB).append(tag).append(RB).toString());
 	}
 
 	/** Output an end tag.
@@ -48,7 +47,6 @@ public class Tag {
 	 * @param tag The tag name
 	 */
 	public static void endTag(PrintWriter out, String tag) {
-		out.print(
-			new StringBuffer(LB).append(END).append(tag).append(RB).toString());
+		out.print(new StringBuffer().append(LB).append(END).append(tag).append(RB).toString());
 	}
 }
