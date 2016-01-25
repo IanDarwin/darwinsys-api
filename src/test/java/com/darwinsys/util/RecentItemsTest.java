@@ -7,7 +7,7 @@ import com.darwinsys.util.RecentItems;
 
 import junit.framework.TestCase;
 
-public class RecentItemstest extends TestCase {
+public class RecentItemsTest extends TestCase {
 	
 	Preferences p = Preferences.userNodeForPackage(getClass());
 	RecentItems.Callback lister = new RecentItems.Callback() {
@@ -17,7 +17,6 @@ public class RecentItemstest extends TestCase {
 				System.out.println("LIST contains " + string);
 			}
 		}
-		
 	};
 	RecentItems r;
 	
