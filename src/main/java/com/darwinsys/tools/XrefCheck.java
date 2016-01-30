@@ -20,7 +20,6 @@ public class XrefCheck {
 	private final static boolean VERBOSE_RUN = false;
 
 	public static void main(String[] args) throws Exception {
-		selfTest(VERBOSE_SELFTEST);
 		for (String file : args) {
 			try {
 				accumulateXrefs(file, VERBOSE_RUN);
@@ -35,28 +34,6 @@ public class XrefCheck {
 		}
 	}
 	// END main
-
-	public static void selfTest(boolean verbose) {
-		Matcher md = decl.matcher("[[dog-chapter]]");
-		md.find();
-		if (verbose)
-			System.out.println("DECL: " + md.group(1));
-		if (!"dog-chapter".equals(md.group(1))) {
-			throw new IllegalStateException("Failed to match decl");
-		}
-
-		Matcher mr = ref.matcher("see woof <<dog-chapter>> or meow <<cat_chapter>>.");
-		int i = 0;
-		while (mr.find()) {
-			++i;
-			if (verbose)
-				System.out.println("REF: " + mr.group(1));
-
-		}
-		if (i != 2) {
-			throw new IllegalStateException("Failed to match 2 xrefs");
-		}
-	}
 
 	public static void accumulateXrefs(String fileName, boolean verbose) throws Exception {
 		Matcher md, mr;

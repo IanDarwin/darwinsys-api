@@ -13,7 +13,7 @@ import org.junit.Test;
 public class UnixPasswdEntryTest {
 
 	/** Skip tests if not running on Unix */
-	private boolean isUnix() {
+	public static boolean isUnix() {
 		String os = System.getProperty("os.name");
 		// System.out.println("os.name = " + os);
 		if (os.contains("BSD") || os.contains("Linux"))

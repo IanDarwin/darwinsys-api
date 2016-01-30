@@ -7,6 +7,14 @@ public class StringUtil {
 	
 	public static final String ENCODING_UTF_8 = "UTF-8";
 
+	/** Like String instance method of same name, but null-safe.
+	 * @param s The input string
+	 * @return True if input either is null, or is empty as per String isEmpty().
+	 */
+	public static boolean isEmpty(String s) {
+		return s == null || s.isEmpty();
+	}
+
 	/** Format an array of Object as a list with commas,
 	 * like "apples, oranges, and bananas");
 	 * XXX Should have a boolean for the final comma :-)

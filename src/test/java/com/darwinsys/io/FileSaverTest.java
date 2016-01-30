@@ -35,16 +35,13 @@ public class FileSaverTest {
 		}
 	}
 
-	@After
-	public void tearDown() {
+	/** Clean up: try to delete all artifacts after test */
+	@Before @After
+	public void reallyClean() {
+		// Do not care if either of these fails
 		new File(FILENAME).delete();
-	}
-
-	@AfterClass
-	public static void reallyClean() {
-		if (!new File(FILENAME + ".bak").delete()) {
-			throw new RuntimeException("Failed to delete " + FILENAME + ".bak");
-		}
+		new File(FILENAME + ".bak").delete();
+		new File(FILENAME + ".tmp").delete();
 	}
 
 	/** Test that the overwritten file contains something reasonable,

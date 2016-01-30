@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 /**
- * A very minimal link checker. 
+ * A very minimal link checker; checks one or more links from command line, carefully but not recursively
  * Typical usage: java -cp darwinsys-api.jar com.darwinsys.net.KwikLinkChecker file...
  * @author Ian Darwin
  */
@@ -23,6 +23,10 @@ public class KwikLinkChecker {
 		for (String arg : args) {
 			if (arg.equals("-v")) {
 				verbose = true;
+				continue;
+			}
+			if (arg.startsWith("-") {
+				System.out.println("Invalid argument: " + arg);
 				continue;
 			}
 			LinkStatus stat = checker.check(arg);
