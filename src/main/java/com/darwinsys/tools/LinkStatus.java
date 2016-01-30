@@ -8,4 +8,9 @@ class LinkStatus {
 		this.ok = status;
 		this.message = message;
 	}
+	
+	@Override
+	public String toString() {
+		return ok + " " + message;
+	}
 }

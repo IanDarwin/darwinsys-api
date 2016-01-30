@@ -22,7 +22,9 @@ public class KwikLinkCheckerTest {
 	
 	@Test
 	public void testCheckBadHost() {
-		assertFalse(checker.check("http://ibm.moc/").ok);
+		final LinkStatus check = checker.check("http://ibm.moc/");
+		assertFalse(check.ok);
+		assertTrue(check.message.toLowerCase().contains("host"));
 	}
 	
 	@Test
@@ -32,11 +34,12 @@ public class KwikLinkCheckerTest {
 	
 	@Test
 	public void testBadUrl() {
-		assertFalse(checker.check("http:foo-for-you").ok);
+		final LinkStatus check = checker.check("http:foo-for-you");
+		assertFalse(check.ok);
 	}
 	
 	@Test
 	public void testConnRefused() {
-		checker.check("http://localhost:9999/");
+		assertFalse(checker.check("http://localhost:9999/").ok);
 	}
 }
