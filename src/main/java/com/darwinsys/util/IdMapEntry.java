@@ -12,7 +12,7 @@ public class IdMapEntry {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !obj.getClass().equals(IdMapEntry.class)) {
+		if (obj == null || obj.getClass() != IdMapEntry.class) {
 			return false;
 		}
 		IdMapEntry i2 = (IdMapEntry)obj;

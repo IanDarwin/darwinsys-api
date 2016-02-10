@@ -137,7 +137,7 @@ public class ScaledNumberFormat extends Format {
 
 		/* If no scale factor given, we're done. fraction is discarded. */
 		if (p >= b.length) {
-			return new Long(whole);
+			return Long.valueOf(whole);
 		}
 
 		/* Validate scale factor, and scale whole and fraction by it. */
@@ -162,7 +162,7 @@ public class ScaledNumberFormat extends Format {
 						fpart /= 10;
 				}
 				whole += fpart;
-				return new Long(whole);
+				return Long.valueOf(whole);
 			}
 		}
 		throw new IllegalArgumentException("invalid scale factor " + b[p]);

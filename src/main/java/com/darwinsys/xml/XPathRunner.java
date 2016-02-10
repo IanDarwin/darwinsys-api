@@ -22,6 +22,7 @@ public class XPathRunner {
 	private static String fileName;
 	private static String expr;
 	private static Document document;
+	private static volatile boolean done = false;
 
 	public static void main(String[] args) throws Exception {
 		
@@ -40,7 +41,6 @@ public class XPathRunner {
 		DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		document = parser.parse(new FileInputStream(fileName));
 
-		boolean done = false;
 		if (expr == null) do {
 			expr = promptForPathExpr();
 			System.out.println(eval(expr));
@@ -54,6 +54,7 @@ public class XPathRunner {
 		/** evaluate the XPath expression against the Document */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String secNum = (String) xpath.evaluate(expr, document, XPathConstants.STRING);
+		done = true;
 		return secNum;
 	}
 
