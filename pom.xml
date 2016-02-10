@@ -42,6 +42,7 @@
 		<maven.compiler.testSource>${javase.version}</maven.compiler.testSource>
 		<maven.compiler.testTarget>${javase.version}</maven.compiler.testTarget>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+		<maven.findbugs.version>3.0.1</maven.findbugs.version>
 	</properties>
 
     <dependencies>
@@ -84,6 +85,20 @@
 	  </dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${maven.findbugs.version}</version>
+				<configuration>
+					<xmlOutput>false</xmlOutput>
+					<!-- <excludeFilterFile>src/main/resources/MyFindBugsExcludes.xml</excludeFilterFile> -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<reporting>
 		<plugins>
 			<plugin>
@@ -96,6 +111,11 @@
 						<format>xml</format>
 					</formats>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${maven.findbugs.version}</version>
 			</plugin>
 		</plugins>
 	</reporting>
