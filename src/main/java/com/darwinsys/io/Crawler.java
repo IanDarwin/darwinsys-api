@@ -34,7 +34,7 @@ public class Crawler implements Checkpointer {
 	/** An Error Handler that just prints the exception */
 	public static final CrawlerCallback JUST_PRINT = new CrawlerCallback() {
 		public void handleException(Throwable t) {
-			System.err.printf("File %s caused exception (%s)\n",
+			System.err.printf("File %s caused exception (%s)%n",
 					visitor.getFile().getAbsolutePath(), t);
 			if (isDebug()) {
 				t.printStackTrace();
