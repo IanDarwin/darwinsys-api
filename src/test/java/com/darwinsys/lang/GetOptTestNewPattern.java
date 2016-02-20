@@ -9,15 +9,16 @@ import static org.junit.Assert.fail;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.junit.Test;
-
-import com.darwinsys.util.Debug;
 
 /** Some test cases for GetOpt using the "new" coding pattern
 * @author Ian F. Darwin, http://www.darwinsys.com/
  */
 public class GetOptTestNewPattern {
+	
+	Logger log = Logger.getLogger(getClass().getName());
 	
 	private String goodArgChars = "o:h";
 	private String goodArgs[]  = {
@@ -55,11 +56,11 @@ public class GetOptTestNewPattern {
 
 	private void checkShortArgResults(String argChars, String[] args, boolean shouldFail) {
 		int errs = 0;
-		Debug.println("getopt", "** START NEW WAY ** " + argChars);
+		log.info("** START NEW WAY ** " + argChars);
 		GetOpt go2 = new GetOpt(argChars);
 		Map<String,String> m = go2.parseArguments(args);
 		if (m.size() == 0) {
-			Debug.println("getopt", "NO ARGS MATCHED");
+			log.info("NO ARGS MATCHED");
 		}
 		Iterator<Map.Entry<String,String>> it = m.entrySet().iterator();
 		while (it.hasNext()) {
@@ -72,15 +73,15 @@ public class GetOptTestNewPattern {
 				errs++;
 			}
 			if (val == null || val.equals(""))
-				Debug.println("getopt", "; (no option)");
+				log.info("(no option)");
 			else
-				Debug.println("getopt", "; Option " + val);
+				log.info("Option " + val);
 		}
 
 		List filenames = go2.getFilenameList();
 		for (int i = 0; i < filenames.size(); i++) {
 			String fileName = (String)filenames.get(i);
-			// System.out.println("Filename-like arg " + fileName);
+			log.info("Filename-like arg " + fileName);
 			assertFalse(fileName.startsWith("-"));
 		}
 
@@ -124,7 +125,7 @@ public class GetOptTestNewPattern {
 			String key = (String)e.getKey();
 			String val = (String)e.getValue();
 			char c = key.charAt(0);
-			Debug.println("getopt", "checkLongArgResults() - c == " + c);
+			log.info("checkLongArgResults() - c == " + c);
 			switch(c) {
 				case '?':
 					errs++;
@@ -141,8 +142,9 @@ public class GetOptTestNewPattern {
 					throw new IllegalArgumentException("Unexpected c value " + c);
 			}
 		}
-		assertEquals(1, getopt.getFilenameList().size());
-		assertEquals("infile", getopt.getFilenameList().get(0));
+		assertEquals("Parse errors", 0, errs);
+		assertEquals("File names left after options", 1, getopt.getFilenameList().size());
+		assertEquals("File name from list", "infile", getopt.getFilenameList().get(0));
 	}
 	
 	/**

@@ -135,7 +135,7 @@ public class ClassSourceUtils extends SourceUtils {
 	 */
 	private static void doDir(File f, ClassLoader cl) {
 		final String name = f.getPath();
-		Debug.println(DEBUG_TAG, "SourceUtils.doDir(): " + name);
+		System.out.println("SourceUtils.doDir(): " + name);
 		if (!f.exists()) {
 			throw new IllegalStateException(name + " does not exist");
 		}

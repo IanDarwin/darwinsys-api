@@ -81,9 +81,9 @@ import java.util.Hashtable;
     /**details of one difference. */
     public static class Item {
       /**Start Line number in Data A. */
-      public int StartA;
+      public int startA;
       /**Start Line number in Data B. */
-      public int StartB;
+      public int startB;
 
       /**Number of changes in Data A. */
       public int deletedA;
@@ -101,8 +101,8 @@ import java.util.Hashtable;
 
     /**
      * Find the difference in 2 texts, comparing by textlines.
-     * @param TextA A-version of the text (usualy the old one)
-     * @param TextB B-version of the text (usualy the new one)
+     * @param TextA A-version of the text (usually the old one)
+     * @param TextB B-version of the text (usually the new one)
      * @return Returns a array of Items that describe the differences.
     */
     public static Item[] diffText(String TextA, String TextB) {
@@ -154,24 +154,24 @@ import java.util.Hashtable;
      * as the line that appends the changes, the difference sequence is modified so that the
      * appended line and not the starting line is marked as modified.
      * This leads to more readable diff sequences when comparing text files.
-     * @param Data A Diff data buffer containing the identified changes.
+     * @param data A Diff data buffer containing the identified changes.
     */
-    private static void Optimize(DiffData Data) {
-      int StartPos, EndPos;
+    private static void Optimize(DiffData data) {
+      int startPos, endPos;
 
-      StartPos = 0;
-      while (StartPos < Data.Length) {
-        while ((StartPos < Data.Length) && (Data.modified[StartPos] == false))
-          StartPos++;
-        EndPos = StartPos;
-        while ((EndPos < Data.Length) && (Data.modified[EndPos] == true))
-          EndPos++;
+      startPos = 0;
+      while (startPos < data.Length) {
+        while ((startPos < data.Length) && (data.modified[startPos] == false))
+          startPos++;
+        endPos = startPos;
+        while ((endPos < data.Length) && (data.modified[endPos] == true))
+          endPos++;
 
-        if ((EndPos < Data.Length) && (Data.data[StartPos] == Data.data[EndPos])) {
-          Data.modified[StartPos] = false;
-          Data.modified[EndPos] = true;
+        if ((endPos < data.Length) && (data.data[startPos] == data.data[endPos])) {
+          data.modified[startPos] = false;
+          data.modified[endPos] = true;
         } else {
-          StartPos = EndPos;
+          startPos = endPos;
         } // if
       } // while
     } // Optimize
@@ -179,26 +179,26 @@ import java.util.Hashtable;
 
     /**
      * Find the difference in 2 arrays of integers.
-     * @param ArrayA A-version of the numbers (usualy the old one)
-     * @param ArrayB B-version of the numbers (usualy the new one)
+     * @param arrayA A-version of the numbers (usualy the old one)
+     * @param arrayB B-version of the numbers (usualy the new one)
      * @return Returns a array of Items that describe the differences.
     */
-    public Item[] DiffInt(int[] ArrayA, int[] ArrayB) {
+    public Item[] DiffInt(int[] arrayA, int[] arrayB) {
       // The A-Version of the data (original data) to be compared.
-      DiffData DataA = new DiffData(ArrayA);
+      DiffData dataA = new DiffData(arrayA);
 
       // The B-Version of the data (modified data) to be compared.
-      DiffData DataB = new DiffData(ArrayB);
+      DiffData dataB = new DiffData(arrayB);
 
-      int MAX = DataA.Length + DataB.Length + 1;
+      int MAX = dataA.Length + dataB.Length + 1;
       // vector for the (0,0) to (x,y) search
-      int[] DownVector = new int[2 * MAX + 2];
+      int[] downVector = new int[2 * MAX + 2];
       // vector for the (u,v) to (N,M) search
-      int[] UpVector = new int[2 * MAX + 2];
+      int[] upVector = new int[2 * MAX + 2];
 
-      LCS(DataA, 0, DataA.Length, DataB, 0, DataB.Length, DownVector, UpVector);
-      return CreateDiffs(DataA, DataB);
-    } // Diff
+      LCS(dataA, 0, dataA.Length, dataB, 0, dataB.Length, downVector, upVector);
+      return CreateDiffs(dataA, dataB);
+    }
 
 
     /**
@@ -418,38 +418,38 @@ import java.util.Hashtable;
       Item aItem;
       Item[] result;
 
-      int StartA, StartB;
-      int LineA, LineB;
+      int startA, startB;
+      int lineA, lineB;
 
-      LineA = 0;
-      LineB = 0;
-      while (LineA < DataA.Length || LineB < DataB.Length) {
-        if ((LineA < DataA.Length) && (!DataA.modified[LineA])
-          && (LineB < DataB.Length) && (!DataB.modified[LineB])) {
+      lineA = 0;
+      lineB = 0;
+      while (lineA < DataA.Length || lineB < DataB.Length) {
+        if ((lineA < DataA.Length) && (!DataA.modified[lineA])
+          && (lineB < DataB.Length) && (!DataB.modified[lineB])) {
           // equal lines
-          LineA++;
-          LineB++;
+          lineA++;
+          lineB++;
 
         } else {
           // maybe deleted and/or inserted lines
-          StartA = LineA;
-          StartB = LineB;
+          startA = lineA;
+          startB = lineB;
 
-          while (LineA < DataA.Length && (LineB >= DataB.Length || DataA.modified[LineA]))
+          while (lineA < DataA.Length && (lineB >= DataB.Length || DataA.modified[lineA]))
             // while (LineA < DataA.Length && DataA.modified[LineA])
-            LineA++;
+            lineA++;
 
-          while (LineB < DataB.Length && (LineA >= DataA.Length || DataB.modified[LineB]))
+          while (lineB < DataB.Length && (lineA >= DataA.Length || DataB.modified[lineB]))
             // while (LineB < DataB.Length && DataB.modified[LineB])
-            LineB++;
+            lineB++;
 
-          if ((StartA < LineA) || (StartB < LineB)) {
+          if ((startA < lineA) || (startB < lineB)) {
             // store a new difference-item
             aItem = new Item();
-            aItem.StartA = StartA;
-            aItem.StartB = StartB;
-            aItem.deletedA = LineA - StartA;
-            aItem.insertedB = LineB - StartB;
+            aItem.startA = startA;
+            aItem.startB = startB;
+            aItem.deletedA = lineA - startA;
+            aItem.insertedB = lineB - startB;
             a.add(aItem);
           } // if
         } // if

@@ -95,10 +95,6 @@ public class Crawler implements Checkpointer {
 			} else {
 
 				String nextFileName = next.getName();
-				if (nextFileName == null) {
-					System.err.println("Warning: " + startDir +" contains null filename(s)");
-					continue;
-				}
 
 				// See if we want file by name. Then, if isFile(), process, else ignore quietly
 				// (this squelches lots of natterings about borked symlinks, which are not our worry).

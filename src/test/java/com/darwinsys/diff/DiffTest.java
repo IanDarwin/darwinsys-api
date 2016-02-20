@@ -2,8 +2,12 @@ package com.darwinsys.diff;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * This set of tests came with the original program. Don't ask me any questions about it.
+ */
 public class DiffTest {
 
 	@Test
@@ -52,7 +56,7 @@ public class DiffTest {
 				"0.1.0.0*0.7.1.2*");
 	}
 
-	// @Test() - XXX BROKEN
+	@Test() @Ignore("BROKEN")
 	public void muegelRepro() {
 		String a = "HELLO\nWORLD";
 		String b = "\n\nhello\n\n\n\nworld\n";
@@ -82,8 +86,8 @@ public class DiffTest {
 	public String diffsToString(Diff.Item[] f) {
 		StringBuilder ret = new StringBuilder();
 		for (int n = 0; n < f.length; n++) {
-			ret.append(f[n].deletedA + "." + f[n].insertedB + "." + f[n].StartA
-					+ "." + f[n].StartB + "*");
+			ret.append(f[n].deletedA + "." + f[n].insertedB + "." + f[n].startA
+					+ "." + f[n].startB + "*");
 		}
 		return (ret.toString());
 	}
