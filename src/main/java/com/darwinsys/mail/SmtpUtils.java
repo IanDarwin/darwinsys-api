@@ -24,6 +24,7 @@ public class SmtpUtils {
 
 	public boolean verifySender(final String user, final String host) throws IOException{
 		PrintWriter out = null;
+		Socket s = null;
 		try {
 			String mxHost = null;
 			try {
@@ -32,7 +33,7 @@ public class SmtpUtils {
 				System.out.println("verifySender: cannot vrfy MX");
 				return false; // Should be trinary, for "unknown"?
 			}
-			Socket s = new Socket(mxHost, SMTP_PORT);
+			s = new Socket(mxHost, SMTP_PORT);
 			BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = new PrintWriter(s.getOutputStream(), true);
 			String greeting = readLine(in);
@@ -72,8 +73,12 @@ public class SmtpUtils {
 			return false;
 		
 		} finally {
-			if (out != null)
+			if (out != null) {
 				out.close();
+			}
+			if (s != null) {
+				s.close();
+			}
 		}
 	}
 	public static void send(PrintWriter out, String mesg) {

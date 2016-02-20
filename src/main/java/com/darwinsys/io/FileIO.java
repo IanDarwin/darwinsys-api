@@ -1,19 +1,37 @@
 // BEGIN main
 package com.darwinsys.io;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Logger;
 
 import com.darwinsys.lang.StringUtil;
-import com.darwinsys.util.Debug;
 
 /**
  * Some file I-O primitives reimplemented in Java.
  * All methods are static, since there is no state.
  */
 public class FileIO {
+	
+	static final Logger log = Logger.getLogger(FileIO.class.getName());
 	
 	/** The size of blocking to use */
 	protected static final int BLKSIZ = 16384;
@@ -170,7 +188,7 @@ public class FileIO {
 	public static void copyRecursively(File fromDir, File toDir, boolean create)
 		throws IOException {
 
-		Debug.printf("fileio", "copyRecursively(%s, %s%n", fromDir, toDir);
+		log.info(String.format("copyRecursively(%s, %s%n", fromDir, toDir));
 		if (!fromDir.exists()) {
 			throw new IOException(
 				String.format("Source directory %s does not exist", fromDir));

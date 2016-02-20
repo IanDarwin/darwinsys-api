@@ -95,8 +95,9 @@ public class SQLRunnerCLI {
 			if (!conf.hasPassword()) {
 				System.err.printf("Enter password for connection %s: ", config);
 				System.err.flush();
-				Scanner sc = new Scanner(System.in);      // Requires J2SE 1.5
+				Scanner sc = new Scanner(System.in);
 	            String newPass = sc.next();
+	            sc.close();
 				conf.setPassword(newPass);
 			}
 			Connection conn = ConnectionUtil.getConnection(conf);
