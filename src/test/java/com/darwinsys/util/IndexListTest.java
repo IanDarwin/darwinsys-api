@@ -10,7 +10,7 @@ public class IndexListTest extends TestCase {
 
 	String[] TESTDATA = { "one", "two", "three" };
 
-	IndexList<String> victim = new IndexList<String>();
+	IndexList<String> target = new IndexList<String>();
 
 	/** JUnit test classes require this constructor */
 	public IndexListTest(String name) {
@@ -19,12 +19,12 @@ public class IndexListTest extends TestCase {
 
 	public void setUp() {
 		for (int i = 0; i<TESTDATA.length; i++) {
-			victim.add(TESTDATA[i]);
+			target.add(TESTDATA[i]);
 		}
 	}
 
 	public void testIterator() {
-		Iterator it = victim.iterator();
+		Iterator it = target.iterator();
 		int i = 0;
 		while (it.hasNext()) {
 			assertEquals(TESTDATA[i++], it.next());
@@ -32,11 +32,17 @@ public class IndexListTest extends TestCase {
 	}
 
 	public void testSetAndGet() {
-		victim.set(1, "deux");
-		assertEquals( "deux", victim.get(1));
+		target.set(1, "deux");
+		assertEquals( "deux", target.get(1));
 	}
 
 	public void testSize() {
-		assertEquals( TESTDATA.length, victim.size());
+		assertEquals( TESTDATA.length, target.size());
+	}
+	
+	public void testExpanding() {
+		for (int i = 0; i < 255; i++) {
+			target.add(Integer.toString(i));
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.darwinsys.util;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -35,9 +36,11 @@ public class IndexList<T> implements List<T> {
 	}
 
 	private void ensureCapacity(int i) {
-		if (i > data.length) {
-			Object newData = new Object[i + 10];
+		if (i >= data.length) {
+			@SuppressWarnings("unchecked")
+			T[] newData = (T[])Array.newInstance(data[0].getClass(), i + 10);
 			System.arraycopy(data, 0, newData, 0, hwm);
+			data = newData;
 		}
 	}
 
