@@ -53,8 +53,7 @@ public class ClassSourceUtils extends SourceUtils {
 	
 	private static List<Class<?>> classListFromJar(final String name, List<String> classpath) {
 		final List<Class<?>> results = new ArrayList<Class<?>>();
-		try {
-			final JarFile jf = new JarFile(name);
+		try (final JarFile jf = new JarFile(name)) {
 			final File jFile = new File(name);
 			ClassLoader cl = 
 				new URLClassLoader(new URL[]{makeFileURL(jFile.getAbsolutePath())});
@@ -120,7 +119,7 @@ public class ClassSourceUtils extends SourceUtils {
 
 	private static String startPath;
 	
-	/** doDir - do one directory recursively
+	/** startDir - do one directory recursively
 	 * @param name The input
 	 * @param cl The classloader
 	 */

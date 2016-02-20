@@ -27,15 +27,16 @@ public class XPathRunner {
 	public static void main(String[] args) throws Exception {
 		
 		switch (args.length) {
-		case 0:
-			System.err.println("Usage: XPathRunner file [xpath-expr]\n");
-			return;
 		case 2:
 			expr = args[1];
 			/*FALLTHROUGH*/
 		case 1:
 			fileName = args[0];
 			break;
+		case 0:
+		default:
+			System.err.println("Usage: XPathRunner file [xpath-expr]\n");
+			return;
 		}
 
 		DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
