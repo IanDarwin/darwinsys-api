@@ -4,15 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * A Reloading List - checks every n seconds if
  * the file's timestamp has changed, and rereads if so.
- * Based on Vector since all its methods are synchronized.
- * X is a Y.
  */
-public class ReloadingList extends Vector<String>{
+public class ReloadingList extends ArrayList<String>{
 
 	private static final long serialVersionUID = -2116296360428588971L;
 	/** the file we read from */
@@ -22,7 +20,7 @@ public class ReloadingList extends Vector<String>{
 	/** Default number of seconds for "seconds" */
 	private static final int DEFAULT_INTERVAL_SECONDS = 120;
 	/** time file last modified */
-	private long mtime;
+	private volatile long mtime;
 	
 	public ReloadingList(String fileName) {
 		this(fileName, DEFAULT_INTERVAL_SECONDS);
@@ -40,7 +38,7 @@ public class ReloadingList extends Vector<String>{
 		watcher.start();
 	}
 
-	protected synchronized void read() {
+	protected void read() {
 		try {
 			BufferedReader is = new BufferedReader(new FileReader(file));
 			clear();
