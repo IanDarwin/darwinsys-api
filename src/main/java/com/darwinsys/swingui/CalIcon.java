@@ -108,8 +108,9 @@ public class CalIcon extends JComponent implements Icon {
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 
 		// Allow clock to get painted (voodoo magic)
-		if (showTime)
+		if (showTime) {
 			super.paint(g);
+		}
 
 		// Outline it.
 		g.setColor(Color.black);
