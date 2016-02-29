@@ -2,8 +2,7 @@ package com.darwinsys.csv;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.darwinsys.util.Debug;
+import java.util.logging.Logger;
 
 /** Parse comma-separated values (CSV), a common Windows file format.
  * Sample input: "LU",86.25,"11/4/1998","2:19PM",+4.0625
@@ -27,7 +26,8 @@ import com.darwinsys.util.Debug;
 public class CSVImport implements CSVParser {
 
 	public static final char DEFAULT_SEP = ',';
-
+	final static Logger log = Logger.getLogger(CSVImport.class.getName());
+	
 	/** Construct a CSV parser, with the default separator (`,'). */
 	public CSVImport() {
 		this(DEFAULT_SEP);
@@ -68,7 +68,7 @@ public class CSVImport implements CSVParser {
             else
                 i = advPlain(line, sb, i);
             list.add(sb.toString());
-            Debug.println("csv", sb.toString());
+            log.fine(sb.toString());
 			i++;
 		} while (i < line.length());
 
@@ -112,7 +112,7 @@ public class CSVImport implements CSVParser {
 		int j;
 
 		j = s.indexOf(fieldSep, i); // look for separator
-		Debug.println("csv", "i = " + i + ", j = " + j);
+		log.fine("i = " + i + ", j = " + j);
         if (j == -1) {               	// none found
             sb.append(s.substring(i));
             return s.length();

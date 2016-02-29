@@ -9,12 +9,12 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import com.darwinsys.util.Debug;
+import java.util.logging.Logger;
 
 public class ClassSourceUtils extends SourceUtils {
+	
+	final static Logger log = Logger.getLogger(ClassSourceUtils.class.getName());
 		
-	private static final String DEBUG_TAG = "sourceutils";
 	private static List<Class<?>> result;
 	
 	/**
@@ -98,11 +98,11 @@ public class ClassSourceUtils extends SourceUtils {
 				for (String s : classpath) {
 					final URL anotherURL = makeFileURL(s);
 					urls.add(anotherURL);
-					Debug.println(DEBUG_TAG, "added " + anotherURL);
+					log.fine("added " + anotherURL);
 				}
 			}
 			final int extraElements = urls.size();
-			Debug.println(DEBUG_TAG, "Creating URLClassLoader for " + fileDirURL +
+			log.fine("Creating URLClassLoader for " + fileDirURL +
 					" with " + extraElements + " extra elements.");
 			cl = new URLClassLoader(urls.toArray(new URL[extraElements]));
 		} catch (Exception e) {
@@ -164,10 +164,10 @@ public class ClassSourceUtils extends SourceUtils {
 		
 		if (name.endsWith(".class")) {
 			String className = name.substring(0, name.length() - 6).replace("/", ".");
-			Debug.println(DEBUG_TAG, "SourceUtils.doFile(): '" + className + '\'');
+			log.fine("SourceUtils.doFile(): '" + className + '\'');
 			try {
 				Class<?> c = cl.loadClass(className);
-				Debug.println(DEBUG_TAG, "Loaded OK");
+				log.fine("Loaded OK");
 				return c;
 			} catch (ClassNotFoundException e) {
 				throw new IllegalArgumentException(e);

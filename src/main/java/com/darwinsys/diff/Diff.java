@@ -45,8 +45,8 @@ import java.util.Hashtable;
    * so they can be members of the class to avoid the paramter overhead.
    * In SMS is a lot of boundary arithmetic in the for-D and for-k loops that can be done by increment
    * and decrement of local variables.
-   * The DownVector and UpVector arrays are alywas created and destroyed each time the SMS gets called.
-   * It is possible to reuse tehm when transfering them to members of the class.
+   * The DownVector and UpVector arrays are always created and destroyed each time the SMS gets called.
+   * It is possible to reuse them when transfering them to members of the class.
    * See TODO: hints.
    * 
    * diff.cs: A port of the algorithm to C#
@@ -125,7 +125,7 @@ import java.util.Hashtable;
     */
     public static Item[] diffText(String TextA, String TextB, boolean trimSpace, boolean ignoreSpace, boolean ignoreCase) {
       // prepare the input-text and convert to comparable numbers.
-      Hashtable h = new Hashtable(TextA.length() + TextB.length());
+      Hashtable<String,Integer> h = new Hashtable<>(TextA.length() + TextB.length());
 
       // The A-Version of the data (original data) to be compared.
       DiffData DataA = new DiffData(DiffCodes(TextA, h, trimSpace, ignoreSpace, ignoreCase));
