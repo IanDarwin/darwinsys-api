@@ -229,7 +229,7 @@ import java.util.Hashtable;
           s = s.trim();
 
         if (ignoreSpace) {
-          s = s.replaceAll("\\s+", " ");            // TODO: optimization: faster blank removal.
+          s = s.replaceAll("\\s+", " ");            // TODO: optimize IF NEEDED: faster blank removal.
         }
 
         if (ignoreCase)
