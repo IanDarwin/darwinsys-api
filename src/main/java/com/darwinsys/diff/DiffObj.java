@@ -7,6 +7,12 @@ import java.util.List;
 /** 
  * Compare two objects and report in detail on the diffs;
  * probably useful in audit logs, among other places.
+ * <pre>
+ * final List<DiffField> diffs = DiffObj.diffObj(oldObj, newObj);
+ * for (DiffObj.DiffField d : diffs) {
+ *     auditlog.printf("User %s changed %s from %s to %s%n",
+ *         userName, d.name, d.oldValue, d.newValue);
+ * </pre>
  */
 public class DiffObj {
 
