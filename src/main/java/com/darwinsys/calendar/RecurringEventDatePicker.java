@@ -33,9 +33,12 @@ import java.util.GregorianCalendar;
  */
 public class RecurringEventDatePicker {
 	
+	/** Special constant used in constructor to mean Last Week of Month */
+	public static final int LAST = -1;
+	
 	private DayOfWeek dayOfWeek;
 	
-	private int weekOfMonth = 3;
+	private int weekOfMonth;
 	
 	private LocalTime hourOfDay;
 	
@@ -51,12 +54,15 @@ public class RecurringEventDatePicker {
 	 */
 	public RecurringEventDatePicker(int weekOfMonth, DayOfWeek dayOfWeek, LocalTime hourOfDay) {
 		super();
-		if (weekOfMonth < 1 || weekOfMonth > 5) {
-			throw new IllegalArgumentException("weekOfMonth must be in 1..5");
-		}
 		this.weekOfMonth = weekOfMonth;
 		this.dayOfWeek = dayOfWeek;
 		this.hourOfDay = hourOfDay;
+		if (weekOfMonth == LAST) {
+			return;
+		}
+		if (weekOfMonth < 1 || weekOfMonth > 5) {
+			throw new IllegalArgumentException("weekOfMonth must be in 1..5 or LAST");
+		}
 	}
 	
 	public RecurringEventDatePicker(int weekOfMonth, DayOfWeek dayOfWeek) {
@@ -90,7 +96,9 @@ public class RecurringEventDatePicker {
 	 */
 	public LocalDate getEventLocalDate(int meetingsAway) {
 
-		LocalDate thisMeeting = now.with(TemporalAdjusters.dayOfWeekInMonth(weekOfMonth,dayOfWeek));
+		LocalDate thisMeeting = (weekOfMonth != LAST) ?
+			now.with(TemporalAdjusters.dayOfWeekInMonth(weekOfMonth,dayOfWeek)) :
+			now.with(TemporalAdjusters.lastInMonth(dayOfWeek));
 		// Has the meeting already happened this month?
 		if (thisMeeting.isBefore(now)) {
 			// start from next month

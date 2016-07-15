@@ -65,6 +65,17 @@ public class RecurringEventDatePickerTest {
 	}
 	
 	@Test
+	public void testLastWeek() {
+		RecurringEventDatePicker mp = 
+			new RecurringEventDatePicker(RecurringEventDatePicker.LAST, DayOfWeek.MONDAY);
+		mp.now = LocalDate.of(2010, 05, 05);
+		LocalDate c = mp.getEventLocalDate(0);
+		assertEquals(LocalDate.of(2010, 5, 31), c);
+		LocalDate d = mp.getEventLocalDate(1);
+		assertEquals(LocalDate.of(2010, 6, 28), d);
+	}
+	
+	@Test
 	public void testLegacy() {
 		RecurringEventDatePicker mp = 
 			new RecurringEventDatePicker(3, DayOfWeek.MONDAY);
