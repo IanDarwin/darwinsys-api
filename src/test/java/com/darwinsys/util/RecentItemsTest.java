@@ -8,13 +8,17 @@ import com.darwinsys.util.RecentItems;
 import junit.framework.TestCase;
 
 public class RecentItemsTest extends TestCase {
-	
+
+	private final boolean VERBOSE = false;
+
 	Preferences p = Preferences.userNodeForPackage(getClass());
 	RecentItems.Callback lister = new RecentItems.Callback() {
 
 		public void reload(List<String> items) {
 			for (String string : items) {
-				System.out.println("LIST contains " + string);
+				if (VERBOSE) {
+					System.out.println("LIST contains " + string);
+				}
 			}
 		}
 	};
