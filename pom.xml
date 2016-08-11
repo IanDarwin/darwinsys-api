@@ -173,6 +173,7 @@
 			  <version>2.9.1</version>
 				<configuration>
 					<failOnError>false</failOnError>
+					<excludePackageNames>com.sun:com.darwinsys.swingui</excludePackageNames>
 				</configuration>
 			  <executions>
 				<execution>
