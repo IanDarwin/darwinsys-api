@@ -46,13 +46,14 @@ public class JGrep {
 	protected static boolean recursive = false;
 
 	/** Construct a Grep object for the pattern, and run it
-	 * on all input files listed in argv.
+	 * on all input files listed in args.
 	 * Be aware that a few of the command-line options are not
 	 * acted upon in this version - left as an exercise for the reader!
+	 * @param args args
 	 */
-	public static void main(String[] argv) {
+	public static void main(String[] args) {
 
-		if (argv.length < 1) {
+		if (args.length < 1) {
 		    System.err.println(USAGE);
 		    System.exit(1);
 		}
@@ -61,7 +62,7 @@ public class JGrep {
 		GetOpt go = new GetOpt("cf:hilnrRsv");
 
 		char c;
-		while ((c = go.getopt(argv)) != 0) {
+		while ((c = go.getopt(args)) != 0) {
 			switch(c) {
 				case 'c':
 					countOnly = true;
@@ -108,7 +109,7 @@ public class JGrep {
 		int ix = go.getOptInd();
 
 		if (patt == null)
-			patt = argv[ix++];
+			patt = args[ix++];
 
 		JGrep prog = null;
 		try {
@@ -118,7 +119,7 @@ public class JGrep {
 			return;
 		}
 
-		if (argv.length == ix) {
+		if (args.length == ix) {
 			dontPrintFileName = true; // Don't print filenames if stdin
 			if (recursive) {
 				System.err.println("Warning: recursive search of stdin!");
@@ -126,13 +127,13 @@ public class JGrep {
 			prog.process(new InputStreamReader(System.in), null);
 		} else {
 			if (!dontPrintFileName)
-				dontPrintFileName = ix == argv.length - 1; // Nor if only one file.
+				dontPrintFileName = ix == args.length - 1; // Nor if only one file.
 			if (recursive)
 				dontPrintFileName = false;				// unless a directory!
 
-			for (int i=ix; i<argv.length; i++) { // note starting index
+			for (int i=ix; i<args.length; i++) { // note starting index
 				try {
-					prog.process(new File(argv[i]));
+					prog.process(new File(args[i]));
 				} catch(Exception e) {
 					System.err.println(e);
 				}
