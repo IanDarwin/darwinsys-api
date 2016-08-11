@@ -46,7 +46,10 @@ public class ConnectionUtil {
 		}
 	}
 
-	/** Get a SimpleSQLConfiguration for the given config using the default or set property file name */
+	/** Get a SimpleSQLConfiguration for the given config using the default or set property file name
+	 * @param config the name of the db.properties configuration entry to use
+	 * @return The corresponding Configuration object
+	 */
 	public static Configuration getConfiguration(String config) throws DataBaseException {
 		if (properties.size() == 0) {
 			// Assume not loaded yet....
@@ -80,12 +83,21 @@ public class ConnectionUtil {
 		return new SimpleSQLConfiguration(config, db_url, db_driver, db_user, db_password);
 	}
 
-	/** Get a Connection for the given config using the default or set property file name */
-	public static Connection getConnection(final String configName) throws DataBaseException {
-		return getConnection(properties, configName);
+	/**
+	 * Get a Connection for the given config using the default or set property file name
+	 * @param config The name of the wanted configuration
+	 * @return The matching configuration
+	 */
+	public static Connection getConnection(final String config) throws DataBaseException {
+		return getConnection(properties, config);
 	}
 
-	/** Get a Connection for the given config name from a provided Properties */
+	/**
+	 * Get a Connection for the given config name from a provided Properties 
+	 * @param p The Properties for teh configuration
+	 * @param config The name of the wanted configuration
+	 * @return The matching configuration
+	 */
 	public static Connection getConnection(Properties p,  String configName) throws DataBaseException {
 		try {
 			String db_url = p.getProperty(configName  + "." + "DBURL");
@@ -159,7 +171,8 @@ public class ConnectionUtil {
 		}
 	}
 
-	/** Return all the configurations as SimpleSQLConfiguration objects
+	/**
+	 * @return all the configurations as SimpleSQLConfiguration objects
 	 */
 	public static List<Configuration> getConfigurations() {
 		ensurePropertiesLoaded();

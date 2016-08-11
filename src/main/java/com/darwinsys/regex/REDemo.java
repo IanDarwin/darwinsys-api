@@ -57,8 +57,6 @@ public class REDemo extends JPanel {
 	Object onlyHighlight;
 	Highlighter highlighter;
 
-	/** "main program" method - construct and show
-	 * @throws BadLocationException */
 	public static void main(String[] av) throws BadLocationException {
 		JFrame f = new JFrame("REDemo");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +68,9 @@ public class REDemo extends JPanel {
 	}
 
 	/** Construct the REDemo object including its GUI
-	 * @throws BadLocationException */
+	 * @param parent an existing JFrame in which to display
+	 * @throws BadLocationException on error
+	 */
 	public REDemo(final JFrame parent) throws BadLocationException {
 		super();
 

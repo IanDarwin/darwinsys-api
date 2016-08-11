@@ -140,9 +140,11 @@ public class SQLRunner {
 	 * @param dbUrl String for the JDBC URL
 	 * @param user String for the username
 	 * @param password String for the password, normally in cleartext
+	 * @param outputFile The name of the output file.
 	 * @param outputMode One of the MODE_XXX constants.
 	 * @throws ClassNotFoundException If driver not found
 	 * @throws SQLException On data error
+	 * @throws IOException On data error
 	 */
 	public SQLRunner(String driver, String dbUrl, String user, String password,
 			String outputFile, String outputMode)
@@ -270,10 +272,12 @@ public class SQLRunner {
 	 * </pre>
 	 * @param scriptFile the file to run
 	 * @throws SyntaxException on invalid script input
+	 * @throws SQLException on invalid JDBC
+	 * @throws IOException on invalid read/write
 	 */
 	@Deprecated
 	public void runScript(String scriptFile)
-	throws IOException, SQLException, SyntaxException {
+		throws IOException, SQLException, SyntaxException {
 
 		BufferedReader is;
 
@@ -283,7 +287,8 @@ public class SQLRunner {
 		runScript(is, scriptFile);
 	}
 
-	/** Run one script, by name, given a BufferedReader.
+	/**
+	 * Run one script, by name, given a BufferedReader.
 	 * Deprecated because of the poor capability
 	 * for error handling; it would be better for the
 	 * user interface code to do:
@@ -304,7 +309,8 @@ public class SQLRunner {
 	 */
 	@Deprecated
 	public void runScript(BufferedReader is, String name)
-	throws IOException, SQLException, SyntaxException {
+		throws IOException, SQLException, SyntaxException {
+
 		String stmt;
 
 		while ((stmt = getStatement(is)) != null) {

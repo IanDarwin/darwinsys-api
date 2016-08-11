@@ -5,6 +5,11 @@ import java.security.NoSuchAlgorithmException;
 
 public class DigestUtils {
 
+	/**
+	 * Digest an input string to an MD5 hash
+	 * @param data the input
+	 * @return the md5 hash of the input
+	 */
 	public static String md5(String data) {
 		byte[] bytes = data.getBytes();
 		try {
@@ -28,7 +33,11 @@ public class DigestUtils {
 		'8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
 	};
 
-	/** Convert an array of bytes to a hex string. */
+	/** 
+	 * Convert an array of bytes to a hex string.
+	 * @param bytes The input data
+	 * @return the hexified string
+	 */
 	public static final String toHex(byte bytes[]) {
 		assert bytes != null : "invalid input to toHex()";
 		StringBuffer sb = new StringBuffer(bytes.length * 2);

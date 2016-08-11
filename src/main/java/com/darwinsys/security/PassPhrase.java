@@ -74,6 +74,7 @@ public class PassPhrase {
 
 	/**
 	 * Print one password, or a password of the given length(s)
+	 * @input args args
 	 */
 	public static void main(String[] args) {
 		if (args.length == 0) {

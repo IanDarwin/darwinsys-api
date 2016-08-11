@@ -62,14 +62,12 @@ public class HumanResponseServlet extends HttpServlet {
 
 	private JigglyTextImageWriter jiggler;
 
-	/** @inheritDoc */
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
 		super.init(arg0);
 		jiggler = new JigglyTextImageWriter(new Font("SansSerif", Font.BOLD, 24), W, H); // XXX initparams
 	}
 
-	/** @inheritDoc */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

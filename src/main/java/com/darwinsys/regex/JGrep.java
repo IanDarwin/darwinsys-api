@@ -159,13 +159,13 @@ public class JGrep {
 	}
 
 	/** Process one command line argument (file or directory)
-	 * @throws FileNotFoundException 
+	 * @param file The input File
+	 * @throws FileNotFoundException If the file doesn't exist
 	 */
 	public void process(File file) throws FileNotFoundException {
 		if (!file.exists() || !file.canRead()) {
-			System.err.println(
-				"ERROR: can't read file " + file.getAbsolutePath());
-			return;
+			throw new FileNotFoundException(
+				"Can't read file " + file.getAbsolutePath());
 		}
 		if (file.isFile()) {
 			process(new BufferedReader(new FileReader(file)), 

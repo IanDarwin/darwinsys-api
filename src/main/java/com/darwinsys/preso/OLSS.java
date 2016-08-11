@@ -16,7 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-/** OLSS - the One Line Slide Show presenter: one line per slide, generates
+/** 
+ * OLSS - the one, true, One Line Slide Show presenter: one line per slide, generates
  * HTML, shows in a JFrame
  * XXX Allow to save the HTML so you can use your browser...
  */
@@ -28,6 +29,7 @@ public class OLSS {
 
 	/**
 	 * Main driver program
+	 * @param args The args
 	 */
 	public static void main(String[] args) {
 		OLSS driver = new OLSS();

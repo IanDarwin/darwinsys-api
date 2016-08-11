@@ -41,7 +41,12 @@ public class ArrayListTablePanel<T> extends JPanel {
 	/** The JTable itself */
 	protected JTable table;
 
-	/** Construct new ArrayListTablePanel */
+	/** 
+	 * Construct new ArrayListTablePanel
+	 * @param objClass The type
+	 * @param al The list
+	 * @param lm The model
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayListTablePanel(Class objClass,
 		List<T> al, ArrayListTableModel lm) {
@@ -128,7 +133,7 @@ public class ArrayListTablePanel<T> extends JPanel {
 		add(botPanel, BorderLayout.SOUTH);
 	}
 
-	/** Return a reference to the JTable. */
+	/** @return a reference to the JTable. */
 	public JTable getTable() {
 		return table;
 	}

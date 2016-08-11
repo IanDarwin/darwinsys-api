@@ -42,25 +42,43 @@ public abstract class ResultsDecorator {
 		this.verbosity = v;
 	}
 
-	/** Print the name of this Decorator's output format */
+	/** 
+	 * Print the name of this Decorator's output format
+	 * @return The name of the format.
+	 */
 	public abstract String getName();
 
-	/** Print the contents of a ResultSet */
+	/**
+	 * Print the contents of a ResultSet 
+	 * @param rs The input ResultSet
+	 * @return The write value
+	 * @throws IOException on I/O error
+	 * @throws SQLException on JDBC error
+	 */
 	public abstract int write(ResultSet rs) throws IOException, SQLException;
 
-	/** Print the resultset as a table info */
+	/**
+	 * Print the resultset as a table info
+	 * @param table the table name
+	 * @param rs The input ResultSet
+	 * @throws IOException on I/O error
+	 * @throws SQLException on JDBC error
+	 */
 	public abstract void displayTable(String table, ResultSet rs)
 		throws IOException, SQLException;
 
 	public void printRowCount(int n) throws IOException {
 		out.println("Row Count = " + n);
 	}
+
 	public void println(String line) throws IOException {
 		out.println(line);
 	}
+
 	public void println() throws IOException {
 		out.println();
 	}
+
 	public void print(String lineSeg) throws IOException {
 		out.print(lineSeg);
 	}

@@ -36,6 +36,7 @@ public class DESCrypter {
 
 	/**
 	 * Construct a DESCrypter for the given password
+	 * @param The given password, as input
 	 */
 	public DESCrypter(String passPhrase) {
 		try {
@@ -66,6 +67,8 @@ public class DESCrypter {
 
 	/**
 	 * Encrypt the given string using DES
+	 * @param str The input string
+	 * @return The string, encrypted.
 	 */
 	public String encrypt(String str) {
 		try {
@@ -89,6 +92,7 @@ public class DESCrypter {
 
 	/**
 	 * Decrypt the given string
+	 * @input The string to be decrypted
 	 */
 	public String decrypt(String str) {
 		try {

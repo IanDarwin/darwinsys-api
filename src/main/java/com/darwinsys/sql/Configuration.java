@@ -17,8 +17,9 @@ public interface Configuration {
 	 */
 	public abstract String getPassword();
 
-	/** Convenience: return true if there is a non-null, non-empty password
-	 *
+	/**
+	 * Convenience routine.
+	 * @return true if there is a non-null, non-empty password
 	 */
 	public abstract boolean hasPassword();
 

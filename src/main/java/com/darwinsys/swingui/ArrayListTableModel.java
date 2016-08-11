@@ -78,12 +78,12 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 		return methods.size();
 	}
 
-	/** @inheritDoc */
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return true;
 	}
 
-	/** Cache one most-recently-used item. This is a convenience
+	/** 
+	 * Cache one most-recently-used item. This is a convenience
 	 * routine that subclasses are invited but not required to use.
 	 * Normal use would be, in get/setValueAt():
 	 * <pre>
@@ -93,6 +93,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	 *		}
 	 * </pre>
 	 * @param row The number of the column to get
+	 * @return the cached object
 	 */
 	public Object getCached(int row) {
 		if (row != prevRow) {
