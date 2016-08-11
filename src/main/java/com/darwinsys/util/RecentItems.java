@@ -35,6 +35,7 @@ public class RecentItems {
 	/**
 	 * Add the given filename to the top of the recent list in Prefs and in menu.
 	 * It is generally <b>not</b> necessary for user code to call this method!
+	 * @param f The name to add
 	 */
 	public void putRecent(String f) {
 		// Trim from back end if too long
@@ -85,6 +86,7 @@ public class RecentItems {
 	/**
 	 * Remove the given name from the list; does NOT invoke your callback
 	 * since it might have been invoked in your callback...
+	 * @param f The name to remove
 	 */
 	public void remove(String f) {
 		recentNames.remove(f);

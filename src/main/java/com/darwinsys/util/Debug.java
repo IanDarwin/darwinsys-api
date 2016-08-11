@@ -12,6 +12,8 @@ public class Debug {
 	 * For example:<br>
 	 * if (Debug.isEnabled("fileio"))<br>
 	 * 	System.out.println("Starting to read file " + fileName);
+	 * @param category The category
+	 * @return True if the category is enabled for debuggin
 	 */
 	public static boolean isEnabled(String category) {
 		return System.getProperty(DEBUG_STRING + category) != null;
@@ -19,6 +21,8 @@ public class Debug {
 
 	/** Static method to println a given message if the
 	 * given category is enabled for debugging, as reported by isEnabled.
+	 * @param category The category
+	 * @param msg The message
 	 */
 	public static void println(String category, String msg) {
 		if (isEnabled(category))
@@ -27,6 +31,8 @@ public class Debug {
 	
 	/** Static method to println an arbitrary Object if the given
 	 * category is enabled for debugging, as reported by isEnabled.
+	 * @param category The category
+	 * @param stuff The message
 	 */
 	public static void println(String category, Object stuff) {
 		println(category, stuff.toString());
@@ -34,9 +40,12 @@ public class Debug {
 	
 	/** Invoke System.out.printf if and only if the given
 	 * category is enabled for debugging, as reported by isEnabled.
+	 * @param category The category
+	 * @param format The format string
+	 * @param objects The parameters for the format string
 	 */
 	public static void printf(String category, String format, Object...objects) {
 		if (isEnabled(category))
 			System.out.printf(format, objects);
 	}
-} 
+}

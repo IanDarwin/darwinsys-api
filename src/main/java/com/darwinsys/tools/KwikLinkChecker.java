@@ -42,6 +42,8 @@ public class KwikLinkChecker {
 	 * message part of the LinkStatus.  The end of this method is one of
 	 * the few places where a whole raft of different "catch" clauses is
 	 * actually needed for the intent of the program.
+	 * @param urlString the link to check
+	 * @return the link's status
 	 */
 	public LinkStatus check(String urlString) {
 		URL url;

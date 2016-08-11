@@ -7,15 +7,18 @@ import java.text.ParsePosition;
 
 /**
  * Ordinal formatted numbers: 1st, 2nd, 3rd, 4th, etc.
- * @author ian
- *
+ * @author Ian Darwin
  */
 public class OrdinalFormat extends NumberFormat {
 
 	private static final long serialVersionUID = 3256727294604489521L;
 
 	/** Format the ordinal.
+	 * @param iNum the number to be formatted
+	 * @param sb The strinbuffer into which we format
+	 * @param ignored As you might expect, this value is ignored; required by inheritance
 	 * @see java.text.NumberFormat#format(double, java.lang.StringBuffer, java.text.FieldPosition)
+	 * @return The StringBuffer for fluent API use.
 	 */
 	public StringBuffer format(final int iNum, final StringBuffer sb,
 			final FieldPosition ignored) {

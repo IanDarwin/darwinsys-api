@@ -31,7 +31,10 @@ public class FileProperties extends Properties {
 	/** True if the file represented by fileName exists */
 	private boolean exists = false;
 
-	/** Construct a FileProperties given a fileName. */
+	/** Construct a FileProperties given a fileName.
+	 * @param loadsaveFileName the file used for input and output
+	 * @throws IOException If the file can't be loaded
+	 */
 	public FileProperties(String loadsaveFileName)
 	throws IOException {
 		super();
@@ -51,6 +54,9 @@ public class FileProperties extends Properties {
 
 	/** Construct a FileProperties given a fileName and
 	 * a list of default properties.
+	 * @param loadsaveFileName the file
+	 * @param defProp The default properties
+	 * @throws IOException when appropriate
 	 */
 	public FileProperties(String loadsaveFileName, Properties defProp)
 	throws IOException {
@@ -61,6 +67,7 @@ public class FileProperties extends Properties {
 
 	/** Set the fileName. If it exists not, but it+".properties" does,
 	 * save the full name.
+	 * @parameter newName the filanem
 	 */
 	void setFileName(String newName) {
 		fileName = newName;
@@ -84,6 +91,8 @@ public class FileProperties extends Properties {
 
 	/** Load the properties from the saved filename.
 	 * If that fails, try again, tacking on the .properties extension
+	 * @throws IOException when appropriate
+	 * @return The loaded properties, for fluent API use
 	 */
 	public Properties load() throws IOException {
 
@@ -104,9 +113,9 @@ public class FileProperties extends Properties {
 	}
 
 	/** Save the properties to disk for later loading.
-	 * May only be used if this FileProperties was created
-	 * with a filename; otherwise, use store() and give an
-	 * OutputStream
+	 * May only be used if this FileProperties was created with
+	 * a filename; otherwise, use store() and give an OutputStream
+	 * @throws IOException The file could not be saved, alas.
 	 * @deprecated Use store(OutputStream) instead.
 	 */
 	@Deprecated

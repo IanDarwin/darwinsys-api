@@ -36,7 +36,10 @@ public class CheckAccessorsDirectory {
 		CheckAccessors.process(clazz);
 	}
 	
-    /** This method provides data to the constructor for use in tests */
+    /** 
+	 * This method provides data to the constructor for use in tests
+	 * @return the data for the constructor
+	 */
     @Parameters
     public static List<Class<?>[]> data() {
 		System.out.println("CheckAccessorsDirectory.data()");

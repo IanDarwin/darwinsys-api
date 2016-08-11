@@ -93,7 +93,7 @@ public class Mailer {
 	}
 
 	/** Add one "to" recipient.
-	 * @param to 
+	 * @param to The recipient to add
 	 */
 	public void addTo(String to) {
 		toList.add(to);

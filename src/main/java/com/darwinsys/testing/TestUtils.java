@@ -91,6 +91,10 @@ public class TestUtils {
 	/**
 	 * A debugging method to report on fields that differ, *NOT* using the
 	 * target objects' equals() method.
+	 * @param o1 The first input
+	 * @param o2 The second input
+	 * @return a List of the differences
+	 * @throws java.lang.Exception On any error
 	 */
 	public static List<String> compareAll(Object o1, Object o2) throws Exception  {
 		final List<String> diffs = new ArrayList<String>();
@@ -123,6 +127,7 @@ public class TestUtils {
 	 * love those copy-and-paste errors in legacy constructors
 	 * that are set by hand...).
 	 * @param o The object (of any type) to be tested.
+	 * @throws java.lang.Exception On any error
 	 */
 	public static void assertNoDefaultProperties(Object o) throws Exception {
 		if (o == null) {

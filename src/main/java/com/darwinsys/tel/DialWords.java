@@ -27,7 +27,11 @@ public class DialWords {
 		9, 9, 9, 9	// w, y, y, z
 	};
 
-	/** Convert a name to its numeric equivalent */
+	/** 
+	 * Convert a name to its numeric equivalent
+	 * @param name the input
+	 * @return the numeric version
+	 */
 	public static String nameToNumber(String name) {
 		StringBuilder s = new StringBuilder();
 		for (char c : name.toLowerCase(Locale.ENGLISH).toCharArray()) {
@@ -45,7 +49,11 @@ public class DialWords {
 		return s.toString();
 	}
 
-	/** The harder case, simplified - must be 4-digit number */
+	/**
+	 * The harder case, simplified - must be 4-digit number
+	 * @param number the input
+	 * @return the name version
+	 */
 	public static String[] numberToName(String number) {
 		if (number.length() != 4) {
 			throw new IllegalArgumentException(
@@ -85,5 +93,4 @@ public class DialWords {
 		}
 		return sResults;
 	}
-
 }

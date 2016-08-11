@@ -71,7 +71,9 @@ public class DateRangeUIHelper {
 		return dateRanges.clone();
 	}
 
-	/** Return the &lt;choice&gt; values for use in a DropDown and in getDateFromRange(). */
+	/** 
+	 * @return the &lt;choice&gt; values for use in a DropDown and in getDateFromRange().
+	 */
 	public static String[] getDateRangeValues() {
 		String[] choices = new String[dateRanges.length];
 		for (int i = 0; i < dateRanges.length; i++) {
@@ -80,7 +82,9 @@ public class DateRangeUIHelper {
 		return choices;
 	}
 
-	/** Return the &lt;choice&gt; labels for use in a DropDown and in getDateFromRange(). */
+	/** 
+	 * @return the &lt;choice&gt; labels for use in a DropDown and in getDateFromRange().
+	 */
 	public static String[] getDateRangeLabels() {
 		String[] choices = new String[dateRanges.length];
 		for (int i = 0; i < dateRanges.length; i++) {

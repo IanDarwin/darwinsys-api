@@ -220,6 +220,7 @@ public class ScaledNumberFormat extends Format {
 	 * Format a given long as a Scaled Numeral. This method is the REAL
 	 * FORMATTING ENGINE.
 	 * @param number Number to format
+	 * @return the formatted number as a String
 	 */
 	public String format(long number) {
 		long fract = 0;

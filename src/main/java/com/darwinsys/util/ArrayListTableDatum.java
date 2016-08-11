@@ -8,7 +8,10 @@ package com.darwinsys.util;
 public class ArrayListTableDatum {
 	String name;
 	String value;
-	/** Constructor used below */
+	/** Constructor used below
+	 * @param n the name
+	 * @param v the value
+	 */
 	public ArrayListTableDatum(String n, String v) {
 		name = n; value = v;
 	}

@@ -95,7 +95,7 @@ public class ConnectionUtil {
 	/**
 	 * Get a Connection for the given config name from a provided Properties 
 	 * @param p The Properties for teh configuration
-	 * @param config The name of the wanted configuration
+	 * @param configName The name of the wanted configuration
 	 * @return The matching configuration
 	 */
 	public static Connection getConnection(Properties p,  String configName) throws DataBaseException {
@@ -185,6 +185,8 @@ public class ConnectionUtil {
 	
 	/** Convert a TransactionIsolation int (defined in java.sql.Connection)
 	 * to the corresponding printable string.
+	 * @param txisolation The input level
+	 * @return the printable version of the name
 	 */
 	public static String transactionIsolationToString(int txisolation) {
 		switch(txisolation) {
