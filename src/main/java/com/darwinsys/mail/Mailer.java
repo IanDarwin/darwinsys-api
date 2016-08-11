@@ -77,18 +77,24 @@ public class Mailer {
 		return toList;
 	}
 
-	/** Set to list to an ArrayList of Strings */
+	/** Set to list to an ArrayList of Strings
+	 * @param to The list of recipients
+	 */
 	public void setToList(ArrayList<String> to) {
 		toList = to;
 	}
 
 	/** Set to as a string like "tom, mary, robin@host". Loses any
-	 * previously set values. */
-	public void setToList(String s) {
-		toList = Arrays.asList(s.split(",\\s+"));
+	 * previously set values.
+	 * @param to The list of recipients
+	 */
+	public void setToList(String to) {
+		toList = Arrays.asList(to.split(",\\s+"));
 	}
 
-	/** Add one "to" recipient */
+	/** Add one "to" recipient.
+	 * @param to 
+	 */
 	public void addTo(String to) {
 		toList.add(to);
 	}

@@ -19,13 +19,13 @@ import java.util.GregorianCalendar;
  * </pre>
  * In a JSP you might use:
  * <pre>
- * Next three meetings: <%
+ * Next three meetings: &lt;%
  * RecurringEventDatePicker dp = new RecurringEventDatePicker(3, DayOfWeek.WEDNESDAY);
  * DateTimeFormatter dfm = 
  * 			DateTimeFormatter.ofPattern("MMMM d, yyyy");
  * out.println("*" + dp.getEventDate(0).format(dfm));
  * out.println("*" + dp.getEventDate(1).format(dfm));
- * out.println("*" + dp.getEventDate(2).format(dfm)); %>
+ * out.println("*" + dp.getEventDate(2).format(dfm)); %&gt;
  * </pre>
  * @author Original code by Derek Marcotte.
  * @author Improvements and JUnit tests by Ian Darwin
@@ -51,6 +51,7 @@ public class RecurringEventDatePicker {
 	 * new RecurringEventDatePicker(3, DayOfWeek.TUESDAY);
 	 * @param weekOfMonth The recurrence week of the month
 	 * @param dayOfWeek The recurrence day of the week
+	 * @param hourOfDay The time of day the events are held
 	 */
 	public RecurringEventDatePicker(int weekOfMonth, DayOfWeek dayOfWeek, LocalTime hourOfDay) {
 		super();

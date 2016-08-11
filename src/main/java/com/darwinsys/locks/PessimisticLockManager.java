@@ -42,6 +42,7 @@ public interface PessimisticLockManager<T> {
 	
 	/** Release the given lock. 
 	 * @param lock The lock
+	 * @return True if the lock was held
 	 */
 	boolean releaseLock(Lock lock);
 

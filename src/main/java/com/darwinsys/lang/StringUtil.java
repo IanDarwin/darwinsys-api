@@ -39,8 +39,8 @@ public class StringUtil {
 	}
 
 	/** Reverse a String character by character, 'not now' returns 'won ton'
-	 * @input The string to reverse
-	 * @reverse The reversed string
+	 * @param str The string to reverse
+	 * @return The reversed string
 	 */
 	public static String reverse(String str) {
 		return new StringBuffer(str).reverse().toString();

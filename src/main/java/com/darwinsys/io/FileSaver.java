@@ -98,6 +98,7 @@ public class FileSaver {
 	 *		fileSaver = new FileSaver(file);
 	 * }
 	 * </pre>
+	 * @return the File object for the file to be saved
 	 */
 	public File getFile() {
 		return inputFile;

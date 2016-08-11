@@ -290,14 +290,14 @@ public class FileIO {
 	// Methods that do reading.
 
 	/** Open a file and read the first line from it.
-	 * String input The input file
-	 * @return The line that was read from 'input'
-	 * @throws FileNotFoundException If input cannot be opened
+	 * @param fileName The input file
+	 * @return The line that was read from 'fileName'
+	 * @throws FileNotFoundException If fileName cannot be opened
 	 * @throws IOException If the reading fails
 	 */
-	public static String readLine(String input)
+	public static String readLine(String fileName)
 	throws FileNotFoundException, IOException {
-		try (BufferedReader is = new BufferedReader(new FileReader(input))) {
+		try (BufferedReader is = new BufferedReader(new FileReader(fileName))) {
 			String line = null;
 			line = is.readLine();
 			return line;
@@ -307,7 +307,7 @@ public class FileIO {
 	/** Read the entire content of a Reader into a String;
 	 * of course Readers should only be used for text files;
 	 * please do not use this to read a JPEG file, for example.
-	 * @param is The input
+	 * @param is An open Reader from which to read the input
 	 * @return The string
 	 * @throws IOException If reading fails
 	 */
