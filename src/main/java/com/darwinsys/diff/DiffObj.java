@@ -13,6 +13,7 @@ import java.util.List;
  *     auditlog.printf("User %s changed %s from %s to %s%n",
  *         userName, d.name, d.oldValue, d.newValue);
  * </pre>
+ * @author Ian Darwin
  */
 public class DiffObj {
 
