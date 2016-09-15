@@ -1,19 +1,48 @@
 package com.darwinsys.diff;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.darwinsys.diff.Diff.Item;
 
 /**
  * This set of tests came with the original program. Don't ask me any questions about it.
  */
 public class DiffTest {
 
+	/**
+	 * The output of this method is not intended to be generally useful, only
+	 * to make a representation of the Diff.Item list that is easily
+	 * comparable in calls to assertEquals()
+	 * @param f The array of Diff.Item objects
+	 * @return A single string representation of the input array
+	 */
+	private String diffsToString(Diff.Item[] f) {
+		StringBuilder ret = new StringBuilder();
+		for (int n = 0; n < f.length; n++) {
+			ret.append(f[n].deletedA + "." + f[n].insertedB + "." + f[n].startA
+					+ "." + f[n].startB + "*");
+		}
+		return (ret.toString());
+	}
+	
+	@Test
+	public void selfTestDiffsToString() {
+		Item input = new Item();
+		input.startA = 42;
+		input.startB = 51;
+		input.deletedA = 33;
+		input.insertedB = 24;
+		Diff.Item[] diffs = { input  };
+		assertEquals("33.24.42.51*", diffsToString(diffs));
+	}
+	
 	@Test
 	public void allDifferent() {
-		String a = "a,b,c,d,e,f,g,h,i,j,k,l".replace(',', '\n');
-		String b = "0,1,2,3,4,5,6,7,8,9".replace(',', '\n');
+		String a = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\n";
+		String b = "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n";
 		assertEquals("all-changes test", 
 				diffsToString(Diff.diffText(a, b, false, false, false)), 
 				"12.10.0.0*");
@@ -21,7 +50,7 @@ public class DiffTest {
 
 	@Test
 	public void allSame() {
-		String a = "a,b,c,d,e,f,g,h,i,j,k,l".replace(',', '\n');
+		String a = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\n";
 		String b = a;
 		assertEquals("all-same test", 
 				diffsToString(Diff.diffText(a, b, false, false, false)), 
@@ -30,8 +59,8 @@ public class DiffTest {
 
 	@Test
 	public void snake() {
-		String a = "a,b,c,d,e,f".replace(',', '\n');
-		String b = "b,c,d,e,f,x".replace(',', '\n');
+		String a = "a\nb\nc\nd\ne\nf\n";
+		String b = "b\nc\nd\ne\nf\nx\n";
 		assertEquals("snake test", 
 				diffsToString(Diff.diffText(a, b, false, false, false)), 
 				"1.0.0.0*0.1.6.5*");
@@ -39,8 +68,8 @@ public class DiffTest {
 
 	@Test
 	public void repro() {
-		String a = "c1,a,c2,b,c,d,e,g,h,i,j,c3,k,l".replace(',', '\n');
-		String b = "C1,a,C2,b,c,d,e,I1,e,g,h,i,j,C3,k,I2,l".replace(',', '\n');
+		String a = "c1\na\nc2\nb\nc\nd\ne\ng\nh\ni\nj\nc3\nk\nl";
+		String b = "C1\na\nC2\nb\nc\nd\ne\nI1\ne\ng\nh\ni\nj\nC3\nk\nI2\nl";
 		assertEquals("repro20020920 test", 
 				diffsToString(Diff.diffText(a, b, false, false, false)),
 				"1.1.0.0*1.1.2.2*0.2.7.7*1.1.11.13*0.1.13.15*");
@@ -49,14 +78,14 @@ public class DiffTest {
 	@Test
 	public void repro20030207() {
 		// 2003.02.07 - repro
-		String a = "F".replace(',', '\n');
-		String b = "0,F,1,2,3,4,5,6,7".replace(',', '\n');
+		String a = "F";
+		String b = "0\nF\n1\n2\n3\n4\n5\n6\n7";
 		assertEquals("repro20030207 test",
 				diffsToString(Diff.diffText(a, b, false, false, false)), 
 				"0.1.0.0*0.7.1.2*");
 	}
 
-	@Test() @Ignore("BROKEN")
+	@Test() @Ignore("BROKEN") // Is it the test or the code that's wrong? I think the test...
 	public void muegelRepro() {
 		String a = "HELLO\nWORLD";
 		String b = "\n\nhello\n\n\n\nworld\n";
@@ -67,8 +96,8 @@ public class DiffTest {
 
 	@Test
 	public void someDiffs() {
-		String a = "a,b,-,c,d,e,f,f".replace(',', '\n');
-		String b = "a,b,x,c,e,f".replace(',', '\n');
+		String a = "a\nb\n-\nc\nd\ne\nf\nf";
+		String b = "a\nb\nx\nc\ne\nf";
 		assertEquals("some-changes test", 
 				diffsToString(Diff.diffText(a, b, false, false, false)), 
 				"1.1.2.2*1.0.4.4*1.0.7.6*");
@@ -76,19 +105,10 @@ public class DiffTest {
 
 	@Test
 	public void oneChangeWithinLongChainOfRepeats() {
-		String a = "a,a,a,a,a,a,a,a,a,a".replace(',', '\n');
-		String b = "a,a,a,a,-,a,a,a,a,a".replace(',', '\n');
+		String a = "a\na\na\na\na\na\na\na\na\na\n";
+		String b = "a\na\na\na\n-\na\na\na\na\na\n";
 		assertEquals("long chain of repeats test", 
 				diffsToString(Diff.diffText(a, b, false, false, false)),
 				"0.1.4.4*1.0.9.10*");
-	}
-
-	public String diffsToString(Diff.Item[] f) {
-		StringBuilder ret = new StringBuilder();
-		for (int n = 0; n < f.length; n++) {
-			ret.append(f[n].deletedA + "." + f[n].insertedB + "." + f[n].startA
-					+ "." + f[n].startB + "*");
-		}
-		return (ret.toString());
 	}
 }

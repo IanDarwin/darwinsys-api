@@ -1,7 +1,7 @@
 package com.darwinsys.diff;
 
 public enum DiffType {
-	LEFTONLY,	/* aka deletion */
+	DELETE_ONLY,
 	CHANGED,
-	RIGHONLY;	/* aka insertion */
+	INSERT_ONLY
 }
