@@ -5,8 +5,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
-import com.darwinsys.util.Debug;
-
 /** A simplistic CircleLayout implementation of the LayoutManager interface.
  * Components are drawn at their preferred size.
  * <br>
@@ -20,6 +18,8 @@ public class CircleLayout implements LayoutManager {
 
 	/** True to start at 12:00 position; false to start 1/2 way */
 	boolean startAtTop = false;
+
+	private final static boolean debug = false;
 
 	/** Construct a CircleLayout
 	 */
@@ -102,7 +102,8 @@ public class CircleLayout implements LayoutManager {
 			double theta = Math.toRadians(angle);
 			int x = (int)(Math.sin(theta) * radius);
 			int y = (int)(Math.cos(theta) * radius);
-			Debug.println("layout", c.getClass().getName() + 
+			if (debug)
+				System.out.println("layout", c.getClass().getName() + 
 				" " + angle + ", " + theta +
 				", x=" + x + ", y=" + y);
 			c.setBounds(dx + x - (d.width/2), dy + y - (d.height/2),
