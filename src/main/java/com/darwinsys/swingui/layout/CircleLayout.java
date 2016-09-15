@@ -103,7 +103,7 @@ public class CircleLayout implements LayoutManager {
 			int x = (int)(Math.sin(theta) * radius);
 			int y = (int)(Math.cos(theta) * radius);
 			if (debug)
-				System.out.println("layout", c.getClass().getName() + 
+				System.out.println(c.getClass().getName() + 
 				" " + angle + ", " + theta +
 				", x=" + x + ", y=" + y);
 			c.setBounds(dx + x - (d.width/2), dy + y - (d.height/2),
