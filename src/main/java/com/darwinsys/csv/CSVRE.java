@@ -28,7 +28,7 @@ public class CSVRE implements CSVParser {
 	 * the third a null field.
 	 */
 	public static final String CSV_PATTERN =
-		"\"([^\"]+?)\",?|([^,]+),?|,";
+		"\"([^\"]+?)\",?|([^,]*),?|,";
 
 	private final static Pattern csvRE = Pattern.compile(CSV_PATTERN);
 
