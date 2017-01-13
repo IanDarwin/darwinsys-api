@@ -2,6 +2,7 @@ package com.darwinsys.locks;
 
 /** The representation of one lock in the
  * PessimisticLockManager.
+ * XXX Should maybe re-write using java.util.concurrent.locks.Lock
  */
 public interface Lock {
 	
