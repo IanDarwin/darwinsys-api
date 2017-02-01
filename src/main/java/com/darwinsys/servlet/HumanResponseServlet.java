@@ -26,7 +26,8 @@ import com.darwinsys.security.PassPhrase;
  * it in a temp file, and write the &lt;IMG&gt; tag back to the user
  * <p>
  * Because of this, there must be a <em>writable</em> Temporary
- * Directory /tmp inside the web app directory; this is unusual
+ * Directory named by the *context* init parameter LOCAL_TMP_KEY (defaults
+ * to LOCAL_TMP_DIR) inside the web app directory; this is slightly unusual
  * from a security point of view but would be quite hard to subvert
  * since the servlet does not accept any parameters from the user
  * that are used in creating the file.
@@ -55,6 +56,8 @@ public class HumanResponseServlet extends HttpServlet {
 
 	public static final String SESSION_KEY_RESPONSE = "c.d.s.RESPONSE_STRING";
 	public static final String SESSION_KEY_TIMESTAMP = "c.d.s.RESPONSE_TIME";
+	public final static String LOCAL_TMP_KEY = "com.darwinsys.servlet.LOCAL_TMP_PATH";
+	public final static String LOCAL_TMP_DIR = "/hrtmp";
 	private static final long serialVersionUID = -101972891L;
 	private static final int NUM_CHARS = 7;
 	static final int H = 100;
@@ -83,7 +86,11 @@ public class HumanResponseServlet extends HttpServlet {
 		// And the timestamp
 		session.setAttribute(SESSION_KEY_TIMESTAMP, System.currentTimeMillis());
 
-		final File dir = new File(application.getRealPath("/tmp"));
+		String tmpDir = getInitParameter(LOCAL_TMP_KEY);
+		if (tmpDir == null)
+			tmpDir = LOCAL_TMP_DIR;
+		final File dir = new File(application.getRealPath(tmpDir));
+		dir.mkdirs();	// Ignore return, it probably exists
         final File tempFile = File.createTempFile("challenge", ".jpg", dir);
 
 		// Generate the image
