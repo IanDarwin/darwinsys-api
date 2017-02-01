@@ -13,7 +13,7 @@ public class StringArrayReader extends Reader {
 	private String[] lines;
 	private int lineNumber = 0, posInLine = 0;
 	
-	StringArrayReader(String[] lines) {
+	public StringArrayReader(String[] lines) {
 		this.lines = lines;
 	}
 	
