@@ -101,16 +101,19 @@ public class ConnectionUtil {
 	public static Connection getConnection(Properties p,  String configName) throws DataBaseException {
 		try {
 			String db_url = p.getProperty(configName  + "." + "DBURL");
+			if (db_url == null) {
+				throw new DataBaseException(configName + ".DBURL is null");
+			}
 			String db_driver = p.getProperty(configName  + "." + "DBDriver");
+			if (db_driver == null) {
+				throw new DataBaseException(configName + ".DBDriver is null");
+			}
+			// User and pass may be optional
 			String db_user = p.getProperty(configName  + "." + "DBUser");
 			String db_password = p.getProperty(configName  + "." + "DBPassword");
-			if (db_driver == null || db_url == null) {
-				throw new DataBaseException("Driver or URL null: " + configName);
-			}
 			return getConnection(db_url, db_driver, db_user, db_password);
 		} catch (ClassNotFoundException ex) {
 			throw new DataBaseException(ex.toString());
-
 		} catch (SQLException ex) {
 			throw new DataBaseException(ex.toString());
 		}
