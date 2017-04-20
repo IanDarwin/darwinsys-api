@@ -23,7 +23,8 @@ public class ConnectionUtilTest {
 	@BeforeClass
 	public static void setupConfigs() {
 		// This works on Maven and Eclipse. Other build tools: yer on yer own.
-		ConnectionUtil.setConfigFileName("target/classes/db.properties");
+		// ConnectionUtil.setConfigFileName("target/classes/db.properties");
+		// Just use the provided one, on Maven test classpath.
 	}
 	
 	/** Check that we have at least one configuration */

@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -24,8 +24,10 @@ public class ConnectionUtil {
 	/** The default config filename, relative to CLASSPATH and/or ${user.home} */
 	public static final String DEFAULT_NAME = ".db.properties";
 	/** The current config filename */
-	private static String currentConfigFileName =
+	private static String userHomeConfigFileName =
 		System.getProperty("user.home") + File.separator + DEFAULT_NAME;
+	/** The actual config file used */
+	private static String configFilePath = null;
 	private static Verbosity verbosity = Verbosity.QUIET;
 	/** The contents of the current Configuration file */
 	private static final Properties properties = new Properties();
@@ -38,11 +40,12 @@ public class ConnectionUtil {
 		if (!file.canRead()) {
 			throw new IllegalArgumentException("Unreadable: " + configFileName);
 		}
-		try { // set saved filename to canonical path, if it loads OK
+		try (InputStream is = new FileInputStream(file.getCanonicalPath())) {
 			properties.load(new FileInputStream(file.getCanonicalPath()));
-			currentConfigFileName = file.getCanonicalPath();
+			// set saved filename to canonical path, if it loads OK
+			configFilePath = file.getCanonicalPath();
 		} catch (IOException ex) {
-			throw new IllegalArgumentException("IO error checking path: " + configFileName);
+			throw new IllegalArgumentException("IO error reading config file: " + configFileName);
 		}
 	}
 
@@ -51,18 +54,7 @@ public class ConnectionUtil {
 	 * @return The corresponding Configuration object
 	 */
 	public static Configuration getConfiguration(String config) throws DataBaseException {
-		if (properties.size() == 0) {
-			// Assume not loaded yet....
-			try {
-				InputStream inputStream = ConnectionUtil.class.getResourceAsStream("/" + DEFAULT_NAME);
-				if (inputStream == null) {
-					inputStream = new FileInputStream(currentConfigFileName);
-				}
-				properties.load(inputStream);
-			} catch (IOException ex) {
-				throw new DataBaseException(ex.toString());
-			}
-		}
+		ensurePropertiesLoaded();
 		return getConfiguration(properties, config);
 	}
 
@@ -99,14 +91,15 @@ public class ConnectionUtil {
 	 * @return The matching configuration
 	 */
 	public static Connection getConnection(Properties p,  String configName) throws DataBaseException {
+		ensurePropertiesLoaded();
 		try {
 			String db_url = p.getProperty(configName  + "." + "DBURL");
 			if (db_url == null) {
-				throw new DataBaseException(configName + ".DBURL is null");
+				throw new DataBaseException(configName + ".DBURL is null in " + configFilePath);
 			}
 			String db_driver = p.getProperty(configName  + "." + "DBDriver");
 			if (db_driver == null) {
-				throw new DataBaseException(configName + ".DBDriver is null");
+				throw new DataBaseException(configName + ".DBDriver is null in " + configFilePath);
 			}
 			// User and pass may be optional
 			String db_user = p.getProperty(configName  + "." + "DBUser");
@@ -137,7 +130,6 @@ public class ConnectionUtil {
 	}
 
 	public static Connection getConnection(Configuration c) throws ClassNotFoundException, SQLException {
-		ensurePropertiesLoaded();
 		return getConnection(c.getDbURL(), c.getDriverName(), c.getUserName(), c.getPassword());
 	}
 
@@ -148,11 +140,9 @@ public class ConnectionUtil {
 	public static Set<String> getConfigurationNames() {
 		ensurePropertiesLoaded();
 		Set<String> configNames = new TreeSet<String>();
-		Enumeration enumeration = properties.keys();
-		while (enumeration.hasMoreElements()) {
-			String element = (String) enumeration.nextElement();
+		for (String element : properties.stringPropertyNames()) {
 			int offset;
-			if ((offset= element.indexOf('.')) == -1)
+			if ((offset = element.indexOf('.')) == -1)
 				continue;
 			String configName = element.substring(0, offset);
 			configNames.add(configName);
@@ -160,16 +150,34 @@ public class ConnectionUtil {
 		return configNames;
 	}
 
+	/**
+	 * Load the Properties file. Prefer setConfigFilePath argument, then classpath, then ~/.db.properties.
+	 */
 	private static void ensurePropertiesLoaded() {
 		if (properties.size() == 0) {
-			// assume not loaded yet.
-
+			// if loaded, assume done here or in setConfigFilePath().
+			InputStream inputStream = null;
 			try {
-				FileInputStream is = new FileInputStream(currentConfigFileName);
-				properties.load(is);
-				is.close();
+				URL url = ConnectionUtil.class.getResource("/" + DEFAULT_NAME);
+				if (url != null) {
+					configFilePath = url.toString();
+					inputStream = ConnectionUtil.class.getResourceAsStream("/" + DEFAULT_NAME);
+				}
+				if (inputStream == null) {
+					inputStream = new FileInputStream(configFilePath = userHomeConfigFileName);
+				}
+				properties.load(inputStream);
 			} catch (IOException ex) {
 				throw new DataBaseException(ex.toString());
+			} finally {
+				// Cannot use try-with-finally due to multiple sources of "inputStream" above
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException ex) {
+						// you lose
+					}
+				}
 			}
 		}
 	}
