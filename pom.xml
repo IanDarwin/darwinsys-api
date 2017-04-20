@@ -22,8 +22,8 @@
 		</license>
 	</licenses>
 	<scm>
-	    <connection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</connection>
-        <developerConnection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</developerConnection>
+			<connection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</connection>
+				<developerConnection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</developerConnection>
 		<url>git@github.com:IanDarwin/darwinsys-api.git</url>
 	</scm>
 	<developers>
@@ -45,44 +45,44 @@
 		<maven.findbugs.version>3.0.1</maven.findbugs.version>
 	</properties>
 
-    <dependencies>
-	<dependency>
-	    <groupId>org.apache.directory.studio</groupId>
-	    <artifactId>org.apache.commons.codec</artifactId>
-	    <version>1.6</version>
-	</dependency>
-	<dependency>
-		<groupId>javax.mail</groupId>
-		<artifactId>mail</artifactId>
-		<version>1.4.5</version>
+	<dependencies>
+		<dependency>
+				<groupId>org.apache.directory.studio</groupId>
+				<artifactId>org.apache.commons.codec</artifactId>
+				<version>1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.2.1-b03</version>
 		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>javax.persistence</groupId>
-		<artifactId>persistence-api</artifactId>
-		<version>1.0</version>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>servlet-api</artifactId>
-		<version>2.5</version>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-	    <groupId>javax.servlet.jsp</groupId>
-	    <artifactId>jsp-api</artifactId>
-	    <version>2.2.1-b03</version>
-		<scope>provided</scope>
-	</dependency>
-     	
-	  <dependency>
-	    <groupId>junit</groupId>
-	    <artifactId>junit</artifactId>
-	    <version>4.8.2</version>
-		<!-- Do not change this scope to test unless you exclude the testing/ directory -->
-		<scope>compile</scope>
-	  </dependency>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<!-- Do not change this scope to test unless you exclude the testing/ directory -->
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -144,62 +144,61 @@
 						</configuration>
 					</plugin>
 					<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5</version>
-					<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<useReleaseProfile>false</useReleaseProfile>
-					<releaseProfiles>release</releaseProfiles>
-					<goals>deploy</goals>
-					</configuration>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.5</version>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseProfiles>release</releaseProfiles>
+							<goals>deploy</goals>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+								<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
-				<executions>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+					<configuration>
+						<failOnError>false</failOnError>
+					</configuration>
+					<executions>
 					<execution>
-						<id>attach-sources</id>
+						<id>attach-javadocs</id>
 						<goals>
-						<goal>jar-no-fork</goal>
+						<goal>jar</goal>
 						</goals>
 					</execution>
+					</executions>
+				</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+				<execution>
+					<id>sign-artifacts</id>
+					<phase>verify</phase>
+					<goals>
+				<goal>sign</goal>
+					</goals>
+				</execution>
 				</executions>
 			</plugin>
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-javadoc-plugin</artifactId>
-			  <version>2.9.1</version>
-				<configuration>
-					<failOnError>false</failOnError>
-					<excludePackageNames>com.sun:com.darwinsys.swingui</excludePackageNames>
-				</configuration>
-			  <executions>
-				<execution>
-				  <id>attach-javadocs</id>
-				  <goals>
-					<goal>jar</goal>
-				  </goals>
-				</execution>
-			  </executions>
-			</plugin>
-		<plugin>
-		  <groupId>org.apache.maven.plugins</groupId>
-		  <artifactId>maven-gpg-plugin</artifactId>
-		  <version>1.1</version>
-		  <executions>
-		    <execution>
-		      <id>sign-artifacts</id>
-		      <phase>verify</phase>
-		      <goals>
-			<goal>sign</goal>
-		      </goals>
-		    </execution>
-		  </executions>
-		</plugin>
-	      </plugins>
-	    </build>
-	  </profile>
+				</plugins>
+			</build>
+			</profile>
 	</profiles>
 </project>
