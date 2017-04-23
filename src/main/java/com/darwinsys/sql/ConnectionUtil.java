@@ -81,6 +81,7 @@ public class ConnectionUtil {
 	 * @return The matching configuration
 	 */
 	public static Connection getConnection(final String config) throws DataBaseException {
+		ensurePropertiesLoaded();
 		return getConnection(properties, config);
 	}
 
@@ -91,7 +92,6 @@ public class ConnectionUtil {
 	 * @return The matching configuration
 	 */
 	public static Connection getConnection(Properties p,  String configName) throws DataBaseException {
-		ensurePropertiesLoaded();
 		try {
 			String db_url = p.getProperty(configName  + "." + "DBURL");
 			if (db_url == null) {
