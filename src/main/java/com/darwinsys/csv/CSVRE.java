@@ -9,6 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Simple demo of CSV matching using Regular Expressions.
+ * Attempts to follow RFC 4180 (https://www.ietf.org/rfc/rfc4180.txt),
+ * but with no provision ATM for the header line.
  * Does NOT use the "CSV" class defined in the Java CookBook, but uses
  * a regex pattern simplified from Chapter 7 of <em>Mastering Regular
  * Expressions</em> (p. 205, first edn.)
@@ -23,14 +25,17 @@ import java.util.regex.Pattern;
 // BEGIN main
 // package com.darwinsys.csv;
 public class CSVRE implements CSVParser {
-	/** The rather involved pattern used to match CSV's consists of three
-	 * alternations: the first matches a quoted field, the second unquoted,
+	/** 
+	 * The pattern used to match CSVs consists of three alternations;
+	 * the first matches a quoted field, the second unquoted,
 	 * the third a null field.
 	 */
 	public static final String CSV_PATTERN =
-		"\"([^\"]+?)\",?|([^,]*),?|,";
+		"\"([^\"]+?)\",?|([^,]+),?|,";
 
 	private final static Pattern csvRE = Pattern.compile(CSV_PATTERN);
+
+	private static boolean debug = true;	// Not final for debugger use.
 
 	public static void main(final String[] argv) throws IOException {
 		System.out.println(CSV_PATTERN);
@@ -47,7 +52,7 @@ public class CSVRE implements CSVParser {
 
 		// For each line...
 		while ((line = input.readLine()) != null) {
-			System.out.println("line = `" + line + "'");
+			System.out.println("Input line = `" + line + "'");
 			final List<String> list = parse(line);
 			System.out.println("Found " + list.size() + " items.");
 			for (String str : list) {
@@ -57,7 +62,7 @@ public class CSVRE implements CSVParser {
 		}
 	}
 
-	/** Parse one line.
+	/** Parse one line. Not static to allow constructor args later.
 	 * @param line the input
 	 * @return List of Strings, minus their double quotes
 	 */
@@ -79,9 +84,6 @@ public class CSVRE implements CSVParser {
 						"Quoted column missing end quote: " + line);
 				}
 				match = match.substring(1, match.length() - 1);
-			}
-			if (match.length() == 0) {
-				match = "";
 			}
 			list.add(match);
 		}

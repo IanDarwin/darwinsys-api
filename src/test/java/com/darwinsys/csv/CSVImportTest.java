@@ -2,9 +2,10 @@ package com.darwinsys.csv;
 
 import java.util.Iterator;
 import java.util.List;
-
+import static org.junit.Assert.assertEquals;
 
 /**
+ * Test the CSV Import progra
  * @author ian
  */
 public class CSVImportTest extends CSVParserTestBase {

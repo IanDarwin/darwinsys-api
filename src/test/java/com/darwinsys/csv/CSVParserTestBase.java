@@ -1,15 +1,17 @@
 package com.darwinsys.csv;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 
 /**
  * @author ian
  */
-public abstract class CSVParserTestBase extends TestCase {
+public abstract class CSVParserTestBase {
 
 	CSVParser csv;	// must be set in subclass constructor.
 
@@ -36,6 +38,7 @@ public abstract class CSVParserTestBase extends TestCase {
 	};
 
 	/** test all the Strings in "data" */
+	@Test
 	public void testCSV() throws Throwable {
 		if (csv == null) {
 			throw new IllegalArgumentException("csv parser not created");
