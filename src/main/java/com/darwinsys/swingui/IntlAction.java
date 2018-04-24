@@ -12,8 +12,9 @@ import javax.swing.ImageIcon;
  * How to use Actions"</a>.
  */
 public abstract class IntlAction extends AbstractAction {
-
-	/** Convenience routing to make a Swing Action.
+	private static final long serialVersionUID = 1L;
+	
+	/** Convenience routine to make a Swing Action.
 	 * @param b - ResourceBundle containting strings
 	 * @param key - name such as "edit.cut" identifiying this action;
 	 *		should have at least "label", "descr" and "key" values
