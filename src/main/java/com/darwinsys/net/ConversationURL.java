@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 
-import org.apache.commons.codec.binary.Base64;
+import java.util.Base64;
 
 /**
  * Read a URL's data from a URLConnection
@@ -151,7 +151,7 @@ public class ConversationURL {
 
 	public static String makeBasicAuthString(String userName, String password) {
 			String cred = userName + ":" + password;
-			String auth = "Basic " + new String(Base64.encodeBase64(cred.getBytes()));
+			String auth = "Basic " + Base64.getEncoder().encodeToString(cred.getBytes());
 			return auth;
 	}
 }
