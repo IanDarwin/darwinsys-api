@@ -69,9 +69,6 @@ public class ConnectionUtil {
 		final String db_driver = p.getProperty(config  + "." + "DBDriver");
 		final String db_user = p.getProperty(config  + "." + "DBUser");
 		final String db_password = p.getProperty(config  + "." + "DBPassword");
-		if (db_driver == null || db_url == null) {
-			throw new DataBaseException("Driver or URL null: " + config);
-		}
 		return new SimpleSQLConfiguration(config, db_url, db_driver, db_user, db_password);
 	}
 

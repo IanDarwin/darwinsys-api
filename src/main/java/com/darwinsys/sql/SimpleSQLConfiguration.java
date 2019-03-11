@@ -28,6 +28,11 @@ public class SimpleSQLConfiguration implements Configuration {
 		this.dbDriverName = dbDriverName;
 		this.dbUserName = dbUserName;
 		this.dbPassword = dbPassword;
+		if (dbURL == null || dbDriverName == null || dbUserName == null || dbPassword == null) {
+			throw new NullPointerException(String.format(
+				"Config %s, dbURL %s, driver %s, login %s - none shall pass as null",
+				name, dbURL, dbDriverName, dbUserName));
+		}
 	}
 
 	/**
