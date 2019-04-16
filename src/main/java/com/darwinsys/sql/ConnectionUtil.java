@@ -66,12 +66,15 @@ public class ConnectionUtil {
 	 */
 	static SimpleSQLConfiguration getConfiguration(final Properties p, final String config) {
 		final String db_url = p.getProperty(config  + "." + "DBURL");
+		if (db_url == null) {
+			throw new DataBaseException("DBURL null: " + config);
+		}
 		final String db_driver = p.getProperty(config  + "." + "DBDriver");
+		if (db_driver == null) {
+			throw new DataBaseException("DBDriver null: " + config);
+		}
 		final String db_user = p.getProperty(config  + "." + "DBUser");
 		final String db_password = p.getProperty(config  + "." + "DBPassword");
-		if (db_driver == null || db_url == null) {
-			throw new DataBaseException("Driver or URL null: " + config);
-		}
 		return new SimpleSQLConfiguration(config, db_url, db_driver, db_user, db_password);
 	}
 
@@ -86,25 +89,16 @@ public class ConnectionUtil {
 	}
 
 	/**
-	 * Get a Connection for the given config name from a provided Properties 
+	 * Get a Connection for the given config name from a provided Properties
 	 * @param p The Properties for teh configuration
 	 * @param configName The name of the wanted configuration
 	 * @return The matching configuration
 	 */
 	public static Connection getConnection(Properties p,  String configName) throws DataBaseException {
 		try {
-			String db_url = p.getProperty(configName  + "." + "DBURL");
-			if (db_url == null) {
-				throw new DataBaseException(configName + ".DBURL is null in " + configFilePath);
-			}
-			String db_driver = p.getProperty(configName  + "." + "DBDriver");
-			if (db_driver == null) {
-				throw new DataBaseException(configName + ".DBDriver is null in " + configFilePath);
-			}
-			// User and pass may be optional
-			String db_user = p.getProperty(configName  + "." + "DBUser");
-			String db_password = p.getProperty(configName  + "." + "DBPassword");
-			return getConnection(db_url, db_driver, db_user, db_password);
+			Configuration config = getConfiguration(p, configName);
+			return getConnection(config.getDbURL(), config.getDriverName(),
+				config.getUserName(), config.getPassword());
 		} catch (ClassNotFoundException ex) {
 			throw new DataBaseException(ex.toString());
 		} catch (SQLException ex) {
@@ -201,17 +195,17 @@ public class ConnectionUtil {
 	 */
 	public static String transactionIsolationToString(int txisolation) {
 		switch(txisolation) {
-			case Connection.TRANSACTION_NONE: 
+			case Connection.TRANSACTION_NONE:
 				// transactions not supported.
 				return "TRANSACTION_NONE";
-			case Connection.TRANSACTION_READ_UNCOMMITTED: 
+			case Connection.TRANSACTION_READ_UNCOMMITTED:
 				// All three phenomena can occur
 				return "TRANSACTION_NONE";
-			case Connection.TRANSACTION_READ_COMMITTED: 
-			// Dirty reads are prevented; non-repeatable reads and 
+			case Connection.TRANSACTION_READ_COMMITTED:
+			// Dirty reads are prevented; non-repeatable reads and
 			// phantom reads can occur.
 				return "TRANSACTION_READ_COMMITTED";
-			case Connection.TRANSACTION_REPEATABLE_READ: 
+			case Connection.TRANSACTION_REPEATABLE_READ:
 				// Dirty reads and non-repeatable reads are prevented;
 				// phantom reads can occur.
 				return "TRANSACTION_REPEATABLE_READ";
