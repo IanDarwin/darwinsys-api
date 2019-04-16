@@ -25,7 +25,7 @@ public class PassPhrase {
 	},
 		digitsChar = {
 		'2', '3', '4', '5', '6', '7', '8', '9',
-	}, specialChar = [
+	}, specialChar = {
 		// A small set of likely-passable, hard-to-confuse characters
 		// i.e., don't use more than one of [=~-]
 		'@', '#', '=', '%', '+', '*', ',', '/', ';', '[', ']',
