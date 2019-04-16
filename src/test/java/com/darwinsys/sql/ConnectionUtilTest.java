@@ -78,6 +78,7 @@ public class ConnectionUtilTest {
 		p.setProperty("foo.DBURL", DBURL);
 		final String DBUSERNAME = "db2inst1";
 		p.setProperty("foo.DBUser", DBUSERNAME);
+		p.setProperty("foo.DBPassword", "pocketful of mumbles");
 
 		SimpleSQLConfiguration conf = ConnectionUtil.getConfiguration(p, "foo");
 
