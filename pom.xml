@@ -5,7 +5,7 @@
 
 	<groupId>com.darwinsys</groupId>
 	<artifactId>darwinsys-api</artifactId>
-	<version>1.3.3-SNAPSHOT</version>
+	<version>1.4.0-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
 	<inceptionYear>1995</inceptionYear>
