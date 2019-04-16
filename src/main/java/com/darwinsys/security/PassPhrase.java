@@ -4,18 +4,15 @@ package com.darwinsys.security;
  * See also: java.security.*;
  */
 public class PassPhrase {
-	static boolean lowercase = true, uppercase = true, digits = true;
-	
+
 	/** Minimum length for a decent password */
 	public static final int MIN_LENGTH = 10;
 
 	/** The random number generator. */
 	protected static final java.util.Random r = new java.util.Random();
 
-	/* Set of characters that is valid. Must be printable, memorable,
-	 * and "won't break HTML" (i.e., not '<', '>', '&', '=', ...).
- 	 * or break shell commands (i.e., not '<', '>', '$', '!', ...).
-	 * I, L and O are good to leave out, as are numeric zero and one.
+	/* Set of characters that is valid. Must be printable, memorable.
+	 * I, small-L and O are good to leave out, as are numeric zero and one.
 	 */
 	final static char[] lowercaseChar = {
 		// Comment out next two lines to make upper-case-only, then
@@ -23,13 +20,17 @@ public class PassPhrase {
 		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n',
 		'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 	}, uppercaseChar = {
-		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N',
+		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N',
 		'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 	},
 		digitsChar = {
 		'2', '3', '4', '5', '6', '7', '8', '9',
+	}, specialChar = [
+		// A small set of likely-passable, hard-to-confuse characters
+		// i.e., don't use more than one of [=~-]
+		'@', '#', '=', '%', '+', '*', ',', '/', ';', '[', ']',
 	};
-	
+
 
 	/* Generate a Password object with a random password. */
 	public static String getNext() {
@@ -40,17 +41,24 @@ public class PassPhrase {
 	public static String getNext(int length) {
 		return getNext(length, true, true, true);
 	}
-	
-	/* Generate a Password object with a random password. */
-	public static String getNext(int length, 
+
+	/** Generate a random password, compatibility mode */
+	public static String getNext(int length,
 			boolean lowercase, boolean uppercase, boolean digits) {
+		return getNext(length, lowercase, uppercase, digits, true);
+	}
+
+	/* Generate a random password. */
+	public static String getNext(int length,
+			boolean lowercase, boolean uppercase, boolean digits, boolean special) {
 		if (length < 1) {
 			throw new IllegalArgumentException("Ridiculous password length " + length);
 		}
-		int charsLength = 
+		int charsLength =
 				(lowercase ? lowercaseChar.length : 0) +
 				(uppercase ? uppercaseChar.length : 0) +
-				(digits ? digitsChar.length : 0);
+				(digits ? digitsChar.length : 0) +
+				(special ? specialChar.length : 0);
 		char[] goodChar = new char[charsLength];
 		int n = 0;
 		if (lowercase) {
@@ -65,6 +73,10 @@ public class PassPhrase {
 			System.arraycopy(digitsChar, 0, goodChar, n, digitsChar.length);
 			n+=digitsChar.length;
 		}
+		if (special) {
+			System.arraycopy(specialChar, 0, goodChar, n, specialChar.length);
+			n+=specialChar.length;
+		}
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i < length; i++) {
 			sb.append(goodChar[r.nextInt(goodChar.length)]);
@@ -73,7 +85,7 @@ public class PassPhrase {
 	}
 
 	/**
-	 * Print one password, or a password of the given length(s)
+	 * Print one password of the default length, or one for each of the given length(s)
 	 * @param args The args
 	 */
 	public static void main(String[] args) {
