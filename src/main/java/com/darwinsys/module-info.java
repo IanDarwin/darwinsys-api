@@ -1,7 +1,6 @@
 module com.darwinsys {
 	
 	requires java.desktop;
-	requires java.base;
     
 	exports com.darwinsys.calendar;
 	exports com.darwinsys.csv;
