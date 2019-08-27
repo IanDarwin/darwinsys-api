@@ -17,10 +17,10 @@ import org.junit.Ignore;
 public class TestUtilsTest {
 
 	Calendar c;
-	Mock m1, m2;
+	MyMock m1, m2;
 	
 	/** Simple POJO mock for testing TestUtils */
-	static class Mock {
+	static class MyMock {
 		int i;
 		String j;
 		private Date date;
@@ -32,10 +32,10 @@ public class TestUtilsTest {
 		}
 		@Override
 		public boolean equals(Object o) {
-			if (o == null || !(o.getClass() == Mock.class)) {
+			if (o == null || !(o.getClass() == MyMock.class)) {
 				return false;
 			}
-			Mock m = (Mock)o;
+			MyMock m = (MyMock)o;
 			if (this.i != m.i || this.j != m.j ||
 					!(this.date.equals(m.date))) {
 				return false;
@@ -49,7 +49,7 @@ public class TestUtilsTest {
 		@Override
 		public String toString() {
 			return 
-				String.format("mock(%d,%s,@%x)",
+				String.format("Mymock(%d,%s,@%x)",
 					i,j,super.hashCode());
 		}
 	}
@@ -59,8 +59,8 @@ public class TestUtilsTest {
 		System.out.println("TestUtilsTest.setup()");
 		c = Calendar.getInstance();
 		// Start with m1 and m2 equal
-		m1 = new Mock();
-		m2 = new Mock();
+		m1 = new MyMock();
+		m2 = new MyMock();
 		m1.i = m2.i = 42;
 		m1.j = m2.j ="Hello";
 		m1.date = m2.date = c.getTime();
@@ -68,7 +68,7 @@ public class TestUtilsTest {
 	
 	@Test
 	public void testEqualsObjectObject() {
-		assertEquals("equality1", m1, m2);	// First tests Mock's equal!
+		assertEquals("equality1", m1, m2);	// First tests MyMock's equal!
 		assertTrue("equality2", TestUtils.equals(m1, m1));
 		assertTrue("equality3", TestUtils.equals(m1, m2));
 		assertTrue("equality4", TestUtils.equals(m2, m1));
@@ -88,18 +88,17 @@ public class TestUtilsTest {
 		assertFalse("dates", TestUtils.equals(m1, m2));
 	}
 
+	@Test(expected=AssertionError.class)
+	public void testAssertNoDefaultPropertiesOnMock() throws Exception {
+		MyMock m = new MyMock();
+		assertNoDefaultProperties(m);
+	}
 	@Test
-	public void testAssertNoDefaultProperties() throws Exception {
+	public void testAssertNoDefaultPropertiesOnOthers() throws Exception {
 		Object o = new Object();
 		assertNoDefaultProperties(o);
 
-		Mock m = new Mock();
-		try {
-			assertNoDefaultProperties(m);
-			fail("Didn't find null properties in blank Mock");
-		} catch (AssertionError e) {
-			System.out.println("Caught expected " + e);
-		}
+		MyMock m = new MyMock();
 		m.date = new Date();
 		m.i = 1000;
 		m.j = "mockme";
