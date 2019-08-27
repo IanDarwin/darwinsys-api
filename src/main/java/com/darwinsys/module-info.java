@@ -1,6 +1,11 @@
 module com.darwinsys {
 	
 	requires java.desktop;
+	requires java.prefs;
+	requires java.sql;
+	requires java.sql.rowset;
+	// requires javax.mail;
+	requires org.junit;
     
 	exports com.darwinsys.calendar;
 	exports com.darwinsys.csv;
