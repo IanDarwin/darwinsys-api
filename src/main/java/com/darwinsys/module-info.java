@@ -1,4 +1,4 @@
-module com.darwinsys {
+module com.darwinsys.api {
 	
 	requires java.desktop;
 	requires java.persistence;
