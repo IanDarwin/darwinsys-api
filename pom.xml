@@ -38,7 +38,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<javase.version>1.9</javase.version>
+		<javase.version>11</javase.version>
 		<maven.compiler.source>${javase.version}</maven.compiler.source>
 		<maven.compiler.target>${javase.version}</maven.compiler.target>
 		<maven.compiler.testSource>${javase.version}</maven.compiler.testSource>
@@ -87,19 +87,6 @@
 						<id>compile</id>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Automatic-Module-Name>com.darwinsys.api</Automatic-Module-Name>
-						</manifestEntries>
-					</archive>
-				</configuration>
 			</plugin>
 
 			<plugin>
