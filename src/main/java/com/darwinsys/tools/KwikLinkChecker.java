@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 
 /**
  * A very minimal link checker; checks one or more links from command line, carefully but not recursively.
- * Typical usage: java -cp darwinsys-api.jar com.darwinsys.net.KwikLinkChecker file...
+ * Typical usage: java -cp darwinsys-api.jar com.darwinsys.net.KwikLinkChecker [-v] url [...]
  * @author Ian Darwin
  */
 public class KwikLinkChecker {
