@@ -88,7 +88,7 @@ public class IndexList<T> implements List<T> {
 	 * <br>NOT IMPLEMENTED.
 	 */
 	@Override
-    public boolean removeAll(Collection c) {
+    public boolean removeAll(@SuppressWarnings("rawtypes") Collection c) {
 		throw new IllegalStateException(
 			"removeAll method not implemented in IndexList");
 	}
@@ -96,9 +96,9 @@ public class IndexList<T> implements List<T> {
     @SuppressWarnings("unchecked")
 	@Override
     public Iterator<T> iterator() {
-		Object[] newData = new Object[hwm];
+		T[] newData = (T[]) new Object[hwm];
 		System.arraycopy(data, 0, newData, 0, hwm);
-		return new ArrayIterator(newData);
+		return new ArrayIterator<T>(newData);
 	}
 
 	/** Return the collection as an Array of Object */
@@ -119,8 +119,9 @@ public class IndexList<T> implements List<T> {
 	}
 
 	@Override
-    public boolean containsAll(Collection c) {
-		Iterator it = c.iterator();
+    public boolean containsAll(@SuppressWarnings("rawtypes") Collection c) {
+		@SuppressWarnings("unchecked")
+		Iterator<T> it = c.iterator();
 		while (it.hasNext()) {
 			if (indexOf(it.next()) == -1) {
 				return false;
@@ -131,7 +132,7 @@ public class IndexList<T> implements List<T> {
 
     @SuppressWarnings("unchecked")
 	@Override
-	public boolean addAll(Collection c) {
+	public boolean addAll(@SuppressWarnings("rawtypes") Collection c) {
 		Iterator<T> it = c.iterator();
 		while (it.hasNext()) {
 			add(it.next());
@@ -140,13 +141,13 @@ public class IndexList<T> implements List<T> {
 	}
 
 	@Override
-    public boolean addAll(int i, Collection c) {
+    public boolean addAll(int i, @SuppressWarnings("rawtypes") Collection c) {
 		throw new IllegalStateException(
 			"addAll method not implemented in IndexList");
 	}
 
 	@Override
-    public boolean retainAll(Collection c) {
+    public boolean retainAll(Collection<?> c) {
 		throw new IllegalStateException(
 			"removeAll method not implemented in IndexList");
 	}

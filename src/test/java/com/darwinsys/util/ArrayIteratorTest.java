@@ -11,7 +11,7 @@ public class ArrayIteratorTest {
 
 	String[] TESTDATA = { "one", "two", "three" };
 
-	ArrayIterator it = new ArrayIterator(TESTDATA);
+	ArrayIterator<String> it = new ArrayIterator<>(TESTDATA);
 
 	@Test(expected=NoSuchElementException.class)
 	public void testGettingAndGettingTooMany() {

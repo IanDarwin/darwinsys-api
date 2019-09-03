@@ -35,7 +35,7 @@ public class FilterGUIDemo2 {
 		// create a this object, tell it to show up
 		final JFrame f = new JFrame("Filter FilterGUI");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FilterGUI comp = new FilterGUI<MyFilter>(filters, DEFAULT_FILTER);
+		FilterGUI<MyFilter> comp = new FilterGUI<>(filters, DEFAULT_FILTER);
 		f.getContentPane().add(comp);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.pack();

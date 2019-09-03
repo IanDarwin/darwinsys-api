@@ -22,8 +22,7 @@ public class FixedLengthFIFO<T> implements List<T> {
 	private long generation;
 	private final T[] data;
 	private int n = 0;
-	private static final long serialVersionUID = 5887759670059817977L;
-
+	
 	/**
 	 * Construct a FIFO of a fixed (maximum) length.
 	 * @param size The maximum number of items to hold in the FIFO
@@ -150,23 +149,23 @@ public class FixedLengthFIFO<T> implements List<T> {
 		return old;
 	}
 
-	public boolean containsAll(Collection c) {
+	public boolean containsAll(Collection<?> c) {
 		throw new UnsupportedOperationException("containsAll");
 	}
 
-	public boolean addAll(Collection c) {
+	public boolean addAll(@SuppressWarnings("rawtypes") Collection c) {
 		throw new UnsupportedOperationException("addAll");
 	}
 
-	public boolean addAll(int index, Collection c) {
+	public boolean addAll(int index, @SuppressWarnings("rawtypes") Collection c) {
 		throw new UnsupportedOperationException("addAll");
 	}
 
-	public boolean removeAll(Collection c) {
+	public boolean removeAll(@SuppressWarnings("rawtypes") Collection c) {
 		throw new UnsupportedOperationException("removeAll");
 	}
 
-	public boolean retainAll(Collection c) {
+	public boolean retainAll(@SuppressWarnings("rawtypes") Collection c) {
 		throw new UnsupportedOperationException("retainAll");
 	}
 
