@@ -59,7 +59,7 @@ import java.io.Writer;
  * application I wrote, prompted by discussion started by Brendon McLean
  * on a private mailing list.
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.io;
 public class FileSaver {
 
@@ -171,4 +171,4 @@ public class FileSaver {
 		state = State.AVAILABLE;
 	}
 }
-// END main
+// end::main[]

@@ -14,7 +14,7 @@ import javax.swing.JTextField;
  * (2nd Edition, page 203). But done more simply.
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.swingui;
 public class LabelText extends JPanel implements java.io.Serializable {
 
@@ -113,4 +113,4 @@ public class LabelText extends JPanel implements java.io.Serializable {
 		theTextField.removeActionListener(l);
 	}
 }
-// END main
+// end::main[]

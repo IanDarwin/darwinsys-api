@@ -24,7 +24,7 @@
 
 package com.darwinsys.sql;
 
-// BEGIN main
+// tag::main[]
 import java.io.*;
 import java.sql.*;
 
@@ -75,4 +75,4 @@ public class ResultsDecoratorHTML extends ResultsDecorator {
 		return "HTML";
 	}
 }
-// END main
+// end::main[]

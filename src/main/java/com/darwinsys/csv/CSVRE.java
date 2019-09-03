@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * }
  * </pre>
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.csv;
 public class CSVRE implements CSVParser {
 	/** 
@@ -90,4 +90,4 @@ public class CSVRE implements CSVParser {
 		return list;
 	}
 }
-// END main
+// end::main[]

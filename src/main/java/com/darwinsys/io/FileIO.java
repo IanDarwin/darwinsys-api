@@ -1,4 +1,4 @@
-// BEGIN main
+// tag::main[]
 package com.darwinsys.io;
 
 import java.io.BufferedInputStream;
@@ -367,4 +367,4 @@ public class FileIO {
 		return new BufferedReader(new FileReader(fileName));
 	}
 }
-// END main
+// end::main[]

@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 
 /** Utilities for GUI work.
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.swingui;
 public class UtilGUI {
 
@@ -122,4 +122,4 @@ public class UtilGUI {
 		});
 	}
 }
-// END main
+// end::main[]

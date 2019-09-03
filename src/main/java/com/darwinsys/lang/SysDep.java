@@ -1,4 +1,4 @@
-// BEGIN main
+// tag::main[]
 package com.darwinsys.lang;
 
 import java.io.File;
@@ -33,4 +33,4 @@ public class SysDep {
         return FAKE_NULL_DEV;                       // <5>
     }
 }
-// END main
+// end::main[]

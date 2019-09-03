@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author Ian F. Darwin (translation into Java and removal of I/O)
  * @author Ben Ballard (rewrote advQuoted to handle '""' and for readability)
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.csv;
 
 public class CSVImport implements CSVParser {
@@ -122,4 +122,4 @@ public class CSVImport implements CSVParser {
         }
     }
 }
-// END main
+// end::main[]

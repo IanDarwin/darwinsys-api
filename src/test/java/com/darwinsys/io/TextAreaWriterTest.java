@@ -6,7 +6,7 @@ import javax.swing.JTextArea;
 
 import junit.framework.TestCase;
 
-// BEGIN main
+// tag::main[]
 public class TextAreaWriterTest extends TestCase {
 
 	private static final String HELLO_WORLD = "Hello World";
@@ -22,4 +22,4 @@ public class TextAreaWriterTest extends TestCase {
 		assertEquals(HELLO_WORLD, ta.getText());
 	}
 }
-// END main
+// end::main[]

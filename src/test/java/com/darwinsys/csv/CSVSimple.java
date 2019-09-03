@@ -1,4 +1,4 @@
-// BEGIN main
+// tag::main[]
 package com.darwinsys.csv;
 
 import java.util.List;
@@ -22,4 +22,4 @@ public class CSVSimple {
 		}
 	}
 }
-// END main
+// end::main[]

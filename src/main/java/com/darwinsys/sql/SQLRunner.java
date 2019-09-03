@@ -73,7 +73,7 @@ import com.darwinsys.util.Verbosity;
  * <p>TODO add a "Manual Commit" (or "Undoable") mode, in CLI and GUI
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.sql;
 public class SQLRunner {
 
@@ -555,4 +555,4 @@ public class SQLRunner {
 
 
 }
-// END main
+// end::main[]

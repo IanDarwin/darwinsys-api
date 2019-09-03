@@ -1,4 +1,4 @@
-// BEGIN main
+// tag::main[]
 package com.darwinsys.swingui;
 
 import java.util.MissingResourceException;
@@ -90,4 +90,4 @@ public class I18N {
 		return result;
 	}
 }
-// END main
+// end::main[]

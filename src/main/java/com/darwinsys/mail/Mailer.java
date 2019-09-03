@@ -1,6 +1,6 @@
-// BEGIN package
+// tag::package[]
 package com.darwinsys.mail;
-// END package
+// end::package[]
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import javax.mail.internet.MimeMessage;
  * </pre>
  * @author Ian F. Darwin
  */
-// BEGIN main
+// tag::main[]
 public class Mailer {
 	/** The javamail session object. */
 	protected Session session;
@@ -276,4 +276,4 @@ public class Mailer {
 		m.doSend();
 	}
 }
-// END main
+// end::main[]

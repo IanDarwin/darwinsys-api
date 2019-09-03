@@ -15,7 +15,7 @@ import org.junit.Test;
 /** Testbed for EntryLayout layout manager.
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
-// BEGIN main
+// tag::main[]
 public class EntryLayoutTest {
 
 	/** "main program" method - construct and show */
@@ -77,4 +77,4 @@ public class EntryLayoutTest {
 		}
 	}
 }
-// END main
+// end::main[]

@@ -35,7 +35,7 @@ public class KwikLinkChecker {
 		}
 	}
 	
-	// BEGIN main
+	// tag::main[]
 	/**
 	 * Check one HTTP link; not recursive. Returns a LinkStatus with
 	 * boolean success, and the filename or an error message in the
@@ -83,5 +83,5 @@ public class KwikLinkChecker {
 			}
 		}
 	}
-	// END main
+	// end::main[]
 }

@@ -13,7 +13,7 @@ import java.util.regex.PatternSyntaxException;
 
 import com.darwinsys.lang.GetOpt;
 
-// BEGIN main
+// tag::main[]
 /** A command-line grep-like program. Accepts some command-line options,
  * and takes a pattern and a list of text files.
  * N.B. The current implementation of GetOpt does not allow combining short 
@@ -226,4 +226,4 @@ public class JGrep {
 		}
 	}
 }
-// END main
+// end::main[]

@@ -1,4 +1,4 @@
-// BEGIN main
+// tag::main[]
 package com.darwinsys.io;
 
 import java.io.IOException;
@@ -13,4 +13,4 @@ public class FileIoDemo {
         }
     }
 }
-// END main
+// end::main[]

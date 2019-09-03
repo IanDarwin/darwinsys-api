@@ -30,7 +30,7 @@ import javax.swing.event.ListSelectionListener;
  * Uses Listeners to ensure that Preview button isn't actually needed
  * @author	Ian Darwin
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.swingui;
 public class FontChooser extends JDialog {
 
@@ -225,4 +225,4 @@ public class FontChooser extends JDialog {
 		return isItalic;
 	}
 }
-// END main
+// end::main[]

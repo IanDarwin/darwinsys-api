@@ -26,7 +26,7 @@ import com.darwinsys.util.Debug;
  * multiple of the number of columns. If not, exceptions may be thrown!
  * @author Ian F. Darwin, http://www.darwinsys.com/
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.swingui.layout;
 public class EntryLayout implements LayoutManager {
 	/** The array of widths, as decimal fractions (0.4 == 40%, etc.). */
@@ -169,4 +169,4 @@ public class EntryLayout implements LayoutManager {
 		}
 	}
 }
-// END main
+// end::main[]

@@ -22,7 +22,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-// BEGIN main
+// tag::main[]
 package com.darwinsys.sql;
 
 import java.io.IOException;
@@ -81,4 +81,4 @@ public class ResultsDecoratorText extends ResultsDecorator {
 		return "Plain text";
 	}
 }
-// END main
+// end::main[]

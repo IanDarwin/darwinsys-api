@@ -56,7 +56,7 @@ public class ErrorUtil {
         showExceptions(null, th);
     }
         
-    // BEGIN main
+    // tag::main[]
     /**
 	 * Show the given Exception (and any nested Exceptions) in JOptionPane(s).
      */
@@ -137,5 +137,5 @@ public class ErrorUtil {
             setVisible(true);
         }
     }
-    // END main
+    // end::main[]
 }

@@ -22,7 +22,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-// BEGIN main
+// tag::main[]
 package com.darwinsys.io;
 
 import java.io.IOException;
@@ -54,4 +54,4 @@ public final class TextAreaWriter extends Writer {
         textArea.append(new String(cbuf, off, len));        
     }
 }
-// END main
+// end::main[]

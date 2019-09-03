@@ -1,4 +1,4 @@
-// BEGIN main
+// tag::main[]
 package com.darwinsys.lang;
 
 /** A MutableInteger is like an Integer but mutable, to avoid the
@@ -54,4 +54,4 @@ public class MutableInteger {
 		return Integer.parseInt(str);
 	}
 }
-// END main
+// end::main[]

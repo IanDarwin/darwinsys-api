@@ -99,7 +99,7 @@ import com.darwinsys.util.Debug;
  * Command Line Interface</a>.
  * @author Ian F. Darwin, http://www.darwinsys.com/
  */
-// BEGIN main
+// tag::main[]
 // package com.darwinsys.lang;
 public class GetOpt {
 	/** The List of File Names found after args */
@@ -295,4 +295,4 @@ public class GetOpt {
 	}
 
 }
-// END main
+// end::main[]

@@ -12,7 +12,7 @@ import java.util.regex.*;
 public class XrefCheck {
 	private final static boolean VERBOSE_SELFTEST = false;
 
-	// BEGIN main
+	// tag::main[]
 	static final Set<String> decls = new HashSet<>();
 	static final Map<String,String> refs = new HashMap<>();
 	static final Pattern decl = Pattern.compile("^\\[\\[([^,]+?)\\]\\]$");
@@ -33,7 +33,7 @@ public class XrefCheck {
 			}
 		}
 	}
-	// END main
+	// end::main[]
 
 	public static void accumulateXrefs(String fileName, boolean verbose) throws Exception {
 		Matcher md, mr;
