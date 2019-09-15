@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 /**
  * Routines for working with Menus.
  * It's assumed that you have done something like
- * ResourceBundle b = ResourceBundle.getBundle("Menu");
+ * ResourceBundle b = ResourceBundle.getBundle("Menus");
  */
 public class MenuUtils {
 
