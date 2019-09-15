@@ -27,7 +27,7 @@ import com.darwinsys.swingui.UtilGUI;
  *		java -Duser.language=es Menus
  */
 public class MenuController {
-	/** The main frame for the puzzle editing/display. */
+	/** The main frame. */
 	JFrame parentFrame;
 	/** The main program; link to the data model */
 	Model model;

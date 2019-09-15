@@ -1,6 +1,6 @@
 module com.darwinsys.api {
 	
-	requires java.desktop;
+	requires transitive java.desktop;
 	requires java.persistence;
 	requires java.prefs;
 	requires java.sql;
