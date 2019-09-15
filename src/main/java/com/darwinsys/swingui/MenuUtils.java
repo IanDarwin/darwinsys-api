@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 public class MenuUtils {
 
 	/** Convenience routine to make a Menu */
-	public JMenu mkMenu(ResourceBundle b, String name) {
+	public static JMenu mkMenu(ResourceBundle b, String name) {
 		String menuLabel;
 		try { menuLabel = b.getString(name+".label"); }
 		catch (MissingResourceException e) { menuLabel=name; }
@@ -23,7 +23,7 @@ public class MenuUtils {
 	}
 
 	/** Convenience routine to make a JMenuItem */
-	public JMenuItem mkMenuItem(ResourceBundle b, String menu, String name) {
+	public static JMenuItem mkMenuItem(ResourceBundle b, String menu, String name) {
 		String miLabel;
 		try { miLabel = b.getString(menu + "." + name + ".label"); }
 		catch (MissingResourceException e) { miLabel=name; }
@@ -38,7 +38,7 @@ public class MenuUtils {
 	}
 
 	/** Convenience routine to make a MenuItem */
-	public JCheckBoxMenuItem mkCheckboxMenuItem(ResourceBundle b, String menu, String name) {
+	public static JCheckBoxMenuItem mkCheckboxMenuItem(ResourceBundle b, String menu, String name) {
 		String miLabel;
 		try { miLabel = b.getString(menu + "." + name + ".label"); }
 		catch (MissingResourceException e) { miLabel=name; }
