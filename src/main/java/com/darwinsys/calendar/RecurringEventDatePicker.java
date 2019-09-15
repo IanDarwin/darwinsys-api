@@ -10,9 +10,10 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+// tag::main[]
 /**
  * Pick the date that a recurring event will fall on, e.g.,
- * gtabug.ca currently meets on the Third Wednesday of each month:
+ * for a club that meets on the Third Wednesday of each month:
  * <pre>
  * RecurringEventDatePicker mp = new RecurringEventDatePicker(3, DayOfWeek.WEDNESDAY);
  * LocalDate nextMeeting = mp.getNextMeeting(0); // next
@@ -92,7 +93,7 @@ public class RecurringEventDatePicker {
 	 * the event date for the 'n'th next meeting
 	 * for this RecurringEventDatePicker
 	 * @param meetingsAway the number of meetings into the future that
-	 * you're interested in.
+	 * you're interested in (0 = the next meeting).
 	 * @return The given date
 	 */
 	public LocalDate getEventLocalDate(int meetingsAway) {
@@ -115,3 +116,4 @@ public class RecurringEventDatePicker {
 		return LocalDateTime.of(getEventLocalDate(meetingsAway), hourOfDay);
 	}
 }
+// end::main[]
