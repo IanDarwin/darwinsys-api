@@ -3,6 +3,7 @@ package com.darwinsys.swingui;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -44,5 +45,13 @@ public class MenuUtils {
 		catch (MissingResourceException e) { miLabel=name; }
 
 		return new JCheckBoxMenuItem(miLabel);
+	}
+	
+	/** Convenience routine to make a JMenuItem */
+	public static JButton mkButton(ResourceBundle b, String menu, String name) {
+		String miLabel;
+		try { miLabel = b.getString(menu + "." + name + ".label"); }
+		catch (MissingResourceException e) { miLabel=name; }
+		return new JButton(miLabel);
 	}
 }
