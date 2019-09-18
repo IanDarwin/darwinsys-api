@@ -43,15 +43,17 @@ public class RecentItemsTest {
 		assertEquals("def", list.get(0));
 		assertEquals("abc", list.get(1));
 		target.putRecent("abc");
-		try {
-			list.remove(0);
-			fail("Did not return unmodifiableList");
-		} catch (UnsupportedOperationException e) {
-			System.out.println("Caught expected exception");
-		}
-		assertEquals("abc", list.get(0));	// List is modifiable by "r", although not by us.
+
+		// List is modifiable by "target", check that re-adding item1 moves it to 0
+		assertEquals("abc", list.get(0));	
 		list = target.getList();
 		assertEquals("abc", list.get(0));	// check it in current copy of list
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testListIsUnmodifiable() {
+		target.putRecent("/a/b/c/d/e/f");
+		target.getList().remove(0); //should throw UOE
 	}
 
 	@Test
