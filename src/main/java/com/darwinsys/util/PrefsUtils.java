@@ -10,9 +10,9 @@ public class PrefsUtils {
 	 * @return the appropriate Preferences node
 	 */
 	public static Preferences getUserPrefsNode(Object mainClassInstance) {
-		Class clazz;
+		Class<?> clazz;
 		if (mainClassInstance instanceof Class)
-			clazz = (Class)mainClassInstance;
+			clazz = (Class<?>)mainClassInstance;
 		else
 			clazz = mainClassInstance.getClass();
 		return Preferences.userNodeForPackage(clazz);

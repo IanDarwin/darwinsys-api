@@ -3,6 +3,7 @@ package com.darwinsys.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 /**
@@ -17,10 +18,10 @@ public class RecentItems {
 	}
 	
 	/** The List of recent files */
-	private List<String> recentNames = new ArrayList<String>();
+	private List<String> recentNames = new ArrayList<>();
 	public final static int DEFAULT_MAX_RECENT_FILES = 5;
 	private final int maxRecentFiles;
-	private String RECENT_ITEMS_KEY = "recent_items";
+	private final static String RECENT_ITEMS_KEY = "recent_items";
 	private final Preferences prefsNode;
 	private Callback callback;
 	
@@ -28,6 +29,13 @@ public class RecentItems {
 		this.prefsNode = prefs;
 		this.callback = cb;
 		maxRecentFiles = max;
+		int i = 0;
+		String s = null;
+		do {
+			s = prefsNode.get(makeName(i++), null);
+			if (s != null)
+				recentNames.add(s);
+		} while (s != null);
 	}
 	
 	public RecentItems(Preferences prefs, Callback cb) {
@@ -51,9 +59,14 @@ public class RecentItems {
 		recentNames.add(0, f);
 
 		// Now save from List into Prefs
-		for (int i = 0; i < recentNames.size(); i++) {
-			String t = recentNames.get(i);
-			prefsNode.put(makeName(i), t);
+		int i = 0;
+		for (String t : recentNames) {
+			prefsNode.put(makeName(i++), t);
+		}
+		try {
+			prefsNode.flush();
+		} catch (BackingStoreException e) {
+			throw new RuntimeException("Failed to flush Prefs Node", e);
 		}
 
 		// Finally, load menu again.

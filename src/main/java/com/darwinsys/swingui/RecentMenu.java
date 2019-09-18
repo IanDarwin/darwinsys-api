@@ -29,8 +29,7 @@ import com.darwinsys.util.RecentItems;
  * 		// Assume this code is in MyMainClass constructor
  * 		JMenuItem open = new JMenuItem("Open");
  * 		fileMenu.add(open);
- * 		final RecentMenu recent;
- *		recent = new RecentMenu(this) {
+ * 		final RecentMenu recent = new RecentMenu(this) {
  *			public void loadFile(String fileName) throws IOException {
  *				myModel.openFile(fileName);
  *			}
@@ -101,6 +100,10 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	 * @param fileName The input
 	 */
 	public abstract void loadFile(String fileName) throws IOException;
+
+	public void loadFile(File file) throws IOException {
+		loadFile(file.getAbsolutePath());
+	}
 
 	/**
 	 * ActionListener that is used by all the Menuitems in the Recent Menu;
