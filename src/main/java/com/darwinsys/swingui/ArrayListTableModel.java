@@ -1,5 +1,6 @@
 package com.darwinsys.swingui;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -16,13 +17,14 @@ import javax.swing.table.AbstractTableModel;
  */
 public abstract class ArrayListTableModel extends AbstractTableModel {
 
+	private static final long serialVersionUID = 1L;
 	/** List of column names, must be provided by subclass. */
 	protected String columnNames[];
 	/** List of column names, must be provided by subclass. */
-	protected Class columnClasses[];
+	protected Class<?> columnClasses[];
 
 	/** The list of Method object */
-	protected List methods = null;
+	protected List<Method> methods = null;
 
 	/** for caching. */
 	private int ROW_INVALID = -1;
@@ -34,7 +36,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	/** Constructor 
  	 * @param m the list of objects
  	 */
-	public ArrayListTableModel(List m) {
+	public ArrayListTableModel(List<Method> m) {
 		methods = m;
 	}
 
@@ -42,7 +44,7 @@ public abstract class ArrayListTableModel extends AbstractTableModel {
 	 * loading a file.
 	 * @param m the list of objects
 	 */
-	void setListData(List m) {
+	void setListData(List<Method> m) {
 		methods = m;
 		invalidateCache();
 	}

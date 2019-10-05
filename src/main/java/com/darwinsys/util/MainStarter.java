@@ -12,7 +12,7 @@ public class MainStarter {
 		if (args.length == 0) {
 			System.err.println("Usage: MainStarter class class [...]");
 		}
-		Class[] typeParams = { args.getClass() };
+		Class<?>[] typeParams = { args.getClass() };
 
 		for (final String clazz : args) {
 			try {

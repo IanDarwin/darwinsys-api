@@ -42,7 +42,7 @@ public class FileProperties extends Properties {
 		load();
 	}
 
-	public FileProperties(String readonlyFileName, Class clazz)
+	public FileProperties(String readonlyFileName, Class<?> clazz)
 	throws IOException {
 		super();
 		load(clazz.getResourceAsStream(readonlyFileName));

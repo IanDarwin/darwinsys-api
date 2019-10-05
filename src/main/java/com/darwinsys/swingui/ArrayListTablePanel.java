@@ -35,7 +35,7 @@ public class ArrayListTablePanel<T> extends JPanel {
 	/** The list of objects we are viewing */
 	protected List<T> list;
 	/** The kind of thing that is in the list. */
-	protected Class objectClass;
+	protected Class<?> objectClass;
 	/** The JTable's data (model) */
 	protected ArrayListTableModel model;
 	/** The JTable itself */
@@ -48,7 +48,7 @@ public class ArrayListTablePanel<T> extends JPanel {
 	 * @param lm The model
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayListTablePanel(Class objClass,
+	public ArrayListTablePanel(Class<?> objClass,
 		List<T> al, ArrayListTableModel lm) {
 
 		objectClass = objClass;
@@ -69,7 +69,7 @@ public class ArrayListTablePanel<T> extends JPanel {
 				if (i<0) i = list.size();
 				T newObj = null;
 				try {
-					newObj = (T) objectClass.newInstance();
+					newObj = (T) objectClass.getConstructor().newInstance();
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null,
 						"Object creation FAILED\n " + ex, "Error",

@@ -47,7 +47,7 @@ public class CheckAccessors {
 		// c.getConstructor(new Class[0]) fails
 		final Object instance;
 		try {
-			instance = c.newInstance();
+			instance = c.getConstructor().newInstance();
 		} catch (Exception e) {
 			debug(c + ": newInstance fail: " + e);
 			return;
@@ -57,7 +57,7 @@ public class CheckAccessors {
 		// setter/getter pairs.
 		// Don't get fields from any superclass, just
 		// the class under test:
-		final Class stopClass = c.getSuperclass();
+		final Class<?> stopClass = c.getSuperclass();
 		final BeanInfo beanInfo = Introspector.getBeanInfo(c, stopClass);
 		final PropertyDescriptor[] props = beanInfo.getPropertyDescriptors();
 		for (PropertyDescriptor p : props) {

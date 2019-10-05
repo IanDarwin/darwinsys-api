@@ -30,11 +30,11 @@ public class DiffObj {
 
 	public static List<DiffField> diffObj(Object oldValue, Object newValue) {
 		List<DiffField> allDiffs = new ArrayList<>();
-		Class cOld = oldValue.getClass(), cNew = newValue.getClass();
+		Class<?> cOld = oldValue.getClass(), cNew = newValue.getClass();
 		if (cOld != cNew) {
 			throw new IllegalArgumentException("Objects to be compared must be of identical class");
 		}
-		Class c;
+		Class<?> c;
 		for (c = cOld; c!= null; c = c.getSuperclass()) {
 			Field[] allF = c.getDeclaredFields();
 			

@@ -46,8 +46,9 @@ public class ResultsDecoratorXML extends ResultsDecorator {
 
 		try {
 			// The class name is uncommitted so subject to change.
-			Class c = Class.forName(SUN_WEBROWSET_IMPL_CLASS);
-			results = (WebRowSet)c.newInstance();
+			@SuppressWarnings("unchecked")
+			Class<WebRowSet> c = (Class<WebRowSet>) Class.forName(SUN_WEBROWSET_IMPL_CLASS);
+			results = c.getConstructor().newInstance();
 
 		} catch (Exception ex){
 			throw new IllegalArgumentException(

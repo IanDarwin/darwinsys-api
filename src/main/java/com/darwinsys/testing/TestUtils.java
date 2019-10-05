@@ -60,8 +60,8 @@ public class TestUtils {
 		if (o1 == null || o2 == null) {
 			return false;
 		}
-		Class c1 = o1.getClass();
-		Class c2 = o2.getClass();
+		Class<?> c1 = o1.getClass();
+		Class<?> c2 = o2.getClass();
 
 		// Class objects are singleton-like, compare with ==
 		if (c1 != c2) {
@@ -133,7 +133,7 @@ public class TestUtils {
 		if (o == null) {
 			throw new NullPointerException("Object may not be null");
 		}
-		Class c = o.getClass();
+		Class<?> c = o.getClass();
 		Map<String, Prop> props = getProperties(c);
 		List<String> propNames =
 			new ArrayList<String>(props.keySet());
@@ -154,7 +154,7 @@ public class TestUtils {
 	}
 
 	/** Extract a map of all properties */
-	private static Map<String, Prop> getProperties(Class c1) {
+	private static Map<String, Prop> getProperties(Class<?> c1) {
 		Map<String, Prop> propsMap = new HashMap<String, Prop>();
 		Field[] fields = c1.getDeclaredFields();
 		for (Field f : fields) {

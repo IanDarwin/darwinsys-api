@@ -11,7 +11,7 @@ import java.util.List;
 public class ReflectionUtils {
 
 	public List<Method> getSetters(String cName) throws ClassNotFoundException {
-		Class c = Class.forName(cName);
+		Class<?> c = Class.forName(cName);
 		Method[] meths = c.getMethods();
 		List<Method> list = new ArrayList<Method>();
 		for (Method m : meths) {
