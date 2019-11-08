@@ -5,7 +5,6 @@ module com.darwinsys.api {
 	requires java.prefs;
 	requires java.sql;
 	requires java.sql.rowset;
-	requires javax.servlet.api;
 	requires mail;
 	requires junit;
     
