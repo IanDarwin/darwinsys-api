@@ -25,6 +25,7 @@ module com.darwinsys.api {
 		with com.darwinsys.locks.PessimisticLockManagerImpl;
 	exports com.darwinsys.mail;
 	exports com.darwinsys.model;
+	opens com.darwinsys.model;
 	exports com.darwinsys.net;
 	exports com.darwinsys.notepad;
 	exports com.darwinsys.preso;
