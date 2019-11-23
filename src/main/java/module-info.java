@@ -1,11 +1,11 @@
 module com.darwinsys.api {
 	
 	requires transitive java.desktop;
+	requires java.net.http;
 	requires java.persistence;
 	requires java.prefs;
 	requires java.sql;
 	requires java.sql.rowset;
-	requires javax.servlet.api;
 	requires mail;
 	requires junit;
 

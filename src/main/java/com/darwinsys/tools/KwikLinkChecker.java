@@ -6,8 +6,11 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketException;
-import java.net.URL;
+import java.net.URI;
 import java.net.UnknownHostException;
+import java.net.http.*;
+import java.net.http.HttpClient.*;
+import java.net.http.HttpResponse.*;
 
 /**
  * A very minimal link checker; checks one or more links from command line, carefully but not recursively.
@@ -17,6 +20,7 @@ import java.net.UnknownHostException;
 public class KwikLinkChecker {
 	
 	static boolean verbose;
+	HttpClient client;
 
 	public static void main(String[] args) {
 		KwikLinkChecker checker = new KwikLinkChecker();
@@ -34,6 +38,13 @@ public class KwikLinkChecker {
 				System.out.println(stat.message);
 		}
 	}
+
+	KwikLinkChecker() {
+		client = HttpClient.newBuilder()
+			.followRedirects(Redirect.NORMAL)
+			.version(Version.HTTP_1_1)
+			.build();
+	}
 	
 	// tag::main[]
 	/**
@@ -46,13 +57,24 @@ public class KwikLinkChecker {
 	 * @return the link's status
 	 */
 	public LinkStatus check(String urlString) {
-		URL url;
-		HttpURLConnection conn = null;
-		HttpURLConnection.setFollowRedirects(false);
 		try {
-			url = new URL(urlString);
-			conn = (HttpURLConnection) url.openConnection();
-			switch (conn.getResponseCode()) {
+			HttpResponse<String> resp = client.send(
+				HttpRequest.newBuilder(URI.create(urlString))
+				.header("User-Agent", getClass().getName())
+				.GET()
+				.build(), 
+				BodyHandlers.ofString());
+
+			// Collect the results
+			if (resp.statusCode() == 200) {
+				String response = resp.body();
+				System.out.println(response);
+			} else {
+				System.out.printf("ERROR: Status %d on request %s\n",
+					resp.statusCode(), urlString);
+			}
+
+			switch (resp.statusCode()) {
 			case 200:
 				return new LinkStatus(true, urlString);
 			case 403:
@@ -60,10 +82,9 @@ public class KwikLinkChecker {
 			case 404:
 				return new LinkStatus(false,"404: " + urlString );
 			}
-			conn.getInputStream();
 			return new LinkStatus(true, urlString);
 		} catch (IllegalArgumentException | MalformedURLException e) {
-			// Oracle JDK throws IAE if host can't be determined from URL string
+			// JDK throws IAE if host can't be determined from URL string
 			return new LinkStatus(false, "Malformed URL: " + urlString);
 		} catch (UnknownHostException e) {
 			return new LinkStatus(false, "Host invalid/dead: " + urlString);
@@ -77,10 +98,6 @@ public class KwikLinkChecker {
 			return new LinkStatus(false, e.toString()); // includes failing URL
 		} catch (Exception e) {
 			return new LinkStatus(false, urlString + ": " + e);
-		} finally {
-			if (conn != null) {
-				conn.disconnect();
-			}
 		}
 	}
 	// end::main[]
