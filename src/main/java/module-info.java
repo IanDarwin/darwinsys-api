@@ -8,7 +8,7 @@ module com.darwinsys.api {
 	requires javax.servlet.api;
 	requires mail;
 	requires junit;
-    
+
 	exports com.darwinsys.calendar;
 	exports com.darwinsys.csv;
 	exports com.darwinsys.database;
@@ -21,6 +21,8 @@ module com.darwinsys.api {
 	exports com.darwinsys.io;
 	exports com.darwinsys.lang;
 	exports com.darwinsys.locks;
+	provides com.darwinsys.locks.PessimisticLockManager
+		with com.darwinsys.locks.PessimisticLockManagerImpl;
 	exports com.darwinsys.mail;
 	exports com.darwinsys.model;
 	exports com.darwinsys.net;
