@@ -8,6 +8,10 @@
 	<packaging>jar</packaging>
 	<inceptionYear>1995</inceptionYear>
 
+	<!-- The configured plugins let us do
+	 mvn release:clean release:prepare; mvn release:perform
+	 -->
+
 	<name>DarwinSys API</name>
 	<description>
 		Ian Darwin's assorted Java stuff,
