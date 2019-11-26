@@ -9,7 +9,7 @@
 	<inceptionYear>1995</inceptionYear>
 
 	<!-- The configured plugins let us do
-	 mvn release:clean release:prepare; mvn release:perform
+	 mvn release:clean release:prepare; mvn -Prelease release:perform
 	 -->
 
 	<name>DarwinSys API</name>
