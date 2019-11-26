@@ -3,7 +3,7 @@
 
 	<groupId>com.darwinsys</groupId>
 	<artifactId>darwinsys-api</artifactId>
-	<version>1.5.3</version>
+	<version>1.5.3-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
 	<inceptionYear>1995</inceptionYear>
