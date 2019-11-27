@@ -1,5 +1,7 @@
 package com.darwinsys.tools;
 
+// record LinkStatus(boolean ok, String message) {}
+
 class LinkStatus {
 	boolean ok;
 	String message;
