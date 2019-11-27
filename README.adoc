@@ -10,7 +10,13 @@ classes which implement some useful operations that one would normally
 have to re-implement many times over.
 In most cases "found useful" means used more than once, but not always. 
 
-Note: As of early 2017 the servlet and JSP packages graduated from
+Notes: 
+* In late 2019, the 'testng' package graduated to its own project,
+darwinsys-testing, to aid in modularizing this (there being no module
+support for JUnit 4 three years after Jigsaw was announced), and anyway,
+a general-purpose library probably has no business dragging in a dependency
+on a testing library.
+* In 2017 the servlet and JSP packages graduated from
 darwinsys-api to darwinsys-ee; which you now may need!
 
 See the http://javacook.darwinsys.com/[Author's Book Site] and the
@@ -24,8 +30,7 @@ breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
 
 Java 11 (JDK 1.11) is now the minimum to build and use this API.
-For Java 8, stick to version 1.1.0.
-For Java 6 or 7 stick to version 1.0.5.
+For Java 8 or earlier, do the world a favor and just upgrade.
 
 .*Build*
 image:http://img.shields.io/badge/license-BSD2-green.svg[link="http://github.com/IanDarwin/darwinsys-api"]
