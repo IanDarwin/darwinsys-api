@@ -1,5 +1,9 @@
-// DANGER - any changes here must also be made to the copy in src/test/java
+// This copy of module-info is ONLY for testing - DO NOT DEPLOY
+// It must be IDentical to the one in src/main/java but for the
+// addition of JUnit
 module com.darwinsys.api {
+
+	requires junit;
 	
 	requires transitive java.desktop;
 	requires java.net.http;

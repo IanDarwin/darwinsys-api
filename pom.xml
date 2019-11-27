@@ -46,23 +46,25 @@
 		<maven.compiler.target>${javase.version}</maven.compiler.target>
 		<maven.compiler.testSource>${javase.version}</maven.compiler.testSource>
 		<maven.compiler.testTarget>${javase.version}</maven.compiler.testTarget>
-		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<maven.findbugs.version>3.0.1</maven.findbugs.version>
 	</properties>
 
 	<dependencies>
+		<!--
 		<dependency>
 			<groupId>jakarta.mail</groupId>
 			<artifactId>jakarta.mail-api</artifactId>
 			<version>1.6.4</version>
 			<scope>provided</scope>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
 			<version>1.6.4</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
@@ -73,7 +75,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13-beta-3</version>
+			<version>4.13-rc-1</version>
 			<!-- Do not change this scope to test unless you exclude the testing/ directory -->
 			<scope>compile</scope>
 		</dependency>
@@ -186,9 +188,10 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.9.1</version>
+						<version>3.1.0</version>
 						<configuration>
 							<failOnError>false</failOnError>
+							<show>protected</show>
 						</configuration>
 						<executions>
 						<execution>
