@@ -1,4 +1,4 @@
-package html;
+package com.darwinsys.html;
 
 import static org.junit.Assert.*;
 
