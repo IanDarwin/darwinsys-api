@@ -3,14 +3,16 @@ package com.darwinsys.tools;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.net.http.*;
-import java.net.http.HttpClient.*;
-import java.net.http.HttpResponse.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpClient.Redirect;
+import java.net.http.HttpClient.Version;
+import java.net.http.HttpResponse.BodyHandlers;
 
 /**
  * A very minimal link checker; checks one or more links from command line, carefully but not recursively.
