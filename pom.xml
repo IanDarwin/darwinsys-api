@@ -46,18 +46,19 @@
 		<maven.compiler.target>${javase.version}</maven.compiler.target>
 		<maven.compiler.testSource>${javase.version}</maven.compiler.testSource>
 		<maven.compiler.testTarget>${javase.version}</maven.compiler.testTarget>
+		<maven.compiler.plugin.version>2.0.14</maven.compiler.plugin.version>
 		<maven.findbugs.version>3.0.1</maven.findbugs.version>
 	</properties>
 
 	<dependencies>
-		<!--
+<!--
 		<dependency>
 			<groupId>jakarta.mail</groupId>
 			<artifactId>jakarta.mail-api</artifactId>
 			<version>1.6.4</version>
 			<scope>provided</scope>
 		</dependency>
-		-->
+-->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
@@ -69,6 +70,11 @@
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
 			<version>2.2</version>
+<!--
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>2.2.3</version>
+-->
 			<scope>provided</scope>
 		</dependency>
 
@@ -175,7 +181,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>2.2.1</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
