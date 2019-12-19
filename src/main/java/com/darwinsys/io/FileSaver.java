@@ -79,7 +79,8 @@ public class FileSaver {
 
 	public FileSaver(File input) throws IOException {
 
-		// Step 1: Create temp file in right place
+		// Step 1: Create temp file in right place; must be on same disk
+		// as the original file, to avoid disk-full troubles later.
 		this.inputFile = input;
 		tmpFile = new File(inputFile.getAbsolutePath() + ".tmp");
 		tmpFile.createNewFile();
