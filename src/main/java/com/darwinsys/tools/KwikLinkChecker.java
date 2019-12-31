@@ -65,11 +65,10 @@ public class KwikLinkChecker {
 				.header("User-Agent", getClass().getName())
 				.GET()
 				.build(), 
-				BodyHandlers.ofString());
+				BodyHandlers.discarding());
 
 			// Collect the results
 			if (resp.statusCode() == 200) {
-				String response = resp.body();
 				System.out.println(response);
 			} else {
 				System.out.printf("ERROR: Status %d on request %s\n",
