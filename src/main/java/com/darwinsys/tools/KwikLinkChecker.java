@@ -58,6 +58,7 @@ public class KwikLinkChecker {
 	 * @param urlString the link to check
 	 * @return the link's status
 	 */
+	@SuppressWarnings("exports")
 	public LinkStatus check(String urlString) {
 		try {
 			HttpResponse<String> resp = client.send(
@@ -65,11 +66,11 @@ public class KwikLinkChecker {
 				.header("User-Agent", getClass().getName())
 				.GET()
 				.build(), 
-				BodyHandlers.discarding());
+				BodyHandlers.ofString());
 
 			// Collect the results
 			if (resp.statusCode() == 200) {
-				System.out.println(response);
+				System.out.println(resp.body());
 			} else {
 				System.out.printf("ERROR: Status %d on request %s\n",
 					resp.statusCode(), urlString);
