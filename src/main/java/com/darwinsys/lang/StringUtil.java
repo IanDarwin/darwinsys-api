@@ -4,8 +4,6 @@ package com.darwinsys.lang;
  * Miscellaneous string utilities:
  */
 public class StringUtil {
-	
-	public static final String ENCODING_UTF_8 = "UTF-8";
 
 	/** Like String instance method of same name, but null-safe.
 	 * @param s The input string

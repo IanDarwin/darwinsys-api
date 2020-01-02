@@ -36,9 +36,6 @@ public class FileIO {
 	/** The size of blocking to use */
 	protected static final int BLKSIZ = 16384;
 
-	/** String for encoding UTF-8; copied by inclusion from StringUtil. */
-	public static final String ENCODING_UTF_8 = StringUtil.ENCODING_UTF_8;
-	
 	/** Nobody should need to create an instance; all methods are static */
 	private FileIO() {
 		// Nothing to do
