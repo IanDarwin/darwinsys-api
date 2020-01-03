@@ -7,12 +7,11 @@
 
 package com.darwinsys.io;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Save a user data file, as safely as we can.
@@ -70,22 +69,22 @@ public class FileSaver {
 		INUSE
 	}
 	private State state;
-	private final File inputFile;
-	private final File tmpFile;
-	private final File backupFile;
+	private final Path inputFile;
+	private final Path tmpFile;
+	private final Path backupFile;
 	
 	private OutputStream mOutputStream;
 	private Writer mWriter;
 
-	public FileSaver(File input) throws IOException {
+	public FileSaver(Path inputFile) throws IOException {
 
 		// Step 1: Create temp file in right place; must be on same disk
 		// as the original file, to avoid disk-full troubles later.
-		this.inputFile = input;
-		tmpFile = new File(inputFile.getAbsolutePath() + ".tmp");
-		tmpFile.createNewFile();
-		tmpFile.deleteOnExit();
-		backupFile = new File(inputFile.getAbsolutePath() + ".bak");
+		this.inputFile = inputFile;
+		tmpFile = Path.of(inputFile.normalize() + ".tmp");
+		Files.createFile(tmpFile);
+		tmpFile.toFile().deleteOnExit();
+		backupFile = Path.of(inputFile.normalize() + ".bak");
 		state = State.AVAILABLE;
 	}
 
@@ -101,7 +100,7 @@ public class FileSaver {
 	 * </pre>
 	 * @return the File object for the file to be saved
 	 */
-	public File getFile() {
+	public Path getFile() {
 		return inputFile;
 	}
 
@@ -116,15 +115,14 @@ public class FileSaver {
 		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
-		mOutputStream = new FileOutputStream(tmpFile);
+		mOutputStream = Files.newOutputStream(tmpFile);
 		state = State.INUSE;
 		return mOutputStream;
 	}
 
 	/** Return an output file that the client should use to
 	 * write the client's data to.
-	 * @return A Writer, which should be wrapped in a
-	 * 	buffered Writer to ensure reasonable performance.
+	 * @return A BufferedWriter to write on the new file.
 	 * @throws IOException if the temporary file cannot be written
 	 */
 	public Writer getWriter() throws IOException {
@@ -132,7 +130,7 @@ public class FileSaver {
 		if (state != State.AVAILABLE) {
 			throw new IllegalStateException("FileSaver not opened");
 		}
-		mWriter = new FileWriter(tmpFile);
+		mWriter = Files.newBufferedWriter(tmpFile);
 		state = State.INUSE;
 		return mWriter;
 	}
@@ -155,18 +153,18 @@ public class FileSaver {
 		}
 
 		// Delete the previous backup file if it exists;
-		if (backupFile.exists() && !backupFile.delete()) {
+		if (!Files.deleteIfExists(backupFile)) {
 			throw new IOException("Failed to delete backup file " + backupFile);
 		}
 
 		// Rename the user's previous file to itsName.bak,
 		// UNLESS this is a new file ;
-		if (inputFile.exists() && !inputFile.renameTo(backupFile)) {
+		if (!Files.exists(inputFile) && Files.move(inputFile, backupFile) != null) {
 			throw new IOException("Could not rename file to backup file " + backupFile);
 		}
 
 		// Rename the temporary file to the save file.
-		if (!tmpFile.renameTo(inputFile)) {
+		if (Files.move(tmpFile, inputFile) != null) {
 			throw new IOException("Could not rename temp file to save file");
 		}
 		state = State.AVAILABLE;
