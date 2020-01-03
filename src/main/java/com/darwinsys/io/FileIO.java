@@ -23,8 +23,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
-import com.darwinsys.lang.StringUtil;
-
 /**
  * Some file I-O primitives reimplemented in Java.
  * All methods are static, since there is no state.
