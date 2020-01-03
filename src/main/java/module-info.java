@@ -1,5 +1,7 @@
-// DANGER - any changes here must also be made to the copy in src/test/java
+// This copy of module-info is includes JUnit, alas.
 module com.darwinsys.api {
+
+	requires junit;
 	
 	requires transitive java.desktop;
 	requires java.net.http;

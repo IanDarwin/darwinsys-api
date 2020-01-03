@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -533,7 +534,7 @@ public class Notepad {
 				if (ret != 0)	// "Yes" is the 0th option...
 					return;
 			}
-			doSave(file);
+			doSave(file.toPath());
 		}
 	}
 
@@ -543,7 +544,7 @@ public class Notepad {
 	 * @throws IOException On error
 	 */
 	public final void doSave(String fileName) throws IOException {
-		doSave(new File(fileName));
+		doSave(Path.of(fileName));
 	}
 
 	/**
@@ -553,7 +554,7 @@ public class Notepad {
 	 * @param file The output file
 	 * @throws IOException On error
 	 */
-	public final void doSave(File file) throws IOException {
+	public final void doSave(Path file) throws IOException {
 
 		// save using FileSaver class
 		// XXX use doBackup.
@@ -569,7 +570,7 @@ public class Notepad {
 		}
 		w.close();
 		fileSaver.finish();
-		setFileName(file.getAbsolutePath());
+		setFileName(file.normalize().toString());
 		setDirty(false);
 		doingSaveAs = false;
 	}

@@ -29,7 +29,7 @@ public class FileSaverTest {
 			FileIO.stringToFile(MESSAGE, FILENAME);
 			final File file = new File(FILENAME);
 			// Create FileSaver to save it.
-			saver = new FileSaver(file);
+			saver = new FileSaver(file.toPath());
 		} catch (IOException ex) {
 			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
 		}
