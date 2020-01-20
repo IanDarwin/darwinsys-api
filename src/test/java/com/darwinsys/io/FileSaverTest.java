@@ -35,7 +35,7 @@ public class FileSaverTest {
 		}
 	}
 
-	/** Clean up: try to delete all artifacts after test */
+	/** Clean up: try to delete all artifacts before, after each test */
 	@Before @After
 	public void reallyClean() {
 		// Do not care if either of these fails
@@ -52,7 +52,7 @@ public class FileSaverTest {
 	public void testOne() throws IOException {
 		final Writer writer = saver.getWriter();
 		PrintWriter out = new PrintWriter(writer);
-		out.print(MESSAGE);
+		out.println(MESSAGE);
 		out.close();
 		saver.finish();
 		final String finalString = FileIO.readerToString(new FileReader(FILENAME));
