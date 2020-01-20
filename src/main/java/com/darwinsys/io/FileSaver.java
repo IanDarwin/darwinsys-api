@@ -153,9 +153,7 @@ public class FileSaver {
 		}
 
 		// Delete the previous backup file if it exists;
-		if (!Files.deleteIfExists(backupFile)) {
-			throw new IOException("Failed to delete backup file " + backupFile);
-		}
+		Files.deleteIfExists(backupFile);
 
 		// Rename the user's previous file to itsName.bak,
 		// UNLESS this is a new file ;
