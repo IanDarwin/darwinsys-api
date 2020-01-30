@@ -52,7 +52,7 @@ public class FileSaverTest {
 	public void testOne() throws IOException {
 		final Writer writer = saver.getWriter();
 		PrintWriter out = new PrintWriter(writer);
-		out.println(MESSAGE);
+		out.print(MESSAGE);
 		out.close();
 		saver.finish();
 		final String finalString = FileIO.readerToString(new FileReader(FILENAME));

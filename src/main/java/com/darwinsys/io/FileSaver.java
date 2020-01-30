@@ -157,14 +157,14 @@ public class FileSaver {
 
 		// Rename the user's previous file to itsName.bak,
 		// UNLESS this is a new file ;
-		if (!Files.exists(inputFile) && 
-			Files.move(inputFile, backupFile) != null) {
+		if (Files.exists(inputFile) && 
+			Files.move(inputFile, backupFile) == null) {
 			throw new IOException(
 				"Could not rename file to backup file " + backupFile);
 		}
 
 		// Rename the temporary file to the save file.
-		if (Files.move(tmpFile, inputFile) != null) {
+		if (Files.move(tmpFile, inputFile) == null) {
 			throw new IOException("Could not rename temp file to save file");
 		}
 		state = State.AVAILABLE;
