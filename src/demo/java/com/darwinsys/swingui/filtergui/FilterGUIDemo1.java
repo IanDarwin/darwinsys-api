@@ -2,10 +2,6 @@ package com.darwinsys.swingui.filtergui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,14 +30,10 @@ public class FilterGUIDemo1 {
 		cp.add(BorderLayout.CENTER, comp);
 		JButton b = new JButton("Show");
 		cp.add(BorderLayout.SOUTH, b);
-		b.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				List<String> l = comp.getSelected();
-				Iterator it = l.iterator();
-				while (it.hasNext()) {
-					System.out.println(it.next());
-				}
-			}
+		b.addActionListener(e -> {
+			comp.getSelected().forEach(o -> {
+				System.out.println(o);
+			});
 		});
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
