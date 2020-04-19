@@ -13,7 +13,8 @@ import java.util.logging.Logger;
 
 public class ClassSourceUtils extends SourceUtils {
 	
-	final static Logger log = Logger.getLogger(ClassSourceUtils.class.getName());
+	final static Logger logger = 
+		Logger.getLogger(ClassSourceUtils.class.getName());
 		
 	private static List<Class<?>> result;
 	
@@ -35,8 +36,10 @@ public class ClassSourceUtils extends SourceUtils {
 				result = new ArrayList<Class<?>>();
 				result.add(Class.forName(name));
 				return result;
-			} catch (ClassNotFoundException e) {
-				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				// Caught here so we go on to next one.
+				logger.warning(
+					String.format("Class %s failed to load: %s", name, e));
 			}
 		case JAR:
 			return classListFromJar(name, classpath);
@@ -66,10 +69,12 @@ public class ClassSourceUtils extends SourceUtils {
 					int n = entName.length();
 					try {
 						results.add(
-								cl.loadClass(
-									entName.substring(0, n - 6).replace('/','.')));
-					} catch (ClassNotFoundException e) {
-						System.err.println(e);
+							cl.loadClass(
+								entName.substring(0, n - 6).replace('/','.')));
+					} catch (Exception e) {
+						logger.warning(
+							String.format("Class %s failed to load: %s",
+								entName, e));
 						// Caught here so we go on to next one.
 					}
 				}
@@ -98,11 +103,11 @@ public class ClassSourceUtils extends SourceUtils {
 				for (String s : classpath) {
 					final URL anotherURL = makeFileURL(s);
 					urls.add(anotherURL);
-					log.fine("added " + anotherURL);
+					logger.fine("added " + anotherURL);
 				}
 			}
 			final int extraElements = urls.size();
-			log.fine("Creating URLClassLoader for " + fileDirURL +
+			logger.fine("Creating URLClassLoader for " + fileDirURL +
 					" with " + extraElements + " extra elements.");
 			cl = new URLClassLoader(urls.toArray(new URL[extraElements]));
 		} catch (Exception e) {
@@ -164,10 +169,10 @@ public class ClassSourceUtils extends SourceUtils {
 		
 		if (name.endsWith(".class")) {
 			String className = name.substring(0, name.length() - 6).replace("/", ".");
-			log.fine("SourceUtils.doFile(): '" + className + '\'');
+			logger.fine("SourceUtils.doFile(): '" + className + '\'');
 			try {
 				Class<?> c = cl.loadClass(className);
-				log.fine("Loaded OK");
+				logger.fine("Loaded OK");
 				return c;
 			} catch (ClassNotFoundException e) {
 				throw new IllegalArgumentException(e);
