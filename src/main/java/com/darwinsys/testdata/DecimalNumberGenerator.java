@@ -1,10 +1,11 @@
 package com.darwinsys.testdata;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Random;
 
-public class DecimalNumberGenerator implements Generator {
+public class DecimalNumberGenerator implements Generator<BigDecimal> {
 	int maxIntPart = 1;
 	int maxFracPart = 1;	
 	Random r;
@@ -21,14 +22,14 @@ public class DecimalNumberGenerator implements Generator {
 		r = new Random();
 	}
 	
-	public Object nextValue() {
+	public BigDecimal nextValue() {
 		int intPart = r.nextInt(maxIntPart);
 		int fracPart = r.nextInt(maxFracPart);
-		return new String(intPart + "." + fracPart);
+		return new BigDecimal(new String(intPart + "." + fracPart));
 	}
 
-	public Object[] nextValues(int n) {
-		Object[] result = new Object[n];
+	public BigDecimal[] nextValues(int n) {
+		BigDecimal[] result = new BigDecimal[n];
 		for (int i = 0; i < n; i++) {
 			result[i] = nextValue();
 		}

@@ -1,6 +1,6 @@
 package com.darwinsys.testdata;
 
-public interface Generator {
-	public Object nextValue();
-	public Object[] nextValues(int howMany);
+public interface Generator<T> {
+	public T nextValue();
+	public T[] nextValues(int howMany);
 }
