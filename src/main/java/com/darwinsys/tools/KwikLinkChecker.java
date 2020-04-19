@@ -60,6 +60,9 @@ public class KwikLinkChecker {
 	 */
 	@SuppressWarnings("exports")
 	public LinkStatus check(String urlString) {
+		if (verbose) {
+			System.out.println("checking " + urlString);
+		}
 		try {
 			HttpResponse<String> resp = client.send(
 				HttpRequest.newBuilder(URI.create(urlString))
@@ -70,7 +73,7 @@ public class KwikLinkChecker {
 
 			// Collect the results
 			if (resp.statusCode() == 200) {
-				System.out.println(resp.body());
+				System.out.println("OK");
 			} else {
 				System.out.printf("ERROR: Status %d on request %s\n",
 					resp.statusCode(), urlString);
