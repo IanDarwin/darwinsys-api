@@ -27,26 +27,28 @@ public class ClassSourceUtils extends SourceUtils {
 	 * @param name - the name of something that can be used
 	 * as a Source, e.g., a Jar file, a class file or a directory.
 	 * @param classpath List of classpath entries
-	 * @return List&lt;Class&lt;?&gt;&gt; List of all classes found in the source
+	 * @return List&lt;Class&lt;?&gt;&gt; List of classes found in the source
+	 * which were able to be loaded.
 	 */
 	public static List<Class<?>> classListFromSource(String name, List<String> classpath) {
 		switch(classify(name)) {
 		case CLASS:
+			result = new ArrayList<Class<?>>();
 			try {
-				result = new ArrayList<Class<?>>();
 				result.add(Class.forName(name));
-				return result;
 			} catch (Exception e) {
 				// Caught here so we go on to next one.
 				logger.warning(
 					String.format("Class %s failed to load: %s", name, e));
 			}
+			return result;
 		case JAR:
 			return classListFromJar(name, classpath);
 		case DIRECTORY:
 			return classListFromDirectory(name, classpath);
 		default:
-			throw new IllegalArgumentException(name);
+			throw new IllegalStateException(
+				String.format("Could not classify %s: Unhandled type", name));
 		}
 	}
 	
@@ -80,7 +82,7 @@ public class ClassSourceUtils extends SourceUtils {
 				}
 			}
 		} catch (Exception e) {
-			throw new IllegalArgumentException(name, e);
+			logger.warning("Caught unknown exception: " + e);
 		}
 		return results;
 	}
