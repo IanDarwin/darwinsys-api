@@ -58,10 +58,10 @@ public class ClassSourceUtils extends SourceUtils {
 	
 	private static List<Class<?>> classListFromJar(final String name, List<String> classpath) {
 		final List<Class<?>> results = new ArrayList<Class<?>>();
+		final File jFile = new File(name);
+		ClassLoader cl = null;
 		try (final JarFile jf = new JarFile(name)) {
-			final File jFile = new File(name);
-			ClassLoader cl = 
-				new URLClassLoader(new URL[]{makeFileURL(jFile.getAbsolutePath())});
+			cl = new URLClassLoader(new URL[]{makeFileURL(jFile.getAbsolutePath())});
 
 			final Enumeration<JarEntry> entries = jf.entries();
 			while (entries.hasMoreElements()) {
@@ -95,7 +95,7 @@ public class ClassSourceUtils extends SourceUtils {
 	 */
 	private static List<Class<?>> classListFromDirectory(final String dirName, List<String> classpath) {
 		result = new ArrayList<Class<?>>();		
-		ClassLoader cl;
+		ClassLoader cl = null;
 		try {
 			final File fileDir = new File(dirName);
 			final URL fileDirURL = makeFileURL(fileDir.getCanonicalPath());
@@ -113,7 +113,7 @@ public class ClassSourceUtils extends SourceUtils {
 					" with " + extraElements + " extra elements.");
 			cl = new URLClassLoader(urls.toArray(new URL[extraElements]));
 		} catch (Exception e) {
-			throw new IllegalArgumentException(dirName, e);
+			logger.warning("Failed to list directory " + dirName);
 		}
 		startDir(dirName, cl);
 		return result;
@@ -144,14 +144,18 @@ public class ClassSourceUtils extends SourceUtils {
 		final String name = f.getPath();
 		System.out.println("SourceUtils.doDir(): " + name);
 		if (!f.exists()) {
-			throw new IllegalStateException(name + " does not exist");
+			logger.warning(name + " does not exist");
+			return;
 		}
 		if (f.isFile()) {
 			final String className = f.getPath().substring(1+startPath.length());
 			try {
-				result.add(doFile(f, cl, className));
+				final Class<?> clazz = doFile(f, cl, className);
+				if (clazz != null)
+					result.add(clazz);
 			} catch (Exception e) {
-				System.err.println("Warning: non-classifiable: " + f);
+				logger.warning("Warning: non-classifiable: " + f);
+				return;
 			}
 		}
 		else if (f.isDirectory()) {
@@ -160,7 +164,7 @@ public class ClassSourceUtils extends SourceUtils {
 			for (int i=0; i<objects.length; i++)
 				doDir(objects[i], cl);
 		} else
-			System.err.println("Unknown: " + name);
+			logger.warning("Unknown: " + name);
 	}
 
 	public static Class<?> doFile(File f, ClassLoader cl) {
@@ -176,10 +180,12 @@ public class ClassSourceUtils extends SourceUtils {
 				Class<?> c = cl.loadClass(className);
 				logger.fine("Loaded OK");
 				return c;
-			} catch (ClassNotFoundException e) {
-				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				logger.warning(
+					String.format("Class %s failed to load: %s", name, e));
+				return null;
 			}
 		}
-		throw new IllegalArgumentException(f.getAbsolutePath());
+		throw new IllegalStateException("Not a class! " + f.getAbsolutePath());
 	}
 }
