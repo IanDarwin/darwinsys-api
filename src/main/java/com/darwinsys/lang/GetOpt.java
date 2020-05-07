@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.darwinsys.util.Debug;
+import java.util.logging.Logger;
 
 /** GetOpt implements UNIX-style (single-character) command line argument
  * parsing. Originally patterned after (but not using code from) the UNIX 
@@ -114,6 +113,8 @@ public class GetOpt {
 	protected boolean done = false;
 	/** The current option argument. */
 	protected String optarg;
+	/** A logger for debugging */
+	Logger logger = Logger.getLogger(getClass().getName());
 
 	/** Retrieve the current option argument; UNIX variant spelling.
 	 * @return The current option's argument.
@@ -172,7 +173,7 @@ public class GetOpt {
 				argTakesValue = true;
 				++i;
 			}
-			Debug.println("getopt",
+			logger.info(
 				"CONSTR: options[" + ix + "] = " + c + ", " + argTakesValue);
 			options[ix++] = new GetOptDesc(c, null, argTakesValue);
 		}
@@ -202,7 +203,7 @@ public class GetOpt {
 		Map<String, String> optionsValueMap = new HashMap<String, String>();
 		fileNameArguments = new ArrayList<String>();
 		for (int i = 0; i < argv.length; i++) {	// Cannot use foreach, need i
-			Debug.println("getopt", "parseArg: i=" + i + ": arg " + argv[i]);
+			logger.info("parseArg: i=" + i + ": arg " + argv[i]);
 			char c = getopt(argv);	// sets global "optarg"
 			if (c == DONE) {
 				fileNameArguments.add(argv[i]);
@@ -236,8 +237,7 @@ public class GetOpt {
 	 * @return One option character each time called, or DONE after last.
 	 */
 	public char getopt(String argv[]) {
-		Debug.println("getopt",
-			"optind=" + optind + ", argv.length="+argv.length);
+		logger.info("optind=" + optind + ", argv.length="+argv.length);
 
 		if (optind >= (argv.length) || !argv[optind].startsWith("-")) {
 			done = true;

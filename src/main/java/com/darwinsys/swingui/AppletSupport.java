@@ -26,7 +26,7 @@ public class AppletSupport {
 		AppletSupport.mode = mode;
 	}
 
-	private static Image getImage(URL url) {
+	public static Image getImage(URL url) {
 		throw new IllegalStateException(
 			"Sorry, you got to AppletSupport.getImage() before I wrote it");
 	}

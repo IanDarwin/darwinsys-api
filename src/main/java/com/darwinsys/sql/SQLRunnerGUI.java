@@ -96,9 +96,9 @@ public class SQLRunnerGUI  {
 	private final JTabbedPane outputPanel;
 	private final JButton runButton;
 
-	private final JComboBox connectionsList;
+	private final JComboBox<?> connectionsList;
 	private final JCheckBox passwdPromptCheckBox;
-	private final JComboBox modeList;
+	private final JComboBox<OutputMode> modeList;
 	private final JDialog busyDialog;
 
 	private JTable jtable;
@@ -300,7 +300,7 @@ public class SQLRunnerGUI  {
 		mainWindow.add(controlsArea, BorderLayout.NORTH);
 
 		configurations = configManager.getConfigurations();
-		connectionsList = new JComboBox(configurations.toArray(new Configuration[configurations.size()]));
+		connectionsList = new JComboBox<Configuration>(configurations.toArray(new Configuration[configurations.size()]));
 		// when you change to a different database you don't want to remember the "force passwd prompt" setting
 		connectionsList.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -320,7 +320,7 @@ public class SQLRunnerGUI  {
 			}
 		});
 
-		final JComboBox inTemplateChoice = new JComboBox();
+		final JComboBox<Object> inTemplateChoice = new JComboBox<>();
 		// XXX Of course these should be editable...
 		inTemplateChoice.addItem("Input Template:");
 		for (SQLTemplate t : SQLTemplate.getList()) {
@@ -328,7 +328,7 @@ public class SQLRunnerGUI  {
 		}
 		controlsArea.add(inTemplateChoice);
 
-		modeList = new JComboBox();
+		modeList = new JComboBox<OutputMode>();
 		for (OutputMode mode : OutputMode.values()) {
 			modeList.addItem(mode);
 		}
@@ -430,7 +430,6 @@ public class SQLRunnerGUI  {
 	 * @param prompt The prompt string
 	 * @return The new password.
 	 */
-	@SuppressWarnings("serial")
 	private String getPassword(String prompt) {
 		final JDialog input = new JDialog(mainWindow, "Prompt", true);
 		input.setLayout(new FlowLayout());

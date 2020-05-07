@@ -47,7 +47,6 @@ public class PhoneNumberUtil {
 		String[] result = new String[permutations];
 
 		// Do the actual work.
-		int sIndex = 0;
 		for (char ch : chars) {
 			if (isDigit(ch)) {
 				int n = ch - '0';

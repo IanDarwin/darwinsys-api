@@ -26,7 +26,7 @@ public class PhotoUtilsTest {
 		String expect = "2018-08-07T14:29:35";
 		String actual = PhotoUtils.exifDateToIso(input);
 		assertEquals(expect, actual);
-		LocalDateTime dt = LocalDateTime.parse(actual); // Throws if bad
+		LocalDateTime.parse(actual); // Throws if bad
 	}
 
 }
