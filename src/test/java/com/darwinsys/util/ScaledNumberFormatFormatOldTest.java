@@ -5,7 +5,7 @@ import com.darwinsys.util.ScaledNumberFormat;
 import junit.framework.*;
 
 /** A better "data driven" test suite for ScaledNumberFormat format
- * ** DO NOT FOURIFY ** Leave as 3.8 to contrast with @Parameter version!
+ * ** DO NOT FOURIFY ** Leave as JUnit 3.8 to contrast with @Parameter version!
  */
 public class ScaledNumberFormatFormatOldTest extends TestCase {
 
@@ -45,14 +45,6 @@ public class ScaledNumberFormatFormatOldTest extends TestCase {
 		super("testFormat");
 		this.number = number;
 		this.expect = expect;
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		for (int i = 0; i < ddata.length; i++) {
-			suite.addTest(new ScaledNumberFormatFormatOldTest(ddata[i].number, ddata[i].expect));
-		}
-		return suite;
 	}
 
 	public void testFormat() {
