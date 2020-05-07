@@ -9,7 +9,7 @@ import javax.swing.event.ListDataListener;
 
 /** FilterGUIListModel combines an ArrayList with a ListModel for ease of use.
  */
-public class FilterGUIListModel<E> extends ArrayList<E> implements ListModel {
+public class FilterGUIListModel<E> extends ArrayList<E> implements ListModel<E> {
 
 	private static final long serialVersionUID = 4997952964701465432L;
 	
@@ -19,7 +19,7 @@ public class FilterGUIListModel<E> extends ArrayList<E> implements ListModel {
 		source = src;
 	}
 
-	public Object getElementAt(int index) {
+	public E getElementAt(int index) {
 		return get(index);
 	}
 

@@ -40,7 +40,7 @@ public class DNSUtils {
 	public String findMX(String host) throws NamingException {
 		System.out.println("DNSUtils: Getting attributes...");
 		Attributes attrs = ctx.getAttributes(host, new String[] {"MX"});
-		NamingEnumeration enumeration = attrs.getAll();
+		NamingEnumeration<? extends Attribute> enumeration = attrs.getAll();
 		while (enumeration.hasMore()) {
 			final Attribute attr = (Attribute)enumeration.next();
 			System.out.println("<< " + attr.getClass().getName());

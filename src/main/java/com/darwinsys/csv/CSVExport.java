@@ -4,11 +4,11 @@ import java.util.List;
 
 public class CSVExport {
 
-    public static String toString(List data) {
+    public static String toString(List<?> data) {
         return toString(data, ',');
     }
 
-	public static String toString(List data, char delim) {
+	public static String toString(List<?> data, char delim) {
 
         StringBuilder sb = new StringBuilder();
 

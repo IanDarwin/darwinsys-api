@@ -133,6 +133,6 @@ public class FileProperties extends Properties {
 
 	@SuppressWarnings("unchecked")
 	public Iterator<String> iterator() {
-		return new EnumerationIterator(keys());
+		return new EnumerationIterator<>(keys());
 	}
 }

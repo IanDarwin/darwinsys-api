@@ -19,7 +19,7 @@ public class CSVRETest extends CSVParserTestBase {
 
 	@Test
 	public void testCanonical() {
-		List list = csv.parse("\"a\",\"b\",\"c\"");
+		List<String> list = csv.parse("\"a\",\"b\",\"c\"");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
 		assertEquals("b", list.get(1));
@@ -27,7 +27,7 @@ public class CSVRETest extends CSVParserTestBase {
 	}
 	@Test
 	public void testNullField() {
-		List list = csv.parse("\"a\",,\"c\"");
+		List<String> list = csv.parse("\"a\",,\"c\"");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
 		assertEquals("", list.get(1));
@@ -36,7 +36,7 @@ public class CSVRETest extends CSVParserTestBase {
 
 	@Test
 	public void testNotAllQuoted() {
-		List list = csv.parse("\"a\",b,\"c\"");
+		List<String> list = csv.parse("\"a\",b,\"c\"");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
 		assertEquals("b", list.get(1));
@@ -44,7 +44,7 @@ public class CSVRETest extends CSVParserTestBase {
 	}
 	@Test
 	public void testAllUnQuoted() {
-		List list = csv.parse("a,b,c");
+		List<String> list = csv.parse("a,b,c");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
 		assertEquals("b", list.get(1));
@@ -52,7 +52,7 @@ public class CSVRETest extends CSVParserTestBase {
 	}
 	@Test
 	public void testMixedField() {
-		List list = csv.parse("\"LU\",86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
+		List<String> list = csv.parse("\"LU\",86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
 		assertEquals(2, list.size());
 	}
 
@@ -75,7 +75,7 @@ public class CSVRETest extends CSVParserTestBase {
 	public void testEscapeQuoted() {
 		String string = "\"a,b,c\",d,\"and \\\"e\",f";
 		System.out.println(string);
-		List list = csv.parse(string);
+		List<String> list = csv.parse(string);
 		assertEquals(4, list.size());
 		assertEquals("a,b,c", list.get(0));
 		assertEquals("d", list.get(1));

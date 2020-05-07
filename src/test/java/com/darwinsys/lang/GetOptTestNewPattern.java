@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.junit.Test;
@@ -78,7 +79,7 @@ public class GetOptTestNewPattern {
 				log.info("Option " + val);
 		}
 
-		List filenames = go2.getFilenameList();
+		List<String> filenames = go2.getFilenameList();
 		for (int i = 0; i < filenames.size(); i++) {
 			String fileName = (String)filenames.get(i);
 			log.info("Filename-like arg " + fileName);
@@ -121,7 +122,7 @@ public class GetOptTestNewPattern {
 		Iterator<Map.Entry<String,String>> it = 
 			parsedArgsMap.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry e = it.next();
+			Entry<String, String> e = it.next();
 			String key = (String)e.getKey();
 			String val = (String)e.getValue();
 			char c = key.charAt(0);

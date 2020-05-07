@@ -17,10 +17,10 @@ public class CSVImportTest extends CSVParserTestBase {
 	/** Test one String with a non-default delimiter */
 	public void testBarDelim() {
 		CSVImport parser = new CSVImport('|');
-		List l = parser.parse(
+		List<String> l = parser.parse(
 			"\"LU\"|86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
 		assertEquals(l.size(), 5);
-		Iterator it = l.iterator();
+		Iterator<String> it = l.iterator();
 		while (it.hasNext()) {
 			System.out.print("[" + it.next() + "],");
 		}

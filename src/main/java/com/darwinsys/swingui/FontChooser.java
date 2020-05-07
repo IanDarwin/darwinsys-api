@@ -56,9 +56,9 @@ public class FontChooser extends JDialog {
 	/** Display text */
 	protected String displayText = DEFAULT_TEXT;
 	/** The font name chooser */
-	protected JList fontNameChoice;
+	protected JList<String> fontNameChoice;
 	/** The font size chooser */
-	protected JList fontSizeChoice;
+	protected JList<Integer> fontSizeChoice;
 	/** The bold and italic choosers */
 	JCheckBox bold, italic;
 
@@ -91,13 +91,13 @@ public class FontChooser extends JDialog {
 		String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().
 			getAvailableFontFamilyNames();
 
-		fontNameChoice = new JList(fontList);
+		fontNameChoice = new JList<>(fontList);
 		top.add(new JScrollPane(fontNameChoice));
 
 		fontNameChoice.setVisibleRowCount(fontSizes.length);
 		fontNameChoice.setSelectedValue("Serif", true);
 
-		fontSizeChoice = new JList(fontSizes);
+		fontSizeChoice = new JList<>(fontSizes);
 		top.add(fontSizeChoice);
 
 		fontSizeChoice.setSelectedIndex(fontSizes.length * 3 / 4);
@@ -209,11 +209,11 @@ public class FontChooser extends JDialog {
 		previewFont();
 	}
 
-	public JList getFontNameChoice() {
+	public JList<String> getFontNameChoice() {
 		return fontNameChoice;
 	}
 
-	public JList getFontSizeChoice() {
+	public JList<Integer> getFontSizeChoice() {
 		return fontSizeChoice;
 	}
 
