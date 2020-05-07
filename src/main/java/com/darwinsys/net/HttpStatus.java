@@ -116,4 +116,8 @@ public enum HttpStatus {
 	}
 
 	private final int value;
+
+	public int value() {
+		return value;
+	}
 }

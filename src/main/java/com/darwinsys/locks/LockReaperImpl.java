@@ -52,7 +52,8 @@ public class LockReaperImpl<T> extends Thread {
 				System.out.println("LockReaper: Locks currently held at " + new Date() + ":");
 			}
 			for (Lock lock : map.keySet()) {
-				LockImpl<T> l = (LockImpl) lock;
+				@SuppressWarnings("unchecked")
+				LockImpl<T> l = (LockImpl<T>) lock;
 				System.out.println("LockReaper: " + l);
 				final long now = System.currentTimeMillis();
 				final long then = l.getCreationTime();
