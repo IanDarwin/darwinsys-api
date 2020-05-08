@@ -73,6 +73,11 @@ public class PhoneNumberUtil {
 		return false;
 	}
 	
+	/**
+	 * Reimplement Character.isDigit to be unaffected by the user's locale.
+	 * @param ch The char that might be a digit
+	 * @return True iff ch is a telephone digit.
+	 */
 	static boolean isDigit(char ch) {
 		switch(ch) {
 		case '1': case '2': case '3':
