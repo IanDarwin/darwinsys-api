@@ -22,6 +22,7 @@ public class PhoneNumberUtilTest {
 		PhoneNumberUtil.mnemonics("");
 	}
 	
+	@Test
 	public void testMnemonics() {
 		String[] res;
 		res = PhoneNumberUtil.mnemonics("01");

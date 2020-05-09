@@ -1,5 +1,7 @@
 package com.darwinsys.util;
 
+import java.util.logging.Logger;
+
 /** XXX MERGE WITH c.d.tel/DialWords, which works for simpler cases */
 @Deprecated
 public class PhoneNumberUtil {
@@ -17,6 +19,8 @@ public class PhoneNumberUtil {
 		{ 'w', 'x', 'y', 'z' }, // 9
 	};
 	
+	static Logger logger = Logger.getLogger(PhoneNumberUtil.class.getName());
+	
 	public static String[] mnemonics(String numberStr) {
 		
 		if (numberStr == null) {
@@ -30,11 +34,11 @@ public class PhoneNumberUtil {
 		char[] chars = numberStr.toCharArray();
 		
 		// First pass - how many elements do we need to return?
-		int permutations = 1;
+		int num = 1;
 		for (char ch : chars) {
 			int n = ch - '0';
 			if (isDigit(ch)) {
-				permutations *= Math.max(1, data[n].length);
+				num *= Math.max(1, data[n].length);
 			} else if (isPlain(ch)) {
 				// nothing
 			} else {
@@ -42,7 +46,13 @@ public class PhoneNumberUtil {
 					String.format("Invalid character %c in number string", ch));
 			}
 		}
-
+		final int permutations = num;
+		logger.info(() -> {
+			return String.format(
+				"For input string %s, computed %d permutations",
+				numberStr, permutations);
+		});
+		
 		// Now we know the number of permutations
 		String[] result = new String[permutations];
 
@@ -54,7 +64,7 @@ public class PhoneNumberUtil {
 					// XXX I got interrupted here...
 				}	
 			} else {
-				// XXX 
+				// Do nothing
 			}
 		}
 		
