@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 public class PhoneNumberUtil {
 	
 	private static char[][] data = {
-		{ },		// 0
-		{ },		// 1
+		{ '0' },		// 0
+		{ '1' },		// 1
 		{ 'a', 'b', 'c' }, // 2
 		{ 'd', 'e', 'f' }, // 3
 		{ 'g', 'h', 'i' }, // 4
@@ -31,14 +31,13 @@ public class PhoneNumberUtil {
 		}
 		
 		// Get array of chars to simplify code
-		char[] chars = numberStr.toCharArray();
+		char[] phNumAsChars = numberStr.toCharArray();
 		
 		// First pass - how many elements do we need to return?
 		int num = 1;
-		for (char ch : chars) {
-			int n = ch - '0';
+		for (char ch : phNumAsChars) {
 			if (isDigit(ch)) {
-				num *= Math.max(1, data[n].length);
+				num *= data[ch - '0'].length;
 			} else if (isPlain(ch)) {
 				// nothing
 			} else {
@@ -54,21 +53,30 @@ public class PhoneNumberUtil {
 		});
 		
 		// Now we know the number of permutations
-		String[] result = new String[permutations];
+		char[][] caResults = new char[permutations][phNumAsChars.length];
 
-		// Do the actual work.
-		for (char ch : chars) {
-			if (isDigit(ch)) {
-				int n = ch - '0';
-				for (char x : data[n]) {
-					// XXX I got interrupted here...
-				}	
-			} else {
-				// Do nothing
+		// Do the actual work: for each char in original input,
+		// put its replacement (or itself) into all the "strings"
+		// (char arrays) that will become the final result
+		// Work in row major order so each row results in one string.
+		
+		for (int inputCharNum = 0; inputCharNum < phNumAsChars.length; inputCharNum++) {
+			char inputChar = phNumAsChars[inputCharNum];
+			char[] datarow = data[inputChar - '0'];
+			for (int i = 0; i < permutations; i++) {
+				final int n = i%datarow.length;
+				char letterForNum = isDigit(inputChar) ? datarow[n] : inputChar;
+				caResults[i][inputCharNum] = letterForNum;
 			}
 		}
 		
-		return result;
+		// Convert from 2D array of char to array of Strings
+		String[] sResults = new String[permutations];
+		int ix = 0;
+		for (char[] row : caResults) {
+			sResults[ix++] = new String(row);
+		}
+		return sResults;
 	}
 	
 	/** The only non-digit chars that are allowed. */

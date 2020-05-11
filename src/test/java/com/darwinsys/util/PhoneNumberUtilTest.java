@@ -23,13 +23,30 @@ public class PhoneNumberUtilTest {
 	}
 	
 	@Test
-	public void testMnemonics() {
+	public void testMnemonics01() {
 		String[] res;
 		res = PhoneNumberUtil.mnemonics("01");
 		assertEquals("right#results-simple", 1, res.length);
+	}
+	
+	@Test
+	public void testMnemonics42() {
+		String[] res;
 		res = PhoneNumberUtil.mnemonics("42");
-		assertEquals("right#results-simple", 9, res.length);
+		// 4 = g h i
+		// 2 = a b c
+		// expect: ga ha ia gb hb ib gc hc ic
+		assertEquals("right#results-42->9", 9, res.length);
+		assertEquals("ga", res[0]);
+		for (String r : res)
+			System.out.println(42 + " -> " + r);
+	}
+	
+	@Test
+	public void testMnemonics234() {
+		String[] res;
 		res = PhoneNumberUtil.mnemonics("234");
-		assertEquals("right#results-simple", 27, res.length);
+		assertEquals("right#results-234->27", 27, res.length);
+		assertEquals("adg", res[0]);
 	}
 }
