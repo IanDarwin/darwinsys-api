@@ -28,11 +28,6 @@ public class KwikLinkCheckerTest {
 	}
 	
 	@Test
-	public void testCheck404() {
-		assertFalse(checker.check("http://darwinsys.com/noSuchFileHere").ok);
-	}
-	
-	@Test
 	public void testBadUrl() {
 		final LinkStatus check = checker.check("http:foo-for-you");
 		assertFalse(check.ok);
