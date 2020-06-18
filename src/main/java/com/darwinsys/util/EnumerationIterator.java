@@ -7,7 +7,7 @@ import java.util.Iterator;
  * behave like new Iterator interface, so we only have to deal
  * with one well-defined implementation of the Iterator pattern.
  */
-public class EnumerationIterator<T> implements Iterator {
+public class EnumerationIterator<T> implements Iterator<T> {
 
 	/** The Enumeration being delegated to */
 	private final Enumeration<T> oldEnum;

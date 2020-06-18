@@ -37,7 +37,7 @@ public class ArrayListTablePanel<T> extends JPanel {
 	/** The kind of thing that is in the list. */
 	protected Class<?> objectClass;
 	/** The JTable's data (model) */
-	protected ArrayListTableModel model;
+	protected ArrayListTableModel<T> model;
 	/** The JTable itself */
 	protected JTable table;
 
@@ -49,7 +49,7 @@ public class ArrayListTablePanel<T> extends JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayListTablePanel(Class<?> objClass,
-		List<T> al, ArrayListTableModel lm) {
+		List<T> al, ArrayListTableModel<T> lm) {
 
 		objectClass = objClass;
 		list = al;

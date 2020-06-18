@@ -24,7 +24,7 @@ public class IndexListTest extends TestCase {
 	}
 
 	public void testIterator() {
-		Iterator it = target.iterator();
+		Iterator<String> it = target.iterator();
 		int i = 0;
 		while (it.hasNext()) {
 			assertEquals(TESTDATA[i++], it.next());

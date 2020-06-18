@@ -88,8 +88,8 @@ public class FixedLengthFIFOTest {
 	@Test
 	public void testAlwaysCreatesIterator() {	
 		addaCoupleOfStrings();
-		Iterator it = ff.iterator();
-		Iterator it2 = ff.iterator();
+		Iterator<String> it = ff.iterator();
+		Iterator<String> it2 = ff.iterator();
 		assertTrue(it != it2);
 		while (it2.hasNext()) {
 			final Object next = it2.next();
@@ -102,7 +102,7 @@ public class FixedLengthFIFOTest {
 	@Test(expected=ConcurrentModificationException.class)
 	public void testThrowsConcurrentModificationException() {
 		// Check for concurrentmod
-		Iterator it3 = ff.iterator();
+		Iterator<String> it3 = ff.iterator();
 		addaCoupleOfStrings();
 		it3.hasNext();	// Should throw CME
 	}
