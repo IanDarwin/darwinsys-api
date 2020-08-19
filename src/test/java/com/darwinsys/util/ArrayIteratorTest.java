@@ -5,8 +5,6 @@ import java.util.NoSuchElementException;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.darwinsys.util.ArrayIterator;
-
 public class ArrayIteratorTest {
 
 	String[] TESTDATA = { "one", "two", "three" };

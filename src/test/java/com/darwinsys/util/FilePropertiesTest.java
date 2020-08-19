@@ -9,8 +9,6 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.util.FileProperties;
-
 public class FilePropertiesTest extends TestCase {
 	Properties p;
 	File erewhon;

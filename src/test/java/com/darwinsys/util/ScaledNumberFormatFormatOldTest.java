@@ -1,8 +1,6 @@
 package com.darwinsys.util;
 
-import com.darwinsys.util.ScaledNumberFormat;
-
-import junit.framework.*;
+import junit.framework.TestCase;
 
 /** A better "data driven" test suite for ScaledNumberFormat format
  * ** DO NOT FOURIFY ** Leave as JUnit 3.8 to contrast with @Parameter version!

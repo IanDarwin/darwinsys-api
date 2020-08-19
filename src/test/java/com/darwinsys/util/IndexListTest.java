@@ -4,8 +4,6 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import com.darwinsys.util.IndexList;
-
 public class IndexListTest extends TestCase {
 
 	String[] TESTDATA = { "one", "two", "three" };

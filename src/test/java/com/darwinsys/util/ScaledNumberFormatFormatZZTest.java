@@ -1,8 +1,8 @@
 package com.darwinsys.util;
 
-import com.darwinsys.util.ScaledNumberFormat;
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /** Last few separate tests for ScaledNumberFormat parse and format
  */
