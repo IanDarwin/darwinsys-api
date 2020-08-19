@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.prefs.Preferences;
 
@@ -134,7 +135,9 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 
 		// Copy from Prefs into Menu
 		JMenuItem mi;
-		for (String f : list) {
+		final Iterator<String> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			String f = iterator.next();
 			if (f == null) {	// Stop on first missing
 				break;
 			}
@@ -146,7 +149,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 				this.add(mi = new JMenuItem(f));
 				mi.addActionListener(recentOpener);
 			} else {
-				recentFileNames.remove(f);
+				iterator.remove();
 			}
 		}
 	}
