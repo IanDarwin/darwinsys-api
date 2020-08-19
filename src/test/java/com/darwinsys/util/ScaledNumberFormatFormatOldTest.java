@@ -7,6 +7,10 @@ import junit.framework.TestCase;
  */
 public class ScaledNumberFormatFormatOldTest extends TestCase {
 
+	public ScaledNumberFormatFormatOldTest() {
+		super("ScaledNumberFormatFormatOldTest");
+	}
+
 	static class TestDatum {
 		long number;
 		String expect;
