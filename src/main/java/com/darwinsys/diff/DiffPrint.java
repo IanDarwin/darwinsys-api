@@ -2,7 +2,6 @@ package com.darwinsys.diff;
 
 import java.util.List;
 
-import com.darwinsys.diff.DiffType;
 import com.darwinsys.diff.Diff.Item;
 
 /**

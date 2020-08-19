@@ -87,6 +87,11 @@ public class RecentItems {
 		return Collections.unmodifiableList(recentNames);
 	}
 	
+	/** Use with extreme caution; needed for e.g., RecentMenu */
+	public List<String> getLiveList() {
+		return recentNames;
+	}
+	
 	/**
 	 * Clear all saved Recent Items from Preferences, from memory, and from the Menu.
 	 * There is NO UNDO for this so call with care. DOES invoke your callback.

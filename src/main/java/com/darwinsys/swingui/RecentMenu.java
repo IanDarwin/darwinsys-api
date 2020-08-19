@@ -58,6 +58,8 @@ import com.darwinsys.util.RecentItems;
  */
 public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 
+	private static final long serialVersionUID = 2153622797665694360L;
+
 	public final static int DEFAULT_MAX_RECENT_FILES = 5;
 
 	/** The List of recent files */
@@ -75,7 +77,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 		prefs = PrefsUtils.getUserPrefsNode(mainClassInstance);
 
 		recentFileNames = new RecentItems(prefs, this, max);
-		reload(recentFileNames.getList());
+		reload(recentFileNames.getLiveList());
 	}
 
 	/** Construct a RecentMenu with a given class.
