@@ -72,10 +72,13 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	 * @param max The max number of items to allow
 	 */
 	public RecentMenu(Object mainClassInstance, int max) {
+		this(PrefsUtils.getUserPrefsNode(mainClassInstance), max);
+	}
+
+	/** Construct a RecentMenu with an existing Preferences, and size */
+	public RecentMenu(Preferences prefs, int max) {
 		super("Recent Items");
-
-		prefs = PrefsUtils.getUserPrefsNode(mainClassInstance);
-
+		this.prefs = prefs;
 		recentFileNames = new RecentItems(prefs, this, max);
 		reload(recentFileNames.getLiveList());
 	}
