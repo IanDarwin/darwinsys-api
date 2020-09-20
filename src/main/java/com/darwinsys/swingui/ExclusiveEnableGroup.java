@@ -14,7 +14,9 @@ public class ExclusiveEnableGroup implements java.io.Serializable {
 
 	private List<Component> groupComps = new ArrayList<Component>();
 
-	/** Add the Component to the list of managed Components */
+	/** Add the Component to the list of managed Components
+	 * @param c The component to be added
+	 */
 	public void add(Component c) {
 		c.setEnabled(false);
 		groupComps.add(c);
@@ -22,6 +24,7 @@ public class ExclusiveEnableGroup implements java.io.Serializable {
 
 	/** Enable the given Component; this is the only way you
 	 * should control enabled properties on the components.
+	 * @param targetComp The component to be enabled
 	 */
 	public void enable(Component targetComp) {
 		if (!groupComps.contains(targetComp)) {

@@ -48,7 +48,10 @@ public class FilterGUI<T> extends JComponent {
 	protected final JList currentList;
 	protected final FilterGUIListModel<T> currentListModel;
 
-	/** Construct the object including its GUI */
+	/** Construct the object including its GUI.
+	 * @param data the list of objects.
+	 * @param defaultIndex The default item from data.
+	 */
 	@SuppressWarnings("unchecked")
 	public FilterGUI(final T[] data, final int defaultIndex) {
 		super();
@@ -115,7 +118,9 @@ public class FilterGUI<T> extends JComponent {
 		currentList.setPrototypeCellValue("Some Filter Name");
 	}
 
-	/** Retrieve the list of currently-selected objects */
+	/** Retrieve the list of currently-selected objects
+	 * @return The list of selected objects
+	 */
 	public java.util.List<T> getSelected() {
 		return currentListModel;
 	}

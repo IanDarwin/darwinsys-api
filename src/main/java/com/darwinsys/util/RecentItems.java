@@ -87,7 +87,9 @@ public class RecentItems {
 		return Collections.unmodifiableList(recentNames);
 	}
 	
-	/** Use with extreme caution; needed for e.g., RecentMenu */
+	/** Use with extreme caution; needed for e.g., RecentMenu
+	 * @return The list of entries
+	 */
 	public List<String> getLiveList() {
 		return recentNames;
 	}

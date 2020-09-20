@@ -57,10 +57,12 @@ public class RelativeLayout implements LayoutManager {
 
 	/**
 	 * Constructs an RelativeLayout, given original hard-coded size of panel.
+	 * @param width The width
+	 * @param height The height
 	 */
-	public RelativeLayout(int wid, int ht) {
-		this.reqWid = wid;
-		this.reqHgt = ht;
+	public RelativeLayout(int width, int height) {
+		this.reqWid = width;
+		this.reqHgt = height;
 	}
 
 	/**
@@ -84,7 +86,10 @@ public class RelativeLayout implements LayoutManager {
 		addLayoutComponent(comp, new Dimension(x, y));
 	}
 
-	/** This version is here in preparation for implementing LayoutManager2 */
+	/** This overload is for LayoutManager2.
+	 * @param comp The component being added
+	 * @param constraint The constraint on this Component's placement
+	 */
 	public void addLayoutComponent(Component comp, Object constraint) {
 		Dimension d = (Dimension)constraint;
 		int x = d.width, y = d.height;

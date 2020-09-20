@@ -108,6 +108,7 @@ public class EntryLayout implements LayoutManager {
 	 * @param parent The container in which to do the layout.
 	 * @param hp The horizontal padding (may be zero)
 	 * @param vp The Vertical Padding (may be zero).
+	 * @return The computed size
 	 */
 	protected Dimension computeLayoutSize(Container parent, int hp, int vp) {
 		if (!validWidths)

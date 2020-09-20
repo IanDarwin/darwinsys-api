@@ -50,6 +50,7 @@ public class ErrorUtil {
      * <pre>
      * System.setProperty("sun.awt.exception.handler", "com.darwinsys.swingui.ErrorUtil");
      * </pre>
+	 * @param th The Throwable to handle.
      */
     public void handle(Throwable th) {
         //System.out.println("handle() called with " + th.getClass().getName());
@@ -59,6 +60,8 @@ public class ErrorUtil {
     // tag::main[]
     /**
 	 * Show the given Exception (and any nested Exceptions) in JOptionPane(s).
+	 * @param parent The parent window or frame
+	 * @param theExc The Exception object
      */
     public static void showExceptions(Component parent, Throwable theExc) {
 

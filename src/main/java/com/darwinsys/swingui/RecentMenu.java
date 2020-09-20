@@ -68,14 +68,17 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	final Preferences prefs;
 
 	/** Construct a RecentMenu with a given class and the number of items to hold
-	 * @param mainClassInstance
+	 * @param mainClassInstance The main class
 	 * @param max The max number of items to allow
 	 */
 	public RecentMenu(Object mainClassInstance, int max) {
 		this(PrefsUtils.getUserPrefsNode(mainClassInstance), max);
 	}
 
-	/** Construct a RecentMenu with an existing Preferences, and size */
+	/** Construct a RecentMenu with an existing Preferences, and size
+	 * @param prefs The Preferences object
+	 * @param max The size of the desired list
+	 */
 	public RecentMenu(Preferences prefs, int max) {
 		super("Recent Items");
 		this.prefs = prefs;
@@ -94,6 +97,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	 * Call back to the main program to load the file, and and update
 	 * the recent files list.
 	 * @param fileName The input
+	 * @throws java.io.IOException on error
 	 */
 	public void openFile(String fileName) throws IOException {
 		loadFile(fileName);
@@ -104,9 +108,14 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	 * This is a template method that the caller must provide to
 	 * actually open a file.
 	 * @param fileName The input
+	 * @throws java.io.IOException on error
 	 */
 	public abstract void loadFile(String fileName) throws IOException;
 
+	/** This just calls the template method
+	 * @param file The java.io.File object
+	 * @throws java.io.IOException on error
+	 */
 	public void loadFile(File file) throws IOException {
 		loadFile(file.getAbsolutePath());
 	}
@@ -128,7 +137,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 
 
 	/**
-	 * Lodd or re-load the recentFileMenu
+	 * Load or re-load the recentFileMenu
 	 * @param list The replacement menu items
 	 */
 	public void reload(List<String> list) {
