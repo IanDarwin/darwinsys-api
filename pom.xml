@@ -46,7 +46,7 @@
 		<maven.compiler.target>${javase.version}</maven.compiler.target>
 		<maven.compiler.testSource>${javase.version}</maven.compiler.testSource>
 		<maven.compiler.testTarget>${javase.version}</maven.compiler.testTarget>
-		<maven.findbugs.version>3.0.1</maven.findbugs.version>
+		<maven.findbugs.version>3.0.5</maven.findbugs.version>
 	</properties>
 
 	<dependencies>
