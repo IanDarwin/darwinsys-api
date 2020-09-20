@@ -10,6 +10,9 @@
 
 	<!-- The configured plugins let us do
 	 mvn release:clean release:prepare; mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
+	 ***
+	 N.B. To test javadoc before doing release, use:
+	 mvn -Prelease javadoc:jar
 	 -->
 
 	<name>DarwinSys API</name>
@@ -30,7 +33,7 @@
 		<developerConnection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</developerConnection>
 		<url>git@github.com:IanDarwin/darwinsys-api.git</url>
 	  <tag>darwinsys-api-1.5.4</tag>
-  </scm>
+	</scm>
 	<developers>
 		<developer>
 		<id>ian</id>
@@ -153,6 +156,15 @@
 				</repository>
 			</distributionManagement>
 			<build>
+			<pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.2.0</version>
+					</plugin>
+				</plugins>
+			</pluginManagement>
 				<plugins>
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
@@ -192,10 +204,15 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.1.1</version>
+						<version>3.2.0</version>
 						<configuration>
 							<failOnError>false</failOnError>
 							<show>protected</show>
+							<use>false</use>
+							<source>8</source>
+							<links>
+								<link>http://docs.oracle.com/javase/8/docs/api/</link>
+							</links>
 						</configuration>
 						<executions>
 						<execution>
