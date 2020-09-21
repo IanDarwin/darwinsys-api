@@ -3,7 +3,7 @@
 
 	<groupId>com.darwinsys</groupId>
 	<artifactId>darwinsys-api</artifactId>
-	<version>1.5.13-SNAPSHOT</version>
+	<version>1.5.13</version>
 
 	<packaging>jar</packaging>
 	<inceptionYear>1995</inceptionYear>
@@ -32,7 +32,7 @@
 		<connection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</connection>
 		<developerConnection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</developerConnection>
 		<url>git@github.com:IanDarwin/darwinsys-api.git</url>
-	  <tag>darwinsys-api-1.5.4</tag>
+	  <tag>darwinsys-api-1.5.13</tag>
 	</scm>
 	<developers>
 		<developer>
