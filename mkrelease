@@ -1,0 +1,10 @@
+#!/bin/ksh
+
+echo "Are you sure??"; read ans junk
+case $ans in y*);; *) echo "OK I wont"; exit 1;; esac
+
+set -x
+
+mvn release:clean release:prepare
+
+mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
