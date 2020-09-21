@@ -23,11 +23,6 @@ See the http://javacook.darwinsys.com/[Author's Book Site] and the
 http://java.oreilly.com/catalog/javacook/[O'Reilly Site]
 for more information on the book which accompanies this source code.
 
-.*Build*
-image:http://img.shields.io/badge/license-BSD2-green.svg[link="http://github.com/IanDarwin/date4j"]
-image:https://maven-badges.herokuapp.com/maven-central/com.darwinsys/hirondelle-date4j/badge.svg[
-	link="https://maven-badges.herokuapp.com/maven-central/com.darwinsys/hirondelle-date4j"]
-
 The codebase has been together for years,
 and has somewhat grown like topsy, so lopsy may be lopping
 off some of its leaves as time goes by. He will try to avoid
