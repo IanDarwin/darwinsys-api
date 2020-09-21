@@ -17,7 +17,7 @@ public class KwikLinkCheckerTest {
 
 	@Test
 	public void testCheckGood() {
-		assertTrue(checker.check("http://ibm.com/").ok);
+		assertTrue(checker.check("https://ibm.com/").ok);
 	}
 	
 	@Test
