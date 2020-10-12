@@ -93,6 +93,13 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 		this(mainClassInstance, DEFAULT_MAX_RECENT_FILES);
 	}
 
+	/** Construct a RecentMenu with an existing Prefs and default size.
+	 * @param prefs The existing Preferences object.
+	 */
+	public RecentMenu(Preferences prefs) {
+		this(prefs, DEFAULT_MAX_RECENT_FILES);
+	}
+
 	/**
 	 * Call back to the main program to load the file, and and update
 	 * the recent files list.
