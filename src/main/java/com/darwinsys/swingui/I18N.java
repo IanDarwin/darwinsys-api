@@ -24,6 +24,19 @@ public class I18N {
 		return new JButton(label);
 	}
 
+	/** Create a button with a resource name and explicit fallback label
+	 * @param bundle The resources
+	 * @param resName The resource name to look up the label for the button
+	 * @param defLabel The fallback label for the button
+	 * @return the constructed JButton
+	 */
+	public static JButton getButton(ResourceBundle bundle, String resName, String defLabel) {
+		String label = defLabel;
+		try { label = bundle.getString(resName); }
+		catch (MissingResourceException e) { /* empty */ }
+		return new JButton(label);
+	}
+
 	/** Convenience/factory routine to make a L10N'd JMenu
 	 * @param b The resources
 	 * @param name The name for the button
