@@ -9,10 +9,9 @@
 	<inceptionYear>1995</inceptionYear>
 
 	<!-- The configured plugins let us do
-	 mvn release:clean release:prepare; mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
-	 ***
-	 N.B. To test javadoc before doing release, use:
-	 mvn -Prelease javadoc:jar
+	 mvn -Prelease test javadoc:jar # No point continuing until this works
+	 mvn release:clean release:prepare
+	 mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
 	 -->
 
 	<name>DarwinSys API</name>
