@@ -42,7 +42,13 @@ public class PassPhrase {
 		return getNext(length, true, true, true);
 	}
 
-	/** Generate a random password, compatibility mode */
+	/** Generate a random password, compatibility mode.
+	 * @param length How long the passwd is to be
+	 * @param lowercase true if you want lowercase letters included
+	 * @param uppercase true if you want uppercase letters included
+	 * @param digits True if you want numeric digits included
+	 * @return A generated password
+	 */
 	public static String getNext(int length,
 			boolean lowercase, boolean uppercase, boolean digits) {
 		return getNext(length, lowercase, uppercase, digits, true);

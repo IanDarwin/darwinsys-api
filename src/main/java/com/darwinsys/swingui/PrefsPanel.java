@@ -28,7 +28,7 @@ public class PrefsPanel extends JPanel implements Serializable {
 	private JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP);
 	
 	/**
-	 * @param isDoubleBuffered
+	 * @param isDoubleBuffered True to enable double-buffering
 	 */
 	public PrefsPanel(boolean isDoubleBuffered) {
 		super(isDoubleBuffered);

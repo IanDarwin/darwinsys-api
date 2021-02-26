@@ -9,6 +9,9 @@ public class BasicAuth {
 	/**
 	 * Given a username and password, returns the complete value part
 	 * of the basic-auth header, "Basic" + " " + base64(username+":"+passwd)
+	 * @param username The username
+	 * @param password The password
+	 * @return The finished header.
 	 */
 	public static String makeHeader(String username, String password) {
 		return String.format("Basic %s",

@@ -193,11 +193,10 @@ public class GetOpt {
 	 * This parses the options, returns a Map whose keys are the found options.
 	 * Normally followed by a call to getFilenameList().
 	 * <br>Side effect: sets "fileNameArguments" to a new List
+	 * @param argv The input arguments
 	 * @return a Map whose keys are Strings of length 1 (containing the char
 	 * from the option that was matched) and whose value is a String
 	 * containing the value, or null for a non-option argument.
-	 * @param argv The input arguments
-	 * @return The parsed arguments
 	 */
 	public Map<String,String> parseArguments(String[] argv) {
 		Map<String, String> optionsValueMap = new HashMap<String, String>();
@@ -289,7 +288,10 @@ public class GetOpt {
 		}
 	}
 
-	/** @return optind, the index into args of the last option we looked at */
+	/** 
+	 * Get the optind.
+	 * @return optind, the index into args of the last option we looked at.
+	 */
 	public int getOptInd() {
 		return optind;
 	}

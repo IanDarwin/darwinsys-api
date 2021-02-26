@@ -1,4 +1,3 @@
-// This copy of module-info is includes JUnit, alas.
 module com.darwinsys.api {
 
 	requires transitive java.desktop;

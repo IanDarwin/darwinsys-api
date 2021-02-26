@@ -33,12 +33,17 @@ public class LabelText extends JPanel implements java.io.Serializable {
 		this("(LabelText)",  12);
 	}
 
-	/** Construct the object with the label and a default textfield size */
+	/** Construct the object with the label and a default textfield size.
+	 * @param label The label
+	 */
 	public LabelText(String label) {
 		this(label, 12);
 	}
 
-	/** Construct the object with given label and textfield size */
+	/** Construct the object with given label and textfield size
+	 * @param label The label
+	 * @param numChars The number of chars to use from the label string
+	 */
 	public LabelText(String label, int numChars) {
 		this(label, numChars, null);
 	}
@@ -62,53 +67,67 @@ public class LabelText extends JPanel implements java.io.Serializable {
 		}
 	}
 
-	/** Get the label's horizontal alignment */
+	/** Get the label's horizontal alignment
+	 * @return The alignment.
+	 */
 	public int getLabelAlignment() {
 		return theLabel.getHorizontalAlignment();
 	}
 
-	/** Set the label's horizontal alignment */
+	/** Set the label's horizontal alignment.
+	 * @param align The alignment.
+	 */
 	public void setLabelAlignment(int align) {
 		theLabel.setHorizontalAlignment(align);
 	}
 
-	/** Get the text displayed in the text field */
+	/** @return the text displayed in the text field */
 	public String getText() {
 		return theTextField.getText();
 	}
 
-	/** Set the text displayed in the text field */
+	/** Set the text displayed in the text field
+	 * @param text The text to show
+	 */
 	public void setText(String text) {
 		theTextField.setText(text);
 	}
 
-	/** Get the text displayed in the label */
+	/** @return the text displayed in the label */
 	public String getLabel() {
 		return theLabel.getText();
 	}
 
-	/** Set the text displayed in the label */
+	/** Set the text displayed in the label
+	 * @param text The text to show
+	 */
 	public void setLabel(String text) {
 		theLabel.setText(text);
 	}
 
-	/** Set the font used in both subcomponents. */
-	public void setFont(Font f) {
+	/** Set the font used in both subcomponents.
+	 * @param font The font to use
+	 */
+	public void setFont(Font font) {
 		// This class' constructors call to super() can trigger
 		// calls to setFont() (from Swing.LookAndFeel.installColorsAndFont),
 		// before we create our components, so work around this.
 		if (theLabel != null)
-			theLabel.setFont(f);
+			theLabel.setFont(font);
 		if (theTextField != null)
-			theTextField.setFont(f);
+			theTextField.setFont(font);
 	}
 
-	/** Adds the ActionListener to receive action events from the textfield */
+	/** Adds the ActionListener to receive action events from the textfield
+	 * @param l The action listener
+	 */
 	public void addActionListener(ActionListener l) {
 		theTextField.addActionListener(l);
 	}
 
-	/** Remove an ActionListener from the textfield. */
+	/** Remove an ActionListener from the textfield.
+	 * @param l The action listener
+	 */
 	public void removeActionListener(ActionListener l) {
 		theTextField.removeActionListener(l);
 	}

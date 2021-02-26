@@ -22,7 +22,9 @@ import javax.swing.JOptionPane;
 // package com.darwinsys.swingui;
 public class UtilGUI {
 
-	/** Centre a Window, Frame, JFrame, Dialog, etc. */
+	/** Centre a Window, Frame, JFrame, Dialog, etc.
+	 * @param w The window
+	 */
 	public static void centre(final Window w) {
 		// After packing a Frame or Dialog, centre it on the screen.
 		Dimension us = w.getSize(), 
@@ -34,12 +36,15 @@ public class UtilGUI {
 
 	/** Center a Window, Frame, JFrame, Dialog, etc., 
 	 * but do it the American Spelling Way :-)
+	 * @param w The window
 	 */
 	public static void center(final Window w) {
 		UtilGUI.centre(w);
 	}
 
-	/** Maximize a window, the hard way. */
+	/** Maximize a window, the hard way.
+	 * @param w The Window instance
+	 */
 	public static void maximize(final Window w) {
 		Dimension them = 
 			Toolkit.getDefaultToolkit().getScreenSize();
@@ -48,6 +53,8 @@ public class UtilGUI {
 	
 	/** 
 	 * Copy a string value to the system copy buffer
+	 * @param c The The component
+	 * @param srcData The data to copy
 	 */
 	public static void setSystemClipboardContents(Component c, String srcData) {
 		if (srcData != null) {
@@ -64,6 +71,9 @@ public class UtilGUI {
 	}
 
 	/** Print a yes/no prompt; return true if the user presses yes
+	 * @param parent The parent frame
+	 * @param message The prompt string
+	 * @return True if they confirmed the message
 	 */
 	public static boolean confirm(JFrame parent, String message) {
 		int confirm = JOptionPane.showConfirmDialog(parent, message, "Confirm", 
@@ -74,6 +84,8 @@ public class UtilGUI {
 	}
 	
 	/**	Save the X and Y locations in Preferences node provided.
+	 * @param pNode The Prefs node for the location
+	 * @param w The window whose location is to be saved
 	 */
 	public static void setSavedLocation(
 		final Preferences pNode, final Window w) {
@@ -86,6 +98,8 @@ public class UtilGUI {
 	}
 
 	/** Retrieve the saved X and Y from Preferences
+	 * @param pNode The Preferences node to hold the location
+	 * @return The saved location
 	 */
 	public static Point getSavedLocation(final Preferences pNode) {
 		int savedX = pNode.getInt("mainwindow.x", -1);
@@ -97,6 +111,8 @@ public class UtilGUI {
 	 * Track a Window's position across application restarts; location is saved
 	 * in a Preferences node that you pass in; we attach a ComponentListener to
 	 * the Window.
+	 * @param w The Window itself
+	 * @param pNode The preferences node to hold the location
 	 */
 	public static void monitorWindowPosition(
 		final Window w, final Preferences pNode) {

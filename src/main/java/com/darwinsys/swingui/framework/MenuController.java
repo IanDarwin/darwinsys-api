@@ -34,7 +34,10 @@ public class MenuController {
 	/** A print job */
 	PrintJob printJob;
 
-	/** Construct the object including its GUI */
+	/** Construct the object including its GUI
+	 * @param prnt The parent JFrame
+	 * @param mod The data model
+	 */
 	public MenuController(JFrame prnt, Model mod) {
 		parentFrame = prnt;
 		model = mod;
@@ -187,13 +190,18 @@ public class MenuController {
 
 	/**
 	 * Add any complete menuse after File and Edit have been put in.
+	 * @param mb The JMenuBar
 	 */
 	protected void addAdditionalMenus(JMenuBar mb) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	/** Convenience routine to make a Menu */
+	/** Convenience routine to make a Menu
+	 * @param b The Bundle
+	 * @param name The name to look for
+	 * @return The created JMenu
+	 */
 	public JMenu mkMenu(ResourceBundle b, String name) {
 		String menuLabel;
 		try { menuLabel = b.getString(name+".label"); }
@@ -201,7 +209,12 @@ public class MenuController {
 		return new JMenu(menuLabel);
 	}
 
-	/** Convenience routine to make a JMenuItem */
+	/** Convenience routine to make a JMenuItem
+	 * @param b The Bundle
+	 * @param menu The menu to look for
+	 * @param name The name to look for
+	 * @return The created JMenuItem
+	 */
 	public JMenuItem mkMenuItem(ResourceBundle b, String menu, String name) {
 		String miLabel;
 		try { miLabel = b.getString(menu + "." + name + ".label"); }
@@ -216,7 +229,12 @@ public class MenuController {
 			return new JMenuItem(miLabel/*, new MenuShortcut(key.charAt(0))*/);
 	}
 
-	/** Convenience routine to make a MenuItem */
+	/** Convenience routine to make a JCheckBoxMenuItem
+	 * @param b The Bundle
+	 * @param menu The menu to look for
+	 * @param name The name to look for
+	 * @return The created JMenuItem
+	 */
 	public JCheckBoxMenuItem mkCheckboxMenuItem(ResourceBundle b, String menu, String name) {
 		String miLabel;
 		try { miLabel = b.getString(menu + "." + name + ".label"); }

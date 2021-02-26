@@ -1,8 +1,6 @@
 package com.darwinsys.util;
 
-import com.darwinsys.util.ScaledNumberFormat;
-
-import junit.framework.*;
+import junit.framework.TestCase;
 
 /** A simple test suite for ScaledNumberFormat parse and format */
 

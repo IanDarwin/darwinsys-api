@@ -46,8 +46,8 @@ public class ArrayIterator<T> implements Iterable<T>, Iterator<T> {
 
 	/** 
 	 * Tell if there are any more elements.
-	 * @return true if not at the end, i.e., if next() will succeed.
-	 * @return false if next() will throw an exception.
+	 * @return true if not at the end, i.e., if next() will succeed;
+	 * false if next() will throw an exception.
 	 */
 	@Override
 	public boolean hasNext() {

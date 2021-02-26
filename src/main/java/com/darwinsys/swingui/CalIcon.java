@@ -54,12 +54,17 @@ public class CalIcon extends JComponent implements Icon {
 	/** FontMetrics for displaying the time */
 	protected FontMetrics monNameFM;
 
-	/** Construct the object with default arguments */
+	/** Construct the object with default arguments
+	 * @param showT True to show the time as well as the date
+	 */
 	public CalIcon(boolean showT) {
 		this(Calendar.getInstance(), showT);
 	}
 
-	/** Construct the object with a Calendar object */
+	/** Construct the object with a Calendar object
+	 * @param c A Calendar
+	 * @param showT True to show the time as well as the date
+	 */
 	public CalIcon(Calendar c, boolean showT) {
 		super();
 		showTime = showT;

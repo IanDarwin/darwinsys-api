@@ -22,6 +22,7 @@ public class CircleLayout implements LayoutManager {
 	private final static boolean debug = false;
 
 	/** Construct a CircleLayout
+	 * @param isTop True to start at the top
 	 */
 	public CircleLayout(boolean isTop) {
 		startAtTop = isTop;
@@ -65,6 +66,8 @@ public class CircleLayout implements LayoutManager {
 
 	/** Compute the size of the whole mess. Serves as the guts of 
 	 * preferredLayoutSize() and minimumLayoutSize().
+	 * @param parent The parent container
+	 * @return The computed size
 	 */
 	protected Dimension computelayoutSize(Container parent) {
 
@@ -73,7 +76,9 @@ public class CircleLayout implements LayoutManager {
 		return new Dimension(300, 300); // width == height!
 	}
 
-	/** Lays out the container in the specified panel. */
+	/** Lays out the container in the specified panel.
+	 * @param parent The parent container
+	 */
 	public void layoutContainer(Container parent) {
 		Component[] components = parent.getComponents();
 		Dimension totalSize = parent.getSize();

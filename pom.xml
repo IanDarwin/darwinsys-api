@@ -3,13 +3,15 @@
 
 	<groupId>com.darwinsys</groupId>
 	<artifactId>darwinsys-api</artifactId>
-	<version>1.5.11-SNAPSHOT</version>
+	<version>1.5.15-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
 	<inceptionYear>1995</inceptionYear>
 
 	<!-- The configured plugins let us do
-	 mvn release:clean release:prepare; mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
+	 mvn -Prelease test javadoc:jar # No point continuing until this works
+	 mvn release:clean release:prepare
+	 mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
 	 -->
 
 	<name>DarwinSys API</name>
@@ -30,7 +32,7 @@
 		<developerConnection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</developerConnection>
 		<url>git@github.com:IanDarwin/darwinsys-api.git</url>
 	  <tag>darwinsys-api-1.5.4</tag>
-  </scm>
+	</scm>
 	<developers>
 		<developer>
 		<id>ian</id>
@@ -46,7 +48,7 @@
 		<maven.compiler.target>${javase.version}</maven.compiler.target>
 		<maven.compiler.testSource>${javase.version}</maven.compiler.testSource>
 		<maven.compiler.testTarget>${javase.version}</maven.compiler.testTarget>
-		<maven.findbugs.version>3.0.1</maven.findbugs.version>
+		<maven.findbugs.version>3.0.5</maven.findbugs.version>
 	</properties>
 
 	<dependencies>
@@ -80,7 +82,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13-rc-1</version>
+			<version>4.13.1</version>
 			<!-- Do not change this scope to test unless you exclude the testing/ directory -->
 			<scope>compile</scope>
 		</dependency>
@@ -153,6 +155,15 @@
 				</repository>
 			</distributionManagement>
 			<build>
+			<pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.2.0</version>
+					</plugin>
+				</plugins>
+			</pluginManagement>
 				<plugins>
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
@@ -180,6 +191,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
+						<version>3.2.0</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -192,10 +204,15 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.1.1</version>
+						<version>3.2.0</version>
 						<configuration>
 							<failOnError>false</failOnError>
 							<show>protected</show>
+							<use>false</use>
+							<source>8</source>
+							<links>
+								<link>http://docs.oracle.com/javase/8/docs/api/</link>
+							</links>
 						</configuration>
 						<executions>
 						<execution>

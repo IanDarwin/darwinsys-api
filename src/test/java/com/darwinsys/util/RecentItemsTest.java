@@ -1,13 +1,13 @@
 package com.darwinsys.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import com.darwinsys.util.RecentItems;
-
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class RecentItemsTest {
 

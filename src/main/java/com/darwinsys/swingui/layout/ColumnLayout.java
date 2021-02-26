@@ -40,17 +40,26 @@ public class ColumnLayout implements LayoutManager {
 	/** The list of components */
 	Component[] curComps;
 
-	/** Construct a ColumnLayout given only an alignment. */
+	/** Construct a ColumnLayout given only an alignment.
+	 * @param dirn The direction
+	 */
 	public ColumnLayout(int dirn) {
 		this(dirn, 0, 0);
 	}
 
-	/** Construct a ColumnLayout given an alignment and a padding amount. */
+	/** Construct a ColumnLayout given an alignment and a padding amount.
+	 * @param dirn The direction
+	 * @param pad The padding, in px
+	 */
 	public ColumnLayout(int dirn, int pad) {
 		this(dirn, pad, pad);
 	}
 
-	/** Construct a ColumnLayout given an alignment and h,v padding amounts. */
+	/** Construct a ColumnLayout given an alignment and h,v padding amounts.
+	 * @param dirn The direction
+	 * @param hpad The horizontal padding, in px
+	 * @param vpad The vertical padding, in px
+	 */
 	public ColumnLayout(int dirn, int hpad, int vpad) {
 		alignment = dirn;
 		hPadding  = hpad;
@@ -61,7 +70,6 @@ public class ColumnLayout implements LayoutManager {
 	 * Called by AWT when the user uses the form add(name, Component).
 	 * Adds the specified component with the specified name to the layout.
 	 * Not necessary to use this form.
-	 *
 	 * @param	name	String with location for component c
 	 * @param	c	Component to be added.
 	 */
@@ -72,7 +80,6 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * Called by AWT to lay out the components
 	 * in the target Container at its current size.
-	 *
 	 * @param	target	Container whose components are to be laid out.
 	 */
 	public void layoutContainer(Container target) {
@@ -84,6 +91,8 @@ public class ColumnLayout implements LayoutManager {
 	 * width and height
 	 * <br>
 	 * TODO XXX NEED TO SCALE BY TARGSIZE?
+	 * @param target The target container
+	 * @return The computed size
 	 */
 	protected Dimension doLayout(Container target) {
 
@@ -147,6 +156,7 @@ public class ColumnLayout implements LayoutManager {
 	 * But we use our own list of named insertions, not the
 	 * list of Components that the container keeps.
 	 * @param	target	Container to calculate for
+	 * @return The computed minimum size
 	 */
 	public Dimension minimumLayoutSize(Container target) {
 		// XXX should return doLayout(target, 0, 0); - add vpad, hpad args
@@ -157,13 +167,14 @@ public class ColumnLayout implements LayoutManager {
 	 * Called by AWT to compute the preferred size for the target panel
 	 * given our list of the components that it contains.
 	 * @param	target	Container to calculate for
+	 * @return The computed preferred size
 	 */
 	public Dimension preferredLayoutSize(Container target) {
 		System.out.println("preferredLayoutSize() called");
 		return doLayout(target);
 	}
 
-	/** Class to represent a spacer, like Menubar.separator. */
+	/** Inner class to represent a spacer, like Menubar.separator. */
 	protected static class Spacer extends Component {
 		private static final long serialVersionUID = -7583095138638433618L;
 
@@ -172,7 +183,9 @@ public class ColumnLayout implements LayoutManager {
 		}
 	}
 
-	/** Utility method to add a "spacer" */
+	/** Utility method to add a "spacer"
+	 * @param target The container into which to add the spacer.
+	 */
 	public void addSpacer(Container target) {
 		target.add(new Spacer());
 	}
