@@ -15,7 +15,8 @@ import com.darwinsys.util.PrefsUtils;
 import com.darwinsys.util.RecentItems;
 
 /**
- * Maintain a "Recent Items" menu component. The caller must override a "template method"
+ * Maintain a "Recent Items" menu component. Files must be opened under our
+ * control to track them, so the caller must override a "template method"
  * named loadFile, and all open operations must be channeled through the RecentMenu's
  * openFile method, which calls loadFile and then updates the Recent Items.
  * <p>
