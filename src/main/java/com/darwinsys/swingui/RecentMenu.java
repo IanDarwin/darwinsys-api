@@ -36,24 +36,17 @@ import com.darwinsys.util.RecentItems;
  *				myModel.openFile(fileName);
  *			}
  *		};
- *		open.addActionListener(new ActionListener() {
- *			public void actionPerformed(ActionEvent evt) {
+ *		open.addActionListener(() -> {
  *				try {
  *					// maybe get "someFileName" from a JFileChooser...
  *					recent.openFile(someFileName);
  *				} catch (IOException e) {
  *					myErrorPopup("Could not open file" + fileName, e);
- *				}
  *			}
- *
  *		});
  *		fileMenu.add(recent);
  *		JMenuItem clearItem = new JMenuItem("Clear Recent Files");
- *		clearItem.addActionListener(new ActionListener() {
- *			public void actionPerformed(ActionEvent e) {
- *				recentFilesMenu.clear();
- *			}
- *		});
+ *		clearItem.addActionListener(() -> recentFilesMenu.clear());
  * </pre>
  * @author Ian Darwin
  */
