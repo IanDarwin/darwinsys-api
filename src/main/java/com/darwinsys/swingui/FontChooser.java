@@ -135,18 +135,15 @@ public class FontChooser extends JDialog {
 
 		JButton okButton = new JButton("Apply");
 		bot.add(okButton);
-		okButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		okButton.addActionListener(ae -> {
 				previewFont();
 				dispose();
 				setVisible(false);
-			}
 		});
 
 		JButton canButton = new JButton("Cancel");
 		bot.add(canButton);
-		canButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		canButton.addActionListener(ae ->  {
 				// Set all values to null. Better: restore previous.
 				resultFont = null;
 				resultName = null;
@@ -156,7 +153,6 @@ public class FontChooser extends JDialog {
 
 				dispose();
 				setVisible(false);
-			}
 		});
 
 		cp.add(bot, BorderLayout.SOUTH);
@@ -172,6 +168,7 @@ public class FontChooser extends JDialog {
 	 */
 	protected void previewFont() {
 		resultName = (String)fontNameChoice.getSelectedValue();
+		boolean allCaps = resultName.endsWith("Caps");
 		String resultSizeName = fontSizeChoice.getSelectedValue().toString();
 		int resultSize = Integer.parseInt(resultSizeName);
 		isBold = bold.isSelected();
@@ -182,6 +179,7 @@ public class FontChooser extends JDialog {
 		resultFont = new Font(resultName, attrs, resultSize);
 		// System.out.println("resultName = " + resultName + "; " +
 		//		 "resultFont = " + resultFont);
+		previewArea.setText(allCaps ? DEFAULT_TEXT.toUpperCase() : DEFAULT_TEXT);
 		previewArea.setFont(resultFont);
 		pack();				// ensure Dialog is big enough.
 	}
@@ -234,6 +232,13 @@ public class FontChooser extends JDialog {
 
 	public boolean isItalic() {
 		return isItalic;
+	}
+
+	// Very trivial main, for demo use
+	public static void main(String[] args) {
+		JFrame jf = new JFrame("FontChooser Demo");
+		jf.setVisible(true);
+		new FontChooser(jf).setVisible(true);
 	}
 }
 // end::main[]
