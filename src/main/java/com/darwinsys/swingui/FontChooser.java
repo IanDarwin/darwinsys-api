@@ -168,7 +168,6 @@ public class FontChooser extends JDialog {
 	 */
 	protected void previewFont() {
 		resultName = (String)fontNameChoice.getSelectedValue();
-		boolean allCaps = resultName.endsWith("Caps");
 		String resultSizeName = fontSizeChoice.getSelectedValue().toString();
 		int resultSize = Integer.parseInt(resultSizeName);
 		isBold = bold.isSelected();
@@ -177,11 +176,19 @@ public class FontChooser extends JDialog {
 		if (isBold) attrs = Font.BOLD;
 		if (isItalic) attrs |= Font.ITALIC;
 		resultFont = new Font(resultName, attrs, resultSize);
-		// System.out.println("resultName = " + resultName + "; " +
-		//		 "resultFont = " + resultFont);
+		updatePreview();
+	}
+	private void updatePreview() {
+		boolean allCaps = resultFont.getName().endsWith("Caps");
 		previewArea.setText(allCaps ? DEFAULT_TEXT.toUpperCase() : DEFAULT_TEXT);
 		previewArea.setFont(resultFont);
 		pack();				// ensure Dialog is big enough.
+	}
+
+	/** Set the selected font (as when running this multiple times in same app */
+	public void setSelectedFont(Font font) {
+		this.resultFont = font;
+		updatePreview();
 	}
 
 	/** Retrieve the selected font name.
