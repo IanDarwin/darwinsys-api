@@ -21,9 +21,11 @@ import java.util.UUID;
  * @param location - where the event will take place
  * @param calName - the calendar to which this event belongs
  */
-public record CalendarEvent(String event,
+public record CalendarEvent(
+	String summary,
+	Optional<String> fullDescr,
 	EventType evtType,
-	UUID uuid, // Get from makeUUID()
+	UUID uuid,
 	LocalDate startDate, Optional<LocalTime>startTime,
 	Optional<LocalDate> endDate, Optional<LocalTime>endTime,
 	Optional<String> organizerName, Optional<String> organizerEmail,
@@ -35,7 +37,7 @@ public record CalendarEvent(String event,
 
 	/** Present a bit of the event info for debugging */
 	public String toString() {
-		return "CalendarEvent: " + event + " starting " + startDate;
+		return "CalendarEvent: " + summary + " starting " + startDate;
 	}
 
 	/**
@@ -43,7 +45,7 @@ public record CalendarEvent(String event,
 	 * @param out The open PrintWriter to use
 	 * @param wrap True to wrap the event in minimal VCALENDAR infra
 	 */
-	public void toVevent(PrintWriter out, boolean wrap) {
+	public void toVCalEvent(PrintWriter out, boolean wrap) {
 		if (wrap) {
 			out.println("BEGIN:VCALENDAR");
 			out.println("CALSCALE:GREGORIAN");
@@ -55,17 +57,20 @@ public record CalendarEvent(String event,
 		out.println("BEGIN:VEVENT");
 		out.println("DTSTAMP:" + LocalDate.now());
 		out.println("CREATED:" + LocalDate.now());
-		out.println("SUMMARY:" + event);
-		out.println("LOCATION:" + location);
+		out.println("SUMMARY:" + summary);
+		if (fullDescr.isPresent()) {
+			out.println("DESCRIPTION: " + fullDescr.get());
+		}
+		location.ifPresent(s->out.println("LOCATION:"+s));
 		out.print("DTSTART;VALUE=DATE:" + startDate);
 		if (startTime.isPresent()) {
-			out.print('.' + startTime.get().toString());
+			out.print('T' + startTime.get().toString());
 			out.println();
 		}
 		if (endDate.isPresent()) {
 			out.print("DTEND;VALUE=DATE:" + endDate.get());
 			if (endTime.isPresent()) {
-				out.print('.' + endTime.get().toString());
+				out.print('T' + endTime.get().toString());
 			}
 			out.println();
 		}
