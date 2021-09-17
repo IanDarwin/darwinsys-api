@@ -22,7 +22,7 @@ import java.util.Properties;
  * "defaults"; this second property list is searched if
  * the property key is not found in the original property list.
  *
- * @author Ian F. Darwin, http://www.darwinsys.com/
+ * @author Ian F. Darwin, https://darwinsys.com/
  */
 public class FileProperties extends Properties {
 	private static final long serialVersionUID = 3760847843971053111L;

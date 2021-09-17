@@ -26,14 +26,14 @@ public class EnumerationIterator<T> implements Iterator<T> {
 	public boolean hasNext() {
 		return oldEnum.hasMoreElements();
 	}
-	/** Fulfuls the general contract of Iterator.next(), that is,
+	/** Fulfills the general contract of Iterator.next(), that is,
 	 * returns the next element in the Iterator.
 	 */
 	public T next() {
 		return oldEnum.nextElement();
 	}
 
-	/** Remove is not implemented (optional method).
+	/** Remove is not implemented ("optional method").
 	 * @throws java.lang.UnsupportedOperationException in all cases.
 	 */
 	public void remove() {
