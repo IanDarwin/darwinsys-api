@@ -104,7 +104,7 @@ public record CalendarEvent(String event,
 		
 		// this(EventType.ALLDAY, description, summary, location, year, month, day, 0, 0, 0, 0);
 		
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 	/** @return A single-day appointment, having start and end hours
@@ -122,7 +122,7 @@ public record CalendarEvent(String event,
 			int startHour, int endHour) {
 		
 		// this(EventType.APPOINTMENT, description, summary, location, year, month, day, startHour, 0, endHour, 0);
-		return null;
+		throw new UnsupportedOperationException();
 		
 	}
 }
