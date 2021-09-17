@@ -3,7 +3,6 @@ package com.darwinsys.calendar;
 import java.io.PrintWriter;
 import java.time.*;
 import java.util.*;
-import java.util.UUID;
 
 /**
  * CalendarEvent is a Java 14 "record" type referring to one event in a calendar.
@@ -58,20 +57,14 @@ public record CalendarEvent(
 		out.println("DTSTAMP:" + LocalDate.now());
 		out.println("CREATED:" + LocalDate.now());
 		out.println("SUMMARY:" + summary);
-		if (fullDescr.isPresent()) {
-			out.println("DESCRIPTION: " + fullDescr.get());
-		}
+		fullDescr.ifPresent(s->out.println("LOCATION:"+s));
 		location.ifPresent(s->out.println("LOCATION:"+s));
 		out.print("DTSTART;VALUE=DATE:" + startDate);
-		if (startTime.isPresent()) {
-			out.print('T' + startTime.get().toString());
-			out.println();
-		}
+		startTime.ifPresent(startTime -> out.print("T" + startTime));
+		out.println();
 		if (endDate.isPresent()) {
 			out.print("DTEND;VALUE=DATE:" + endDate.get());
-			if (endTime.isPresent()) {
-				out.print('T' + endTime.get().toString());
-			}
+			endTime.ifPresent(endTime -> out.print("T" + endTime));
 			out.println();
 		}
 		out.println("SEQUENCE:" + nEvent++);
@@ -96,7 +89,7 @@ public record CalendarEvent(
 
 	// Convenience constructors, for a form of compatibility with previous edition of this class
 
-	/** @return An all-day event
+	/** @return An all-day event for one day only
 	 * @param description The text of the event
 	 * @param summary Short description
 	 * @param location Where the event is
@@ -108,8 +101,16 @@ public record CalendarEvent(
 			int year, int month, int day) {
 		
 		// this(EventType.ALLDAY, description, summary, location, year, month, day, 0, 0, 0, 0);
-		
-		throw new UnsupportedOperationException();
+		return new CalendarEvent(
+				summary,
+				Optional.of(description),
+				EventType.ALLDAY,
+				CalendarEvent.makeUUID(),
+				LocalDate.of(year, month, day), Optional.of(LocalTime.of(0,0)),
+				Optional.of(LocalDate.of(year, month, day)), Optional.empty(),
+				Optional.empty(), Optional.empty(),
+				Optional.empty(),
+				Optional.empty());
 	}
 	
 	/** @return A single-day appointment, having start and end hours
@@ -126,8 +127,16 @@ public record CalendarEvent(
 			int year, int month, int day, 
 			int startHour, int endHour) {
 		
-		// this(EventType.APPOINTMENT, description, summary, location, year, month, day, startHour, 0, endHour, 0);
-		throw new UnsupportedOperationException();
+		return new CalendarEvent(
+				summary,
+				Optional.of(description),
+				EventType.APPOINTMENT,
+				CalendarEvent.makeUUID(),
+				LocalDate.of(year, month, day), Optional.of(LocalTime.of(startHour, 0)),
+				Optional.empty(), Optional.of(LocalTime.of(endHour, 0)),
+				Optional.empty(), Optional.empty(),
+				Optional.empty(),
+				Optional.empty());
 		
 	}
 }
