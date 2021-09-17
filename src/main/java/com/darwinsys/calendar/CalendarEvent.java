@@ -1,40 +1,97 @@
 package com.darwinsys.calendar;
 
-import java.io.Serializable;
-import java.util.List;
+import java.io.PrintWriter;
+import java.time.*;
+import java.util.*;
 import java.util.UUID;
 
-/** One Appointment, to be entered into a calendar.
- * Platform-neutral; doesn't contain e.g. any Scalix-specifics.
- * XXX Add Support For:
- * 	Repetitions
- *  Categories
- *  Organizer and Attendees
+/**
+ * CalendarEvent is a Java 14 "record" type referring to one event in a calendar.
+ * This is not a java.util.Calendar but is application-defined,
+ * possibly a List<CalendarEvent>.
+ * @param event Description of the event
+ * @param evtType An EventType enum for this event
+ * @param uuid A UUID, can be had from makeUUID()
+ * @param startDate The date or begin date
+ * @param startTime The begin time of a partial-day event
+ * @param endDate The date or begin date
+ * @param endTime The begin time of a partial-day event
+ * @param organizerName The name of the event organizer (person or organization)
+ * @param organizerEmail The contact email for this event
+ * @param location - where the event will take place
+ * @param calName - the calendar to which this event belongs
  */
-public class CalendarEvent implements Serializable {
+public record CalendarEvent(String event,
+	EventType evtType,
+	UUID uuid, // Get from makeUUID()
+	LocalDate startDate, Optional<LocalTime>startTime,
+	Optional<LocalDate> endDate, Optional<LocalTime>endTime,
+	Optional<String> organizerName, Optional<String> organizerEmail,
+	Optional<String> location,
+	Optional<String> calName) {
 
-	private static final long serialVersionUID = 2687393401964176535L;
-	private int year;
-	private int month;
-	private int day;
-	private EventType eventType = EventType.APPOINTMENT;
-	private int startHour, startMinute = 0;
-	private int endHour, endMinute = 0;
-	private String description = "";
-	private String summary;
-	private String location = "";
-	private UUID uuid;
-	private ShowStatus showStatus = ShowStatus.BUSY;
-	private Person organizer;
-	private List<Person> attendees;
-	
-	// Remember to re-gen hashCode() and equals() when adding fields!
-	
-	public CalendarEvent() {
-		// all defaults
+	static Random r = new Random();
+	static int nEvent = r.nextInt() + 42;
+
+	/** Present a bit of the event info for debugging */
+	public String toString() {
+		return "CalendarEvent: " + event + " starting " + startDate;
 	}
-	
-	/** Create an all-day event
+
+	/**
+	 * Print the event out in full to a writer, in VCALENDAR VEVENT format.
+	 * @param out The open PrintWriter to use
+	 * @param wrap True to wrap the event in minimal VCALENDAR infra
+	 */
+	public void toVevent(PrintWriter out, boolean wrap) {
+		if (wrap) {
+			out.println("BEGIN:VCALENDAR");
+			out.println("CALSCALE:GREGORIAN");
+			out.println("X-WR-TIMEZONE;VALUE=TEXT:Canada/Eastern");
+			out.println("METHOD:PUBLISH");
+			out.println("PRODID:-//Darwin Open Systems//c.d.calendar.CalendarEvent 1.0//EN");
+			out.println("VERSION:2.0");
+		}
+		out.println("BEGIN:VEVENT");
+		out.println("DTSTAMP:" + LocalDate.now());
+		out.println("CREATED:" + LocalDate.now());
+		out.println("SUMMARY:" + event);
+		out.println("LOCATION:" + location);
+		out.print("DTSTART;VALUE=DATE:" + startDate);
+		if (startTime.isPresent()) {
+			out.print('.' + startTime.get().toString());
+			out.println();
+		}
+		if (endDate.isPresent()) {
+			out.print("DTEND;VALUE=DATE:" + endDate.get());
+			if (endTime.isPresent()) {
+				out.print('.' + endTime.get().toString());
+			}
+			out.println();
+		}
+		out.println("SEQUENCE:" + nEvent++);
+		out.printf("UID: %s\n", uuid);
+		if (organizerName.isPresent() && organizerEmail.isPresent()) {
+			out.printf("ORGANIZER;CN=%s:MAILTO:%s\n", organizerName.get(), organizerEmail.get());
+		}
+		if (calName.isPresent()) {
+			out.println("X-WR-CALNAME;VALUE=TEXT:" + calName.get());
+		}
+		out.println("END:VEVENT");
+		if (wrap) {
+			out.println("END:VCALENDAR");
+		}
+	}
+
+	// STATIC UTILITY METHODS
+
+	public static UUID makeUUID() {
+		return UUID.randomUUID();
+	}
+
+	// Convenience constructors, for a form of compatibility with previous edition of this class
+
+	/** @return An all-day event
 	 * @param description The text of the event
 	 * @param summary Short description
 	 * @param location Where the event is
@@ -42,15 +99,15 @@ public class CalendarEvent implements Serializable {
 	 * @param month The Month
 	 * @param day The day
 	 */
-	public CalendarEvent(String description, String summary, String location,
+	public static CalendarEvent newCalendarEvent(String description, String summary, String location,
 			int year, int month, int day) {
 		
-		this(EventType.ALLDAY, 
-			description, summary, location, year, month, day, 0, 0, 0, 0);
+		// this(EventType.ALLDAY, description, summary, location, year, month, day, 0, 0, 0, 0);
 		
+		return null;
 	}
 	
-	/** Create an Appointment, having start and end hours
+	/** @return A single-day appointment, having start and end hours
 	 * @param description The text of the event
 	 * @param summary Short description
 	 * @param location Where the event is
@@ -60,231 +117,12 @@ public class CalendarEvent implements Serializable {
 	 * @param startHour the starting time
 	 * @param endHour the ending time
 	 */
-	public CalendarEvent(String description, String summary, String location,
+	public static CalendarEvent newCalendarEvent(String description, String summary, String location,
 			int year, int month, int day, 
 			int startHour, int endHour) {
 		
-		this(EventType.APPOINTMENT, description, summary, location, year, month, day, startHour, 0, endHour, 0);
+		// this(EventType.APPOINTMENT, description, summary, location, year, month, day, startHour, 0, endHour, 0);
+		return null;
 		
-	}
-	
-	/** Create a CalendarEvent with all fields
-	 * @param eventType The type
-	 * @param description The text of the event
-	 * @param summary Short description
-	 * @param location Where the event is
-	 * @param year The year
-	 * @param month The Month
-	 * @param day The day
-	 * @param startHour the starting time
-	 * @param startMinute the starting time
-	 * @param endHour the ending time
-	 * @param endMinute the ending time
-	 */
-	public CalendarEvent(EventType eventType, String description, String summary, String location,
-			int year, int month, int day, 
-			int startHour, int startMinute, int endHour, int endMinute) {
-		super();
-		this.eventType = eventType;
-		this.year = year;
-		this.month = month;
-		this.day = day;
-		this.startHour = startHour;
-		this.startMinute = startMinute;
-		this.endHour = endHour;
-		this.endMinute = endMinute;
-		this.description = description;
-		this.summary = summary;
-		this.location = location;
-		this.uuid = UUID.randomUUID();
-		this.showStatus = ShowStatus.BUSY;
-	}
-	
-	public int getDay() {
-		return day;
-	}
-	public void setDay(int day) {
-		this.day = day;
-	}
-	public int getEndHour() {
-		return endHour;
-	}
-	public void setEndHour(int endHour) {
-		this.endHour = endHour;
-	}
-	public int getEndMinute() {
-		return endMinute;
-	}
-	public void setEndMinute(int endMinute) {
-		this.endMinute = endMinute;
-	}
-	public String getLocation() {
-		return location;
-	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	public int getMonth() {
-		return month;
-	}
-	public void setMonth(int month) {
-		this.month = month;
-	}
-	public int getStartHour() {
-		return startHour;
-	}
-	public void setStartHour(int startHour) {
-		this.startHour = startHour;
-	}
-	public int getStartMinute() {
-		return startMinute;
-	}
-	public void setStartMinute(int startMinute) {
-		this.startMinute = startMinute;
-	}
-	public int getYear() {
-		return year;
-	}
-	public void setYear(int year) {
-		this.year = year;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getSummary() {
-		return summary;
-	}
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-	public UUID getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
-	}
-	
-	public ShowStatus getShowStatus() {
-		return showStatus;
-	}
-	
-	public void setShowStatus(ShowStatus status) {
-		this.showStatus = status;
-	}
-
-	public List<Person> getAttendees() {
-		return attendees;
-	}
-
-	public void setAttendees(List<Person> attendees) {
-		this.attendees = attendees;
-	}
-
-	public EventType getEventType() {
-		return eventType;
-	}
-
-	public void setEventType(EventType eventType) {
-		this.eventType = eventType;
-	}
-	
-	public Person getOrganizer() {
-		return organizer;
-	}
-
-	public void setOrganizer(Person organizer) {
-		this.organizer = organizer;
-	}
-
-	@Override
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = super.hashCode();
-		result = PRIME * result + ((attendees == null) ? 0 : attendees.hashCode());
-		result = PRIME * result + day;
-		result = PRIME * result + ((description == null) ? 0 : description.hashCode());
-		result = PRIME * result + endHour;
-		result = PRIME * result + endMinute;
-		result = PRIME * result + ((eventType == null) ? 0 : eventType.hashCode());
-		result = PRIME * result + ((location == null) ? 0 : location.hashCode());
-		result = PRIME * result + month;
-		result = PRIME * result + ((organizer == null) ? 0 : organizer.hashCode());
-		result = PRIME * result + ((showStatus == null) ? 0 : showStatus.hashCode());
-		result = PRIME * result + startHour;
-		result = PRIME * result + startMinute;
-		result = PRIME * result + ((summary == null) ? 0 : summary.hashCode());
-		result = PRIME * result + ((uuid == null) ? 0 : uuid.hashCode());
-		result = PRIME * result + year;
-		return result;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final CalendarEvent other = (CalendarEvent) obj;
-		if (attendees == null) {
-			if (other.attendees != null)
-				return false;
-		} else if (!attendees.equals(other.attendees))
-			return false;
-		if (day != other.day)
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (endHour != other.endHour)
-			return false;
-		if (endMinute != other.endMinute)
-			return false;
-		if (eventType == null) {
-			if (other.eventType != null)
-				return false;
-		} else if (!eventType.equals(other.eventType))
-			return false;
-		if (location == null) {
-			if (other.location != null)
-				return false;
-		} else if (!location.equals(other.location))
-			return false;
-		if (month != other.month)
-			return false;
-		if (organizer == null) {
-			if (other.organizer != null)
-				return false;
-		} else if (!organizer.equals(other.organizer))
-			return false;
-		if (showStatus == null) {
-			if (other.showStatus != null)
-				return false;
-		} else if (!showStatus.equals(other.showStatus))
-			return false;
-		if (startHour != other.startHour)
-			return false;
-		if (startMinute != other.startMinute)
-			return false;
-		if (summary == null) {
-			if (other.summary != null)
-				return false;
-		} else if (!summary.equals(other.summary))
-			return false;
-		if (uuid == null) {
-			if (other.uuid != null)
-				return false;
-		} else if (!uuid.equals(other.uuid))
-			return false;
-		if (year != other.year)
-			return false;
-		return true;
 	}
 }
