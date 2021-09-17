@@ -29,8 +29,8 @@ off some of its leaves as time goes by. He will try to avoid
 breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
 
-Java 11 (JDK 1.11) is now the minimum to build and use this API.
-For Java 8 or earlier, do the world a favor and just upgrade.
+Java 16 (JDK 1.16) is now the minimum to build and use this API.
+For older releases, either say on 1.5.x, or just upgrade your JDK.
 
 .*Build*
 image:http://img.shields.io/badge/license-BSD2-green.svg[link="http://github.com/IanDarwin/darwinsys-api"]
@@ -39,8 +39,9 @@ image:https://maven-badges.herokuapp.com/maven-central/com.darwinsys/darwinsys-a
 
 == Testing
 
-N.B. You MUST install a minimal $HOME/.db.properties to run the tests under Maven.  
-This needs to be automated, but for now, there it is. Rather, here it is:
+N.B. You MUST have a minimal $HOME/.db.properties to run the tests under Maven.  
+This needs to be automated, but for now, there it is. Rather, here it is.
+Create the file, or, if you have the file, add these entries once.
 
 ----
 # This totally fake .db.properties should be copied to your home directory.
