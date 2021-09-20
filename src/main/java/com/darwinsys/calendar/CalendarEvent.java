@@ -9,7 +9,7 @@ import java.util.*;
  * This is not a java.util.Calendar but is application-defined,
  * possibly a List<CalendarEvent>.
  * @param event Description of the event
- * @param evtType An EventType enum for this event
+ * @param eventType An EventType enum for this event
  * @param uuid A UUID, can be had from makeUUID()
  * @param startDate The date or begin date
  * @param startTime The begin time of a partial-day event
@@ -22,8 +22,8 @@ import java.util.*;
  */
 public record CalendarEvent(
 	String summary,
-	Optional<String> fullDescr,
-	EventType evtType,
+	Optional<String> description,
+	EventType eventType,
 	UUID uuid,
 	LocalDate startDate, Optional<LocalTime>startTime,
 	Optional<LocalDate> endDate, Optional<LocalTime>endTime,
@@ -57,7 +57,7 @@ public record CalendarEvent(
 		out.println("DTSTAMP:" + LocalDate.now());
 		out.println("CREATED:" + LocalDate.now());
 		out.println("SUMMARY:" + summary);
-		fullDescr.ifPresent(s->out.println("LOCATION:"+s));
+		description.ifPresent(s->out.println("DESCRIPTION:"+s));
 		location.ifPresent(s->out.println("LOCATION:"+s));
 		out.print("DTSTART;VALUE=DATE:" + startDate);
 		startTime.ifPresent(startTime -> out.print("T" + startTime));
@@ -97,7 +97,8 @@ public record CalendarEvent(
 	 * @param month The Month
 	 * @param day The day
 	 */
-	public static CalendarEvent newCalendarEvent(String description, String summary, String location,
+	public static CalendarEvent newCalendarEvent(String description, 
+			String summary, String location,
 			int year, int month, int day) {
 		
 		// this(EventType.ALLDAY, description, summary, location, year, month, day, 0, 0, 0, 0);
@@ -108,9 +109,10 @@ public record CalendarEvent(
 				CalendarEvent.makeUUID(),
 				LocalDate.of(year, month, day), Optional.of(LocalTime.of(0,0)),
 				Optional.of(LocalDate.of(year, month, day)), Optional.empty(),
-				Optional.empty(), Optional.empty(),
-				Optional.empty(),
-				Optional.empty());
+				Optional.empty(), Optional.empty(), // Organizer name, email
+				Optional.of(location), 
+				Optional.empty()			// Calendar name
+				);
 	}
 	
 	/** @return A single-day appointment, having start and end hours
