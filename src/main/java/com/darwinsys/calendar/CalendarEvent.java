@@ -35,7 +35,6 @@ public record CalendarEvent(
 	Optional<String> calName) {
 
 	static Random r = new Random();
-	static int nEvent = r.nextInt() + 42;
 	static String defaultCalendar = "work";
 	
 	public static void setDefaultCalendar(String calName) {
@@ -46,17 +45,21 @@ public record CalendarEvent(
 	public String toString() {
 		return "CalendarEvent: " + summary + " starting " + startDate;
 	}
-	
+	final static String fakeZone = "UTC-04:00";
 	final static DateTimeFormatter df = 
 			DateTimeFormatter.ofPattern("yyyyMMdd"),
-			dtf = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
+			dtf = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'" + fakeZone + "'");
 
 	/**
-	 * Print the event out in full to a writer, in VCALENDAR VEVENT format.
+	 * Print the event with any extra headers to a writer.
 	 * @param out The open PrintWriter to use
 	 * @param wrap True to wrap the event in minimal VCALENDAR infra
+	 * @param extras A Map of extra headers to append.
 	 */
-	public void toVCalEvent(PrintWriter out, boolean wrap) {
+	public void toVCalEvent(PrintWriter out,
+			boolean wrap, 
+			Map<String,String> extras) {
+
 		if (wrap) {
 			putVCalHeader(out);
 		}
@@ -81,7 +84,7 @@ public record CalendarEvent(
 			df.format(dtEndDate);
 		out.println("DTEND;VALUE=DATE:" + dtEnd);		
 
-		out.println("SEQUENCE:" + Math.abs(nEvent++));
+		out.println("SEQUENCE:0");
 		out.printf("UID: %s\n", uuid);
 		if (organizerName.isPresent() && organizerEmail.isPresent()) {
 			out.printf("ORGANIZER;CN=%s:MAILTO:%s\n", organizerName.get(), organizerEmail.get());
@@ -91,10 +94,21 @@ public record CalendarEvent(
 		} else {
 			out.println("X-WR-CALNAME;VALUE=TEXT:" + defaultCalendar);
 		}
+		if (extras != null)
+			extras.forEach((k,v)-> out.println(k.toUpperCase() + ":" + v));
 		out.println("END:VEVENT");
 		if (wrap) {
 			putVCalTrailer(out);
 		}
+	}
+
+	/**
+	 * Print the event out in full to a writer, in VCALENDAR VEVENT format.
+	 * @param out The open PrintWriter to use
+	 * @param wrap True to wrap the event in minimal VCALENDAR infra
+	 */
+	public void toVCalEvent(PrintWriter out, boolean wrap) {
+		toVCalEvent(out, wrap, null);
 	}
 
 	public static void putVCalTrailer(PrintWriter out) {
