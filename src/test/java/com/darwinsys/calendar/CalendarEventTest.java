@@ -32,20 +32,8 @@ public class CalendarEventTest {
 		return result;
 	}
 
-	CalendarEvent subject = createFullEvent();
+	CalendarEvent subject;
 
-	private CalendarEvent createFullEvent() {
-		return new CalendarEvent(
-			"Happy 200th birthday to Canada!",
-			Optional.of("A longer description will be here someday soon"),
-			EventType.APPOINTMENT,
-			CalendarEvent.makeUUID(),
-			LocalDate.of(2067, 6, 1), Optional.of(LocalTime.of(12,0)),
-			Optional.empty(), Optional.empty(), // No end-date/time
-			Optional.of("Centennial Committee"), Optional.of("nobody@canada.ca"),
-			Optional.of("Across Canada"),
-			Optional.empty());
-	}
 	
 	private String getSubjectAsString() throws IOException {
 		subject.toVCalEvent(pout, false);
@@ -53,13 +41,62 @@ public class CalendarEventTest {
 		return result;
 	}
 
-	@Test
-	public void testLongForm() throws IOException {
+	public void testLongFormWithStartDateOnly() throws IOException {
+		subject = new CalendarEvent(
+				"Happy 200th birthday to Canada!",
+				Optional.of("A longer description will be here someday soon"),
+				EventType.APPOINTMENT,
+				CalendarEvent.makeUUID(),
+				LocalDate.of(2067, 6, 1), Optional.empty(),
+				Optional.empty(), Optional.empty(), // No end-date/time
+				Optional.of("Centennial Committee"), Optional.of("nobody@canada.ca"),
+				Optional.of("Across Canada"),
+				Optional.empty());
 		String result = getSubjectAsString();
 		assertEquals(subject.summary(), "Happy 200th birthday to Canada!");
 		assertSame(subject.eventType(), EventType.APPOINTMENT);
-		LocalDate startDate = LocalDate.of(2067, 6, 1);
+		String startDate = "20670601\n";
 		assertTrue(result.contains("DTSTART;VALUE=DATE:" + startDate));
+	}
+	
+	@Test
+	public void testLongFormWithStartDateTime() throws IOException {
+		subject = new CalendarEvent(
+				"Happy 200th birthday to Canada!",
+				Optional.of("A longer description will be here someday soon"),
+				EventType.APPOINTMENT,
+				CalendarEvent.makeUUID(),
+				LocalDate.of(2067, 6, 1), Optional.of(LocalTime.of(12,0)),
+				Optional.empty(), Optional.empty(), // No end-date/time
+				Optional.of("Centennial Committee"), Optional.of("nobody@canada.ca"),
+				Optional.of("Across Canada"),
+				Optional.empty());
+		String result = getSubjectAsString();
+		assertEquals(subject.summary(), "Happy 200th birthday to Canada!");
+		assertSame(subject.eventType(), EventType.APPOINTMENT);
+		String startDate = "20670601T1200";
+		assertTrue(result.contains("DTSTART;VALUE=DATE:" + startDate));
+	}
+	
+	@Test
+	public void testLongFormWithStartDateTimeEndTime() throws IOException {
+		subject = new CalendarEvent(
+				"A 200th Birthday Party for Canada!",
+				Optional.of("A longer description will be here someday soon"),
+				EventType.APPOINTMENT,
+				CalendarEvent.makeUUID(),
+				LocalDate.of(2067, 6, 1), Optional.of(LocalTime.of(12,0)),
+				Optional.empty(), Optional.of(LocalTime.of(13,00)),
+				Optional.of("Centennial Committee"), Optional.of("nobody@canada.ca"),
+				Optional.of("Across Canada"),
+				Optional.empty());
+		String result = getSubjectAsString();
+		assertEquals(subject.summary(), "A 200th Birthday Party for Canada!");
+		assertSame(subject.eventType(), EventType.APPOINTMENT);
+		String startDate = "20670601T1200";
+		assertTrue(result.contains("DTSTART;VALUE=DATE:" + startDate));
+		String endDate = "20670601T1300";
+		assertTrue(result.contains("DTEND;VALUE=DATE:" + endDate));
 	}
 	
 	@Test
