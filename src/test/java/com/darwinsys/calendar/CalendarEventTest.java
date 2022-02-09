@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -76,6 +77,25 @@ public class CalendarEventTest {
 		assertSame(subject.eventType(), EventType.APPOINTMENT);
 		String startDate = "20670601T1200";
 		assertTrue(result.contains("DTSTART;VALUE=DATE:" + startDate));
+	}
+	
+	@Test
+	public void testLongFormWithExtrasMap() throws IOException {
+		Map<String,String> extras = Map.of("holodeck", "Planet 10");
+		subject = new CalendarEvent(
+				"Summary",
+				Optional.of("Description"),
+				EventType.APPOINTMENT,
+				CalendarEvent.makeUUID(),
+				LocalDate.of(2067, 6, 1), Optional.of(LocalTime.of(12,0)),
+				Optional.empty(), Optional.empty(), // No end-date/time
+				Optional.of("Centennial Committee"), Optional.of("nobody@canada.ca"),
+				Optional.of("Across Canada"),
+				Optional.empty());
+		// Can't use getSubjectAsString here
+		subject.toVCalEvent(pout, false, extras);
+		String result = getResult();
+		assertTrue(result.contains("HOLODECK:Planet 10"));
 	}
 	
 	@Test
