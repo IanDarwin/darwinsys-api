@@ -57,7 +57,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	public final static int DEFAULT_MAX_RECENT_FILES = 5;
 
 	/** The List of recent files */
-	private RecentItems recentFileNames;
+	protected RecentItems recentFileNames;
 
 	final Preferences prefs;
 
