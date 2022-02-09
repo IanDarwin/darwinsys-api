@@ -115,4 +115,8 @@ public class BreakTimer {
 
 		jf.add(BorderLayout.SOUTH, botPanel);
 	}
+
+	public JFrame getJFrame() {
+		return jf;
+	}
 }
