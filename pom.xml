@@ -31,7 +31,6 @@
 		<connection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</connection>
 		<developerConnection>scm:git:git@github.com:IanDarwin/darwinsys-api.git</developerConnection>
 		<url>git@github.com:IanDarwin/darwinsys-api.git</url>
-	  <tag>darwinsys-api-1.5.15</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -43,7 +42,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<javase.version>16</javase.version>
+		<javase.version>17</javase.version>
 		<maven.compiler.source>${javase.version}</maven.compiler.source>
 		<maven.compiler.target>${javase.version}</maven.compiler.target>
 		<maven.compiler.testSource>${javase.version}</maven.compiler.testSource>
@@ -103,20 +102,6 @@
 		<defaultGoal>install</defaultGoal>
 
 		<plugins>
-			<!-- Maven plugin default too old, need 3.8.1+ for good JPMS -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<id>compile</id>
-					</execution>
-				</executions>
-			</plugin>
 
 			<!-- Ensure that JUnit5 surefire test runner is used -->
 			<plugin>
@@ -234,9 +219,9 @@
 							<failOnError>false</failOnError>
 							<show>protected</show>
 							<use>false</use>
-							<source>8</source>
+							<source>${javase.version}</source>
 							<links>
-								<link>http://docs.oracle.com/javase/8/docs/api/</link>
+								<link>http://docs.oracle.com/javase/11/docs/api/</link>
 							</links>
 						</configuration>
 						<executions>
