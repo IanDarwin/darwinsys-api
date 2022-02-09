@@ -12,6 +12,7 @@
 	 mvn -Prelease test javadoc:jar # No point continuing until this works
 	 mvn release:clean release:prepare
 	 mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
+	 Add in -DdryRun=true to check it before you run it.
 	 -->
 
 	<name>DarwinSys API</name>
