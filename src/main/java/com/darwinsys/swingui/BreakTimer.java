@@ -8,20 +8,21 @@ import java.util.concurrent.*;
 
 public class BreakTimer {
 	public static void main(String[] args) {
-		new BreakTimer().packAndCenter().setVisible(true);
+		var bt = new BreakTimer();
+		UtilGUI.packAndCenter(bt.jf).setVisible(true);
 	}
 
 	final static String NO_TIME = "00:00";
 	final static String DEFAULT_MESSAGE = "Break ends in...";
 	final static Integer[] TIMES = new Integer[]{5,10,15,30,60};
-	final Duration none = Duration.of(0, ChronoUnit.SECONDS),
-		minute = Duration.of(1, ChronoUnit.MINUTES);
+	final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
 
 	JFrame jf;
 	ExecutorService tp = Executors.newSingleThreadExecutor();
 	Duration duration;
 	Future handle;
 
+	/** Construct a BreakTimer */
 	public BreakTimer() {
 		jf = new JFrame("Timer");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,7 +85,7 @@ public class BreakTimer {
 							duration.toMinutesPart(),
 							duration.toSecondsPart()));
 					}
-					packAndCenter();
+					UtilGUI.packAndCenter(jf);
 
 					try {
 						Thread.sleep(999);
@@ -113,15 +114,5 @@ public class BreakTimer {
 		});
 
 		jf.add(BorderLayout.SOUTH, botPanel);
-	}
-
-	public JFrame packAndCenter() {
-		jf.pack();
-        Dimension us = jf.getSize(), 
-            them = Toolkit.getDefaultToolkit().getScreenSize();
-        int newX = (them.width - us.width) / 2;
-        int newY = (them.height- us.height)/ 2;
-        jf.setLocation(newX, newY);
-		return jf;
 	}
 }

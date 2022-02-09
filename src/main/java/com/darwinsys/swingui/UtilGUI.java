@@ -42,6 +42,15 @@ public class UtilGUI {
 		UtilGUI.centre(w);
 	}
 
+	/** Pack and Center the given JFrame
+	 * @Return the JFrame for method chaining
+	 */
+	public static JFrame packAndCenter(JFrame jf) {
+		jf.pack();
+		UtilGUI.centre(jf);
+		return jf;
+	}
+
 	/** Maximize a window, the hard way.
 	 * @param w The Window instance
 	 */

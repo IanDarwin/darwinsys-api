@@ -52,6 +52,15 @@ test.DBUser=testName
 test.DBPassword=testPassword
 ----
 
+== TODO
+
+CalendarEvent:
+
+* get tests working
+* finish two newCalendarEvent methods
+
+JPMS
+
 Cheers
 
 Ian Darwin
