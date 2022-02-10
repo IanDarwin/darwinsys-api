@@ -6,10 +6,34 @@ import java.time.*;
 import java.time.temporal.*;
 import java.util.concurrent.*;
 
+/** This class implements a short-term timer for timing e.g.,
+ * breaks during a class, lunch breaks, etc.
+ * Constructor takes a RootPaneContainer argument
+ * to allow use with caller's choice of JFrame or JInternalFrame
+ * (other RootPaneContainers are not supported).
+ */
 public class BreakTimer {
+
+	/** Run the BreakTimer as a main program */
 	public static void main(String[] args) {
-		var bt = new BreakTimer();
-		UtilGUI.packAndCenter(bt.jf).setVisible(true);
+		JFrame jf = new JFrame("Break Timer");
+		jf.add(BorderLayout.CENTER, new JLabel("Demo"));
+		jf.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
+		if (args.length == 0 || args[0].toLowerCase().startsWith("jf")) {
+			// Build as a JFrame
+			new BreakTimer(jf);
+			UtilGUI.packAndCenter(jf);
+		} else if (args[0].toLowerCase().startsWith("ji")) {
+			// Build as a JInternalFrame
+			jf.setSize(800, 600);
+			JInternalFrame jiffy = new JInternalFrame("Timer", false, true);
+			new BreakTimer(jiffy);
+			jf.setGlassPane(jiffy);
+			jiffy.setVisible(true);
+		} else {
+			throw new IllegalArgumentException("RootPaneContainer must be JFrame or JInternalFrame");
+		}
+		jf.setVisible(true);
 	}
 
 	final static String NO_TIME = "00:00";
@@ -17,19 +41,19 @@ public class BreakTimer {
 	final static Integer[] TIMES = new Integer[]{5,10,15,30,60};
 	final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
 
-	JFrame jf;
+	RootPaneContainer jf;
 	ExecutorService tp = Executors.newSingleThreadExecutor();
 	Duration duration;
 	Future handle;
 
 	/** Construct a BreakTimer */
-	public BreakTimer() {
-		jf = new JFrame("Timer");
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public BreakTimer(RootPaneContainer jf) {
+		this.jf = jf;
+		var cp = jf.getContentPane();
 
 		// XXX add to tray
 
-		jf.setLayout(new BorderLayout());
+		cp.setLayout(new BorderLayout());
 
 		JPanel topPanel = new JPanel();
 
@@ -48,7 +72,7 @@ public class BreakTimer {
 			topText.setText(DEFAULT_MESSAGE);
 		});
 		topPanel.add(rsButton);
-		jf.add(BorderLayout.NORTH, topPanel);
+		cp.add(BorderLayout.NORTH, topPanel);
 
 		JPanel botPanel = new JPanel();
 		JComboBox<Integer> choice = new JComboBox<>(TIMES);
@@ -58,7 +82,7 @@ public class BreakTimer {
 		timerLabel.setFont(new Font("Helvetica", Font.PLAIN, 256));
 		timerLabel.setText(NO_TIME);
 		bigPanel.add(timerLabel);
-		jf.add(BorderLayout.CENTER, bigPanel);
+		cp.add(BorderLayout.CENTER, bigPanel);
 		botPanel.add(choice);
 		JButton start = new JButton("Start");
 		botPanel.add(start);
@@ -85,8 +109,12 @@ public class BreakTimer {
 							duration.toMinutesPart(),
 							duration.toSecondsPart()));
 					}
-					UtilGUI.packAndCenter(jf);
-
+					if (jf instanceof JFrame) {
+						UtilGUI.packAndCenter((JFrame) jf);
+					} else if (jf instanceof JInternalFrame){
+						var jif = (JInternalFrame)jf;
+						jif.pack();
+					}
 					try {
 						Thread.sleep(999);
 					} catch (InterruptedException cancelMessage) {
@@ -113,10 +141,6 @@ public class BreakTimer {
 			handle.cancel(true);
 		});
 
-		jf.add(BorderLayout.SOUTH, botPanel);
-	}
-
-	public JFrame getJFrame() {
-		return jf;
+		cp.add(BorderLayout.SOUTH, botPanel);
 	}
 }
