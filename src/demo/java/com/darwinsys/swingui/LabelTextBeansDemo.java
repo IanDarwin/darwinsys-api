@@ -29,7 +29,7 @@ public class LabelTextBeansDemo extends JFrame {
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 */
-	private void initComponents() {// GEN-BEGIN:initComponents
+	private void initComponents() {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				exitForm(evt);
@@ -73,25 +73,24 @@ public class LabelTextBeansDemo extends JFrame {
 
 		getContentPane().add(jPanel2, "Center");
 
-	}// GEN-END:initComponents
+	}
 
-	void jButton1ActionPerformed(ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+	void jButton1ActionPerformed(ActionEvent evt) {
 		String name = bean1.getText();
 		String addr = bean2.getText();
 		JOptionPane.showMessageDialog(this, "Name = " + name + "\n" + "Addr = "
 				+ addr, "Info", JOptionPane.INFORMATION_MESSAGE);
-	}// GEN-LAST:event_jButton1ActionPerformed
+	}
 
-	void jButton2ActionPerformed(ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
+	void jButton2ActionPerformed(ActionEvent evt) {
 		exitForm(null);
-	}// GEN-LAST:event_jButton2ActionPerformed
+	}
 
 	/** Exit the Application */
-	void exitForm(WindowEvent evt) {// GEN-FIRST:event_exitForm
+	void exitForm(WindowEvent evt) {
 		System.exit(0);
-	}// GEN-LAST:event_exitForm
+	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private JPanel jPanel1;
 
 	private JButton jButton1;
