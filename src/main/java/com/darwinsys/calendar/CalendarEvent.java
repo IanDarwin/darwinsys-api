@@ -7,11 +7,11 @@ import java.util.*;
 
 /**
  * CalendarEvent is a Java 14+ "record" type referring to one event in a calendar.
- * This is not a java.util.Calendar but is application-defined,
- * possibly a List<CalendarEvent>.
+ * This is not a java.util.Calendar but is application-defined.
  * The list of arguments is long, but there are some factory methods
  * to simplify construction where not all fields are wanted.
- * @param event Description of the event
+ * @param summary Short Description of the event
+ * @param description Longer Description of the event
  * @param eventType An EventType enum for this event
  * @param uuid A UUID, can be had from makeUUID()
  * @param startDate The date or begin date
