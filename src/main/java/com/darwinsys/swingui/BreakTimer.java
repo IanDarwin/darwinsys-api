@@ -46,7 +46,9 @@ public class BreakTimer {
 	Duration duration;
 	Future handle;
 
-	/** Construct a BreakTimer */
+	/** Construct a BreakTimer
+	 * @param jf The JFrame or JInternalFrame
+	 */
 	public BreakTimer(RootPaneContainer jf) {
 		this.jf = jf;
 		var cp = jf.getContentPane();
@@ -108,12 +110,6 @@ public class BreakTimer {
 							String.format("%2d:%02d",
 							duration.toMinutesPart(),
 							duration.toSecondsPart()));
-					}
-					if (jf instanceof JFrame) {
-						UtilGUI.packAndCenter((JFrame) jf);
-					} else if (jf instanceof JInternalFrame){
-						var jif = (JInternalFrame)jf;
-						jif.pack();
 					}
 					try {
 						Thread.sleep(999);
