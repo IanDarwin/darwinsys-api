@@ -11,10 +11,9 @@ have to re-implement many times over.
 In most cases "found useful" means used more than once, but not always. 
 
 Notes: 
-* In late 2019, the 'testng' package graduated to its own project,
-darwinsys-testing, to aid in modularizing this (there being no module
-support for JUnit 4 three years after Jigsaw was announced), and anyway,
-a general-purpose library probably has no business dragging in a dependency
+* In late 2019, the 'testing' package graduated to its own project,
+darwinsys-testing, to aid in modularizing this.
+A general-purpose library probably has no business dragging in a run-time dependency
 on a testing library.
 * In 2017 the servlet and JSP packages graduated from
 darwinsys-api to darwinsys-ee; which you now may need!
@@ -29,8 +28,8 @@ off some of its leaves as time goes by. He will try to avoid
 breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
 
-Java 16 (JDK 1.16) is now the minimum to build and use this API.
-For older releases, either say on 1.5.x, or just upgrade your JDK.
+Java 17 (JDK 1.17) is now the minimum to build and use this API.
+For older releases, either stay on checkout 1.5.x, or just upgrade your JDK.
 
 .*Build*
 image:http://img.shields.io/badge/license-BSD2-green.svg[link="http://github.com/IanDarwin/darwinsys-api"]
@@ -59,7 +58,7 @@ CalendarEvent:
 * get tests working
 * finish two newCalendarEvent methods
 
-JPMS
+JPMS-ify everything. Good luck.
 
 Cheers
 
