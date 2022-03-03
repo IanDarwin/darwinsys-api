@@ -1,6 +1,7 @@
 package com.darwinsys.swingui;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.time.*;
 import java.time.temporal.*;
@@ -11,7 +12,6 @@ import java.util.concurrent.*;
  * Constructor takes a RootPaneContainer argument
  * to allow use with caller's choice of JFrame or JInternalFrame
  * (other RootPaneContainers are not supported).
- * XXX Time chooser not dropping down
  * XXX Set ending time instead of time limit
  * XXX Option to close iframe on done
  */
@@ -48,6 +48,11 @@ public class BreakTimer {
 	ExecutorService tp = Executors.newSingleThreadExecutor();
 	Duration duration;
 	Future handle;
+	JLabel timerLabel;
+	JComboBox choice;
+	/** The runnable to run when the timer expires. May be null. */
+	private Runnable doneAction;
+
 
 	/** Construct a BreakTimer
 	 * @param jf The JFrame or JInternalFrame
@@ -80,11 +85,11 @@ public class BreakTimer {
 		cp.add(BorderLayout.NORTH, topPanel);
 
 		JPanel botPanel = new JPanel();
-		JComboBox<Integer> choice = new JComboBox<>(TIMES);
+		choice = new JComboBox<>(TIMES);
 		choice.setEditable(true);
 
 		JPanel bigPanel = new JPanel();
-		JLabel timerLabel = new JLabel();
+		timerLabel = new JLabel();
 		timerLabel.setFont(new Font("Helvetica", Font.PLAIN, 256));
 		timerLabel.setText(NO_TIME);
 		bigPanel.add(timerLabel);
@@ -92,42 +97,7 @@ public class BreakTimer {
 		botPanel.add(choice);
 		JButton start = new JButton("Start");
 		botPanel.add(start);
-		start.addActionListener(ActionEvent ->  {
-			handle = tp.submit( () -> {
-				// When toString()ed, will look like PT10M
-				duration =
-					Duration.of((Integer)choice.getSelectedItem(), ChronoUnit.MINUTES);
-				if (Thread.currentThread().isInterrupted()) {
-					timerLabel.setText(NO_TIME);
-					return;
-				}
-				while (duration.toSeconds() >= 0) {
-
-					if (duration.toHoursPart() > 0) {
-						timerLabel.setText(
-							String.format("%2d:%02d:%02d",
-							duration.toHoursPart(),
-							duration.toMinutesPart(),
-							duration.toSecondsPart()));
-					} else {
-						timerLabel.setText(
-							String.format("%2d:%02d",
-							duration.toMinutesPart(),
-							duration.toSecondsPart()));
-					}
-					try {
-						Thread.sleep(999);
-					} catch (InterruptedException cancelMessage) {
-						timerLabel.setText(NO_TIME);
-						return;
-					}
-					duration = duration.minusSeconds(1);
-				}
-				if (doneAction != null) {
-					doneAction.run();
-				}
-			});
-		});
+		start.addActionListener(startAction);
 		JButton plus = new JButton("+1");
 		botPanel.add(plus);
 		plus.addActionListener(ActionEvent ->  {
@@ -145,21 +115,67 @@ public class BreakTimer {
 		});
 
 		cp.add(BorderLayout.SOUTH, botPanel);
+
+		doneAction = DEFAULT_ACTION;
 	}
+
+	ActionListener startAction = evt ->  {
+		handle = tp.submit( () -> {
+			// If toString()ed, would look like PT10M
+			duration =
+				Duration.of((Integer)choice.getSelectedItem(), ChronoUnit.MINUTES);
+			if (Thread.currentThread().isInterrupted()) {
+				timerLabel.setText(NO_TIME);
+				return;
+			}
+			while (duration.toSeconds() >= 0) {
+				if (duration.toHoursPart() > 0) {
+					timerLabel.setText(
+						String.format("%2d:%02d:%02d",
+						duration.toHoursPart(),
+						duration.toMinutesPart(),
+						duration.toSecondsPart()));
+				} else {
+					timerLabel.setText(
+						String.format("%2d:%02d",
+						duration.toMinutesPart(),
+						duration.toSecondsPart()));
+				}
+				try {
+					Thread.sleep(999);
+				} catch (InterruptedException cancelMessage) {
+					timerLabel.setText(NO_TIME);
+					return;
+				}
+				duration = duration.minusSeconds(1);
+			}
+			if (doneAction != null) {
+				doneAction.run();
+			}
+		});
+	};
+
+	private final static String[] labels = { "OK", "Restart" };
 
 	/** A useful expiry action */
 	final private Runnable DEFAULT_ACTION = () -> {
 		JFrame theFrame = null;
 		if (jf instanceof JFrame)
 			theFrame = (JFrame)jf;
-		JOptionPane.showMessageDialog(theFrame, "Time's up!");
+		int choice = JOptionPane.showOptionDialog(theFrame,
+			"Time's up",
+			"Time's up",
+			JOptionPane.YES_NO_OPTION,
+			JOptionPane.QUESTION_MESSAGE,
+			null,
+			labels,
+			labels[0]);
+		if (choice == 1)
+			startAction.actionPerformed(null);
 	};
-
-	/** The runnable to run when the timer expires. May be null. */
-	private Runnable doneAction = DEFAULT_ACTION;
 
 	/** Set the runnable to run when the timer expires. May be null. */
 	public void setExpiryAction(Runnable runnable) {
-		expiryAction = runnable;
+		doneAction = runnable;
 	}
 }
