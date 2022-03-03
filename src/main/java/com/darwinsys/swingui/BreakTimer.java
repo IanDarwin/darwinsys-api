@@ -11,6 +11,9 @@ import java.util.concurrent.*;
  * Constructor takes a RootPaneContainer argument
  * to allow use with caller's choice of JFrame or JInternalFrame
  * (other RootPaneContainers are not supported).
+ * XXX Time chooser not dropping down
+ * XXX Set ending time instead of time limit
+ * XXX Option to close iframe on done
  */
 public class BreakTimer {
 
@@ -78,6 +81,7 @@ public class BreakTimer {
 
 		JPanel botPanel = new JPanel();
 		JComboBox<Integer> choice = new JComboBox<>(TIMES);
+		choice.setEditable(true);
 
 		JPanel bigPanel = new JPanel();
 		JLabel timerLabel = new JLabel();
@@ -119,6 +123,9 @@ public class BreakTimer {
 					}
 					duration = duration.minusSeconds(1);
 				}
+				if (doneAction != null) {
+					doneAction.run();
+				}
 			});
 		});
 		JButton plus = new JButton("+1");
@@ -138,5 +145,21 @@ public class BreakTimer {
 		});
 
 		cp.add(BorderLayout.SOUTH, botPanel);
+	}
+
+	/** A useful expiry action */
+	final private Runnable DEFAULT_ACTION = () -> {
+		JFrame theFrame = null;
+		if (jf instanceof JFrame)
+			theFrame = (JFrame)jf;
+		JOptionPane.showMessageDialog(theFrame, "Time's up!");
+	};
+
+	/** The runnable to run when the timer expires. May be null. */
+	private Runnable doneAction = DEFAULT_ACTION;
+
+	/** Set the runnable to run when the timer expires. May be null. */
+	public void setExpiryAction(Runnable runnable) {
+		expiryAction = runnable;
 	}
 }
