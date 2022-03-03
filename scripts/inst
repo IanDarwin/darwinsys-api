@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -x
+
+cp target/darwinsys-api-1.7.?-SNAPSHOT.jar ~/lib
