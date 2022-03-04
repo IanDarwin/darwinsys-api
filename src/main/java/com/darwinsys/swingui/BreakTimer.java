@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.time.*;
 import java.time.temporal.*;
+import java.util.ResourceBundle;
 import java.util.concurrent.*;
 
 /** This class implements a short-term timer for timing e.g.,
@@ -49,10 +50,11 @@ public class BreakTimer {
 	Duration duration;
 	Future handle;
 	JLabel timerLabel;
+	JTextField topText;
 	JComboBox choice;
 	/** The runnable to run when the timer expires. May be null. */
 	private Runnable doneAction;
-
+	ResourceBundle resourceBundle;
 
 	/** Construct a BreakTimer
 	 * @param jf The JFrame or JInternalFrame
@@ -67,7 +69,9 @@ public class BreakTimer {
 
 		JPanel topPanel = new JPanel();
 
-		JTextField topText = new JTextField(DEFAULT_MESSAGE);
+		resourceBundle = ResourceBundle.getBundle("BreakTimer");
+
+		topText = new JTextField(DEFAULT_MESSAGE);
 		topText.setFont(new Font("Helvetica", Font.PLAIN, 48));
 		topPanel.add(topText);
 
@@ -95,6 +99,7 @@ public class BreakTimer {
 		bigPanel.add(timerLabel);
 		cp.add(BorderLayout.CENTER, bigPanel);
 		botPanel.add(choice);
+
 		JButton start = new JButton("Start");
 		botPanel.add(start);
 		start.addActionListener(startAction);
@@ -113,6 +118,10 @@ public class BreakTimer {
 		stop.addActionListener(ActionEvent ->  {
 			handle.cancel(true);
 		});
+
+		JButton help = new JButton("Help");
+		botPanel.add(help);
+		help.addActionListener(e -> doHelp());
 
 		cp.add(BorderLayout.SOUTH, botPanel);
 
@@ -163,19 +172,28 @@ public class BreakTimer {
 		if (jf instanceof JFrame)
 			theFrame = (JFrame)jf;
 		int choice = JOptionPane.showOptionDialog(theFrame,
-			"Time's up",
-			"Time's up",
-			JOptionPane.YES_NO_OPTION,
+			"Time's up: " + topText.getText(),	// message
+			"Time's up",						// title (after message - why?)
+			JOptionPane.YES_NO_OPTION,			// Only two buttons, labels above
 			JOptionPane.QUESTION_MESSAGE,
 			null,
 			labels,
 			labels[0]);
-		if (choice == 1)
+		if (choice == 1) {
 			startAction.actionPerformed(null);
+		}
 	};
 
 	/** Set the runnable to run when the timer expires. May be null. */
 	public void setExpiryAction(Runnable runnable) {
 		doneAction = runnable;
+	}
+
+	public void doHelp() {
+		JFrame theFrame = null;
+		if (jf instanceof JFrame)
+			theFrame = (JFrame)jf;
+		String text = resourceBundle.getString("breaktimer.help.text");
+		JOptionPane.showMessageDialog(theFrame, text);
 	}
 }
