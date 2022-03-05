@@ -130,7 +130,7 @@ public class ConversationURL {
 	  */
 	 public static InputStream converseStream(URL url, String postBody, String userName, String password) throws IOException {
 		URLConnection conn = url.openConnection();
-		conn.setRequestProperty("Authorization", BasicAuth.makeHeader(userName, password));
+		conn.setRequestProperty("Authorization", BasicAuth.makeHeaderValue(userName, password));
 		boolean post = postBody != null;
 		if (post) {
 			conn.setDoInput(true);

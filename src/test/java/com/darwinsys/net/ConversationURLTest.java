@@ -10,16 +10,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.darwinsys.security.BasicAuth;
+
 public class ConversationURLTest {
 
 	@Before
 	public void setUp() throws Exception {
-	}
-
-	@Test
-	public void testMakeBasicAuthString() {
-		assertEquals("Basic dGVzdGluZzoxIDIgMw==", 
-			ConversationURL.makeBasicAuthString("testing", "1 2 3"));
 	}
 
 	@Test @Ignore("Test passes with real auth, obv cannot commit that way")
@@ -32,7 +28,7 @@ public class ConversationURLTest {
 		Map<String,String> headers = new HashMap<>();
 		headers.put("content-type", "application/json");
 		headers.put("accept", "text/plain");
-		headers.put("authorization", ConversationURL.makeBasicAuthString("xxx", "yyy"));
+		headers.put("authorization", BasicAuth.makeHeaderValue("xxx", "yyy"));
 		ConversationURL.converse(url, postBody, headers);
 		// If we get here, no exceptions thrown, we're probably good...
 	}

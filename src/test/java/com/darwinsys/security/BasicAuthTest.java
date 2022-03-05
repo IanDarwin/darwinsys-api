@@ -15,6 +15,6 @@ public class BasicAuthTest {
 
 		String user = "rintintin", pass = "superdog";
 		assertEquals("Basic cmludGludGluOnN1cGVyZG9n", 
-			BasicAuth.makeHeader(user,pass));
+			BasicAuth.makeHeaderValue(user,pass));
 	}
 }

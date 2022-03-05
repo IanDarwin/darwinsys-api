@@ -16,7 +16,7 @@ public class BasicAuth {
 	 * @param password The password
 	 * @return The finished header.
 	 */
-	public static String makeHeader(String username, String password) {
+	public static String makeHeaderValue(String username, String password) {
 		return String.format("Basic %s",
 			encoder.encodeToString((username + ":" + password).getBytes()));
 	}
