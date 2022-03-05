@@ -18,19 +18,36 @@ import javax.swing.*;
  */
 public class AppletSupport {
 
-	public static enum StatusMode { CONSOLE, SWING }
+	/** Whether to display messages on the console or in a Swing component */
+	public static enum StatusMode { 
+		/** Display on the console */
+		CONSOLE, 
+		/** Display via Swing */
+		SWING,
+	}
 
+	/** The display mode */
 	private static StatusMode mode = StatusMode.SWING;
 
+	/** Set the display mode.
+	 * @param mode The StatusMode enum value to set
+	 */
 	public static void setStatusMode(StatusMode mode){
 		AppletSupport.mode = mode;
 	}
 
+	/** Get an image from a URL
+	 * @param url The constructed URL
+	 * @return the constructed Image
+	 */
 	public static Image getImage(URL url) {
 		throw new IllegalStateException(
-			"Sorry, you got to AppletSupport.getImage() before I wrote it");
+			"Sorry, you called AppletSupport.getImage() before anybody contributed it");
 	}
 
+	/** Display the given message.
+	 * @param message The message to display
+	 */
 	public static void showStatus(String message) {
 		switch(mode) {
 			case CONSOLE:
@@ -44,6 +61,9 @@ public class AppletSupport {
 		}
 	}
 	
+	/** Display a document.
+	 * @param targetURL The URL of the document to display.
+	 */
 	public static void showDocument(URL targetURL) {
 		JTextArea ta = new JTextArea();
 		try {

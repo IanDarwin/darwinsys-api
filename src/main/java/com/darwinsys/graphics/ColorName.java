@@ -58,6 +58,7 @@ public class ColorName {
 		Color  jColor;
 	}
 
+	/** A neutral default color */
 	public static final Color FALLBACK_COLOR = Color.GRAY;
 	
 	/** The list of known color names and their corresponding colors */

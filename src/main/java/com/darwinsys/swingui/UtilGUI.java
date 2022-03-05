@@ -43,7 +43,7 @@ public class UtilGUI {
 	}
 
 	/** Pack and Center the given JFrame
-	 * @Return the JFrame for method chaining
+	 * @return the JFrame for method chaining
 	 */
 	public static JFrame packAndCenter(JFrame jf) {
 		jf.pack();

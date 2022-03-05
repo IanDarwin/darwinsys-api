@@ -6,5 +6,9 @@ import java.io.IOException;
  * Used in Dumper and related classes.
  */
 public interface DumpSource {
+	/** Get the next byte, or, -1.
+	 * @return The next byte
+	 * @throws IOException If duh.
+	 */
 	public int get() throws IOException;
 }

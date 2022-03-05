@@ -3,6 +3,7 @@ package com.darwinsys.geo;
 /**
  * Canadian provinces
  */
+@SuppressWarnings("javadoc")
 public enum CanadaProvince {
 	AB("Alberta"),
 	BC("British Columbia"),

@@ -1,5 +1,8 @@
 package com.darwinsys.geo;
 
+/** Woefully-incomplete list of languages
+ */
+@SuppressWarnings("javadoc")
 public enum Language {
 	en("English"),
 	cn_tw("Chinese(Cantonese)"),
@@ -11,7 +14,8 @@ public enum Language {
 	jp("Japanese"),
 	kr("Korean"),
 	pl("Polish"),
-	ru("Russian");
+	ru("Russian"),
+	uk("Ukrainian");
 
 	private final String name;
 

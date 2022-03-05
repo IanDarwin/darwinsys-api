@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 
-import java.util.Base64;
+import com.darwinsys.security.BasicAuth;
 
 /**
  * Read a URL's data from a URLConnection
@@ -130,8 +130,7 @@ public class ConversationURL {
 	  */
 	 public static InputStream converseStream(URL url, String postBody, String userName, String password) throws IOException {
 		URLConnection conn = url.openConnection();
-		conn.setRequestProperty("Authorization", 
-			makeBasicAuthString(userName, password));
+		conn.setRequestProperty("Authorization", BasicAuth.makeHeader(userName, password));
 		boolean post = postBody != null;
 		if (post) {
 			conn.setDoInput(true);
@@ -148,10 +147,4 @@ public class ConversationURL {
 		}
 		return conn.getInputStream();
 	 }
-
-	public static String makeBasicAuthString(String userName, String password) {
-			String cred = userName + ":" + password;
-			String auth = "Basic " + Base64.getEncoder().encodeToString(cred.getBytes());
-			return auth;
-	}
 }

@@ -4,6 +4,7 @@ package com.darwinsys.geo;
  * Derived from the official ISO 3166 country code list, at
  * http://www.iso.org/iso/english_country_names_and_code_elements
  */
+@SuppressWarnings("javadoc")
 public enum Country {
 	CA("Canada") {
 		@Override
@@ -269,6 +270,9 @@ public enum Country {
 		this.longName = longName;
 	}
 
+	/** Get the long name of the country for this enumeration constant
+	 * @return The name of the country.
+	 */
 	public String getLongName() {
 		return longName;
 	}

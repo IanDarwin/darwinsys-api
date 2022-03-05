@@ -1,5 +1,7 @@
 package com.darwinsys.sql;
 
+/**
+ * The interface used by all data source configurations here */
 public interface Configuration {
 
 	/**

@@ -6,8 +6,8 @@ package com.darwinsys.util;
  * to construct instances of it.
  */
 public class ArrayListTableDatum {
-	String name;
-	String value;
+	private String name;
+	private String value;
 	/** Constructor used below
 	 * @param n the name
 	 * @param v the value
@@ -19,15 +19,23 @@ public class ArrayListTableDatum {
 	public ArrayListTableDatum() {
 		// Nothing
 	}
+	/** Get the name */
 	public String getName() {
 		return name;
 	}
+	/** Get the value */
 	public String getValue() {
 		return value;
 	}
+	/** Set the name
+	 * @param name The Name.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	/** Set the value
+	 * @param value The value.
+	 */
 	public void setValue(String value) {
 		this.value = value;
 	}

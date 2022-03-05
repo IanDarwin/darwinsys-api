@@ -106,6 +106,15 @@ public class ConnectionUtil {
 		}
 	}
 
+	/** Generate a Connection
+	 * @param dbUrl The JDBC URL
+	 * @param dbDriver The JDBC Driver's name
+	 * @param dbUserName The database user name to login with
+	 * @param dbPassword The database password for dbUserName
+	 * @return The Connection for that Configuration
+	 * @throws ClassNotFoundException Class not found
+	 * @throws SQLException Database error
+	 */
 	public static Connection getConnection(String dbUrl, String dbDriver,
 					String dbUserName, String dbPassword)
 			throws ClassNotFoundException, SQLException {
@@ -123,6 +132,12 @@ public class ConnectionUtil {
 			dbUrl, dbUserName, dbPassword);
 	}
 
+	/** Generate a Connection
+	 * @param c The Configuration to use
+	 * @return The Connection for that Configuration
+	 * @throws ClassNotFoundException Class not found
+	 * @throws SQLException Database error
+	 */
 	public static Connection getConnection(Configuration c) throws ClassNotFoundException, SQLException {
 		return getConnection(c.getDbURL(), c.getDriverName(), c.getUserName(), c.getPassword());
 	}
@@ -218,10 +233,16 @@ public class ConnectionUtil {
 		}
 	}
 
+	/** Get the verbosity
+	 * @return The Verbosity level
+	 */
 	public static Verbosity getVerbosity() {
 		return verbosity;
 	}
 
+	/** Set the verbosity
+	 * @param verbosity The Verbosity level
+	 */
 	public static void setVerbosity(Verbosity verbosity) {
 		ConnectionUtil.verbosity = verbosity;
 	}

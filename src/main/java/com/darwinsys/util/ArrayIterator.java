@@ -12,7 +12,8 @@ public class ArrayIterator<T> implements Iterable<T>, Iterator<T> {
 	/** The data to be iterated over. */
 	protected T[] data;
 
-	protected int index = 0;
+	/** The index into the array */
+	private int index = 0;
 
 	/** Construct an ArrayIterator object.
 	 * @param d The array of objects to be iterated over.

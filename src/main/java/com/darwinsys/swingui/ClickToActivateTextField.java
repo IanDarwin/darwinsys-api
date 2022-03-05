@@ -12,9 +12,14 @@ import javax.swing.JTextField;
  */
 public class ClickToActivateTextField extends JTextField {
 
+	/** Constructor */
 	public ClickToActivateTextField() {
 		this(null);
 	}
+
+	/** Constructor
+	 * @param label The String to display
+	 */
 	public ClickToActivateTextField(String label) {
 		super(label);
 		setEnabled(false);
@@ -26,11 +31,14 @@ public class ClickToActivateTextField extends JTextField {
 		addActionListener(new MyActionListener());
 	}
 
+	/** The MouseListener */
 	class MyMouseListener extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) {
 			setEnabled(true);
 		}
 	}
+
+	/** The ActionListener */
 	class MyActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 			setEnabled(false);

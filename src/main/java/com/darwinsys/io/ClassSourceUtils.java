@@ -11,9 +11,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
+/**
+ * A set of utility methods for Class files.
+ */
 public class ClassSourceUtils extends SourceUtils {
 	
-	final static Logger logger = 
+	private final static Logger logger = 
 		Logger.getLogger(ClassSourceUtils.class.getName());
 		
 	private static List<Class<?>> result;
@@ -52,10 +55,21 @@ public class ClassSourceUtils extends SourceUtils {
 		}
 	}
 	
+	/**
+	 * Make a list of Class descripters from a source
+	 * @param classesToTest The names of the classes
+	 * @return The list of Class descriptors.
+	 */
 	public static List<Class<?>> classListFromSource(String classesToTest) {
 		return classListFromSource(classesToTest, null);
 	}
 	
+	/**
+	 * Make a list of Class descripters from a Jar file
+	 * @param name The name of the jar file
+	 * @param classpath The members of the classpath.
+	 * @return The list of Class descriptors.
+	 */
 	private static List<Class<?>> classListFromJar(final String name, List<String> classpath) {
 		final List<Class<?>> results = new ArrayList<Class<?>>();
 		final File jFile = new File(name);
@@ -119,8 +133,13 @@ public class ClassSourceUtils extends SourceUtils {
 		return result;
 	}
 	
-	public static URL makeFileURL(String s) throws IOException {
-		File f = new File(s);
+	/** Whip up a URL for a filename
+	 * @param filename The file name
+	 * @return The URL
+	 * @throws IOException Something wrong in IO land.
+	 */
+	public static URL makeFileURL(String filename) throws IOException {
+		File f = new File(filename);
 		return new URL("file://" + f.getCanonicalPath() + (f.isDirectory() ? "/" : ""));
 	}
 
@@ -167,10 +186,23 @@ public class ClassSourceUtils extends SourceUtils {
 			logger.warning("Unknown: " + name);
 	}
 
+	/**
+	 * Process one file.
+	 * @param f The File to process.
+	 * @param cl The ClassLoader to use.
+	 * @return The Class descriptor
+	 */
 	public static Class<?> doFile(File f, ClassLoader cl) {
 		return doFile(f, cl, f.getName());
 	}
-	
+
+	/**
+	 * Process one file.
+	 * @param f The File to process.
+	 * @param cl The ClassLoader to use.
+	 * @param name A classfile name.
+	 * @return The Class descriptor
+	 */
 	private static Class<?> doFile(File f, ClassLoader cl, String name) {
 		
 		if (name.endsWith(".class")) {

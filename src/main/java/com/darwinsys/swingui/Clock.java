@@ -11,11 +11,16 @@ import java.util.Calendar;
 public class Clock extends javax.swing.JComponent {
 
 	private static final long serialVersionUID = -3553831092792561909L;
+	/** The format */
 	protected NumberFormat tflz = new DecimalFormat("00"),
+	/** The format */
 		tf = new DecimalFormat("#0");;
+	/** The done boolean */
 	protected boolean done = false;
+	/** A thread to run this thing in */
 	Thread ticker;
 
+	/** Constructor */
 	public Clock() {
 		ticker = new Thread(new Runnable() {
 			public void run() {

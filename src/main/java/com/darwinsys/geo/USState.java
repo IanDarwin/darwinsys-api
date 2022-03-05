@@ -3,6 +3,7 @@ package com.darwinsys.geo;
 /**
  * US States provinces
  */
+@SuppressWarnings("javadoc")
 public enum USState {
 	AL("ALABAMA"),
 	AK("ALASKA"),

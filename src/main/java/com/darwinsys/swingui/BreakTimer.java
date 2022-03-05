@@ -18,7 +18,9 @@ import java.util.concurrent.*;
  */
 public class BreakTimer {
 
-	/** Run the BreakTimer as a main program */
+	/** Run the BreakTimer as a main program.
+	 * @param args The command line arguments ("jf" for JFrame, "ji" for JInternalFrame)
+	 */
 	public static void main(String[] args) {
 		JFrame jf = new JFrame("Break Timer");
 		jf.add(BorderLayout.CENTER, new JLabel("Demo"));
@@ -40,21 +42,21 @@ public class BreakTimer {
 		jf.setVisible(true);
 	}
 
-	final static String NO_TIME = "00:00";
-	final static String DEFAULT_MESSAGE = "Break ends in...";
-	final static Integer[] TIMES = new Integer[]{5,10,15,30,60};
-	final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
+	private final static String NO_TIME = "00:00";
+	private final static String DEFAULT_MESSAGE = "Break ends in...";
+	private final static Integer[] TIMES = new Integer[]{5,10,15,30,60};
+	private final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
 
-	RootPaneContainer jf;
-	ExecutorService tp = Executors.newSingleThreadExecutor();
-	Duration duration;
-	Future handle;
-	JLabel timerLabel;
-	JTextField topText;
-	JComboBox choice;
+	private RootPaneContainer jf;
+	private ExecutorService tp = Executors.newSingleThreadExecutor();
+	private Duration duration;
+	private Future handle;
+	private JLabel timerLabel;
+	private JTextField topText;
+	private JComboBox choice;
 	/** The runnable to run when the timer expires. May be null. */
 	private Runnable doneAction;
-	ResourceBundle resourceBundle;
+	private ResourceBundle resourceBundle;
 
 	/** Construct a BreakTimer
 	 * @param jf The JFrame or JInternalFrame
@@ -128,6 +130,9 @@ public class BreakTimer {
 		doneAction = DEFAULT_ACTION;
 	}
 
+	/**
+	 * The ActionListener to start the timer.
+	 */
 	ActionListener startAction = evt ->  {
 		handle = tp.submit( () -> {
 			// If toString()ed, would look like PT10M
@@ -184,11 +189,16 @@ public class BreakTimer {
 		}
 	};
 
-	/** Set the runnable to run when the timer expires. May be null. */
+	/** Set the runnable to run when the timer expires. 
+	 * @param runnable The Runnable; may be null. 
+	 */
 	public void setExpiryAction(Runnable runnable) {
 		doneAction = runnable;
 	}
 
+	/**
+	 * Display the Help text for the BreakTimer
+	 */
 	public void doHelp() {
 		JFrame theFrame = null;
 		if (jf instanceof JFrame)
