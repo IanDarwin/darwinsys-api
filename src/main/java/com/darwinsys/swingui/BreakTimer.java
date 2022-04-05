@@ -44,7 +44,7 @@ public class BreakTimer {
 
 	private final static String NO_TIME = "00:00";
 	private final static String DEFAULT_MESSAGE = "Break ends in...";
-	private final static Integer[] TIMES = new Integer[]{5,10,15,30,60};
+	private final static Integer[] TIMES = new Integer[]{5,10,15,30,45,60};
 	private final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
 
 	private RootPaneContainer jf;
