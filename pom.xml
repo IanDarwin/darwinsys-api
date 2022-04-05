@@ -55,14 +55,6 @@
 	</properties>
 
 	<dependencies>
-<!--
-		<dependency>
-			<groupId>jakarta.mail</groupId>
-			<artifactId>jakarta.mail-api</artifactId>
-			<version>1.6.4</version>
-			<scope>provided</scope>
-		</dependency>
--->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
@@ -93,12 +85,9 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/xalan/xalan -->
-		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-			<version>2.7.2</version>
-		</dependency>
+		<!--
+		XML deps now found transitively in java* in module-info.
+		-->
 	</dependencies>
 
 	<build>
