@@ -5,8 +5,6 @@ Ian Darwin <https://github.com/IanDarwin[@IanDarwin]>
 :source-language: java
 :language: {source-language}
 
-image:https://search.maven.org/search?q=g:com.darwinsys%20AND%20darwinsys-api[https://img.shields.io/maven-central/v/com.github.iandarwin/darwinsys-api]
-
 This is a collection of Java classes that I've found useful,
 classes which implement some useful operations that one would normally
 have to re-implement many times over.
