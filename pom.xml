@@ -76,6 +76,13 @@
 			<!-- Do not change this scope to test unless you exclude the testing/ directory -->
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId> <!-- for parameterized tests -->
+			<version>${junit5.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Backwards compat: IF you have a mix of JUnit 4 and 5 tests, you should add this: -->
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
