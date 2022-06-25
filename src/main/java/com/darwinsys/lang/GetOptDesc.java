@@ -1,6 +1,9 @@
 package com.darwinsys.lang;
 
 /** A GetOptDesc describes one argument that may be accepted by the program.
+ * @param argLetter The single-character name for this option.
+ * @param argName The word name for this option.
+ * @param takesArgument True if this option requires an argument after it.
  */
 public record GetOptDesc(
 	/** The short-form option letter */
@@ -11,9 +14,6 @@ public record GetOptDesc(
 	boolean takesArgument) {
 
 	/** Construct a GetOpt option.
-	 * @param ch The single-character name for this option.
-	 * @param nm The word name for this option.
-	 * @param ta True if this option requires an argument after it.
 	 */
 	public GetOptDesc {
 		if (!Character.isLetter(argLetter) && !Character.isDigit(argLetter)) {
@@ -22,7 +22,7 @@ public record GetOptDesc(
 	}
 
 	// These getters are only necessary for backwards compatibility;
-	// Java's record type provides accessors with the exact name of
+	// Java's "record" type provides accessors with the exact name of
 	// each field, e., artLetter()
 
 	public char getArgLetter() {
