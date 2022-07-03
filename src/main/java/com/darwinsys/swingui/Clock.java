@@ -53,7 +53,7 @@ public class Clock extends javax.swing.JComponent {
 	/* paint() - get current time and draw (centered) in Component. */ 
 	public void paint(Graphics g) {
 		Calendar myCal = Calendar.getInstance();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(tf.format(myCal.get(Calendar.HOUR)));
 		sb.append(':');
 		sb.append(tflz.format(myCal.get(Calendar.MINUTE)));

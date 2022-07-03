@@ -89,7 +89,7 @@ public class SimpleTagValidator {
 	 * @return The list of tags, appended into a single string
 	 */
 	public String getTagsAsString(boolean useCommas) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < okTags.length; i++) {
 			sb.append(okTags[i]);
 			if (i < okTags.length-1) {
