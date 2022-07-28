@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 /** A JTextField with a Clear Button */
 public class SearchBoxDemo extends JFrame {
 
+	private static final long serialVersionUID = 1882995789371869004L;
+
 	public static void main(String[] unuxed) {
 		final JFrame jf = new JFrame();
 		final SearchBox sb = new SearchBox();
