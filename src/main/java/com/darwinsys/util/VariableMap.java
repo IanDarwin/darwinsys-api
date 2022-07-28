@@ -87,7 +87,7 @@ public class VariableMap extends HashMap<String, String> {
 	 * @return The string after substitution
 	 */
 	public String substVars(String inString) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		// System.out.printf("VariableMap.substVars(%s)%n", inString);
 		Matcher m = varsPatt.matcher(inString);
 		

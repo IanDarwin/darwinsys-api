@@ -18,6 +18,8 @@ import java.util.concurrent.*;
  */
 public class BreakTimer {
 
+	Integer minutes;
+
 	/** Run the BreakTimer as a main program.
 	 * @param args The command line arguments ("jf" for JFrame, "ji" for JInternalFrame)
 	 */
@@ -136,9 +138,10 @@ public class BreakTimer {
 	@SuppressWarnings("unchecked")
 	ActionListener startAction = evt ->  {
 		handle = (Future<Void>) tp.submit( () -> {
+			minutes = (Integer)choice.getSelectedItem();
 			// If toString()ed, would look like PT10M
 			duration =
-				Duration.of((Integer)choice.getSelectedItem(), ChronoUnit.MINUTES);
+				Duration.of(minutes, ChronoUnit.MINUTES);
 			if (Thread.currentThread().isInterrupted()) {
 				timerLabel.setText(NO_TIME);
 				return;
@@ -178,7 +181,7 @@ public class BreakTimer {
 		if (jf instanceof JFrame)
 			theFrame = (JFrame)jf;
 		int choice = JOptionPane.showOptionDialog(theFrame,
-			"Time's up: " + topText.getText(),	// message
+			String.format("%d minutes are up: %s", minutes, topText.getText()), // Message
 			"Time's up",						// title (after message - why?)
 			JOptionPane.YES_NO_OPTION,			// Only two buttons, labels above
 			JOptionPane.QUESTION_MESSAGE,

@@ -5,6 +5,10 @@ Ian Darwin <https://github.com/IanDarwin[@IanDarwin]>
 :source-language: java
 :language: {source-language}
 
+image:https://maven-badges.herokuapp.com/maven-central/com.darwinsys/darwinsys-api/badge.svg[
+	link="https://maven-badges.herokuapp.com/maven-central/com.darwinsys/darwinsys-api"]
+image:http://img.shields.io/badge/license-BSD2-green.svg[link="http://github.com/IanDarwin/darwinsys-api"]
+
 This is a collection of Java classes that I've found useful,
 classes which implement some useful operations that one would normally
 have to re-implement many times over.
