@@ -50,10 +50,10 @@ public class BreakTimer {
 	private RootPaneContainer jf;
 	private ExecutorService tp = Executors.newSingleThreadExecutor();
 	private Duration duration;
-	private Future handle;
+	private Future<Void> handle;
 	private JLabel timerLabel;
 	private JTextField topText;
-	private JComboBox choice;
+	private JComboBox<Integer> choice;
 	/** The runnable to run when the timer expires. May be null. */
 	private Runnable doneAction;
 	private ResourceBundle resourceBundle;
@@ -133,8 +133,9 @@ public class BreakTimer {
 	/**
 	 * The ActionListener to start the timer.
 	 */
+	@SuppressWarnings("unchecked")
 	ActionListener startAction = evt ->  {
-		handle = tp.submit( () -> {
+		handle = (Future<Void>) tp.submit( () -> {
 			// If toString()ed, would look like PT10M
 			duration =
 				Duration.of((Integer)choice.getSelectedItem(), ChronoUnit.MINUTES);

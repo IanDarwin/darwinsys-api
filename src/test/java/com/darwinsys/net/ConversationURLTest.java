@@ -1,7 +1,5 @@
 package com.darwinsys.net;
 
-import static org.junit.Assert.assertEquals;
-
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
