@@ -38,7 +38,7 @@ public class FileSaverTest {
 		// It will get overwritten by the FileSaver
 		workdir.mkdirs();
 		file = new File(workdir, FILENAME);
-		System.out.println("FILE " + file);
+		Files.writeString(file.toPath(), MESSAGE);
 		
 		// Create FileSaver to save it.
 		saver = new FileSaver(file.toPath());
@@ -56,7 +56,7 @@ public class FileSaverTest {
 		out.print(MESSAGE);
 		out.close();
 		saver.finish();
-		final String finalString = FileIO.readerToString(new FileReader(FILENAME));
+		final String finalString = FileIO.readerToString(new FileReader(file.getAbsoluteFile()));
 		assertEquals("Reading string back", MESSAGE, finalString);
 	}
 
