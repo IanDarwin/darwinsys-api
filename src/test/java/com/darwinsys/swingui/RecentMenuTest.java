@@ -10,6 +10,8 @@ public class RecentMenuTest {
 	@BeforeEach
 	void setup() {
 		target = new RecentMenu(getClass()) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void loadFile(String fileName) {
 				System.out.println("Test would open " + fileName);

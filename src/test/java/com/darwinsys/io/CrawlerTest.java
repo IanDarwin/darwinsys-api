@@ -1,14 +1,17 @@
 package com.darwinsys.io;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-import com.darwinsys.util.Debug;
+import org.junit.jupiter.api.*;
 
-import junit.framework.TestCase;
+public class CrawlerTest {
 
-public class CrawlerTest extends TestCase {
+	protected static final boolean debug = false;
 
 	boolean seenAnyFiles = false;
 
@@ -26,7 +29,7 @@ public class CrawlerTest extends TestCase {
 		public void visit(File f) {
 			this.file = f;
 			seenAnyFiles = true;
-			Debug.println("crawler", f.getAbsolutePath());
+			System.out.println(f.getAbsolutePath());
 		}
 
 		public void init() throws IOException {
@@ -41,6 +44,7 @@ public class CrawlerTest extends TestCase {
 
 	};
 
+	@Test
 	public void testPubCrawl() throws Exception {
 		String dir =  "." ;
 
@@ -49,6 +53,7 @@ public class CrawlerTest extends TestCase {
 		assertTrue("crawler found at least one file in .", seenAnyFiles);
 	}
 
+	@Test
 	public void testWithDirFilter() throws Exception {
 		String dir =  "." ;
 		final File tmpDir = File.createTempFile("tmp", ".dir", new File(dir));
@@ -65,7 +70,8 @@ public class CrawlerTest extends TestCase {
 				if (file.getAbsolutePath().startsWith(tmpDir.getAbsolutePath())) {
 						throw new IllegalStateException("FOUND");
 				}
-				Debug.println("crawler", f);
+				if (debug)
+					System.out.println("crawler: " + f);
 			}
 
 			public void init() throws IOException {
@@ -99,6 +105,7 @@ public class CrawlerTest extends TestCase {
 
 	}
 
+	@Test
 	public void testErrors() throws Exception {
 		try {
 			new Crawler(null, null);

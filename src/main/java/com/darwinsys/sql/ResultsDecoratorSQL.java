@@ -55,7 +55,7 @@ public class ResultsDecoratorSQL extends ResultsDecorator {
 			System.err.println("Warning: at least one tablename null");
 		}
 		int colCount = metadata.getColumnCount();
-		StringBuffer sb = new StringBuffer("insert into ").append(tableName).append("(");
+		StringBuilder sb = new StringBuilder("insert into ").append(tableName).append("(");
 		for (int i = 1; i <= colCount; i++) {
 			sb.append(metadata.getColumnName(i));
 			if (i != colCount) {

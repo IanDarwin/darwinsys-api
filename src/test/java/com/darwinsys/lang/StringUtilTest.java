@@ -12,7 +12,7 @@ public class StringUtilTest extends TestCase {
 	}
 
 	public void testIndexOf() {
-		StringBuffer sb = new StringBuffer("This Fish in the Ish Wish Dish");
+		StringBuilder sb = new StringBuilder("This Fish in the Ish Wish Dish");
 
 		// Test Successes
 		assertEquals(2, StringUtil.indexOf(sb, "is", 0));

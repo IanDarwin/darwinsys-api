@@ -21,6 +21,7 @@ import javax.imageio.stream.ImageOutputStream;
  */
 public class JigglyTextImageWriter implements Serializable {
 
+	private static final long serialVersionUID = 1258727214213234852L;
 	private final int width, height;
 	private final Font font;
 	private int nextColor;

@@ -52,7 +52,7 @@ public class CSVImport implements CSVParser {
 	 * from the original as a String, in order.
 	 */
 	public List<String> parse(String line) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		list.clear();			// recycle to initial state
 		int i = 0;
 
@@ -77,11 +77,11 @@ public class CSVImport implements CSVParser {
 
 	/** advQuoted: quoted field; return index of next separator
 	 * @param s The input string
-	 * @param sb The output stringbuffer
+	 * @param sb The output StringBuilder
 	 * @param i the starting position
 	 * @return the next position
 	 */
-	protected int advQuoted(String s, StringBuffer sb, int i)
+	protected int advQuoted(String s, StringBuilder sb, int i)
 	{
 		int j;
 		int len= s.length();
@@ -103,11 +103,11 @@ public class CSVImport implements CSVParser {
 
 	/** advPlain: unquoted field; return index of next separator
 	 * @param s The input string
-	 * @param sb The output stringbuffer
+	 * @param sb The output StringBuilder
 	 * @param i the starting position
 	 * @return the next position
 	 */
-	protected int advPlain(String s, StringBuffer sb, int i)
+	protected int advPlain(String s, StringBuilder sb, int i)
 	{
 		int j;
 

@@ -3,6 +3,8 @@ package com.darwinsys.calendar;
 import java.io.Serializable;
 
 public class Person implements Serializable {
+
+	private static final long serialVersionUID = 7639432344047546229L;
 	String firstName;
 	String lastName;
 	String email;

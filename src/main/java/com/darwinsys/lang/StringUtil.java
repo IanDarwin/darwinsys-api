@@ -20,7 +20,7 @@ public class StringUtil {
 	 * @return a pretty list
 	 */
 	public static String arrayToCommaList(Object[] array) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i=0; i<array.length; i++) {
 			if (i > 0 && i < array.length - 1) {
 				sb.append(',');
@@ -41,7 +41,7 @@ public class StringUtil {
 	 * @return The reversed string
 	 */
 	public static String reverse(String str) {
-		return new StringBuffer(str).reverse().toString();
+		return new StringBuilder(str).reverse().toString();
 	}
 	
 	/** 
@@ -53,11 +53,15 @@ public class StringUtil {
 	 */
 	public static String subst(String oldStr, String newStr, String input) {
 		int where = 0;
-		StringBuffer sb = new StringBuffer(input);
+		StringBuilder sb = new StringBuilder(input);
 		while ((where = StringUtil.indexOf(sb, oldStr, where)) != -1) {
 			sb.replace(where, where + oldStr.length(), newStr);
 		}
 		return sb.toString();
+	}
+
+	public static int indexOf(StringBuilder sb, String str, int fromIndex) {
+		return sb.indexOf(str, fromIndex);
 	}
 
 	// For backwards compatability only, do not use in new code.

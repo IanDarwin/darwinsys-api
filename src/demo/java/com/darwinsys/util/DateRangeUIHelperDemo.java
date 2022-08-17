@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
+import com.darwinsys.util.DateRangeUIHelper.Range;
+
 public class DateRangeUIHelperDemo extends JFrame {
 
 	private static final long serialVersionUID = -1621211822931751327L;
@@ -30,7 +32,7 @@ public class DateRangeUIHelperDemo extends JFrame {
 		final Container cp = getContentPane();
 		cp.setLayout(new FlowLayout());
 		cp.add(new JLabel("Modified in last:"));
-		final JList jList = new JList();
+		final JList<Range> jList = new JList<>();
 		cp.add(jList);
 		jList.setListData(DateRangeUIHelper.dateRanges);
 		jList.setSelectedIndex(0);
