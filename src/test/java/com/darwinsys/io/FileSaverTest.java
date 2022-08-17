@@ -5,8 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.util.Arrays;
 
-import org.junit.*;
+import org.junit.jupiter.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.Assert.*;
 
@@ -15,35 +21,28 @@ public class FileSaverTest {
 	/** Test File name. */
 	public static final String FILENAME = "fileSaverTest.dat";
 
-	FileSaver saver;
+	@TempDir
+	static File workdir;
+	
+	static FileSaver saver;
 
 	/** Test string */
 	public static final String MESSAGE =
 		"The quick brown fox jumps over the lazy dog.";
-
-	/** Set up initial state data file state for testing */
-	@Before
-	public void setUp() {
-		try {
-			// Create file in "." with known name and contents
-			FileIO.stringToFile(MESSAGE, FILENAME);
-			final File file = new File(FILENAME);
-			// Delete first in case left from prev test - XXX use @TempDir
-			file.delete();
-			// Create FileSaver to save it.
-			saver = new FileSaver(file.toPath());
-		} catch (IOException ex) {
-			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
-		}
-	}
-
-	/** Clean up: try to delete all artifacts before, after each test */
-	@Before @After
-	public void reallyClean() {
-		// Do not care if either of these fails
-		new File(FILENAME).delete();
-		new File(FILENAME + ".bak").delete();
-		new File(FILENAME + ".tmp").delete();
+	
+	private File file;
+	
+	@BeforeEach
+	public void setUpOne() throws IOException {
+		// Create file in tempdir with known name and contents
+		// It will get overwritten by the FileSaver
+		workdir.mkdirs();
+		file = new File(workdir, FILENAME);
+		System.out.println("FILE " + file);
+		
+		// Create FileSaver to save it.
+		saver = new FileSaver(file.toPath());
+		
 	}
 
 	/** Test that the overwritten file contains something reasonable,

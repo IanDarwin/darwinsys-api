@@ -77,7 +77,6 @@ public class FileSaver {
 	private Writer mWriter;
 
 	public FileSaver(Path inputFile) throws IOException {
-
 		// Step 1: Create temp file in right place; must be on same disk
 		// as the original file, to avoid disk-full troubles later.
 		this.inputFile = inputFile;
@@ -133,6 +132,14 @@ public class FileSaver {
 		mWriter = Files.newBufferedWriter(tmpFile);
 		state = State.INUSE;
 		return mWriter;
+	}
+	
+	/** Close is a better name for this function, but don't
+	 * want to break existing clients.
+	 * @throws IOException
+	 */
+	public void close() throws IOException {
+		finish();
 	}
 
 	/** Close the output file and rename the temp file to the original name.
