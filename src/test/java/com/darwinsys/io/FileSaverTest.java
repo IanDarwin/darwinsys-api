@@ -28,6 +28,8 @@ public class FileSaverTest {
 			// Create file in "." with known name and contents
 			FileIO.stringToFile(MESSAGE, FILENAME);
 			final File file = new File(FILENAME);
+			// Delete first in case left from prev test - XXX use @TempDir
+			file.delete();
 			// Create FileSaver to save it.
 			saver = new FileSaver(file.toPath());
 		} catch (IOException ex) {
