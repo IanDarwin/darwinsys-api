@@ -23,16 +23,16 @@ import java.util.*;
  * @param location - where the event will take place
  * @param calName - the calendar to which this event belongs
  */
-public record CalendarEvent(
-	String summary,
-	Optional<String> description,
-	EventType eventType,
-	UUID uuid,
-	LocalDate startDate, Optional<LocalTime>startTime,
-	Optional<LocalDate> endDate, Optional<LocalTime>endTime,
-	Optional<String> organizerName, Optional<String> organizerEmail,
-	Optional<String> location,
-	Optional<String> calName) {
+public class CalendarEvent {
+	String summary;
+	Optional<String> description;
+	EventType eventType;
+	UUID uuid;
+	LocalDate startDate; Optional<LocalTime>startTime,
+	Optional<LocalDate> endDate; Optional<LocalTime>endTime,
+	Optional<String> organizerName; Optional<String> organizerEmail,
+	Optional<String> location;
+	Optional<String> calName;
 
 	static Random r = new Random();
 	static String defaultCalendar = "work";
