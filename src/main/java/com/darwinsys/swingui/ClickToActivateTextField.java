@@ -12,6 +12,8 @@ import javax.swing.JTextField;
  */
 public class ClickToActivateTextField extends JTextField {
 
+	private static final long serialVersionUID = -4094781599700025353L;
+
 	/** Constructor */
 	public ClickToActivateTextField() {
 		this(null);

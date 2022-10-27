@@ -83,7 +83,7 @@ public class PassPhrase {
 			System.arraycopy(specialChar, 0, goodChar, n, specialChar.length);
 			n+=specialChar.length;
 		}
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i=0; i < length; i++) {
 			sb.append(goodChar[r.nextInt(goodChar.length)]);
 		}

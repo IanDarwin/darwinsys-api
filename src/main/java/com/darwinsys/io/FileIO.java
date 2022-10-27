@@ -315,6 +315,8 @@ public class FileIO {
 		while ((n = is.read(b)) > 0) {
 			sb.append(b, 0, n);
 		}
+		
+		is.close();
 
 		// Only construct the String object once, here.
 		return sb.toString();

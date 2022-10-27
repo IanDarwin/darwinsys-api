@@ -18,6 +18,8 @@ import java.util.concurrent.*;
  */
 public class BreakTimer {
 
+	Integer minutes;
+
 	/** Run the BreakTimer as a main program.
 	 * @param args The command line arguments ("jf" for JFrame, "ji" for JInternalFrame)
 	 */
@@ -47,13 +49,14 @@ public class BreakTimer {
 	private final static Integer[] TIMES = new Integer[]{5,10,15,30,45,60};
 	private final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
 
-	private RootPaneContainer jf;
+	private RootPaneContainer jFrameOrIFrame;
+	private Container contentPane;
 	private ExecutorService tp = Executors.newSingleThreadExecutor();
 	private Duration duration;
-	private Future handle;
+	private Future<Void> handle;
 	private JLabel timerLabel;
 	private JTextField topText;
-	private JComboBox choice;
+	private JComboBox<Integer> choice;
 	/** The runnable to run when the timer expires. May be null. */
 	private Runnable doneAction;
 	private ResourceBundle resourceBundle;
@@ -62,12 +65,12 @@ public class BreakTimer {
 	 * @param jf The JFrame or JInternalFrame
 	 */
 	public BreakTimer(RootPaneContainer jf) {
-		this.jf = jf;
-		var cp = jf.getContentPane();
-
+		this.jFrameOrIFrame = jf;
+		contentPane = jf.getContentPane();
+		
 		// XXX add to tray
 
-		cp.setLayout(new BorderLayout());
+		contentPane.setLayout(new BorderLayout());
 
 		JPanel topPanel = new JPanel();
 
@@ -88,7 +91,7 @@ public class BreakTimer {
 			topText.setText(DEFAULT_MESSAGE);
 		});
 		topPanel.add(rsButton);
-		cp.add(BorderLayout.NORTH, topPanel);
+		contentPane.add(BorderLayout.NORTH, topPanel);
 
 		JPanel botPanel = new JPanel();
 		choice = new JComboBox<>(TIMES);
@@ -99,7 +102,7 @@ public class BreakTimer {
 		timerLabel.setFont(new Font("Helvetica", Font.PLAIN, 256));
 		timerLabel.setText(NO_TIME);
 		bigPanel.add(timerLabel);
-		cp.add(BorderLayout.CENTER, bigPanel);
+		contentPane.add(BorderLayout.CENTER, bigPanel);
 		botPanel.add(choice);
 
 		JButton start = new JButton("Start");
@@ -125,7 +128,7 @@ public class BreakTimer {
 		botPanel.add(help);
 		help.addActionListener(e -> doHelp());
 
-		cp.add(BorderLayout.SOUTH, botPanel);
+		contentPane.add(BorderLayout.SOUTH, botPanel);
 
 		doneAction = DEFAULT_ACTION;
 	}
@@ -133,11 +136,13 @@ public class BreakTimer {
 	/**
 	 * The ActionListener to start the timer.
 	 */
+	@SuppressWarnings("unchecked")
 	ActionListener startAction = evt ->  {
-		handle = tp.submit( () -> {
+		handle = (Future<Void>) tp.submit( () -> {
+			minutes = (Integer)choice.getSelectedItem();
 			// If toString()ed, would look like PT10M
 			duration =
-				Duration.of((Integer)choice.getSelectedItem(), ChronoUnit.MINUTES);
+				Duration.of(minutes, ChronoUnit.MINUTES);
 			if (Thread.currentThread().isInterrupted()) {
 				timerLabel.setText(NO_TIME);
 				return;
@@ -173,21 +178,32 @@ public class BreakTimer {
 
 	/** A useful expiry action */
 	final private Runnable DEFAULT_ACTION = () -> {
-		JFrame theFrame = null;
-		if (jf instanceof JFrame)
-			theFrame = (JFrame)jf;
+		JFrame theFrame = getJFrame();
 		int choice = JOptionPane.showOptionDialog(theFrame,
-			"Time's up: " + topText.getText(),	// message
+			String.format("%d minutes are up: %s", minutes, topText.getText()), // Message
 			"Time's up",						// title (after message - why?)
 			JOptionPane.YES_NO_OPTION,			// Only two buttons, labels above
 			JOptionPane.QUESTION_MESSAGE,
 			null,
 			labels,
 			labels[0]);
-		if (choice == 1) {
+		switch (choice) {
+		case 0:
+			if (jFrameOrIFrame instanceof JInternalFrame &&
+					"true".equals(resourceBundle.getString("breaktimer.help.text")))
+				((JInternalFrame)jFrameOrIFrame).setVisible(false);
+		case 1:
 			startAction.actionPerformed(null);
+			break;
 		}
 	};
+
+	private JFrame getJFrame() {
+		JFrame theFrame = null;
+		if (jFrameOrIFrame instanceof JFrame)
+			theFrame = (JFrame)jFrameOrIFrame;
+		return theFrame;
+	}
 
 	/** Set the runnable to run when the timer expires. 
 	 * @param runnable The Runnable; may be null. 
@@ -200,10 +216,7 @@ public class BreakTimer {
 	 * Display the Help text for the BreakTimer
 	 */
 	public void doHelp() {
-		JFrame theFrame = null;
-		if (jf instanceof JFrame)
-			theFrame = (JFrame)jf;
 		String text = resourceBundle.getString("breaktimer.help.text");
-		JOptionPane.showMessageDialog(theFrame, text);
+		JOptionPane.showMessageDialog(getJFrame(), text);
 	}
 }

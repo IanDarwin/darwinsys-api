@@ -1,47 +1,46 @@
 package com.darwinsys.io;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.nio.file.Files;
 
-import org.junit.*;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class FileSaverTest {
 
 	/** Test File name. */
 	public static final String FILENAME = "fileSaverTest.dat";
 
-	FileSaver saver;
+	@TempDir
+	static File workdir;
+	
+	static FileSaver saver;
 
 	/** Test string */
 	public static final String MESSAGE =
 		"The quick brown fox jumps over the lazy dog.";
-
-	/** Set up initial state data file state for testing */
-	@Before
-	public void setUp() {
-		try {
-			// Create file in "." with known name and contents
-			FileIO.stringToFile(MESSAGE, FILENAME);
-			final File file = new File(FILENAME);
-			// Create FileSaver to save it.
-			saver = new FileSaver(file.toPath());
-		} catch (IOException ex) {
-			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
-		}
-	}
-
-	/** Clean up: try to delete all artifacts before, after each test */
-	@Before @After
-	public void reallyClean() {
-		// Do not care if either of these fails
-		new File(FILENAME).delete();
-		new File(FILENAME + ".bak").delete();
-		new File(FILENAME + ".tmp").delete();
+	
+	private File file;
+	
+	@BeforeEach
+	public void setUpOne() throws IOException {
+		// Create file in tempdir with known name and contents
+		// It will get overwritten by the FileSaver
+		workdir.mkdirs();
+		file = new File(workdir, FILENAME);
+		Files.writeString(file.toPath(), MESSAGE);
+		
+		// Create FileSaver to save it.
+		saver = new FileSaver(file.toPath());
+		
 	}
 
 	/** Test that the overwritten file contains something reasonable,
@@ -55,7 +54,7 @@ public class FileSaverTest {
 		out.print(MESSAGE);
 		out.close();
 		saver.finish();
-		final String finalString = FileIO.readerToString(new FileReader(FILENAME));
+		final String finalString = FileIO.readerToString(new FileReader(file.getAbsoluteFile()));
 		assertEquals("Reading string back", MESSAGE, finalString);
 	}
 

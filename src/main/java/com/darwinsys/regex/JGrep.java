@@ -162,14 +162,15 @@ public class JGrep {
 	 * @param file The input File
 	 * @throws FileNotFoundException If the file doesn't exist
 	 */
-	public void process(File file) throws FileNotFoundException {
+	public void process(File file) throws IOException {
 		if (!file.exists() || !file.canRead()) {
 			throw new FileNotFoundException(
 				"Can't read file " + file.getAbsolutePath());
 		}
 		if (file.isFile()) {
-			process(new BufferedReader(new FileReader(file)), 
-				file.getAbsolutePath());
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			process(reader, file.getAbsolutePath());
+			reader.close();
 			return;
 		}
 		if (file.isDirectory()) {

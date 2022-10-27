@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 
-import com.darwinsys.util.Debug;
-
 /** A simple layout manager, for "Entry" areas ith e.g., a list of labels
  * and their corresponding JTextFields. These typically look like:
  * <PRE>
@@ -37,6 +35,9 @@ public class EntryLayout implements LayoutManager {
 
 	/** The default padding */
 	protected final static int HPAD = 5, VPAD = 5;
+
+	private static final boolean debug = false;
+	
 	/** The actual padding */
 	protected final int hpad, vpad;
 
@@ -145,7 +146,8 @@ public class EntryLayout implements LayoutManager {
 	 * @param parent The Container whose children we are laying out.
 	 */
 	public void layoutContainer(Container parent) {
-		Debug.println("layout","layoutContainer:");
+		if (debug)
+			System.out.println("layout: layoutContainer");
 		if (!validWidths)
 			return;
 		Component[] components = parent.getComponents();

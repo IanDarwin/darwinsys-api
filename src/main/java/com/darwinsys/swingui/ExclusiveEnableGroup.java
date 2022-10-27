@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class ExclusiveEnableGroup implements java.io.Serializable {
 
+	private static final long serialVersionUID = 3842587391725220134L;
 	private List<Component> groupComps = new ArrayList<Component>();
 
 	/** Add the Component to the list of managed Components

@@ -32,11 +32,4 @@ public class EnumerationIterator<T> implements Iterator<T> {
 	public T next() {
 		return oldEnum.nextElement();
 	}
-
-	/** Remove is not implemented ("optional method").
-	 * @throws java.lang.UnsupportedOperationException in all cases.
-	 */
-	public void remove() {
-		throw new UnsupportedOperationException("remove");
-	}
 }

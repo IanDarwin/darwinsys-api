@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -133,6 +134,7 @@ public class FileProperties extends Properties {
 
 	@SuppressWarnings("unchecked")
 	public Iterator<String> iterator() {
-		return new EnumerationIterator(keys());
+		return new EnumerationIterator<String>(
+			(Enumeration<String>) keySet().iterator());
 	}
 }

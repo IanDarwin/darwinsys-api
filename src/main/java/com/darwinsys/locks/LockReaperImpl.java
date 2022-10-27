@@ -47,7 +47,7 @@ public class LockReaperImpl<T> extends Thread {
 	public void run() {
 		while (!done) {
 			timeOutMinutes = mgr.getTimeout(); // update dynamically
-			Map<Lock,T> map = ((PessimisticLockManagerImpl)mgr).getLockStore();
+			Map<Lock,T> map = ((PessimisticLockManagerImpl<T>)mgr).getLockStore();
 			if (map.keySet().size() > 0) {
 				System.out.println("LockReaper: Locks currently held at " + new Date() + ":");
 			}
