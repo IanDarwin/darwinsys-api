@@ -28,9 +28,9 @@ public class CalendarEvent {
 	Optional<String> description;
 	EventType eventType;
 	UUID uuid;
-	LocalDate startDate; Optional<LocalTime>startTime,
-	Optional<LocalDate> endDate; Optional<LocalTime>endTime,
-	Optional<String> organizerName; Optional<String> organizerEmail,
+	LocalDate startDate; Optional<LocalTime>startTime;
+	Optional<LocalDate> endDate; Optional<LocalTime>endTime;
+	Optional<String> organizerName; Optional<String> organizerEmail;
 	Optional<String> location;
 	Optional<String> calName;
 
