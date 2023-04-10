@@ -1,49 +1,55 @@
 package com.darwinsys.util;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Method;
 import java.security.Permission;
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.BiConsumer;
 
-/** Start a bunch of Main programs, to avoid starting a JVM for each
- * XXX TODO a taskbar icon with a menu to exit, and a SecurityManager
- * that allows all but System.exit for other classes.
+import javax.swing.JOptionPane;
+
+/**
+ * Try to build a really simple multiple-widget launcher.
+ * Each widget has a standard main() method, and
+ * can have 0 or 1 args passed to it (not 2 or 3).
+ * The properties file lists the class and its arg, if any.
+ * ALL classes must be on classpath when you run this.
+ * Each widget is invoked in a distinct Thread;
+ * Java needs a REPLACEMENT for SecurityManager.checkExit()
+ * as we don't want one of these items to exit the whole mess.
  */
+@SuppressWarnings("ALL")
 public class MainStarter {
-	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.err.println("Usage: MainStarter class class [...]");
-		}
-		Class<?>[] typeParams = { args.getClass() };
 
-		for (final String clazz : args) {
-			try {
-				final Class<?> c = Class.forName(clazz);
-				final Method m = c.getMethod("main", typeParams);
-				final String[] noArgs = new String[0];
-				final Object[] passedArgs = { noArgs };
-				new Thread(new Runnable() {
-					public void run() {
-						try {
-							m.invoke(null, passedArgs);
-						} catch (Throwable t) {
-							System.out.println(clazz + " failed: " + t);
-							t.printStackTrace();
-						}
-					}
-				}).start();
+	final static String PROPS_FILE = "mydesktop.properties";
 
-			} catch (Throwable t) {
-				System.out.println(clazz + " failed: " + t);
-				t.printStackTrace();
+	/** The input consists of a class name and ONE optional argument */
+	record ClassAndArg(String clazzName, String arg){}
+
+	public static void main(String[] args) throws Exception {
+
+		if (new File(PROPS_FILE).exists()) {
+			Properties props = new Properties();
+			props.load(new FileInputStream(PROPS_FILE));
+			for (Object o : props.keySet()) {
+				String s = (String)o;
+				ClassAndArg caa = new ClassAndArg(s, props.getProperty(s));
+				process(caa);
+			}
+		} else {
+			if (args.length == 0) {
+				eHandler.accept("Usage: MainStarter propsfile | clazzName [...]", null);
+				System.exit(1);
+			}
+			for (String s : args) {
+				process(new ClassAndArg(s, null));
 			}
 		}
 
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// stupid exception
-		}
-
-		// Now the tasks have had time to start, put in a security manager to stop them from exiting.
+		// Now the tasks have been started, put in a security manager to stop them from exiting.
 		// Since this is a main application, allow everything else (for now).
 		System.setSecurityManager(new SecurityManager() {
 			public void checkPermission(Permission p) {
@@ -57,4 +63,32 @@ public class MainStarter {
 			}
 		});
 	}
+
+	static void process(ClassAndArg caa) {
+		ExecutorService tPool = Executors.newCachedThreadPool();
+
+			// Catch errors so one mistake doesn't kill the whole thing...
+			try {
+				final Class<?> c = Class.forName(caa.clazzName);
+				final Method m = c.getMethod("main", caa.arg.getClass());
+				tPool.submit( () -> {
+						try {
+							m.invoke(null, caa.arg);
+						} catch (Exception e) {
+							eHandler.accept(caa.clazzName, e);
+						}
+				});
+			} catch (Exception e) {
+				eHandler.accept(caa.clazzName, e);
+			}
+	}
+
+	static BiConsumer<String, Exception> eHandler = (String message, Exception e) -> {
+		JOptionPane.showMessageDialog(
+			null, message + (e != null? ": " + e : ""),
+			"Error", JOptionPane.ERROR_MESSAGE);
+		if (e != null) {
+			e.printStackTrace();
+		}
+	};
 }

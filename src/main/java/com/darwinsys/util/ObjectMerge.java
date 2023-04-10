@@ -3,15 +3,18 @@ package com.darwinsys.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+/** Copy fields from two objects of same class into a new instance.
+ * Missing fields are copied. Fields that differ are left null.
+ * XXX Maybe add a "preferLeft"/"preferRight" option for fields that differ.
+ */
 public class ObjectMerge {
 
 	public static Object merge(Object left, Object right) throws Exception {
-		Object merge = null;
-		Class<?> c = left.getClass();
 		if (left.getClass() != right.getClass()) {
 			throw new IllegalArgumentException(left + " class != " + right);
 		}
-		merge = c.newInstance();
+		Class<?> c = left.getClass();
+		Object merge = c.getConstructor().newInstance();
 		Field[] fields = c.getDeclaredFields();
 		for (Field f : fields) {
 			int mod = f.getModifiers();
@@ -30,9 +33,8 @@ public class ObjectMerge {
 				f.set(merge, l);	// go w/ left's
 			} else if (l.equals(r)) {
 				f.set(merge, l);
-			} else {
-				// they differ, leave it null
 			}
+			// Else they differ, leave it null
 		}
 		return merge;
 	}
