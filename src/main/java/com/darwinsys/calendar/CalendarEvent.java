@@ -15,26 +15,29 @@ import java.util.*;
  * @param eventType An EventType enum for this event
  * @param uuid A UUID, can be had from makeUUID()
  * @param startDate The date or begin date
- * @param startTime The begin time of a partial-day event
- * @param endDate The date or begin date
- * @param endTime The begin time of a partial-day event
+ * @param startTime The beginning time of a partial-day event
+ * @param endDate The date or beginning date
+ * @param endTime The beginning time of a partial-day event
  * @param organizerName The name of the event organizer (person or organization)
  * @param organizerEmail The contact email for this event
  * @param location - where the event will take place
  * @param calName - the calendar to which this event belongs
  */
-public class CalendarEvent {
-	String summary;
-	Optional<String> description;
-	EventType eventType;
-	UUID uuid;
-	LocalDate startDate; Optional<LocalTime>startTime;
-	Optional<LocalDate> endDate; Optional<LocalTime>endTime;
-	Optional<String> organizerName; Optional<String> organizerEmail;
-	Optional<String> location;
-	Optional<String> calName;
+public record CalendarEvent (
+	String summary,
+	Optional<String> description,
+	EventType eventType,
+	UUID uuid,
+	LocalDate startDate,
+	Optional<LocalTime>startTime,
+	Optional<LocalDate> endDate,
+	Optional<LocalTime>endTime,
+	Optional<String> organizerName,
+	Optional<String> organizerEmail,
+	Optional<String> location,
+	Optional<String> calName)
+		{
 
-	static Random r = new Random();
 	static String defaultCalendar = "work";
 	
 	public static void setDefaultCalendar(String calName) {
@@ -69,19 +72,13 @@ public class CalendarEvent {
 		out.println("SUMMARY:" + summary);
 		description.ifPresent(s->out.println("DESCRIPTION:"+s));
 		location.ifPresent(s->out.println("LOCATION:"+s));
-		String dtStart = startTime.isPresent() ?
-			dtf.format(LocalDateTime.of(startDate, startTime.get())) :
-			df.format(startDate);
+		String dtStart = startTime.map(localTime -> dtf.format(LocalDateTime.of(startDate, localTime)))
+				.orElseGet(() -> df.format(startDate));
 		out.println("DTSTART;VALUE=DATE:" + dtStart);
 		
 		LocalDate dtEndDate;
-		if (endDate.isPresent())
-			dtEndDate = endDate.get();
-		else
-			dtEndDate = startDate;
-		String dtEnd = endTime.isPresent() ?
-			dtf.format(LocalDateTime.of(dtEndDate, endTime.get())) :
-			df.format(dtEndDate);
+		dtEndDate = endDate.orElse(startDate);
+		String dtEnd = endTime.map(localTime -> dtf.format(LocalDateTime.of(dtEndDate, localTime))).orElseGet(() -> df.format(dtEndDate));
 		out.println("DTEND;VALUE=DATE:" + dtEnd);		
 
 		out.println("SEQUENCE:0");
@@ -180,7 +177,7 @@ public class CalendarEvent {
 				LocalDate.of(year, month, day), Optional.of(LocalTime.of(startHour, 0)),
 				Optional.empty(), Optional.of(LocalTime.of(endHour, 0)),
 				Optional.empty(), Optional.empty(),
-				Optional.empty(),
+				Optional.of(location),
 				Optional.empty());
 		
 	}
