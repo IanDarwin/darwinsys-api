@@ -204,7 +204,7 @@ public record CalendarEvent (
 				LocalDate.of(year, month, day), Optional.of(LocalTime.of(startHour, startMinute)),
 				Optional.empty(), Optional.of(LocalTime.of(endHour, endMinute)),
 				Optional.empty(), Optional.empty(),
-				Optional.empty(),
+				Optional.of(location),
 				Optional.empty());
 		
 	}
