@@ -58,7 +58,7 @@ public class REDemo extends JPanel {
 	Highlighter highlighter;
 
 	public static void main(String[] av) throws BadLocationException {
-		JFrame f = new JFrame("REDemo");
+		JFrame f = new JFrame("DarwinSys.com REDemo");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		REDemo comp = new REDemo(f);
 		f.setContentPane(comp);

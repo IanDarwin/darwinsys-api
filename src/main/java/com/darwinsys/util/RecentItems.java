@@ -8,7 +8,7 @@ import java.util.prefs.Preferences;
 
 /**
  * A list of recent items, such as a Recent File Menu, a Recent Choices dropdown, etc.
- * The items are kept in java's Preferences, and can be fetched with a call to a getter
+ * The items are kept in Java's Preferences, and can be fetched with a call to a getter
  * and/or with a notification Callback.
  */
 public class RecentItems {
