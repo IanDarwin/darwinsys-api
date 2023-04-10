@@ -15,6 +15,7 @@ have to re-implement many times over.
 In most cases "found useful" means used more than once, but not always. 
 
 Notes: 
+
 * In late 2019, the 'testing' package graduated to its own project,
 darwinsys-testing, to aid in modularizing this.
 A general-purpose library probably has no business dragging in a run-time dependency
