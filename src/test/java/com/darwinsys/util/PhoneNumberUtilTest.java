@@ -49,4 +49,11 @@ public class PhoneNumberUtilTest {
 		assertEquals("right#results-234->27", 27, res.length);
 		assertEquals("adg", res[0]);
 	}
+
+	@Test
+	public void testLongString() {
+		var res = PhoneNumberUtil.mnemonics("416-555-1212");
+		assertEquals(2187, res.length);
+		assertEquals("g1mjjj1a1a", res[0]);
+	}
 }

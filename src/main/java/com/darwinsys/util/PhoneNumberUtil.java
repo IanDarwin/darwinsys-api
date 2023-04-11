@@ -31,7 +31,7 @@ public class PhoneNumberUtil {
 		}
 		
 		// Get array of chars to simplify code
-		char[] phNumAsChars = numberStr.toCharArray();
+		char[] phNumAsChars = digitsOnly(numberStr).toCharArray();
 		
 		// First pass - how many elements do we need to return?
 		int num = 1;
@@ -78,7 +78,18 @@ public class PhoneNumberUtil {
 		}
 		return sResults;
 	}
-	
+
+	private static String digitsOnly(String numberStr) {
+		var sb = new StringBuilder();
+		for (var ch : numberStr.toCharArray()) {
+			if (isDigit(ch)) {
+				sb.append(ch);
+			}
+		}
+		System.out.println(sb.toString());
+		return sb.toString();
+	}
+
 	/** The only non-digit chars that are allowed. */
 	static boolean isPlain(char ch) {
 		switch(ch) {
@@ -90,7 +101,7 @@ public class PhoneNumberUtil {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Reimplement Character.isDigit to be unaffected by the user's locale.
 	 * @param ch The char that might be a digit
