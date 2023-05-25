@@ -1,52 +1,53 @@
 package com.darwinsys.util;
 
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+
 
 /**
  * DateSimple represents YYYY-MM-DD without all the overhead and
  * deprecated baggage of java.util.Date.
  * Objects of this type are immutable.
+ * Re-implemented in terms of java.time.LocalDate.
  */
-@Deprecated // Use Java 8 date/time API
 public class DateSimple {
-	int year;
-	int month;
-	int day;
+	final LocalDate date;
 
 	/**
+	 * Construct a DateSimple with the given values
 	 * @param year The year
 	 * @param month The Month
 	 * @param day The Day of Month
 	 */
 	public DateSimple(int year, int month, int day) {
 		super();
-		this.year = year;
-		this.month = month;
-		this.day = day;
+		date = LocalDate.of(year, month, day);
 	}
 
+	/** Construct a DateSimple for today */
 	public DateSimple() {
-		Calendar c = Calendar.getInstance();
-		year = c.get(Calendar.YEAR);
-		month  = c.get(Calendar.MONTH);
-		day = c.get(Calendar.DAY_OF_MONTH);
+		date = LocalDate.now();
 	}
 
 	public int getDay() {
-		return day;
+		return date.getDayOfMonth();
 	}
 
 	public int getMonth() {
-		return month;
+		return date.getMonthValue();
 	}
 
 	public int getYear() {
-		return year;
+		return date.getYear();
 	}
 
+	/**
+	 * Return a Calendar object; no longer supported
+	 * @return Never
+	 * @throws UnsupportedOperationException always. Avoid using Calendar.
+	 */
 	public Calendar getCalendar() {
-		return new GregorianCalendar(year, month, day);
+		throw new UnsupportedOperationException("Calendar is dead, Jim");
 	}
 
 	@Override
@@ -54,12 +55,11 @@ public class DateSimple {
 		if (obj == null || !(obj instanceof DateSimple)) {
 			return false;
 		}
-		DateSimple d = (DateSimple) obj;
-		return year == d.year && month == d.month && day == d.day;
+		return date.equals((DateSimple) obj);
 	}
 
 	@Override
 	public int hashCode() {
-		return year<<16 | month << 8 | day;
+		return date.hashCode();
 	}
 }
