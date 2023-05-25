@@ -45,23 +45,9 @@ public class MainStarter {
 				System.exit(1);
 			}
 			for (String s : args) {
-				process(new ClassAndArg(s, null));
+				process(new ClassAndArg(s, ""));
 			}
 		}
-
-		// Now the tasks have been started, put in a security manager to stop them from exiting.
-		// Since this is a main application, allow everything else (for now).
-		System.setSecurityManager(new SecurityManager() {
-			public void checkPermission(Permission p) {
-				// empty
-			}
-			public void checkPermission(Permission p, Object secContext) {
-				// empty
-			}
-			public void checkExit(int status) {
-				throw new SecurityException("One started task cannot exit this whole mess");
-			}
-		});
 	}
 
 	static void process(ClassAndArg caa) {

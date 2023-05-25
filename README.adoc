@@ -28,8 +28,9 @@ http://java.oreilly.com/catalog/javacook/[O'Reilly Site]
 for more information on the book which accompanies this source code.
 
 The codebase has been together for years,
-and has somewhat grown like topsy, so lopsy may be lopping
-off some of its leaves as time goes by. He will try to avoid
+and has somewhat grown like topsy, so Flopsy may be lopping
+off some of its leaves as time goes by.
+He will try to avoid
 breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
 The following have been lopped off recently:
@@ -70,7 +71,7 @@ CalendarEvent:
 * get tests working
 * finish two newCalendarEvent methods
 
-JPMS-ify everything. Good luck.
+JPMS-ify (i.e., modularize) everything. Good luck.
 
 Cheers
 
