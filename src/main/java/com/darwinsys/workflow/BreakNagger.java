@@ -6,7 +6,7 @@ import java.util.Optional;
 public class BreakNagger implements Runnable {
 
 	public static void main(String[] args) {
-		new BreakNagger(args.length > 0 ? args[0] : DEFAULT_MESG).run();
+		new BreakNagger(args != null && args.length > 0 && args[0] != null ? args[0] : DEFAULT_MESG).run();
 	}
 
 	private int intervalMinutes = 60; // XXX Should be configurable
