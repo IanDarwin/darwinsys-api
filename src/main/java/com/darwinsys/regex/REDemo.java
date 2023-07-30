@@ -252,13 +252,12 @@ public class REDemo extends JPanel {
 			setHighlightFromMatcher(matcher);
 			logTextArea.setText(matcher.group());
 		} else if (findAll.isSelected()) {
-			int i = 0;
-			while (matcher.find()) {
-				logTextArea.append(i++ + ": " + matcher.group() + "\n");
-			}
-			if (i > 0) {
-				setMatches(true);
-				return true;
+			boolean foundAll = matcher.matches();
+			if (!foundAll)
+				return false;
+			setMatches(true);	// found at least one match
+			for (var i = 1; i <= matcher.groupCount(); i++) {
+				logTextArea.append(i + ": " + matcher.group(i) + "\n");
 			}
 		}
 
