@@ -1,3 +1,5 @@
+package com.darwinsys.tools;
+
 import java.io.*;
 
 // Rearrange Pictures to strict date-order filing. 
