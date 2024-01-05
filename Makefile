@@ -1,6 +1,7 @@
 # Makefile to make a "docset" for the program known as:
-#	Dash on macOS;
-#	Zeal everywhere else.
+#	Dash (https://kapeli.com/dash) on macOS;
+#	Zeal (https://zealdocs.org/) everywhere else.
+# Kapeli.com hosts the 200+ public doc sets; thanks Kapeli!
 
 install-zealdocs:	zealdocs
 	cp -r DarwinSys-API.docset/ $$HOME/.local/share/Zeal/Zeal/docsets/
