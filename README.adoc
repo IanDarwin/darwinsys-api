@@ -13,6 +13,7 @@ This is a collection of Java classes that I've found useful,
 classes which implement some useful operations that one would normally
 have to re-implement many times over.
 In most cases "found useful" means used more than once, but not always. 
+Some people would call it a "dumping ground", a charge I would not defend too strenuously.
 
 Notes: 
 
@@ -54,6 +55,9 @@ image:https://maven-badges.herokuapp.com/maven-central/com.darwinsys/darwinsys-a
 N.B. You MUST have a minimal $HOME/.db.properties to run the tests under Maven.  
 This needs to be automated, but for now, there it is. Rather, here it is.
 Create the file, or, if you have the file, add these entries once.
+If using SQLRunner or any of the SQL Connection Utilities, you will have
+to add an actual description of your database to this file, with a name
+other than "test" afront each line.
 
 ----
 # This totally fake .db.properties should be copied to your home directory.
