@@ -11,7 +11,9 @@
 
 	<!-- The configured plugins let us do
 	 mvn release:clean release:prepare
+	 This creates the release, now to upload it:
 	 mvn -Prelease -DskipTests -Dmaven.test.skip release:perform
+	 As of 2024 this needs some "opens" so use ./try
 	 Add in -DdryRun=true to check it before you run it.
 	 -->
 
