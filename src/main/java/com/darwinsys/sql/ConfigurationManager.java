@@ -27,7 +27,7 @@ public interface ConfigurationManager {
     /**
      * Obtain a Connection (presumably from a Connection Pool); the Connection
      * will be closed when SQLRunner is done with it.
-     * @param conn The name of a connection in your config file.
+     * @param connectionName The name of a connection in your config file.
      * @return A JDBC Connection for this Configuration.
      */
     Connection getConnection(String connectionName);
