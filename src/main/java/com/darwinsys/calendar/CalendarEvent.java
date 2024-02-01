@@ -35,8 +35,7 @@ public record CalendarEvent (
 	Optional<String> organizerName,
 	Optional<String> organizerEmail,
 	Optional<String> location,
-	Optional<String> calName)
-		{
+	Optional<String> calName) {
 
 	static String defaultCalendar = "work";
 	
@@ -49,8 +48,8 @@ public record CalendarEvent (
 		return "CalendarEvent: " + summary + " starting " + startDate;
 	}
 	final static String fakeZone = "UTC-04:00";
-	final static DateTimeFormatter df = 
-			DateTimeFormatter.ofPattern("yyyyMMdd"),
+	final static DateTimeFormatter
+			df = DateTimeFormatter.ofPattern("yyyyMMdd"),
 			dtf = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'" + fakeZone + "'");
 
 	/**
