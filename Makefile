@@ -12,3 +12,7 @@ zealdocs:
 
 javadoc:
 	mvn javadoc:javadoc
+
+install:
+	mvn clean package
+	sh -x ./scripts/inst

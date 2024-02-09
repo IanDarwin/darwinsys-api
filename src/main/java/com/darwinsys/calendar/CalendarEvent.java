@@ -200,11 +200,37 @@ public record CalendarEvent (
 				Optional.of(description),
 				EventType.APPOINTMENT,
 				CalendarEvent.makeUUID(),
-				LocalDate.of(year, month, day), Optional.of(LocalTime.of(startHour, startMinute)),
+				LocalDate.of(year, month, day),
+				Optional.of(LocalTime.of(startHour, startMinute)),
 				Optional.empty(), Optional.of(LocalTime.of(endHour, endMinute)),
 				Optional.empty(), Optional.empty(),
 				Optional.of(location),
 				Optional.empty());
 		
+	}
+
+	/**
+	 * @return a single-day appointment
+	 * @param description The text of the event  (optional)
+	 * @param summary Short description
+	 * @param location Where the event is (optional)
+	 * @param startDt Starting date and time
+	 * @param endDt Ending date (should be same as startDt) and time
+	 */
+	public static CalendarEvent newCalendarEvent(String description, String summary,
+		String location, LocalDateTime startDt, LocalDateTime endDt) {
+		return new CalendarEvent(
+				summary,
+				Optional.ofNullable(description),
+				EventType.APPOINTMENT,
+				CalendarEvent.makeUUID(),
+				startDt.toLocalDate(), 
+				Optional.of(startDt.toLocalTime()),
+				Optional.empty(),
+				Optional.of(endDt.toLocalTime()),
+				Optional.empty(),
+				Optional.empty(),
+				Optional.ofNullable(location),
+				Optional.empty());
 	}
 }
