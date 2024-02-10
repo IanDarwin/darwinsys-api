@@ -47,10 +47,7 @@ public record CalendarEvent (
 	public String toString() {
 		return "CalendarEvent: " + summary + " starting " + startDate;
 	}
-	final static String fakeZone = "UTC-04:00";
-	final static DateTimeFormatter
-			df = DateTimeFormatter.ofPattern("yyyyMMdd"),
-			dtf = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'" + fakeZone + "'");
+	final static DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyyMMdd'T'kkmm'00Z'");
 
 	/**
 	 * Print the event with any extra headers to a writer.
@@ -66,19 +63,21 @@ public record CalendarEvent (
 			putVCalHeader(out);
 		}
 		out.println("BEGIN:VEVENT");
-		out.println("DTSTAMP:" + LocalDate.now());
-		out.println("CREATED:" + LocalDate.now());
+		out.println("CREATED:" + df.format(LocalDateTime.now()));
 		out.println("SUMMARY:" + summary);
 		description.ifPresent(s->out.println("DESCRIPTION:"+s));
 		location.ifPresent(s->out.println("LOCATION:"+s));
-		String dtStart = startTime.map(localTime -> dtf.format(LocalDateTime.of(startDate, localTime)))
-				.orElseGet(() -> df.format(startDate));
-		out.println("DTSTART;VALUE=DATE:" + dtStart);
-		
-		LocalDate dtEndDate;
-		dtEndDate = endDate.orElse(startDate);
-		String dtEnd = endTime.map(localTime -> dtf.format(LocalDateTime.of(dtEndDate, localTime))).orElseGet(() -> df.format(dtEndDate));
-		out.println("DTEND;VALUE=DATE:" + dtEnd);		
+
+		LocalTime startLocalTime = startTime().isPresent() ? startTime.get() : LocalTime.of(0,0);
+		LocalDateTime startDateTime = LocalDateTime.of(startDate, startLocalTime);
+		String dtStart = df.format(startDateTime);
+		out.println("DTSTART:" + dtStart);
+
+		var endLocalDate = endDate.isPresent() ? endDate.get() : startDate;
+		LocalTime endLocalTime = endTime().isPresent() ? endTime.get() : LocalTime.of(0,0);
+		LocalDateTime endDateTime = LocalDateTime.of(endLocalDate, endLocalTime);
+		String dtEnd = df.format(endDateTime);
+		out.println("DTEND:" + dtEnd);
 
 		out.println("SEQUENCE:0");
 		out.printf("UID: %s\n", uuid);
@@ -113,11 +112,11 @@ public record CalendarEvent (
 
 	public static void putVCalHeader(PrintWriter out) {
 		out.println("BEGIN:VCALENDAR");
-		out.println("CALSCALE:GREGORIAN");
+		out.println("VERSION:2.0");
 		out.println("X-WR-TIMEZONE;VALUE=TEXT:Canada/Eastern");
 		out.println("METHOD:PUBLISH");
 		out.println("PRODID:-//Darwin Open Systems//c.d.calendar.CalendarEvent 1.0//EN");
-		out.println("VERSION:2.0");
+
 	}
 
 	// STATIC UTILITY METHODS

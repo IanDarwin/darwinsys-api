@@ -56,8 +56,8 @@ public class CalendarEventTest {
 		String result = getSubjectAsString();
 		assertEquals(subject.summary(), "Happy 200th birthday to Canada!");
 		assertSame(subject.eventType(), EventType.APPOINTMENT);
-		String startDate = "20670601\n";
-		assertTrue(result.contains("DTSTART;VALUE=DATE:" + startDate));
+		String startDate = "20670601T000000Z\n";
+		assertTrue(result.contains("DTSTART:" + startDate));
 	}
 	
 	@Test
@@ -75,8 +75,8 @@ public class CalendarEventTest {
 		String result = getSubjectAsString();
 		assertEquals(subject.summary(), "Happy 200th birthday to Canada!");
 		assertSame(subject.eventType(), EventType.APPOINTMENT);
-		String startDate = "20670601T1200";
-		assertTrue(result.contains("DTSTART;VALUE=DATE:" + startDate));
+		String startDate = "20670601T120000Z";
+		assertTrue(result.contains("DTSTART:" + startDate));
 	}
 	
 	@Test
@@ -113,10 +113,11 @@ public class CalendarEventTest {
 		String result = getSubjectAsString();
 		assertEquals(subject.summary(), "A 200th Birthday Party for Canada!");
 		assertSame(subject.eventType(), EventType.APPOINTMENT);
-		String startDate = "20670601T1200";
-		assertTrue(result.contains("DTSTART;VALUE=DATE:" + startDate));
-		String endDate = "20670601T1300";
-		assertTrue(result.contains("DTEND;VALUE=DATE:" + endDate));
+		String startDate = "20670601T120000Z";
+		assertTrue(result.contains("DTSTART:" + startDate));
+		String endDate = "20670601T130000Z";
+		System.out.println("result = " + result);
+		assertTrue(result.contains("DTEND:" + endDate));
 	}
 	
 	@Test
