@@ -80,14 +80,12 @@ public record CalendarEvent (
 		out.println("DTEND:" + dtEnd);
 
 		out.println("SEQUENCE:0");
-		out.printf("UID: %s\n", uuid);
+		out.printf("UID:%s\n", uuid);
 		if (organizerName.isPresent() && organizerEmail.isPresent()) {
 			out.printf("ORGANIZER;CN=%s:MAILTO:%s\n", organizerName.get(), organizerEmail.get());
 		}
 		if (calName.isPresent()) {
 			out.println("X-WR-CALNAME;VALUE=TEXT:" + calName.get());
-		} else {
-			out.println("X-WR-CALNAME;VALUE=TEXT:" + defaultCalendar);
 		}
 		if (extras != null)
 			extras.forEach((k,v)-> out.println(k.toUpperCase() + ":" + v));
