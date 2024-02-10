@@ -3,8 +3,11 @@
 #	Zeal (https://zealdocs.org/) everywhere else.
 # Kapeli.com hosts the 200+ public doc sets; thanks Kapeli!
 
+LOCAL_DOCSETS_DIR=$$HOME/.local/share/Zeal/Zeal/docsets/
+
 install-zealdocs:	zealdocs
-	cp -r DarwinSys-API.docset/ $$HOME/.local/share/Zeal/Zeal/docsets/
+	rm -r ${LOCAL_DOCSETS_DIR}
+	cp -r DarwinSys-API.docset/ ${LOCAL_DOCSETS_DIR}
 
 zealdocs:
 	javadocset DarwinSys-API target/site/apidocs
