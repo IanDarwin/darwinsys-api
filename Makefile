@@ -6,10 +6,10 @@
 LOCAL_DOCSETS_DIR=$$HOME/.local/share/Zeal/Zeal/docsets/
 
 install-zealdocs:	zealdocs
-	rm -r ${LOCAL_DOCSETS_DIR}
+	rm -r ${LOCAL_DOCSETS_DIR}/DarwinSys-API.docset
 	cp -r DarwinSys-API.docset/ ${LOCAL_DOCSETS_DIR}
 
-zealdocs:
+zealdocs: javadoc
 	javadocset DarwinSys-API target/site/apidocs
 	cp src/main/resources/Face32x32.png DarwinSys-API.docset/icon.png
 

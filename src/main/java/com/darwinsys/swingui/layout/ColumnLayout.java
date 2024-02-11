@@ -22,13 +22,14 @@ import java.awt.LayoutManager;
  */
 
 public class ColumnLayout implements LayoutManager {
+
 	/** Constant for X AXIS (horizontal column) alignment */
 	public static final int X_AXIS = 'x';
 	/** Constant for Y AXIS (vertical column) alignment */
 	public static final int Y_AXIS = 'y';
-
 	/** The alignment for this ColumnLayout */
 	protected final int alignment;
+
 	/** The X padding for this ColumnLayout */
 	protected final int hPadding;	// blank final
 	/** The Y padding for this ColumnLayout */
@@ -39,6 +40,12 @@ public class ColumnLayout implements LayoutManager {
 	protected int minh;
 	/** The list of components */
 	Component[] curComps;
+
+	/** No-argument constructor */
+	public ColumnLayout() {
+		this(X_AXIS,0,0);
+		System.out.println("Warning: using no-argument constructor in ColumnLayout");
+	}
 
 	/** Construct a ColumnLayout given only an alignment.
 	 * @param dirn The direction

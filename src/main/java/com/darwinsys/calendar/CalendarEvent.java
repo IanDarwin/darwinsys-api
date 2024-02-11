@@ -10,7 +10,7 @@ import java.util.*;
  * This is not a java.util.Calendar but is application-defined.
  * The list of arguments is long, but there are some factory methods
  * to simplify construction where not all fields are wanted.
- * XXX Must convert from localtime to GMT (easier than messing w VTIMEZONE & TZID).
+ * XXX Must convert from localtime to GMT (easier than messing w VTIMEZONE and TZID).
  * @param summary Short Description of the event
  * @param description Longer Description of the event
  * @param eventType An EventType enum for this event

@@ -20,6 +20,11 @@ public class ClassSourceUtils extends SourceUtils {
 		Logger.getLogger(ClassSourceUtils.class.getName());
 		
 	private static List<Class<?>> result;
+
+	/** No-argument constructor but all fields are static */
+	public ClassSourceUtils() {
+		System.out.println("Warning: Constructing ClassSourceUtils but all methods are static");
+	}
 	
 	/**
 	 * Create a list of the Classes in a Source;

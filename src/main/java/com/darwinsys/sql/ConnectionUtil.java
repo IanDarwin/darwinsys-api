@@ -32,6 +32,11 @@ public class ConnectionUtil {
 	/** The contents of the current Configuration file */
 	private static final Properties properties = new Properties();
 	
+	/** Private constructor, all methods are static */
+	private ConnectionUtil() {
+		// empty
+	}
+
 	/** Sets the full path of the config file to read.
 	 * @param configFileName The FileName of the configuration file to use.
 	 */
