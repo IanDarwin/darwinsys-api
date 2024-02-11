@@ -1,3 +1,10 @@
+all:	package
+
+package:
+	mvn clean test package
+
+doc:	install-zealdocs
+
 # Makefile to make a "docset" for the program known as:
 #	Dash (https://kapeli.com/dash) on macOS;
 #	Zeal (https://zealdocs.org/) everywhere else.
