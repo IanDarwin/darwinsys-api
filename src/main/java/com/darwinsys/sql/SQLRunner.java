@@ -141,7 +141,7 @@ public class SQLRunner {
 	 * @param user String for the username
 	 * @param password String for the password, normally in cleartext
 	 * @param outputFile The name of the output file.
-	 * @param outputMode One of the MODE_XXX constants.
+	 * @param outputMode One of the MODE_* constants.
 	 * @throws ClassNotFoundException If driver not found
 	 * @throws SQLException On data error
 	 * @throws IOException On data error
@@ -189,7 +189,7 @@ public class SQLRunner {
 	}
 
 	/** Set the output mode.
-	 * @param outputModeName Must be a value equal to one of the MODE_XXX values.
+	 * @param outputModeName Must be a value equal to one of the MODE_* values.
 	 * @throws IllegalArgumentException if the mode is not valid.
 	 */
 	void setOutputMode(String outputModeName) {
@@ -204,7 +204,7 @@ public class SQLRunner {
 
 	/** Assign the correct ResultsDecorator, creating them on the fly
 	 * using lazy evaluation.
-	 * param outputMode One of the MODE_XXX values.
+	 * param outputMode One of the MODE_* values.
 	 */
 	void setOutputMode(OutputMode outputMode) {
 		ResultsDecorator newDecorator = null;
@@ -356,7 +356,7 @@ public class SQLRunner {
 
 	/**
 	 * Display - generate output for \dt and similar escapes
-	 * XXX: Move more formatting to ResultsDecorator: listTables(rs), listColumns(rs)
+	 * TODO: Move more formatting to ResultsDecorator: listTables(rs), listColumns(rs)
 	 * @param rest - what to display - the argument with the \d stripped off
 	 * @throws IOException If something fails
 	 * @throws SQLException If the data fails
