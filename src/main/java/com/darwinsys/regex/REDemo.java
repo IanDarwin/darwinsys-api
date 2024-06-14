@@ -11,8 +11,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serial;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,11 +41,14 @@ public class REDemo extends JPanel {
 	Object onlyHighlight;
 	Highlighter highlighter;
 
-	public static void main(String[] av) throws BadLocationException {
+	public static void main(String[] args) throws BadLocationException {
 		JFrame f = new JFrame("DarwinSys.com REDemo");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		REDemo comp = new REDemo(f);
-		f.setContentPane(comp);
+		REDemo reDemo = new REDemo(f);
+		f.setContentPane(reDemo);
+		if (args.length == 2 && "-s".equals(args[0])) {
+			reDemo.setString(args[1]);
+		}
 		f.pack();
 		f.setLocation(200, 200);
 		f.setVisible(true);
@@ -72,22 +73,20 @@ public class REDemo extends JPanel {
 		JMenuItem fontItem = new JMenuItem("Font");
 		options.add(fontItem);
 		final FontChooser fontChooser = new FontChooser(parent);
-		fontItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				fontChooser.setVisible(true);
-				Font font = fontChooser.getSelectedFont();
-				if (font == null) {
-					System.out.println("Nothing selected");
-					return;
-				}
-				System.out.println(font);
-				for (Component c : fontChangers) {
-					if (c != null) {
-						c.setFont(font);
-					}
-				}
-				parent.pack();
+		fontItem.addActionListener(evt -> {
+			fontChooser.setVisible(true);
+			Font font = fontChooser.getSelectedFont();
+			if (font == null) {
+				System.out.println("Nothing selected");
+				return;
 			}
+			System.out.println(font);
+			for (Component c : fontChangers) {
+				if (c != null) {
+					c.setFont(font);
+				}
+			}
+			parent.pack();
 		});
 		parent.setJMenuBar(bar);
 
@@ -156,6 +155,10 @@ public class REDemo extends JPanel {
 			match, findButton, findAll,
 			matchesTF, logTextArea
 		};
+	}
+
+	private void setString(String s) {
+		stringTF.setText(s);
 	}
 
 	boolean matches;
