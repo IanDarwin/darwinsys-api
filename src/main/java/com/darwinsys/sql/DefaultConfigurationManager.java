@@ -19,4 +19,12 @@ public class DefaultConfigurationManager implements ConfigurationManager {
 		}
 	}
 
+	public Connection getConnection(String configName) {
+		for (Configuration config : getConfigurations()) {
+            if (config.getName().equals(configName)) {
+                return getConnection(config);
+            }
+        }
+		throw new IllegalArgumentException("No configuration found with name " + configName);
+	}
 }

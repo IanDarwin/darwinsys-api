@@ -22,9 +22,8 @@ public class KwikLinkCheckerTest {
 	
 	@Test
 	public void testCheckBadHost() {
-		final LinkStatus check = checker.check("http://ibm.moc/");
+		final LinkStatus check = checker.check("http://nosuchdomain/");
 		assertFalse(check.ok);
-		// assertTrue(check.message.toLowerCase().contains("host"));
 	}
 	
 	@Test

@@ -1,6 +1,7 @@
 package com.darwinsys.database;
 
-/** Checked Exception DataBase Failures, so application code
+/**
+ * Unchecked Exception DataBase Failures, so application code
  * outside of DAOs and the like does not need to know SQLException.
  */
 public class DataBaseException extends RuntimeException {
@@ -10,6 +11,7 @@ public class DataBaseException extends RuntimeException {
 	public DataBaseException() {
 		super();
 	}
+
 	public DataBaseException(String msg) {
 		super(msg);
 	}

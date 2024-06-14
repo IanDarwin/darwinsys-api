@@ -2,4 +2,4 @@
 
 set -x
 
-cp target/darwinsys-api-1.7.?-SNAPSHOT.jar ~/lib
+cp target/darwinsys-api-1.8.*.jar ~/lib

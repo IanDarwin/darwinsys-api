@@ -6,9 +6,7 @@ package com.darwinsys.util;
  * IdMapEntry objects are immutable.
  * <p>Rather like a java.util.Map.Entry but without needing to convert.
  */
-public class IdMapEntry {
-	private final int id;
-	private final String name;
+public record IdMapEntry(int id, String name) {
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -22,11 +20,6 @@ public class IdMapEntry {
 	@Override
 	public int hashCode() {
 		return name.hashCode() | id;
-	}
-
-	public IdMapEntry(final int i, final String n) {
-		this.id = i;
-		this.name = n;
 	}
 
 	public int getKey() {

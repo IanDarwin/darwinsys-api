@@ -1,0 +1,11 @@
+= JClipboard
+
+NB This program was formerly its own repo, which was a mistake.
+
+Maintains a list of clipboard shortcuts, each a name-value pair.
+
+Tries to iconify itself into the system taskbar, where supported.
+
+Properties are stored in a Java properties file in your home directory,
+jclipboard.properties, which can safely be edited while the program
+is not running.

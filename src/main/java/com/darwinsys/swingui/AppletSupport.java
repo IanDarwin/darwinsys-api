@@ -16,6 +16,7 @@ import javax.swing.*;
  *   AppletSupport.setStatusMode(StatusMode.CONSOLE); or StatusMode.SWING
  * Change 'getAppletContext().showDocument()' to just 'showDocument()'.
  */
+@Deprecated
 public class AppletSupport {
 
 	/** Whether to display messages on the console or in a Swing component */
@@ -28,6 +29,11 @@ public class AppletSupport {
 
 	/** The display mode */
 	private static StatusMode mode = StatusMode.SWING;
+
+	/** Private constructor: all methods are static */
+	private AppletSupport() {
+		System.out.println("Warning: Constructing AppletSupport when all methods are static");
+	}
 
 	/** Set the display mode.
 	 * @param mode The StatusMode enum value to set

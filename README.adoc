@@ -13,8 +13,10 @@ This is a collection of Java classes that I've found useful,
 classes which implement some useful operations that one would normally
 have to re-implement many times over.
 In most cases "found useful" means used more than once, but not always. 
+Some people would call it a "dumping ground", a charge I would not defend too strenuously.
 
 Notes: 
+
 * In late 2019, the 'testing' package graduated to its own project,
 darwinsys-testing, to aid in modularizing this.
 A general-purpose library probably has no business dragging in a run-time dependency
@@ -27,10 +29,18 @@ http://java.oreilly.com/catalog/javacook/[O'Reilly Site]
 for more information on the book which accompanies this source code.
 
 The codebase has been together for years,
-and has somewhat grown like topsy, so lopsy may be lopping
-off some of its leaves as time goes by. He will try to avoid
+and has somewhat grown like topsy, so Flopsy may be lopping
+off some of its leaves as time goes by.
+He will try to avoid
 breaking any of the projects that uses it; if he does so, please
 get in touch in the usual way(s).
+The following have been lopped off recently:
+
+* calendar.Person - every app needs its own specific set of fields here
+  (there is a ghost of it in one of the Test classes)
+* model.MiniPerson and model.MiniRecipe - as for Person above
+* util.Debug - please use a real logging package
+* util.PhoneNumberUtil - overlapped with tel.DialWords, so merged into it.
 
 Java 17 (JDK 1.17) is now the minimum to build and use this API.
 For older releases, either stay on checkout 1.5.x, or just upgrade your JDK.
@@ -45,6 +55,9 @@ image:https://maven-badges.herokuapp.com/maven-central/com.darwinsys/darwinsys-a
 N.B. You MUST have a minimal $HOME/.db.properties to run the tests under Maven.  
 This needs to be automated, but for now, there it is. Rather, here it is.
 Create the file, or, if you have the file, add these entries once.
+If using SQLRunner or any of the SQL Connection Utilities, you will have
+to add an actual description of your database to this file, with a name
+other than "test" afront each line.
 
 ----
 # This totally fake .db.properties should be copied to your home directory.
@@ -62,7 +75,7 @@ CalendarEvent:
 * get tests working
 * finish two newCalendarEvent methods
 
-JPMS-ify everything. Good luck.
+JPMS-ify (i.e., modularize) everything. Good luck.
 
 Cheers
 

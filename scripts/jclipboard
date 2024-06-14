@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Start a clipper written in Java for copy/paste shortcuts
+
+JDK_VER=1.7.0
+DOS_VER=1.0.5
+JCL_VER=1.0.1-SNAPSHOT
+
+JAVA_HOME=${JAVA_HOME-/usr/local/jdk-${JDK_VER}}
+
+JCLIPBOARD_JAR=${HOME}/.m2/repository/com/darwinsys/jclipboard/${JCL_VER}/jclipboard-${JCL_VER}.jar
+DARWINSYS_JAR=${HOME}/.m2/repository/com/darwinsys/darwinsys-api/${DOS_VER}/darwinsys-api-${DOS_VER}.jar
+
+${JAVA_HOME}/bin/java -classpath ${JCLIPBOARD_JAR}:${DARWINSYS_JAR} jclipboard.JClipBoard &

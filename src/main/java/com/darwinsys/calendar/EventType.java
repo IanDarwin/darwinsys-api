@@ -1,5 +1,6 @@
 package com.darwinsys.calendar;
 
+/** An enum for the type of event this is */
 public enum EventType {
 	/** An All Day event has no start or stop time, only a day */
 	ALLDAY,
