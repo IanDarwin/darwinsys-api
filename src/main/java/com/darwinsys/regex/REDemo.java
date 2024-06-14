@@ -1,43 +1,27 @@
 package com.darwinsys.regex;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import com.darwinsys.swingui.FontChooser;
+import com.darwinsys.swingui.UtilGUI;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
+import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-
-import com.darwinsys.swingui.FontChooser;
-import com.darwinsys.swingui.UtilGUI;
+import java.awt.*;
+import java.io.Serial;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /** Standalone Swing GUI application for demonstrating REs.
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class REDemo extends JPanel {
 
+	@Serial
 	private static final long serialVersionUID = 3257563988576317490L;
 	protected Pattern pattern;
 	protected Matcher matcher;
@@ -57,11 +41,14 @@ public class REDemo extends JPanel {
 	Object onlyHighlight;
 	Highlighter highlighter;
 
-	public static void main(String[] av) throws BadLocationException {
+	public static void main(String[] args) throws BadLocationException {
 		JFrame f = new JFrame("DarwinSys.com REDemo");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		REDemo comp = new REDemo(f);
-		f.setContentPane(comp);
+		REDemo reDemo = new REDemo(f);
+		f.setContentPane(reDemo);
+		if (args.length == 2 && "-s".equals(args[0])) {
+			reDemo.setString(args[1]);
+		}
 		f.pack();
 		f.setLocation(200, 200);
 		f.setVisible(true);
@@ -79,33 +66,27 @@ public class REDemo extends JPanel {
 		bar.add(file);
 		JMenuItem quitItem = new JMenuItem("Exit");
 		file.add(quitItem);
-		quitItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				System.exit(0);
-			}
-		});
+		quitItem.addActionListener(evt -> System.exit(0));
 
 		JMenu options = new JMenu("Options");
 		bar.add(options);
 		JMenuItem fontItem = new JMenuItem("Font");
 		options.add(fontItem);
 		final FontChooser fontChooser = new FontChooser(parent);
-		fontItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				fontChooser.setVisible(true);
-				Font font = fontChooser.getSelectedFont();
-				if (font == null) {
-					System.out.println("Nothing selected");
-					return;
-				}
-				System.out.println(font);
-				for (Component c : fontChangers) {
-					if (c != null) {
-						c.setFont(font);
-					}
-				}
-				parent.pack();
+		fontItem.addActionListener(evt -> {
+			fontChooser.setVisible(true);
+			Font font = fontChooser.getSelectedFont();
+			if (font == null) {
+				System.out.println("Nothing selected");
+				return;
 			}
+			System.out.println(font);
+			for (Component c : fontChangers) {
+				if (c != null) {
+					c.setFont(font);
+				}
+			}
+			parent.pack();
 		});
 		parent.setJMenuBar(bar);
 
@@ -119,11 +100,7 @@ public class REDemo extends JPanel {
 		compiledOK = new JCheckBox();
 		top.add(compiledOK);
 
-		ChangeListener cl = new ChangeListener() {
-			public void stateChanged(ChangeEvent ce) {
-				tryMatch();
-			}
-		};
+		ChangeListener cl = ce -> tryMatch();
 		JPanel switchPane = new JPanel();
 		ButtonGroup buttonGroup = new ButtonGroup();
 		match = new JRadioButton("Match");
@@ -156,25 +133,13 @@ public class REDemo extends JPanel {
 		JPanel bottomPanel = new JPanel();
 		final JButton copyButton = new JButton("Copy Pattern");
 		bottomPanel.add(copyButton);
-		copyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				UtilGUI.setSystemClipboardContents(REDemo.this, patternTF.getText());
-			}
-		});
+		copyButton.addActionListener(evt -> UtilGUI.setSystemClipboardContents(REDemo.this, patternTF.getText()));
 		final JButton copyDoubledButton = new JButton("Copy Pattern Backslashed");
 		bottomPanel.add(copyDoubledButton);
-		copyDoubledButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				UtilGUI.setSystemClipboardContents(REDemo.this, patternTF.getText().replaceAll("\\\\", "\\\\\\\\"));
-			}
-		});
+		copyDoubledButton.addActionListener(evt -> UtilGUI.setSystemClipboardContents(REDemo.this, patternTF.getText().replaceAll("\\\\", "\\\\\\\\")));
 		final JButton quitButton = new JButton("Exit");
 		bottomPanel.add(quitButton);
-		quitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				System.exit(0);
-			}
-		});
+		quitButton.addActionListener(evt -> System.exit(0));
 
 		setLayout(new GridLayout(0, 1, 5, 5));
 		add(top);
@@ -192,6 +157,10 @@ public class REDemo extends JPanel {
 		};
 	}
 
+	private void setString(String s) {
+		stringTF.setText(s);
+	}
+
 	boolean matches;
 
 	protected void setMatches(boolean b) {
@@ -201,14 +170,6 @@ public class REDemo extends JPanel {
 		} else {
 			matchesTF.setText("No");
 		}
-	}
-
-	boolean isMatch() {
-		return matches;
-	}
-
-	protected void setMatches(int n) {
-		matchesTF.setText(Integer.toString(n));
 	}
 
 	protected void tryAll() {
@@ -230,9 +191,9 @@ public class REDemo extends JPanel {
 		}
 	}
 
-	protected boolean tryMatch() {
+	protected void tryMatch() {
 		if (pattern == null) {
-			return false;
+			return;
 		}
 		logTextArea.setText("");
 
@@ -252,16 +213,15 @@ public class REDemo extends JPanel {
 			setHighlightFromMatcher(matcher);
 			logTextArea.setText(matcher.group());
 		} else if (findAll.isSelected()) {
-			boolean foundAll = matcher.matches();
-			if (!foundAll)
-				return false;
-			setMatches(true);	// found at least one match
-			for (var i = 1; i <= matcher.groupCount(); i++) {
-				logTextArea.append(i + ": " + matcher.group(i) + "\n");
+			int i = 0;
+			while (matcher.find()) {
+				logTextArea.append(i++ + ": " + matcher.group() + "\n");
+			}
+			if (i > 0) {
+				setMatches(true);
 			}
 		}
 
-		return isMatch();
 	}
 
 	private void setHighlightFromMatcher(Matcher matcher) {
@@ -276,7 +236,7 @@ public class REDemo extends JPanel {
 			// System.out.printf("setHighlightFromMatcher(): %d...%d%n", start, end);
 			highlighter.changeHighlight(onlyHighlight, start, end);
 		} catch (BadLocationException e) {
-			System.err.println(e);
+			System.err.println("setHighlight failed with " + e);
 		}
 	}
 
