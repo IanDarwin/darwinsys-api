@@ -2,11 +2,12 @@ module com.darwinsys.api {
 
 	requires transitive java.desktop;
 	requires java.net.http;
-	requires java.persistence;
 	requires transitive java.prefs;
 	requires transitive java.sql;
 	requires java.sql.rowset;
 	requires jakarta.mail;
+	requires jakarta.persistence;
+	requires jakarta.xml;
 
 	exports com.darwinsys.calendar;
 	exports com.darwinsys.csv;
