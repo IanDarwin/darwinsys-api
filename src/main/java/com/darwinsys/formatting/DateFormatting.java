@@ -2,6 +2,11 @@ package com.darwinsys.formatting;
 
 import java.time.Period;
 
+/**
+ * A helper for converting Period into a more readable form, e.g.
+ * P12Y1M1D -> "12 years, 1 month, 1 day"
+ * {@snippet file="Formatting.txt"}
+ */
 public class DateFormatting {
 
 	final static String NO_NAME = "no";
