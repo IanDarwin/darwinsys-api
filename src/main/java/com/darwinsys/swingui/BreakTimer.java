@@ -5,8 +5,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.time.*;
 import java.time.temporal.*;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.concurrent.*;
+import java.util.List;
 
 /** This class implements a short-term timer for timing e.g.,
  * breaks during a class, lunch breaks, etc.
@@ -27,15 +29,16 @@ public class BreakTimer {
 		JFrame jf = new JFrame("Break Timer");
 		jf.add(BorderLayout.CENTER, new JLabel("Demo"));
 		jf.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
+		var images = List.of("images/break-background1.png");
 		if (args.length == 0 || args[0].toLowerCase().startsWith("jf")) {
 			// Build as a JFrame
-			new BreakTimer(jf);
+			new BreakTimer(jf, images);
 			UtilGUI.packAndCenter(jf);
 		} else if (args[0].toLowerCase().startsWith("ji")) {
 			// Build as a JInternalFrame
 			jf.setSize(800, 600);
 			JInternalFrame jiffy = new JInternalFrame("Timer", false, true);
-			new BreakTimer(jiffy);
+			new BreakTimer(jiffy, images);
 			jf.setGlassPane(jiffy);
 			jiffy.setVisible(true);
 		} else {
@@ -45,15 +48,15 @@ public class BreakTimer {
 	}
 
 	private final static String NO_TIME = "00:00";
-	private final static String DEFAULT_MESSAGE = "Break ends in...";
+	private final static String DEFAULT_MESSAGE = "Break Time";
 	private final static Integer[] TIMES = new Integer[]{5,10,15,30,45,60};
 	private final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
 
 	private RootPaneContainer jFrameOrIFrame;
-	private Container contentPane;
-	private ExecutorService tp = Executors.newSingleThreadExecutor();
+    private ExecutorService tp = Executors.newSingleThreadExecutor();
 	private Duration duration;
 	private Future<Void> handle;
+	private Container contentPane;
 	private JLabel timerLabel;
 	private JTextField topText;
 	private JComboBox<Integer> choice;
@@ -61,10 +64,19 @@ public class BreakTimer {
 	private Runnable doneAction;
 	private ResourceBundle resourceBundle;
 
-	/** Construct a BreakTimer
+	/** Construct a BreakTimer without background images
 	 * @param jf The JFrame or JInternalFrame
 	 */
 	public BreakTimer(RootPaneContainer jf) {
+		this(jf, Collections.emptyList());
+
+	}
+	/** Construct a BreakTimer with one or more background images
+	 * @param jf The JFrame or JInternalFrame.
+	 * @param  imageNames A List of image names.
+	 */
+	public BreakTimer(final RootPaneContainer jf,
+					  final List<String> imageNames) {
 		this.jFrameOrIFrame = jf;
 		contentPane = jf.getContentPane();
 		
@@ -97,12 +109,49 @@ public class BreakTimer {
 		choice = new JComboBox<>(TIMES);
 		choice.setEditable(true);
 
-		JPanel bigPanel = new JPanel();
-		timerLabel = new JLabel();
-		timerLabel.setFont(new Font("Helvetica", Font.PLAIN, 256));
+		class BgPanel extends JPanel {
+			private final Image backgroundImage;
+			BgPanel() {
+				setLayout(new BorderLayout());
+				if (imageNames.isEmpty()) {
+					backgroundImage = null;
+					return;
+				}
+				int n = new java.util.Random().nextInt(imageNames.size());
+				final String imagePath = imageNames.get(n);
+				backgroundImage = new ImageIcon(imagePath).getImage();
+				if (backgroundImage == null ||
+						backgroundImage.getWidth(this) < 0) {
+					System.out.println("Failed to load image: " + imagePath);
+				}
+			}
+
+			@Override
+			public Dimension getPreferredSize() {
+				return new Dimension(400,400);
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				if (backgroundImage != null) {
+					int width = getWidth();
+					g.drawImage(backgroundImage, (width-400)/2, 0,
+							400,
+							400,
+							this);
+				}
+			}
+		}
+
+		timerLabel = new JLabel(NO_TIME, SwingConstants.CENTER);
+		timerLabel.setFont(new Font("Helvetica", Font.PLAIN, 96));
 		timerLabel.setText(NO_TIME);
-		bigPanel.add(timerLabel);
-		contentPane.add(BorderLayout.CENTER, bigPanel);
+		timerLabel.setForeground(Color.ORANGE);
+
+		JPanel bgPanel = new BgPanel();
+		bgPanel.add(BorderLayout.CENTER, timerLabel);
+		contentPane.add(bgPanel);
 		botPanel.add(choice);
 
 		JButton start = new JButton("Start");
@@ -121,7 +170,9 @@ public class BreakTimer {
 		JButton stop = new JButton("Stop");
 		botPanel.add(stop);
 		stop.addActionListener(ActionEvent ->  {
-			handle.cancel(true);
+			if (handle != null) {
+				handle.cancel(true);
+			}
 		});
 
 		JButton help = new JButton("Help");
@@ -129,6 +180,8 @@ public class BreakTimer {
 		help.addActionListener(e -> doHelp());
 
 		contentPane.add(BorderLayout.SOUTH, botPanel);
+
+		((JFrame)jf).pack();
 
 		doneAction = DEFAULT_ACTION;
 	}
@@ -160,6 +213,9 @@ public class BreakTimer {
 						duration.toMinutesPart(),
 						duration.toSecondsPart()));
 				}
+				// Ensure the panel is properly displayed
+				contentPane.invalidate();
+				contentPane.repaint();
 				try {
 					Thread.sleep(999);
 				} catch (InterruptedException cancelMessage) {
