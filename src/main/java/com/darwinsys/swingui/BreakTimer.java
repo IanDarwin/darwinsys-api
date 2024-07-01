@@ -181,8 +181,6 @@ public class BreakTimer {
 
 		contentPane.add(BorderLayout.SOUTH, botPanel);
 
-		((JFrame)jf).pack();
-
 		doneAction = DEFAULT_ACTION;
 	}
 
