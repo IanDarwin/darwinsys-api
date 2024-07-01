@@ -7,13 +7,7 @@ import java.util.Iterator;
  * Make instances of newer Iterator look like older Enumeration,
  * for some kind of backwards compatibility.
  */
-public class IteratorEnumerationBridge<T> implements Enumeration<T> {
-
-	private final Iterator<T> it;
-
-	public IteratorEnumerationBridge(Iterator<T> it) {
-		this.it = it;
-	}
+public record IteratorEnumerationBridge<T>(Iterator<T> it) implements Enumeration<T> {
 
 	/** Tell whether this Enumeration has more elements 
 	 * @see java.util.Enumeration#hasMoreElements()
