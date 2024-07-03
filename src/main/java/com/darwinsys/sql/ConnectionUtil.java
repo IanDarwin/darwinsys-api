@@ -197,6 +197,7 @@ public class ConnectionUtil {
 	}
 
 	/**
+	 * Get the list of configurations.
 	 * @return all the configurations as SimpleSQLConfiguration objects
 	 */
 	public static List<Configuration> getConfigurations() {

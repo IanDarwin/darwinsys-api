@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Reaps locks based on their age
+ * @param T The type of object being locked
  */
 public class LockReaperImpl<T> extends Thread {
 	

@@ -13,6 +13,7 @@ import javax.swing.table.AbstractTableModel;
  * public Object getValueAt(int row, int col)  {
  * public void setValueAt(Object val, int row, int col)  {
  * </pre>
+ * @param T The type of data in the model
  */
 public abstract class ArrayListTableModel<T> extends AbstractTableModel {
 
@@ -34,6 +35,7 @@ public abstract class ArrayListTableModel<T> extends AbstractTableModel {
 
 	/** Constructor 
  	 * @param m the list of objects
+ 	 * @param T the type of those objects
  	 */
 	public ArrayListTableModel(List<T> m) {
 		methods = m;

@@ -14,6 +14,7 @@ import java.util.Map;
  * PessimisticLockManager&lt;Integer&gt; mgr =
  * 		new PessimisticLockManagerImpl();
  * Lock l = mgr.tryLock(123);
+ * @param T The primary key type
  * @author Ian Darwin, based on a design from Stephen Neal
  */
 public class PessimisticLockManagerImpl<T> implements PessimisticLockManager<T> {
