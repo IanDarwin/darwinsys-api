@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -68,9 +70,8 @@ public class JGrep {
 					countOnly = true;
 					break;
 				case 'f':	/* External file contains the pattern */
-					try (BufferedReader b = 
-						new BufferedReader(new FileReader(go.optarg()))) {
-						patt = b.readLine();
+					try {
+						patt = Files.readString(Path.of(go.optarg()));
 					} catch (IOException e) {
 						System.err.println(
 							"Can't read pattern file " + go.optarg());
@@ -142,7 +143,7 @@ public class JGrep {
 	}
 
 	/**
-	 * Construct a JGrep object.
+	 * Construct a JGrep program.
 	 * @param patt The regex to look for
 	 * @throws PatternSyntaxException if pattern is not a valid regex
 	 */
