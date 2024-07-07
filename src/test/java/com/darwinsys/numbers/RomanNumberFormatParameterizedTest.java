@@ -1,4 +1,4 @@
-package numbers;
+package com.darwinsys.numbers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,6 +32,7 @@ public class RomanNumberFormatParameterizedTest {
 			{ 2000, "MM" },
 			{ 2001, "MMI" },
 			{ 2013, "MMXIII" },
+			{ 2024, "MMXXIV"},
 			{ 3999, "MMMCMXCIX" },
 	};
 

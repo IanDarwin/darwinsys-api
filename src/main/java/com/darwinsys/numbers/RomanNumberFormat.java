@@ -1,4 +1,4 @@
-package numbers;
+package com.darwinsys.numbers;
 
 import java.io.Serial;
 import java.text.FieldPosition;
@@ -110,18 +110,17 @@ public class RomanNumberFormat extends Format {
 				sb.append(A2R[i][3]);
 			}
 		}
-		// fp.setBeginIndex(0);
-		// fp.setEndIndex(3);
 		return sb;
 	}
 
-	/** Parse a generic object, returning an Object.
-	 * Incorrect: does not handle subtractives like MCMLVII;
-	 * the MCM should give 1900 but gives 2100.
-	 * XXX Rewrite using a complex regular expression or other parser
-	 * Something like:
-	 * Pattern parsePatt = Pattern.compile("C*M*D*C*X*L*I*X*I*V*I*");
-	 * */
+	@Override
+	public Object parseObject(String what) {
+		return parseObject(what, null);
+	}
+
+	/**
+	 * Parse a generic object, returning an Object.
+	 */
 	@Override
 	public Object parseObject(String what, ParsePosition where) {
 		int n = 0;

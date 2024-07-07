@@ -1,4 +1,4 @@
-package numbers;
+package com.darwinsys.numbers;
 
 public class RomanNumberDemo {
 	/** Simple test case */

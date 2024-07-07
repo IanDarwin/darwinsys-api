@@ -1,4 +1,4 @@
-package numbers;
+package com.darwinsys.numbers;
 
 import static org.junit.jupiter.api.Assertions.*;
 

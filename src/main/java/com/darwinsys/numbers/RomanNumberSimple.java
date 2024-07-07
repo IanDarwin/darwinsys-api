@@ -1,13 +1,17 @@
-package numbers;
+package com.darwinsys.numbers;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 
+
 public class RomanNumberSimple {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// tag::main[]
-		RomanNumberFormat nf = new RomanNumberFormat();
+		RomanNumberFormat rf = new RomanNumberFormat();
 		int year = LocalDate.now().getYear();
-		System.out.println(year + " -> " + nf.format(year));
+		var yearStr = rf.format(year);
+		System.out.println(year + " -> " + yearStr);
+		System.out.println(yearStr + " -> " + rf.parseObject(yearStr));
 		// end::main[]
 	}
 }
