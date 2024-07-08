@@ -46,7 +46,7 @@ import com.darwinsys.util.RecentItems;
  *		});
  *		fileMenu.add(recent);
  *		JMenuItem clearItem = new JMenuItem("Clear Recent Files");
- *		clearItem.addActionListener(() -> recentFilesMenu.clear());
+ *		clearItem.addActionListener(() -> recents.clear());
  * </pre>
  * @author Ian Darwin
  */
@@ -57,7 +57,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	public final static int DEFAULT_MAX_RECENT_FILES = 5;
 
 	/** The List of recent files */
-	protected RecentItems recentFileNames;
+	protected RecentItems recentItemNames;
 
 	final Preferences prefs;
 
@@ -76,8 +76,8 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	public RecentMenu(Preferences prefs, int max) {
 		super("Recent Items");
 		this.prefs = prefs;
-		recentFileNames = new RecentItems(prefs, this, max);
-		reload(recentFileNames.getLiveList());
+		recentItemNames = new RecentItems(prefs, this, max);
+		reload(recentItemNames.getLiveList());
 	}
 
 	/** Construct a RecentMenu with a given class.
@@ -102,7 +102,7 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 	 */
 	public void openFile(String fileName) throws IOException {
 		loadFile(fileName);
-		recentFileNames.putRecent(fileName);
+		recentItemNames.putRecent(fileName);
 	}
 
 	/**
@@ -171,6 +171,10 @@ public abstract class RecentMenu extends JMenu implements RecentItems.Callback {
 
 	/** Clear the menu */
 	public void clear() {
-		recentFileNames.clear();
+		// Clear out all menu items
+		for (int i = getMenuComponentCount() - 1; i >= 0; i--) {
+			remove(0);
+		}
+		recentItemNames.clear();
 	}
 }

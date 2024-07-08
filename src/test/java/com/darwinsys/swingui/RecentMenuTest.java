@@ -22,13 +22,13 @@ public class RecentMenuTest {
 	// @Test
 	void testAddWorks() {
 		target.add(".");
-		assertEquals(1, target.recentFileNames.getList().size());
+		assertEquals(1, target.recentItemNames.getList().size());
 	}
 
 	@Test
 	void testClearWorks() {
 		target.add(".");
 		target.clear();
-		assertEquals(0, target.recentFileNames.getList().size());
+		assertEquals(0, target.recentItemNames.getList().size());
 	}
 }
