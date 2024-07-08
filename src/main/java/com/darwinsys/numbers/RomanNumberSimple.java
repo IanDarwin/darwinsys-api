@@ -8,10 +8,14 @@ public class RomanNumberSimple {
 	public static void main(String[] args) throws Exception {
 		// tag::main[]
 		RomanNumberFormat rf = new RomanNumberFormat();
-		int year = LocalDate.now().getYear();
+		var year = LocalDate.now().getYear();
 		var yearStr = rf.format(year);
 		System.out.println(year + " -> " + yearStr);
-		System.out.println(yearStr + " -> " + rf.parseObject(yearStr));
+		long newYear = (Long) rf.parseObject(yearStr);
+		System.out.println(yearStr + " -> " + newYear);
+		if (newYear != year) {
+			System.out.println("Error: non-idempotent!");
+		}
 		// end::main[]
 	}
 }
