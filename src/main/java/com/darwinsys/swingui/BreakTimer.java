@@ -3,9 +3,11 @@ package com.darwinsys.swingui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.image.ImageObserver;
 import java.time.*;
 import java.time.temporal.*;
 import java.util.Collections;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.*;
 import java.util.List;
@@ -29,16 +31,15 @@ public class BreakTimer {
 		JFrame jf = new JFrame("Break Timer");
 		jf.add(BorderLayout.CENTER, new JLabel("Demo"));
 		jf.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
-		var images = List.of("images/break-background1.png");
 		if (args.length == 0 || args[0].toLowerCase().startsWith("jf")) {
 			// Build as a JFrame
-			new BreakTimer(jf, images);
+			new BreakTimer(jf);
 			UtilGUI.packAndCenter(jf);
 		} else if (args[0].toLowerCase().startsWith("ji")) {
 			// Build as a JInternalFrame
 			jf.setSize(800, 600);
 			JInternalFrame jiffy = new JInternalFrame("Timer", false, true);
-			new BreakTimer(jiffy, images);
+			new BreakTimer(jiffy);
 			jf.setGlassPane(jiffy);
 			jiffy.setVisible(true);
 		} else {
@@ -53,7 +54,7 @@ public class BreakTimer {
 	private final Duration minute = Duration.of(1, ChronoUnit.MINUTES);
 
 	private RootPaneContainer jFrameOrIFrame;
-    private ExecutorService tp = Executors.newSingleThreadExecutor();
+    private final ExecutorService tp = Executors.newSingleThreadExecutor();
 	private Duration duration;
 	private Future<Void> handle;
 	private Container contentPane;
@@ -64,23 +65,24 @@ public class BreakTimer {
 	private Runnable doneAction;
 	private ResourceBundle resourceBundle;
 
-	/** Construct a BreakTimer without background images
+    /** Construct a BreakTimer without background images
 	 * @param jf The JFrame or JInternalFrame
 	 */
 	public BreakTimer(RootPaneContainer jf) {
 		this(jf, Collections.emptyList());
 
 	}
+
 	/** Construct a BreakTimer with one or more background images
 	 * @param jf The JFrame or JInternalFrame.
-	 * @param  imageNames A List of image names.
+	 * @param  images A List of Image (AWT) objects.
 	 */
 	public BreakTimer(final RootPaneContainer jf,
-					  final List<String> imageNames) {
+					  final List<Image> images) {
 		this.jFrameOrIFrame = jf;
 		contentPane = jf.getContentPane();
-		
-		// XXX add to tray
+
+        // XXX add to tray
 
 		contentPane.setLayout(new BorderLayout());
 
@@ -93,15 +95,11 @@ public class BreakTimer {
 		topPanel.add(topText);
 
 		JButton xButton = new JButton("X");
-		xButton.addActionListener(ActionEvent ->  {
-			topText.setText("");
-		});
+		xButton.addActionListener(ActionEvent -> topText.setText(""));
 		topPanel.add(xButton);
 
 		JButton rsButton = new JButton("Reset");
-		rsButton.addActionListener(ActionEvent ->  {
-			topText.setText(DEFAULT_MESSAGE);
-		});
+		rsButton.addActionListener(ActionEvent -> topText.setText(DEFAULT_MESSAGE));
 		topPanel.add(rsButton);
 		contentPane.add(BorderLayout.NORTH, topPanel);
 
@@ -110,19 +108,19 @@ public class BreakTimer {
 		choice.setEditable(true);
 
 		class BgPanel extends JPanel {
-			private final Image backgroundImage;
+			private Image backgroundImage;
 			BgPanel() {
 				setLayout(new BorderLayout());
-				if (imageNames.isEmpty()) {
-					backgroundImage = null;
-					return;
-				}
-				int n = new java.util.Random().nextInt(imageNames.size());
-				final String imagePath = imageNames.get(n);
-				backgroundImage = new ImageIcon(imagePath).getImage();
-				if (backgroundImage == null ||
-						backgroundImage.getWidth(this) < 0) {
-					System.out.println("Failed to load image: " + imagePath);
+
+				if (!images.isEmpty()) {
+					int n = new Random().nextInt(images.size());
+					backgroundImage = images.get(n);
+					System.out.println("Image = " + backgroundImage);
+					System.out.println("Size : " +
+							backgroundImage.getWidth((ImageObserver) jf) + "x" +
+							backgroundImage.getHeight((ImageObserver) jf));
+				} else {
+					System.out.println("No images!");
 				}
 			}
 
@@ -164,9 +162,7 @@ public class BreakTimer {
 		});
 		JButton minus = new JButton("-1");
 		botPanel.add(minus);
-		minus.addActionListener(ActionEvent ->  {
-			duration = duration.minusMinutes(1);
-		});
+		minus.addActionListener(ActionEvent -> duration = duration.minusMinutes(1));
 		JButton stop = new JButton("Stop");
 		botPanel.add(stop);
 		stop.addActionListener(ActionEvent ->  {
@@ -246,6 +242,7 @@ public class BreakTimer {
 			if (jFrameOrIFrame instanceof JInternalFrame &&
 					"true".equals(resourceBundle.getString("breaktimer.help.text")))
 				((JInternalFrame)jFrameOrIFrame).setVisible(false);
+			break;
 		case 1:
 			startAction.actionPerformed(null);
 			break;
