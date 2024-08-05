@@ -8,6 +8,7 @@ import javax.swing.JButton;
  * @author ian
  * @deprecated Use the appropriate JButton constructors directly.
  */
+@Deprecated
 public class ImageButton extends JButton {
 	private static final long serialVersionUID = 3904965248233714485L;
 
