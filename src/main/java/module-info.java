@@ -5,7 +5,7 @@ module com.darwinsys.api {
 	requires transitive java.prefs;
 	requires transitive java.sql;
 	requires java.sql.rowset;
-	requires jakarta.mail;
+	//requires jakarta.mail;
 	requires java.xml;
 
 	exports com.darwinsys.calendar;
