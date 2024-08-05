@@ -29,7 +29,7 @@ public class UnixPasswdEntry {
 	private String shell; 		// User's login shell.
 
 	static final Pattern patt = Pattern.compile(
-		"([\\w-]+):(.*?):(\\d+):(\\d+):(.*?):([/\\w]+):([-/\\w]*)");
+		"([\\w-]+):(.*?):(\\d+):(\\d+):(.*?):([-/\\w]+):([-/\\w]*)");
 
 	public static List<UnixPasswdEntry> getPwEntries() throws IOException {
 		return getPwEntries(DEFAULT_FILE_NAME);
