@@ -157,7 +157,7 @@ public class BreakTimer {
 		start.addActionListener(startAction);
 		JButton plus = new JButton("+1");
 		botPanel.add(plus);
-		plus.addActionListener(ActionEvent ->  {
+		plus.addActionListener(e ->  {
 			duration = duration == null ? minute : duration.plusMinutes(1);
 		});
 		JButton minus = new JButton("-1");
