@@ -1,3 +1,4 @@
+// tag:main[]
 module com.darwinsys.api {
 
 	requires transitive java.desktop;
@@ -42,3 +43,4 @@ module com.darwinsys.api {
 	exports com.darwinsys.util;
 	exports com.darwinsys.xml;
 }
+// end:main[]
