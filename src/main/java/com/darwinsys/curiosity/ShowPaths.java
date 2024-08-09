@@ -1,4 +1,4 @@
-package com.darwinsys.debug;
+package com.darwinsys.curiosity;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,8 +15,8 @@ public class ShowPaths {
 	 */
 	public void saveCpMp(String filenameBase) throws IOException {
 		Files.writeString(Path.of(filenameBase + "_cp"),
-		"Test classpath is:\n" + System.getProperty("java.class.path").replace(':','\n'));
+		"Test classpath is:\n" + System.getProperty("java.class.path").replace(':','\n') + "\n");
 		Files.writeString(Path.of(filenameBase + "_mp"),
-		"Test classpath is " + System.getProperty("jdk.module.path"));
+		"Test classpath is " + System.getProperty("jdk.module.path") + "\n");
 	}
 }
