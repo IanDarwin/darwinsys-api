@@ -9,14 +9,26 @@ import java.nio.file.Path;
  */
 public class ShowPaths {
 
+	private record PathEntry(String printable, String property){}
+
+	private final static PathEntry[] ENTRIES = {
+		new PathEntry("Class path", "java.class.path"),
+		new PathEntry("Module path", "jdk.module.path"),
+		new PathEntry("Module Upgrade path", "jdk.module.upgrade.path"),
+		new PathEntry("Main Module", "jdk.module.main"),
+		new PathEntry("Main class", "jdk.module.main.class"),
+	};
+
 	/* Save the runtime CLASSPATH and MODULEPATH to temp files.
-	 * @param filenameBase A path to which "_cp" and "_mp" will be
-	 * appended, for the classpath and modulepath respectively.
+	 * @param prefix A string to prepend to the displays of
+	 * the classpath and modulepath.
 	 */
-	public void saveCpMp(String filenameBase) throws IOException {
-		Files.writeString(Path.of(filenameBase + "_cp"),
-		"Test classpath is:\n" + System.getProperty("java.class.path").replace(':','\n') + "\n");
-		Files.writeString(Path.of(filenameBase + "_mp"),
-		"Test classpath is " + System.getProperty("jdk.module.path") + "\n");
+	public static void showPaths(String prefix) throws IOException {
+		for (PathEntry pe : ENTRIES) {
+			var prop = System.getProperty(pe.property());
+			System.err.printf("%s: %s is %s\n",
+				prefix, pe.printable(),
+				prop != null ? prop.replace(':','\n') : "null");
+		}
 	}
 }
