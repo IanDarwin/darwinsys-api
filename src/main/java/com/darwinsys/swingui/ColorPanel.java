@@ -13,7 +13,7 @@ public class ColorPanel extends JPanel {
             Color.GREEN, Color.ORANGE, Color.MAGENTA,
     };
 
-    ColorPanel(Consumer<Color> setter) {
+    public ColorPanel(Consumer<Color> setter) {
         this.setter = setter;
         setLayout(new GridLayout(2,4));
         for (Color c : COLORS) {
