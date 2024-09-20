@@ -1,8 +1,11 @@
 package com.darwinsys.swingui;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.function.Consumer;
 
 public class ColorPanel extends JPanel {
@@ -17,15 +20,18 @@ public class ColorPanel extends JPanel {
         this.setter = setter;
         setLayout(new GridLayout(2,4));
         for (Color c : COLORS) {
-            var b = new JButton();
-            b.setPreferredSize(new Dimension(16,16));
-            if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
-                b.setForeground(c == Color.WHITE ? Color.GRAY : c);
-                b.setText("***");
-            }
+            var b = new JButton(){
+                @Override
+                protected void paintComponent(Graphics g) {
+                    var d = getSize();
+                    g.fillRect(0, 0, d.width, d.height);
+                }
+            };
+            b.addActionListener(evt -> setter.accept(c));
+            b.setSize(new Dimension(16,16));
+            b.setForeground(c);
             b.setBackground(c);
             b.setOpaque(true);
-            b.addActionListener(evt->setter.accept(c));
             add(b);
         }
         JButton b = new JButton("...");
