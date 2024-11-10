@@ -1,0 +1,59 @@
+package com.darwinsys.database;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+/**
+ * Common utility routines, similar to the ever-popular HibernateUtils class.
+ * @author Ian Darwin
+ */
+public class JpaUtil {
+	
+	protected static EntityManagerFactory entityManagerFactory;
+	protected static EntityManager entityManager;
+	private static boolean testing;
+	
+	static {
+		entityManagerFactory = getEntityManagerFactory();
+	}
+
+	public synchronized static EntityManagerFactory getEntityManagerFactory() {
+		long time = System.currentTimeMillis();
+		entityManagerFactory = Persistence.createEntityManagerFactory("jpademo");
+		long time2 = System.currentTimeMillis();
+		System.out.printf("Created EntityManagerFactory in %f seconds%n", (time2 - time)/1000d);
+		return entityManagerFactory;
+	}
+	
+	/** FOR TESTING ONLY */
+	public synchronized static void setEntityManagerFactory(EntityManagerFactory mockEMF) {
+		testing = true;
+		JpaUtil.entityManagerFactory = mockEMF;
+	}
+
+	public static EntityManager getEntityManager() {
+		long time2 = System.currentTimeMillis();
+		entityManager = entityManagerFactory.createEntityManager();
+		long time3 = System.currentTimeMillis();
+		System.out.printf("Created EntityManager in %f seconds%n", (time3 - time2)/1000d);
+		return entityManager;
+	}
+
+	public static void saveOrUpdate(EntityManager em, Object o, Object id) {
+		if (id == null || em.find(id, o.getClass()) == null) {
+			em.persist(o);
+		} else {
+			em.update(o);
+		}
+	}
+	
+	public static void close() {
+		// In a real app this would invoke entityManager.close();
+		// But it is static and causes errors when running the tests.
+		if (!testing && entityManagerFactory != null && entityManagerFactory.isOpen()) {
+			entityManagerFactory.close();
+		}
+
+	}
+}

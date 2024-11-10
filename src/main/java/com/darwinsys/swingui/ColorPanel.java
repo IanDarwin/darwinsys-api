@@ -1,13 +1,12 @@
 package com.darwinsys.swingui;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.function.Consumer;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 /// Makes 4x2 panel of colors - 7 from COLORS and one
 /// from a ColorPicker Icon
@@ -23,15 +22,18 @@ public class ColorPanel extends JPanel {
         this.setter = setter;
         setLayout(new GridLayout(2,4));
         for (Color c : COLORS) {
-            var b = new JButton();
-            b.setPreferredSize(new Dimension(16,16));
-            if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
-                b.setForeground(c == Color.WHITE ? Color.GRAY : c);
-                b.setText("***");
-            }
+            var b = new JButton(){
+                @Override
+                protected void paintComponent(Graphics g) {
+                    var d = getSize();
+                    g.fillRect(0, 0, d.width, d.height);
+                }
+            };
+            b.addActionListener(evt -> setter.accept(c));
+            b.setSize(new Dimension(16,16));
+            b.setForeground(c);
             b.setBackground(c);
             b.setOpaque(true);
-            b.addActionListener(evt->setter.accept(c));
             add(b);
         }
 
