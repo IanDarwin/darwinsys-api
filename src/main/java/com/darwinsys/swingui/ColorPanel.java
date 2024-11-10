@@ -1,10 +1,16 @@
 package com.darwinsys.swingui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
 import java.util.function.Consumer;
 
+/// Makes 4x2 panel of colors - 7 from COLORS and one
+/// from a ColorPicker Icon
 public class ColorPanel extends JPanel {
     protected Consumer<Color> setter;
 
@@ -28,7 +34,20 @@ public class ColorPanel extends JPanel {
             b.addActionListener(evt->setter.accept(c));
             add(b);
         }
+
+        // Create a JButton for the picker. If we can read the icon for it,
+        // then we'll use it, else the default is a label of "..."
         JButton b = new JButton("...");
+        final String iconName = "images/color-picker.png";
+        URL url = this.getClass().getResource(iconName);
+        if (url != null) {
+            try {
+                Image image = ImageIO.read(url);
+                b = new JButton(new ImageIcon(image));
+            } catch (IOException e) {
+                System.out.println("Unable to load " + iconName);
+            }
+        }
         b.addActionListener(chooser);
         add(b);
     }
