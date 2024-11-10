@@ -40,7 +40,7 @@ public class ColorPanel extends JPanel {
         // Create a JButton for the picker. If we can read the icon for it,
         // then we'll use it, else the default is a label of "..."
         JButton b = new JButton("...");
-        final String iconName = "images/color-picker.png";
+        final String iconName = "dsapi/color-picker.png";
         URL url = this.getClass().getResource(iconName);
         if (url != null) {
             try {
