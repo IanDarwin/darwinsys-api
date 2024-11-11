@@ -1,7 +1,8 @@
-all:	package
+all:	install
 
-package:
-	mvn clean test package
+install:
+	mvn clean test package install
+	sh -x ./scripts/inst
 
 doc:	install-zealdocs
 
@@ -23,6 +24,3 @@ zealdocs: javadoc
 javadoc:
 	mvn javadoc:javadoc
 
-install:
-	mvn clean package
-	sh -x ./scripts/inst
