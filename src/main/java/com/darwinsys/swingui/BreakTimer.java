@@ -115,7 +115,7 @@ public class BreakTimer {
 				if (!images.isEmpty()) {
 					int n = new Random().nextInt(images.size());
 					backgroundImage = images.get(n);
-					System.out.println("Image = " + backgroundImage);
+					System.out.println("BreakTimer: Image = " + backgroundImage);
 					System.out.println("Size : " +
 							backgroundImage.getWidth((ImageObserver) jf) + "x" +
 							backgroundImage.getHeight((ImageObserver) jf));
