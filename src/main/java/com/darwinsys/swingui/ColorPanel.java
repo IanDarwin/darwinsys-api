@@ -17,12 +17,20 @@ public class ColorPanel extends JPanel {
             Color.BLACK, Color.WHITE, Color.RED, Color.BLUE,
             Color.GREEN, Color.ORANGE, Color.MAGENTA,
     };
+    private final static int SIZE = 48;
 
     public ColorPanel(Consumer<Color> setter) {
         this.setter = setter;
         setLayout(new GridLayout(2,4));
         for (Color c : COLORS) {
             var b = new JButton(){
+				@Override
+				public Dimension getPreferredSize() {
+					return new Dimension(SIZE, SIZE);
+				}
+                public Dimension getSize() {
+                    return getPreferredSize();
+                }
                 @Override
                 protected void paintComponent(Graphics g) {
                     var d = getSize();
@@ -30,7 +38,6 @@ public class ColorPanel extends JPanel {
                 }
             };
             b.addActionListener(evt -> setter.accept(c));
-            b.setSize(new Dimension(16,16));
             b.setForeground(c);
             b.setBackground(c);
             b.setOpaque(true);
@@ -47,9 +54,12 @@ public class ColorPanel extends JPanel {
                 Image image = ImageIO.read(url);
                 b = new JButton(new ImageIcon(image));
             } catch (IOException e) {
-                System.out.println("Unable to load " + iconName);
+				// Error handled below
             }
         }
+		if (b.getText().equals("...")) {
+			System.out.println("Unable to load " + iconName);
+		}
         b.addActionListener(chooser);
         add(b);
     }
