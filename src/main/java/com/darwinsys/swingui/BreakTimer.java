@@ -224,7 +224,7 @@ public class BreakTimer {
 		});
 	};
 
-	private final static String[] labels = { "OK", "Restart" };
+	private final static String[] labels = { "Close", "Restart" };
 
 	/** A useful expiry action */
 	final private Runnable DEFAULT_ACTION = () -> {
@@ -239,8 +239,9 @@ public class BreakTimer {
 			labels[0]);
 		switch (choice) {
 		case 0:
-			if (jFrameOrIFrame instanceof JInternalFrame &&
-					"true".equals(resourceBundle.getString("breaktimer.help.text")))
+			if (jFrameOrIFrame instanceof JFrame)
+				((JFrame)jFrameOrIFrame).setVisible(false);
+			if (jFrameOrIFrame instanceof JInternalFrame)
 				((JInternalFrame)jFrameOrIFrame).setVisible(false);
 			break;
 		case 1:
