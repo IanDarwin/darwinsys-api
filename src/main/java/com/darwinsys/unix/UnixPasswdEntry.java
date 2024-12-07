@@ -28,8 +28,9 @@ public class UnixPasswdEntry {
 	private String homeDir; 	// User's home directory.
 	private String shell; 		// User's login shell.
 
+	// This *should* match any valid password entry.
 	static final Pattern patt = Pattern.compile(
-		"([\\w-]+):(.*?):(\\d+):(\\d+):(.*?):([-/\\w]+):([-/\\w]*)");
+		"([\\w-]+):(.*?):(\\d+):(\\d+):(.*?):([-/\\w.]+):([-/\\w]*)");
 
 	public static List<UnixPasswdEntry> getPwEntries() throws IOException {
 		return getPwEntries(DEFAULT_FILE_NAME);
