@@ -22,18 +22,19 @@ public class ScaledNumberFormatFormatTest {
 	/** data for format test.
 	  */
 	@Parameters
-	public static List<Object[]> getData() {	
+	public static List<Object[]> getData() {
+		// Use Hex 2D for "-" to avoid Locale-specific failures!
 		return Arrays.asList(new Object[][] {
 				{0,          "0B"},
 				{999,      "999B"},
 				{1000,    "1000B"},
 				{1023,    "1023B"},
 				{1024,    "1.0K"},
-				{-1234,  "-1.2K"},
-				{1484, "1.4K"},        /* rounding boundary, down */
-				//new data(1485, "1.5K"},        /* rounding boundary, up   */
-				//new data(-1484, "-1.4K"},      /* rounding boundary, down */
-				//new data(-1485, "-1.5K"},      /* rounding boundary, up   */
+				{-1234,  "\u002d1.2K"},
+				{1523, "1.4K"},        /* rounding boundary, down */
+				{1524, "1.5K"},        /* rounding boundary, up   */
+				{-1523, "\u002d1.4K"},      /* rounding boundary, down */
+				{-1524, "\u002d1.5K"},      /* rounding boundary, up   */
 				{1025,    "1.1K"},
 				{123456, "120K"},
 				{999999999L,   "953M"},
