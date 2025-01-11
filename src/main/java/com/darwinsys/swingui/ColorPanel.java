@@ -12,22 +12,22 @@ import javax.swing.*;
 /// from a ColorPicker Icon
 public class ColorPanel extends JPanel {
     protected Consumer<Color> setter;
+    protected static final int SWATCH_SIZE = 40;
+    protected static final int ROWS = 2, COLUMNS = 4;
 
     public final static Color[] COLORS = {
             Color.BLACK, Color.WHITE, Color.RED, Color.BLUE,
             Color.GREEN, Color.ORANGE, Color.MAGENTA,
     };
-    private final static int SIZE = 48;
 
     public ColorPanel(Consumer<Color> setter) {
         this.setter = setter;
-        setLayout(new GridLayout(2,4));
+        if (ROWS * COLUMNS - 1 != COLORS.length) {
+            throw new IllegalArgumentException("Color array mis-shapen");
+        }
+        setLayout(new GridLayout(ROWS,COLUMNS));
         for (Color c : COLORS) {
             var b = new JButton(){
-				@Override
-				public Dimension getPreferredSize() {
-					return new Dimension(SIZE, SIZE);
-				}
                 public Dimension getSize() {
                     return getPreferredSize();
                 }
@@ -36,8 +36,19 @@ public class ColorPanel extends JPanel {
                     var d = getSize();
                     g.fillRect(0, 0, d.width, d.height);
                 }
+
+                @Override
+                public Dimension getPreferredSize() {
+                    return new Dimension(SWATCH_SIZE, SWATCH_SIZE);
+                }
+
+                @Override
+                public Dimension getMinimumSize() {
+                    return getPreferredSize();
+                }
             };
             b.addActionListener(evt -> setter.accept(c));
+            b.setSize(new Dimension(SWATCH_SIZE,SWATCH_SIZE));
             b.setForeground(c);
             b.setBackground(c);
             b.setOpaque(true);
@@ -77,7 +88,8 @@ public class ColorPanel extends JPanel {
 
     public static void main(String[] args) {
         JFrame jf = new JFrame("Dummy");
-        jf.add(new ColorPanel(System.out::println));
+        jf.add(BorderLayout.EAST, new ColorPanel(System.out::println));
+        jf.add(BorderLayout.WEST, new JLabel("Color"));
         jf.pack();
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jf.setVisible(true);
