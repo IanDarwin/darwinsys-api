@@ -1,81 +1,95 @@
 package com.darwinsys.lang;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * name - purpose
  */
-public class MutableIntegerTest extends TestCase {
+class MutableIntegerTest {
 	MutableInteger target;
 
-	/* (non-Javadoc)
+	/*(non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 		target = new MutableInteger(42);
 	}
 
 	/*
 	 * Class under test for void MutableInteger(int)
 	 */
-	public void testMutableIntegerint() {
+	@Test
+	void mutableIntegerint() {
 		MutableInteger i = new MutableInteger(42);
-		assertEquals("test 1-arg constructor", 42, i.getValue());
+		assertEquals(42, i.getValue(), "test 1-arg constructor");
 	}
 
 	/*
 	 * Class under test for void MutableInteger()
 	 */
-	public void testMutableInteger() {
+	@Test
+	void mutableInteger() {
 		MutableInteger i = new MutableInteger();
-		assertEquals("test 0-arg constructor", 0, i.getValue());
+		assertEquals(0, i.getValue(), "test 0-arg constructor");
 	}
 
 	/*
 	 * Class under test for int incr()
 	 */
-	public void testIncr() {
-		assertEquals("test incr", 43, target.incr());
+	@Test
+	void incr() {
+		assertEquals(43, target.incr(), "test incr");
 	}
 
 	/*
 	 * Class under test for int incr(int)
 	 */
-	public void testIncrint() {
-		assertEquals("test incr(int)", 52, target.incr(10));
+	@Test
+	void incrint() {
+		assertEquals(52, target.incr(10), "test incr(int)");
 	}
 
-	public void testDecr() {
-		assertEquals("test decr", 41, target.decr());
+	@Test
+	void decr() {
+		assertEquals(41, target.decr(), "test decr");
 		MutableInteger j = new MutableInteger(Integer.MIN_VALUE);
-		assertEquals("decr below MIN_VALUE", 2147483647, j.decr());
+		assertEquals(2147483647, j.decr(), "decr below MIN_VALUE");
 	}
 
-	public void testSetValue() {
+	@Test
+	void setValue() {
 		MutableInteger i = new MutableInteger(42);
-		assertEquals("test setValue", -123, i.setValue(-123));
+		assertEquals(-123, i.setValue(-123), "test setValue");
 	}
 
-	public void testGetValue() {
-		assertEquals("getValue", 42, target.getValue());
+	@Test
+	void getValue() {
+		assertEquals(42, target.getValue(), "getValue");
 	}
 
 	/*
 	 * Class under test for String toString()
 	 */
-	public void testToString() {
-		assertEquals("toString", "42", target.toString());
+	@Test
+	void testToString() {
+		assertEquals("42", target.toString(), "toString");
 	}
 
 	/*
 	 * Class under test for String toString(int)
 	 */
-	public void testToStringint() {
-		assertEquals("toString(int)", "100", MutableInteger.toString(100));
+	@Test
+	void toStringint() {
+		assertEquals("100", MutableInteger.toString(100), "toString(int)");
 	}
 
-	public void testParseInt() {
-		assertEquals("parseInt", 100, MutableInteger.parseInt("100"));
+	@Test
+	void parseInt() {
+		assertEquals(100, MutableInteger.parseInt("100"), "parseInt");
 	}
 
 }

@@ -1,63 +1,66 @@
 package com.darwinsys.tel;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
-public class DialWordsTest {
+class DialWordsTest {
 
 	// The Easy Direction
 	@Test
-	public void testNumberToName() {
+	void numberToName() {
 		assertEquals("5282", DialWords.nameToNumber("java"));
 	}
 
-	@Test // to make sure this non-ascii character doesn't throw an exception
-	public void testNumberToNameBadInput() {
+	// to make sure this non-ascii character doesn't throw an exception
+	@Test
+	void numberToNameBadInput() {
 		assertEquals("282", DialWords.nameToNumber("\u4444ava"));
 	}
 
-	@Test(expected=NullPointerException.class)
-	public void testNumberToNameNPE() throws Exception {
-		DialWords.numberToName(null);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testnumberToNameIAE() {
-		DialWords.numberToName("");
-	}
-	
 	@Test
-	public void testNumberToName01() {
+	void numberToNameNPE() {
+		assertThrows(NullPointerException.class, () ->
+			DialWords.numberToName(null));
+	}
+
+	@Test
+	void testnumberToNameIAE() {
+		assertThrows(IllegalArgumentException.class, () ->
+			DialWords.numberToName(""));
+	}
+
+	@Test
+	void numberToName01() {
 		String[] res;
 		res = DialWords.numberToName("01");
-		assertEquals("right#results-simple", 1, res.length);
+		assertEquals(1, res.length, "right#results-simple");
 	}
-	
+
 	@Test
-	public void testNumberToName42() {
+	void numberToName42() {
 		String[] res;
 		res = DialWords.numberToName("42");
 		// 4 = g h i
 		// 2 = a b c
 		// expect: ga ha ia gb hb ib gc hc ic
-		assertEquals("right#results-42->9", 9, res.length);
+		assertEquals(9, res.length, "right#results-42->9");
 		assertEquals("ga", res[0]);
 		for (String r : res)
 			System.out.println(42 + " -> " + r);
 	}
-	
+
 	@Test
-	public void testNumberToName234() {
+	void numberToName234() {
 		String[] res;
 		res = DialWords.numberToName("234");
-		assertEquals("right#results-234->27", 27, res.length);
+		assertEquals(27, res.length, "right#results-234->27");
 		assertEquals("adg", res[0]);
 	}
 
 	@Test
-	public void testLongString() {
+	void longString() {
 		var res = DialWords.numberToName("416-555-1212");
 		assertEquals(2187, res.length);
 		assertEquals("g1mjjj1a1a", res[0]);

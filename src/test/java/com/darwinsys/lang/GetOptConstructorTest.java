@@ -1,50 +1,49 @@
 package com.darwinsys.lang;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Some test cases for GetOpt.
  * 
  * @author Ian F. Darwin, http://www.darwinsys.com/
  */
-public class GetOptConstructorTest  {
+class GetOptConstructorTest {
 
 	@Test
-	public void testOK() {
+	void ok() {
 		GetOpt getopt = new GetOpt("tn:");
 		assertEquals(2, getopt.options.length);
 		GetOptDesc tDesc = getopt.options[0];
-		assertTrue('t' == tDesc.getArgLetter());
-		assertEquals(null, tDesc.getArgName());
+		assertEquals('t', tDesc.getArgLetter());
+		assertNull(tDesc.getArgName());
 		assertFalse(tDesc.takesArgument());
 		GetOptDesc nDesc = getopt.options[1];
-		assertTrue('n' == nDesc.getArgLetter());
-		assertEquals(null, nDesc.getArgName());
+		assertEquals('n', nDesc.getArgLetter());
+		assertNull(nDesc.getArgName());
 		assertTrue(nDesc.takesArgument());
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testForNull() {
+
+	@Test
+	void forNull() {
 		String bad = null;
-		new GetOpt(bad);
-		fail("GetOpt(null) did not throw expected exception");
+		assertThrows(IllegalArgumentException.class, () -> new GetOpt(bad));
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testForNoLetter() {
-		new GetOpt("::");
-		fail("GetOpt(::) did not throw expected exception");
-	}
-	
 	@Test
-	public void testExtraLetters() {
+	void forNoLetter() {
+		assertThrows(IllegalArgumentException.class, () -> new GetOpt("::"));
+	}
+
+	@Test
+	void extraLetters() {
 		new GetOpt("f:c:"); // this failed at one point - multiple : args
 		new GetOpt("foo"); // multiple occurrences of same letter - ok?
 	}
 
 	@Test
-	public void testForLeadingColon() {
+	void forLeadingColon() {
 		try {
 			new GetOpt(":a:b");
 			fail("GetOpt(::) did not throw expected exception");
@@ -52,9 +51,9 @@ public class GetOptConstructorTest  {
 			//
 		}
 	}
-	
+
 	@Test
-	public void testForExtraCruft() {
+	void forExtraCruft() {
 		String bad = "abc@";
 		try {
 			new GetOpt(bad);

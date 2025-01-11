@@ -1,30 +1,32 @@
 package com.darwinsys.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class ClassSourceUtilsTest extends JarFileTestBase {
-	
-	@Ignore("failsome")
-	@Test public void testListClass() {
+class ClassSourceUtilsTest extends JarFileTestBase {
+
+	@Disabled("failsome")
+	@Test
+	void listClass() {
 		assertEquals(1, ClassSourceUtils.classListFromSource("java.lang.Object").size());
 	}
-	
-	@Ignore("failsome")
-	@Test(expected=java.lang.IllegalArgumentException.class)
-	public void testFailureListClass() {
 
-		ClassSourceUtils.classListFromSource("java.lang.NoSuchClass");
+	@Disabled("failsome")
+	@Test
+	void failureListClass() {
+		assertThrows(java.lang.IllegalArgumentException.class, () ->
+
+			ClassSourceUtils.classListFromSource("java.lang.NoSuchClass"));
 
 	}
-	
-	@Ignore("failsome")
-	@Test public void testListDir() {
+
+	@Disabled("failsome")
+	@Test
+	void listDir() {
 
 		final List<Class<?>> list = 
 			ClassSourceUtils.classListFromSource("build");
@@ -32,9 +34,10 @@ public class ClassSourceUtilsTest extends JarFileTestBase {
 		System.out.println("testListDir() found " + list.size() + " class files");
 		assertTrue(list.size() > 1);
 	}
-	
-	@Ignore("failsome")
-	@Test public void testListJar() throws Exception {
+
+	@Disabled("failsome")
+	@Test
+	void listJar() throws Exception {
 
 		final List<Class<?>> list =
 			// test jar file - See parent class @BeforeClass method

@@ -10,7 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Testbed for EntryLayout layout manager.
  * @author	Ian Darwin, http://www.darwinsys.com/
@@ -67,9 +67,9 @@ public class EntryLayoutTest {
 		f.setLocation(200, 200);
 		f.setVisible(true);
 	}
-	
+
 	@Test
-	public void trivialTest() {
+	void trivialTest() {
 		try {
 			main(null);
 		} catch (HeadlessException he) {

@@ -1,11 +1,11 @@
 package com.darwinsys.csv;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -39,7 +39,7 @@ public abstract class CSVParserTestBase {
 
 	/** test all the Strings in "data" */
 	@Test
-	public void testCSV() throws Throwable {
+	public void csv() throws Throwable {
 		if (csv == null) {
 			throw new IllegalArgumentException("csv parser not created");
 		}
@@ -64,7 +64,7 @@ public abstract class CSVParserTestBase {
 		CSVImport parser = new CSVImport('|');
 		List<String> l = parser.parse(
 			"\"LU\"|86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
-		assertEquals(l.size(), 5);
+		assertEquals(5, l.size());
 		Iterator<String> it = l.iterator();
 		while (it.hasNext()) {
 			System.out.print("[" + it.next() + "],");

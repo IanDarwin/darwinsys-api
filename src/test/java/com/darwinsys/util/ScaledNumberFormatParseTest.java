@@ -1,10 +1,12 @@
 package com.darwinsys.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /** A simple test suite for ScaledNumberFormat parse and format */
 
-public class ScaledNumberFormatParseTest extends TestCase {
+class ScaledNumberFormatParseTest {
 
 	static class TestDatum {
 		long number;
@@ -30,10 +32,11 @@ public class ScaledNumberFormatParseTest extends TestCase {
 		new TestDatum("931G", 999653638144L),
 	};
 
-	public void testParseGood() throws Exception {
+	@Test
+	void parseGood() throws Exception {
 		for (int i = 0; i<sdata.length; i++) {
 			Object o = sf.parseObject(sdata[i].string, null);
-			assertEquals(sdata[i].string, sdata[i].number, ((Long)o).longValue());
+			assertEquals(sdata[i].number, ((Long)o).longValue(), sdata[i].string);
 		}
 	}
 

@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /** Creates a Jar file from one of our classes, for use
  * in testing Jar File utilities.
@@ -23,8 +23,8 @@ public class JarFileTestBase {
 	/** The name of the tempfile containing the Jar for this run */
 	protected static String jarFileName;
 
-	@BeforeClass
-	public static void createJar() throws Exception {
+	@BeforeAll
+	static void createJar() throws Exception {
 		File f = File.createTempFile("testjar", ".jar");
 		f.deleteOnExit();
 		jarFileName = f.getAbsolutePath();

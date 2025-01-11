@@ -43,14 +43,14 @@ public class RomanNumberFormatParameterizedTest {
 
 	@MethodSource("getParams")
 	@ParameterizedTest
-	public void format(int julianYear, String romanYear) {
+	void format(int julianYear, String romanYear) {
 		initRomanNumberFormatParameterizedTest(julianYear, romanYear);
 			assertEquals(romanYear, nf.format(julianYear));
 	}
 
 	@MethodSource("getParams")
 	@ParameterizedTest
-	public void parse(int julianYear, String romanYear) {
+	void parse(int julianYear, String romanYear) {
 		initRomanNumberFormatParameterizedTest(julianYear, romanYear);
 		assertEquals(Long.valueOf(julianYear), nf.parseObject(romanYear, null));
 	}

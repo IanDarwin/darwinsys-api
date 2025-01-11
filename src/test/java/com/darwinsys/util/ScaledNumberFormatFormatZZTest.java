@@ -1,32 +1,34 @@
 package com.darwinsys.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Last few separate tests for ScaledNumberFormat parse and format
  */
-public class ScaledNumberFormatFormatZZTest {
+class ScaledNumberFormatFormatZZTest {
 
 	private ScaledNumberFormat sf = new ScaledNumberFormat();
 
 	@Test
-	public void testFormatThreeArgs() throws Exception {
+	void formatThreeArgs() throws Exception {
 		StringBuffer sb = new StringBuffer();
-		assertEquals("sb return", sb, sf.format("999999999", sb, null));
-		assertEquals("format3Args", "953M", sb.toString());
+		assertEquals(sb, sf.format("999999999", sb, null), "sb return");
+		assertEquals("953M", sb.toString(), "format3Args");
 	}
 
 	@Test
-	public void testNullInput() {
+	void nullInput() {
 		StringBuffer sb = new StringBuffer();
 		sf.format("", sb, null);
-		assertEquals("format3Args", "0B", sb.toString());
+		assertEquals("0B", sb.toString(), "format3Args");
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testNullThrowsIAE() {
+
+	@Test
+	void nullThrowsIAE() {
 		StringBuffer sb = new StringBuffer();
-		sf.format(null, sb, null);	// should throw IAE
+		assertThrows(IllegalArgumentException.class, () ->
+			sf.format(null, sb, null));	// should throw IAE
 	}
 }

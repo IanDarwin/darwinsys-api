@@ -1,17 +1,21 @@
 package com.darwinsys.lang;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class StringUtilTest extends TestCase {
+import org.junit.jupiter.api.Test;
 
-	public void testToCommaList() {
+class StringUtilTest {
+
+	@Test
+	void toCommaList() {
 		String[] list = { "apples", "oranges", "pumpkins", "bananas" };
 		assertEquals(
 			"apples, oranges, pumpkins and bananas",
 			StringUtil.arrayToCommaList(list));
 	}
 
-	public void testIndexOf() {
+	@Test
+	void indexOf() {
 		StringBuilder sb = new StringBuilder("This Fish in the Ish Wish Dish");
 
 		// Test Successes
@@ -28,7 +32,8 @@ public class StringUtilTest extends TestCase {
 		assertEquals(-1, StringUtil.indexOf(sb, "XX", 100));
 	}
 
-	public void testSubst() {
+	@Test
+	void subst() {
 		String oldStr = "Old Mc${fred} had a farm, had ${fred}";
 		String expect = "Old McFRED had a farm, had FRED";
 		String newStr = StringUtil.subst("${fred}", "FRED", oldStr);

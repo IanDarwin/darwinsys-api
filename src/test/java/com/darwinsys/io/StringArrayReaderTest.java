@@ -1,14 +1,14 @@
 package com.darwinsys.io;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class StringArrayReaderTest {
+class StringArrayReaderTest {
 
 	String[] data = {
 			"Line 1",
@@ -17,7 +17,7 @@ public class StringArrayReaderTest {
 	};
 
 	@Test
-	public void testSimple() throws IOException {
+	void simple() throws IOException {
 		Reader r = new StringArrayReader(data);
 		try (BufferedReader is = new BufferedReader(r);) {
 			String line;

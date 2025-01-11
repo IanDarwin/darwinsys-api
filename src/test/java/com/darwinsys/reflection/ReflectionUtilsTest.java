@@ -1,33 +1,31 @@
 package com.darwinsys.reflection;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ReflectionUtilsTest {
+class ReflectionUtilsTest {
 
 	ReflectionUtils target;
-	
-	@Before
-	public void setUp() throws Exception {
+
+	@BeforeEach
+	void setUp() throws Exception {
 		target = new ReflectionUtils();
 	}
-	
+
 	@Test
-	public void testGetSetters() throws Exception {
+	void getSetters() throws Exception {
 		final List<Method> setters = 
 			target.getSetters("java.util.Date");
 		assertNotNull(
-			"getMethods returned a list", setters);
+			setters, "getMethods returned a list");
 		assertEquals(
-			"getMethods returned correct list", 7, setters.size());
+			7, setters.size(), "getMethods returned correct list");
 		
 		// The order is indeterminate (unless you want to
 		// rely on an implementation detail) so just make
@@ -38,6 +36,6 @@ public class ReflectionUtilsTest {
 			if ("setTime".equals(m.getName()))
 				found = true;
 		}
-		assertTrue("found setTime()", found);
+		assertTrue(found, "found setTime()");
 	}
 }

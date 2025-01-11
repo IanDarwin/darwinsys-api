@@ -1,17 +1,17 @@
 package com.darwinsys.diff;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.darwinsys.diff.Diff.Item;
 
-public class DiffPrintTest {
+class DiffPrintTest {
 
 	/** The input - "left" or old file */
 	String[] dataOld = {
@@ -45,12 +45,12 @@ public class DiffPrintTest {
 			"> heaven",
 	};
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 	}
 
 	@Test
-	public void test() {
+	void test() {
 		final Item[] diffItems = Diff.diffText(arrayToString(dataOld), arrayToString(dataNew));
 		List<String> output = new ArrayList<>();
 		DiffPrint.diffPrint(diffItems, dataOld, dataNew, output);

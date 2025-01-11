@@ -6,15 +6,15 @@ import java.awt.HeadlessException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Testbed for CircleLayout layout manager.
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
-public class CircleLayoutTest {
+class CircleLayoutTest {
 
 	@Test
-	public void test() {
+	void test() {
 		try {
 		final JFrame f = new JFrame("CircleLayout Demonstration");
 		Container cp = f.getContentPane();

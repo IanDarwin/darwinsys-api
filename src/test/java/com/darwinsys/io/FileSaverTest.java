@@ -1,7 +1,7 @@
 package com.darwinsys.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileReader;
@@ -29,9 +29,9 @@ public class FileSaverTest {
 		"The quick brown fox jumps over the lazy dog.";
 	
 	private File file;
-	
+
 	@BeforeEach
-	public void setUpOne() throws IOException {
+	void setUpOne() throws IOException {
 		// Create file in tempdir with known name and contents
 		// It will get overwritten by the FileSaver
 		workdir.mkdirs();
@@ -48,14 +48,14 @@ public class FileSaverTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testOne() throws IOException {
+	void one() throws IOException {
 		final Writer writer = saver.getWriter();
 		PrintWriter out = new PrintWriter(writer);
 		out.print(MESSAGE);
 		out.close();
 		saver.finish();
 		final String finalString = FileIO.readerToString(new FileReader(file.getAbsoluteFile()));
-		assertEquals("Reading string back", MESSAGE, finalString);
+		assertEquals(MESSAGE, finalString, "Reading string back");
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class FileSaverTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testFailures() throws IOException {
+	void failures() throws IOException {
 		saver.getWriter();
 		try {
 			saver.getOutputStream();

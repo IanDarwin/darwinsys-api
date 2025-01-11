@@ -1,30 +1,33 @@
 package com.darwinsys.io;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.*;
 import java.util.jar.*;
 import java.util.zip.*;
 
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class SourceUtilsTest {
-	
-	@Ignore("failsome")
-	@Test public void testClassifyClass() {
+class SourceUtilsTest {
+
+	@Disabled("failsome")
+	@Test
+	void classifyClass() {
 		assertEquals(SourceType.CLASS, 
 			SourceUtils.classify("java.lang.Object"));
 	}
-	
-	@Ignore("failsome")
-	@Test public void testClassifyDir() {
+
+	@Disabled("failsome")
+	@Test
+	void classifyDir() {
 		assertEquals(SourceType.DIRECTORY, 
 			SourceUtils.classify("."));
 	}
 
-	@Ignore("failsome")
-	@Test public void testClasifyJar() throws Exception {
+	@Disabled("failsome")
+	@Test
+	void clasifyJar() throws Exception {
 		
 		File file = File.createTempFile("foo", ".jar");
 		try {

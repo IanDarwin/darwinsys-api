@@ -1,20 +1,16 @@
 package com.darwinsys.lang;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import com.darwinsys.util.Debug;
 
 /** Some test cases for GetOpt using the "traditional" coding pattern.
-* @author Ian F. Darwin, http://www.darwinsys.com/
+ * @author Ian F. Darwin, http://www.darwinsys.com/
  */
-public class GetOptTestOldPattern {
+class GetOptTestOldPattern {
 	
 	private String goodArgChars = "o:h";
 	private String goodArgs[]  = {
@@ -31,22 +27,23 @@ public class GetOptTestOldPattern {
 	};
 
 	@Test
-	public void testOldwayGood() {
+	void oldwayGood() {
 		processUnixWay(goodArgChars, goodArgs, false);
 	}
-	
+
 	@Test
-	public void testOldwayBadCharsGoodArgs() {
+	void oldwayBadCharsGoodArgs() {
 		processUnixWay(badArgChars, goodArgs, true);
 	}
-	
+
 	@Test
-	public void testOldwayBadCharsBadArgs() {
+	void oldwayBadCharsBadArgs() {
 		processUnixWay(badArgChars, badArgs, true);
 	}
-	
-	@Test @Ignore("GetOpt cannot handle combined args yet!!")
-	public void testCombinedGood() {
+
+	@Test
+	@Disabled("GetOpt cannot handle combined args yet!!")
+	void combinedGood() {
 		processUnixWay(combinedArgChars, combinedArgs, false);
 	}
 	
@@ -79,33 +76,35 @@ public class GetOptTestOldPattern {
 			fail("Errors in this run");
 		}
 	}
-	
+
 	/** Make sure that all args get parsed, and that optarg is 
 	 * null when it should be
 	 */
 	@Test
-	public void testAllArgsDone() {
+	void allArgsDone() {
 		GetOpt getopt = new GetOpt("tn:");
 		String[] args = { "-n", "100", "-t" };
-		assertTrue('n' == getopt.getopt(args));
+		assertEquals('n', getopt.getopt(args));
 		assertEquals("100", getopt.optarg);
 		assertEquals((int)'t', (int)getopt.getopt(args));
 		assertNull(getopt.optarg);
 	}
-	
+
 	/**
 	 * Make sure she blows up if the arg list ends with an option
 	 * that is stated to require an argument
 	 */
-	@Test(expected=IllegalArgumentException.class)
-	public void testEndOfListErrorHandling() {
-		GetOpt getopt = new GetOpt("tn:");
-		String[] badArgs = { "-t", "-n" };
+	@Test
+	void endOfListErrorHandling() {
+		final GetOpt getopt = new GetOpt("tn:");
+		final String[] badArgs = {"-t", "-n"};
+		assertThrows(IllegalArgumentException.class, () -> {
+			char c;
+			while ((c = getopt.getopt(badArgs)) != GetOpt.DONE) {
+				Debug.println("getopt", "Found argument " + c);
+			}
 
-		char c;
-		while ((c = getopt.getopt(badArgs)) != GetOpt.DONE) {
-			Debug.println("getopt", "Found argument " + c);
-		}
-			
+		});
+
 	}
 }

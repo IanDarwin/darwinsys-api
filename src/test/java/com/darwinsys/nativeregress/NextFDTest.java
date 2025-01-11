@@ -1,15 +1,17 @@
 package com.darwinsys.nativeregress;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
-
 import com.darwinsys.io.NextFD;
+
+import org.junit.jupiter.api.Test;
 import com.darwinsys.unix.UnixPasswdEntryTest;
 
-public class NextFDTest extends TestCase {
+public class NextFDTest {
 
 	/**
 	 * A file that exists on most *NIX systems; it is the file we open for
@@ -20,7 +22,8 @@ public class NextFDTest extends TestCase {
 	/**
 	 * Test method for 'com.darwinsys.io.NextFD.getNextFD()'
 	 */
-	public void testGetNextFD() throws IOException {
+	@Test
+	void getNextFD() throws IOException {
 		
 		if (!UnixPasswdEntryTest.isUnix())
 			return;
@@ -36,13 +39,13 @@ public class NextFDTest extends TestCase {
 		int high = NextFD.getNextFD();
 		System.out.println("nextfd returned " + high);
 		if (start != -1) {
-			assertEquals("opening file adds 1", high, start + 1);
+			assertEquals(high, start + 1, "opening file adds 1");
 		}
 
 		is.close();
 		
 		int end = NextFD.getNextFD();
 		System.out.println("after close, nextfd returned " + end);
-		assertEquals("back to where we started?", end, start);
+		assertEquals(end, start, "back to where we started?");
 	}
 }

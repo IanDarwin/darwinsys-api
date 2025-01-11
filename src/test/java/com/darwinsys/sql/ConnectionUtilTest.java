@@ -1,35 +1,32 @@
 package com.darwinsys.sql;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for ConnectionUtils
  */
-public class ConnectionUtilTest {
+class ConnectionUtilTest {
 
 	final static String MOCK_JBDC_DRIVER = "com.darwinsys.sql.MockJDBCDriver";
 
-	@BeforeClass
-	public static void setupConfigs() {
+	@BeforeAll
+	static void setupConfigs() {
 		// This works on Maven and Eclipse. Other build tools: yer on yer own.
 		// ConnectionUtil.setConfigFileName("target/classes/db.properties");
 		// Just use the provided one, on Maven test classpath.
 	}
-	
+
 	/** Check that we have at least one configuration */
 	@Test
-	public void testGetConfigurationNames() throws Exception {
+	void getConfigurationNames() throws Exception {
 		System.out.println("ConnectionUtilTest.testList()");
 		Set<String> configs = ConnectionUtil.getConfigurationNames();
 		boolean hasConfigNames = false;
@@ -37,40 +34,41 @@ public class ConnectionUtilTest {
 			System.out.println(element);
 			hasConfigNames = true;
 		}
-		assertTrue("config names", hasConfigNames);
+		assertTrue(hasConfigNames, "config names");
 	}
 
 	@Test
-	public void testGetConnections() {
+	void getConnections() {
 		System.out.println("ConnectionUtilTest.testList()");
 		final List<Configuration> configs = ConnectionUtil.getConfigurations();
-		assertTrue("connection list", configs.size() > 0);
+		assertTrue(configs.size() > 0, "connection list");
 	}
 
 	@Test
-	public void testHasPassword() throws Exception {
+	void hasPassword() throws Exception {
 		final Configuration c = ConnectionUtil.getConfigurations().get(0);
 		c.setPassword(null);
 		assertFalse(c.hasPassword());
 	}
 
 	@Test
-	public void testGetConnectionManualDriver() throws Exception {
+	void getConnectionManualDriver() throws Exception {
 		final Connection c = ConnectionUtil.getConnection(
 				"jdbc:mock:some_url", MOCK_JBDC_DRIVER,
 				"operator", "secret");
-		assertNotNull("Get Conn from 4 params", c);
-	}
-	
-	@Test(expected=ClassNotFoundException.class)
-	public void testGetConnectionBadDriver() throws Exception {
-		ConnectionUtil.getConnection(
-				"jdbc:foo:bar", "NoSuchDriver",
-				"operator", "secret");
+		assertNotNull(c, "Get Conn from 4 params");
 	}
 
 	@Test
-	public void testPackageGetConfiguration() {
+	void getConnectionBadDriver() {
+		assertThrows(ClassNotFoundException.class, () ->
+			ConnectionUtil.getConnection(
+				"jdbc:foo:bar", "NoSuchDriver",
+				"operator", "secret"));
+	}
+
+	@Test
+	void packageGetConfiguration() {
 		Properties p = new Properties();
 		final String DRIVERNAME = "someDriverName";
 		p.setProperty("foo.DBDriver", DRIVERNAME);

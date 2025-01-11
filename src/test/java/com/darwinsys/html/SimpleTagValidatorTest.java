@@ -1,45 +1,49 @@
 package com.darwinsys.html;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test SimpleTagValidator
  */
-public class SimpleTagValidatorTest {
+class SimpleTagValidatorTest {
 
 	SimpleTagValidator val = new SimpleTagValidator();
-	
-	@Test
-	public void testValidate() {
-		assertTrue("empty string", val.validate(""));
-		
-		assertTrue("leading space", val.validate("< a href='#foo'>Foo</a>"));
 
-		assertTrue("variety of tags",
-			val.validate("<p><a href='foo'>Link</a><i></p>?"));
+	@Test
+	void validate() {
+		assertTrue(val.validate(""), "empty string");
+		
+		assertTrue(val.validate("< a href='#foo'>Foo</a>"), "leading space");
+
+		assertTrue(val.validate("<p><a href='foo'>Link</a><i></p>?"),
+			"variety of tags");
 	}
-	
-	@Test(expected=NullPointerException.class)
-	public void testValidateBadInput() {
+
+	@Test
+	void validateBadInput() {
 		System.out.println("Valid tags: '" + val.getTagsAsString(false) + "'");
-		val.validate(null);
+		assertThrows(NullPointerException.class, () ->
+			val.validate(null));
 	}
 
 	@Test
-	public void testTagsAsStrings() {
+	void tagsAsStrings() {
 		String[] myTags = {"br", "i", "img" };
-		assertEquals("tagsAsStrings", "br, i, img",
-			new SimpleTagValidator(myTags).getTagsAsString(true));
+		assertEquals("br, i, img",
+			new SimpleTagValidator(myTags).getTagsAsString(true),
+			"tagsAsStrings");
 		
-		assertEquals("tagsAsStrings", "br i img",
-				new SimpleTagValidator(myTags).getTagsAsString(false));
+		assertEquals("br i img",
+				new SimpleTagValidator(myTags).getTagsAsString(false),
+				"tagsAsStrings");
 	}
 
 	@Test
-	public void testValidateFailures() {
-		assertFalse("imgtag", val.validate("<img size=0>"));
-		assertEquals("get bad tag info", "img", val.getFailedTag());
+	void validateFailures() {
+		assertFalse(val.validate("<img size=0>"), "imgtag");
+		assertEquals("img", val.getFailedTag(), "get bad tag info");
 	}
 
 }

@@ -1,14 +1,19 @@
 package com.darwinsys.util;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MiniMaxTest extends TestCase {
+import org.junit.jupiter.api.Test;
 
-	public void testMaxInt() {
+class MiniMaxTest {
+
+	@Test
+	void maxInt() {
 		int[] data = { 1, 3, 4};
 		assertEquals(4, MiniMax.max(data));
 	}
-	public void testMaxInteger() {
+
+	@Test
+	void maxInteger() {
 		Integer[] data = { 1, 3, 4};
 		assertEquals(Integer.valueOf(4), MiniMax.max(data));
 	}

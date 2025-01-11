@@ -1,18 +1,15 @@
 package com.darwinsys.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /** A Parameterized test suite for ScaledNumberFormat format
  */
-@RunWith(Parameterized.class)
 public class ScaledNumberFormatFormatTest {
 
 	private ScaledNumberFormat sf = new ScaledNumberFormat();
@@ -21,7 +18,6 @@ public class ScaledNumberFormatFormatTest {
 
 	/** data for format test.
 	  */
-	@Parameters
 	public static List<Object[]> getData() {
 		// Use Hex 2D for "-" to avoid Locale-specific failures!
 		return Arrays.asList(new Object[][] {
@@ -43,17 +39,19 @@ public class ScaledNumberFormatFormatTest {
 				//{1L<<62, "4.0E"},
 				//{1099512676352L, "1.1T"},
 		});
-	};
+	}
 
-	public ScaledNumberFormatFormatTest(long number, String expect) {
+	public void initScaledNumberFormatFormatTest(long number, String expect) {
 		this.number = number;
 		this.expect = expect;
 	}
 
-	@Test
-	public void testFormat() {
+	@MethodSource("getData")
+	@ParameterizedTest
+	public void testFormat(long number, String expect) {
+		initScaledNumberFormatFormatTest(number, expect);
 		String actual = sf.format(number);
 		// System.out.println("Expect: " + expect + "; actual: " + actual);
-		assertEquals(expect, expect, actual);
+		assertEquals(expect, actual, expect);
 	}
 }

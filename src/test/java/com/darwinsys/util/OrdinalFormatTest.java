@@ -1,31 +1,35 @@
 package com.darwinsys.util;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class OrdinalFormatTest extends TestCase {
+class OrdinalFormatTest {
 
 	/*
 	 * Class under test for StringBuffer format(int, StringBuffer, FieldPosition)
 	 */
-	public void testFormatintStringBufferFieldPosition() {
+	@Test
+	void formatintStringBufferFieldPosition() {
 	}
 
 	/*
 	 * Class under test for StringBuffer format(long, StringBuffer, FieldPosition)
 	 */
-	public void testFormatlongStringBufferFieldPosition() {
+	@Test
+	void formatlongStringBufferFieldPosition() {
 	}
 
 	/*
 	 * Class under test for StringBuffer format(double, StringBuffer, FieldPosition)
 	 */
-	public void testFormatdoubleStringBufferFieldPosition() {
+	@Test
+	void formatdoubleStringBufferFieldPosition() {
 	}
 
 	/*
 	 * Class under test for Number parse(String, ParsePosition)
 	 */
-	public void testParseStringParsePosition() {
+	@Test
+	void parseStringParsePosition() {
 	}
 
 }

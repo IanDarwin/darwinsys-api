@@ -1,19 +1,22 @@
 package com.darwinsys.io;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.PrintWriter;
 
 import javax.swing.JTextArea;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 // tag::main[]
-public class TextAreaWriterTest extends TestCase {
+class TextAreaWriterTest {
 
 	private static final String HELLO_WORLD = "Hello World";
 
 	JTextArea ta = new JTextArea();
 
-	public void testOne() {
+	@Test
+	void one() {
 		PrintWriter x = new PrintWriter(new TextAreaWriter(ta));
 		x.print("Hello");
 		x.print(' ');

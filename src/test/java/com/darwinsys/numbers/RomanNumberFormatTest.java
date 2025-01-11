@@ -16,17 +16,14 @@ class RomanNumberFormatTest {
 
 	@Test
 	final void manyFormatLong() {
-		assertThrows(NumberFormatException.class, () -> {
-			nf.format(0);
-			fail("Romans did not use Zero");
-		});
+		// Romans did not use Zero
+		assertThrows(NumberFormatException.class, () -> nf.format(0));
 	}
 
 	@Test
 	void tooBig() {
-		assertThrows(NumberFormatException.class, () -> {
-			nf.format(4000);
-		});
+		assertThrows(NumberFormatException.class, () ->
+			nf.format(4000));
 	}
 
 	@Test

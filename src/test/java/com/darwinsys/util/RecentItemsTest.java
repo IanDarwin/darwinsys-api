@@ -1,15 +1,16 @@
 package com.darwinsys.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class RecentItemsTest {
+class RecentItemsTest {
 
 	private final boolean VERBOSE = false;
 
@@ -25,15 +26,16 @@ public class RecentItemsTest {
 		}
 	};
 	RecentItems target;
-	
-	@Before public void setup() throws BackingStoreException {
+
+	@BeforeEach
+	void setup() throws BackingStoreException {
 		prefs = Preferences.userNodeForPackage(getClass());
 		prefs.clear();
 		target = new RecentItems(prefs, lister);
 	}
-	
+
 	@Test
-	public void testAdding() {
+	void adding() {
 		System.out.println("RecentItemstest.test1()");
 		
 		target.putRecent("abc");
@@ -49,15 +51,16 @@ public class RecentItemsTest {
 		list = target.getList();
 		assertEquals("abc", list.get(0));	// check it in current copy of list
 	}
-	
-	@Test(expected = UnsupportedOperationException.class)
-	public void testListIsUnmodifiable() {
+
+	@Test
+	void listIsUnmodifiable() {
 		target.putRecent("/a/b/c/d/e/f");
-		target.getList().remove(0); //should throw UOE
+		assertThrows(UnsupportedOperationException.class, () ->
+			target.getList().remove(0)); //should throw UOE
 	}
 
 	@Test
-	public void testRemoving() {
+	void removing() {
 		System.out.println("RecentItemstest.test2()");
 		target.putRecent("abc");
 		target.putRecent("def");
@@ -68,7 +71,7 @@ public class RecentItemsTest {
 	}
 
 	@Test
-	public void testOverflow() {
+	void overflow() {
 		target = new RecentItems(prefs, lister, 3);
 		List<String>list = target.getList();
 		target.putRecent("abc");
@@ -83,7 +86,7 @@ public class RecentItemsTest {
 	}
 
 	@Test
-	public void testThatItLasts() {
+	void thatItLasts() {
 		target.putRecent("Hello");
 		target = new RecentItems(prefs, lister);
 		assertEquals("Hello", target.getList().get(0));

@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Simple class to non-exhaustively test out RelativeLayout layout manager.
@@ -45,9 +45,9 @@ public class RelativeLayoutTest {
 	public RelativeLayoutTest() {
 		// empty
 	}
-	
+
 	@Test
-	public void trivialTest() {
+	void trivialTest() {
 		try {
 			main(null);
 		} catch (HeadlessException he) {

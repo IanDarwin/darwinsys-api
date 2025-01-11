@@ -1,15 +1,15 @@
 package com.darwinsys.io;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
-public class CrawlerTest {
+class CrawlerTest {
 
 	protected static final boolean debug = false;
 
@@ -45,16 +45,16 @@ public class CrawlerTest {
 	};
 
 	@Test
-	public void testPubCrawl() throws Exception {
+	void pubCrawl() throws Exception {
 		String dir =  "." ;
 
 		new Crawler(javaFileFilter, dummyVisitorJustPrints).crawl(new File(dir));
 
-		assertTrue("crawler found at least one file in .", seenAnyFiles);
+		assertTrue(seenAnyFiles, "crawler found at least one file in .");
 	}
 
 	@Test
-	public void testWithDirFilter() throws Exception {
+	void withDirFilter() throws Exception {
 		String dir =  "." ;
 		final File tmpDir = File.createTempFile("tmp", ".dir", new File(dir));
 		tmpDir.delete(); tmpDir.mkdirs();
@@ -106,7 +106,7 @@ public class CrawlerTest {
 	}
 
 	@Test
-	public void testErrors() throws Exception {
+	void errors() throws Exception {
 		try {
 			new Crawler(null, null);
 			fail("Did not throw expected NPE");

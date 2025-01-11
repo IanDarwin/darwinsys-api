@@ -1,17 +1,20 @@
 package com.darwinsys.io;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.PrintStream;
 
 import javax.swing.JTextArea;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class TextAreaOutputStreamTest extends TestCase {
+class TextAreaOutputStreamTest {
 	private static final String HELLO_WORLD = "Hello World";
 
 	JTextArea ta = new JTextArea();
 
-	public void testOne() {
+	@Test
+	void one() {
 		PrintStream x = null;
 		try {
 			x = new PrintStream(new TextAreaOutputStream(ta));
@@ -25,7 +28,8 @@ public class TextAreaOutputStreamTest extends TestCase {
 		}
 	}
 
-	public void testSetOut() {
+	@Test
+	void setOut() {
 		PrintStream oldOut = null;
 		try {
 			oldOut = System.out;

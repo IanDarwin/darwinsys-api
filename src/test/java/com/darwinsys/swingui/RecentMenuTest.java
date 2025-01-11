@@ -1,9 +1,10 @@
 package com.darwinsys.swingui;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RecentMenuTest {
+class RecentMenuTest {
 
 	RecentMenu target;
 
@@ -26,7 +27,7 @@ public class RecentMenuTest {
 	}
 
 	@Test
-	void testClearWorks() {
+	void clearWorks() {
 		target.add(".");
 		target.clear();
 		assertEquals(0, target.recentItemNames.getList().size());

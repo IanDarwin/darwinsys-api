@@ -1,16 +1,13 @@
 package com.darwinsys.lang;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class GetOptDescTest {
+class GetOptDescTest {
 
 	@Test
-	public void testGetOptDesc() {
+	void getOptDesc() {
 		GetOptDesc d;
 		d = new GetOptDesc('a', "foo", true);
 		assertEquals('a', d.getArgLetter());
@@ -23,8 +20,10 @@ public class GetOptDescTest {
 		assertFalse(d.takesArgument());
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testGetOptDescFailures() {
-		new GetOptDesc('\0', null, false);
+	@Test
+	void getOptDescFailures() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			new GetOptDesc('\0', null, false);
+		});
 	}
 }

@@ -1,16 +1,16 @@
 package com.darwinsys.diff;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import com.darwinsys.diff.Diff.Item;
 
 /**
  * This set of tests came with the original program. Don't ask me any questions about it.
  */
-public class DiffTest {
+class DiffTest {
 
 	/**
 	 * The output of this method is not intended to be generally useful, only
@@ -27,9 +27,9 @@ public class DiffTest {
 		}
 		return (ret.toString());
 	}
-	
+
 	@Test
-	public void selfTestDiffsToString() {
+	void selfTestDiffsToString() {
 		Item input = new Item();
 		input.startA = 42;
 		input.startB = 51;
@@ -38,77 +38,79 @@ public class DiffTest {
 		Diff.Item[] diffs = { input  };
 		assertEquals("33.24.42.51*", diffsToString(diffs));
 	}
-	
+
 	@Test
-	public void allDifferent() {
+	void allDifferent() {
 		String a = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\n";
 		String b = "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n";
-		assertEquals("all-changes test", 
-				diffsToString(Diff.diffText(a, b, false, false, false)), 
-				"12.10.0.0*");
+		assertEquals(
+			"12.10.0.0*", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"all-changes test");
 	}
 
 	@Test
-	public void allSame() {
+	void allSame() {
 		String a = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\n";
 		String b = a;
-		assertEquals("all-same test", 
-				diffsToString(Diff.diffText(a, b, false, false, false)), 
-				"");
+		assertEquals(
+			"", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"all-same test");
 	}
 
 	@Test
-	public void snake() {
+	void snake() {
 		String a = "a\nb\nc\nd\ne\nf\n";
 		String b = "b\nc\nd\ne\nf\nx\n";
-		assertEquals("snake test", 
-				diffsToString(Diff.diffText(a, b, false, false, false)), 
-				"1.0.0.0*0.1.6.5*");
+		assertEquals(
+			"1.0.0.0*0.1.6.5*", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"snake test");
 	}
 
 	@Test
-	public void repro() {
+	void repro() {
 		String a = "c1\na\nc2\nb\nc\nd\ne\ng\nh\ni\nj\nc3\nk\nl";
 		String b = "C1\na\nC2\nb\nc\nd\ne\nI1\ne\ng\nh\ni\nj\nC3\nk\nI2\nl";
-		assertEquals("repro20020920 test", 
-				diffsToString(Diff.diffText(a, b, false, false, false)),
-				"1.1.0.0*1.1.2.2*0.2.7.7*1.1.11.13*0.1.13.15*");
+		assertEquals(
+			"1.1.0.0*1.1.2.2*0.2.7.7*1.1.11.13*0.1.13.15*", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"repro20020920 test");
 	}
 
 	@Test
-	public void repro20030207() {
+	void repro20030207() {
 		// 2003.02.07 - repro
 		String a = "F";
 		String b = "0\nF\n1\n2\n3\n4\n5\n6\n7";
-		assertEquals("repro20030207 test",
-				diffsToString(Diff.diffText(a, b, false, false, false)), 
-				"0.1.0.0*0.7.1.2*");
+		assertEquals(
+			"0.1.0.0*0.7.1.2*", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"repro20030207 test");
 	}
 
-	@Test() @Ignore("BROKEN") // Is it the test or the code that's wrong? I think the test...
-	public void muegelRepro() {
+	// Is it the test or the code that's wrong? I think the test...
+	@Test
+	@Disabled("BROKEN")
+	void muegelRepro() {
 		String a = "HELLO\nWORLD";
 		String b = "\n\nhello\n\n\n\nworld\n";
-		assertEquals("repro20030409 test", 
-				diffsToString(Diff.diffText(a, b,false, false, false)), 
-				"2.8.0.0*");
+		assertEquals(
+			"2.8.0.0*", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"repro20030409 test");
 	}
 
 	@Test
-	public void someDiffs() {
+	void someDiffs() {
 		String a = "a\nb\n-\nc\nd\ne\nf\nf";
 		String b = "a\nb\nx\nc\ne\nf";
-		assertEquals("some-changes test", 
-				diffsToString(Diff.diffText(a, b, false, false, false)), 
-				"1.1.2.2*1.0.4.4*1.0.7.6*");
+		assertEquals(
+			"1.1.2.2*1.0.4.4*1.0.7.6*", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"some-changes test");
 	}
 
 	@Test
-	public void oneChangeWithinLongChainOfRepeats() {
+	void oneChangeWithinLongChainOfRepeats() {
 		String a = "a\na\na\na\na\na\na\na\na\na\n";
 		String b = "a\na\na\na\n-\na\na\na\na\na\n";
-		assertEquals("long chain of repeats test", 
-				diffsToString(Diff.diffText(a, b, false, false, false)),
-				"0.1.4.4*1.0.9.10*");
+		assertEquals(
+			"0.1.4.4*1.0.9.10*", diffsToString(Diff.diffText(a, b, false, false, false)),
+			"long chain of repeats test");
 	}
 }

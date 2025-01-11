@@ -1,27 +1,27 @@
 package com.darwinsys.graphics;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class PhotoUtilsTest {
+class PhotoUtilsTest {
 
-	@BeforeClass
-	public static void setUp() throws Exception {
+	@BeforeAll
+	static void setUp() throws Exception {
 	}
 
 	@Test
-	public void testIsoDateToExif() {
+	void isoDateToExif() {
 		String input = "2018-08-07T09:29:35";
 		String expect = "2018:08:07 09:29:35";
 		assertEquals(expect, PhotoUtils.isoDateToExif(input));
 	}
-	
+
 	@Test
-	public void testExifDateToIso() {
+	void exifDateToIso() {
 		String input = "2018:08:07 14:29:35";
 		String expect = "2018-08-07T14:29:35";
 		String actual = PhotoUtils.exifDateToIso(input);

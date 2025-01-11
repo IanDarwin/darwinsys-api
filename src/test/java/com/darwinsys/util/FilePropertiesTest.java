@@ -1,5 +1,7 @@
 package com.darwinsys.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,25 +9,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class FilePropertiesTest extends TestCase {
+class FilePropertiesTest {
 	Properties p;
 	File erewhon;
 
 	/** Set up for junit test.
-	 * @see junit.framework.TestCase#setUp()
+	 * @see 
 	 */
-	protected void setUp() throws Exception {
-		super.setUp();
+	@BeforeEach
+	void setUp() throws Exception {
 		erewhon = File.createTempFile("filepropertiestest", "junk");
 		erewhon.deleteOnExit();
 		// no such file should exist; should not throw IOException
 		p = new FileProperties("no such file");
 	}
 
-    public void testSet() throws Exception {
-    	assertEquals("Properties p should be empty:", p.size(), 0);
+	@Test
+	void set() throws Exception {
+		assertEquals(0, p.size(), "Properties p should be empty:");
 		p.setProperty("foo", "bar");
 		p.store(new FileOutputStream(erewhon), "# test");
 
@@ -33,7 +37,8 @@ public class FilePropertiesTest extends TestCase {
 		assertEquals("bar", p.getProperty("foo"));
 	}
 
-    public void testInputStream() throws IOException {
+	@Test
+	void inputStream() throws IOException {
     	String propsFile =
     		"foo=bar\n" +
     		"x y\n";

@@ -1,12 +1,11 @@
 package com.darwinsys.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ObjectMergeTest {
+class ObjectMergeTest {
 
 	static class Person {
 		Long id;
@@ -77,36 +76,36 @@ public class ObjectMergeTest {
 	Person c2 = new Person();
 	Person result = null;
 
-	@Before
-	public void setup() {
-	}
-	
-	@Test
-	public void testMergeOneString() throws Exception {
-		c1.setFirstName("ABC");
-		c2.setFirstName(null);
-		result = (Person) ObjectMerge.merge(c2, c1);
-		assertEquals("One String", "ABC", result.getFirstName());
+	@BeforeEach
+	void setup() {
 	}
 
 	@Test
-	public void testMergeTwoStrings() throws Exception {
+	void mergeOneString() throws Exception {
+		c1.setFirstName("ABC");
+		c2.setFirstName(null);
+		result = (Person) ObjectMerge.merge(c2, c1);
+		assertEquals("ABC", result.getFirstName(), "One String");
+	}
+
+	@Test
+	void mergeTwoStrings() throws Exception {
 		c1.setFirstName("Ian");
 		c2.setLastName("Darwin");
 		result = (Person) ObjectMerge.merge(c1, c2);
-		assertEquals("Merge Nulls", "Ian Darwin", result.toString());
+		assertEquals("Ian Darwin", result.toString(), "Merge Nulls");
 	}
-	
+
 	@Test
-	public void testMergeInts() throws Exception {
+	void mergeInts() throws Exception {
 		c1.setId(42L);
 		result = (Person) ObjectMerge.merge(c1, c1);
-		assertEquals("Merge Integers", Long.valueOf(42), result.getId());
+		assertEquals(Long.valueOf(42), result.getId(), "Merge Integers");
 	}
-	
+
 	@Test
-	public void testTransitivity() throws Exception {
+	void transitivity() throws Exception {
 		c1.setFirstName("Robin");
-		assertTrue("Transitivity test", ObjectMerge.merge(c1,c2).equals(ObjectMerge.merge(c2,c1)));
+		assertEquals(ObjectMerge.merge(c1, c2), ObjectMerge.merge(c2, c1), "Transitivity test");
 	}
 }

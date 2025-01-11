@@ -1,10 +1,6 @@
 package com.darwinsys.lang;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Some test cases for GetOpt using the "new" coding pattern
 * @author Ian F. Darwin, http://www.darwinsys.com/
@@ -41,7 +37,7 @@ public class GetOptTestNewPattern {
 	};
 
 	@Test
-	public void testGood() {
+	void good() {
 		checkShortArgResults(goodArgChars, goodArgs, false);
 	}
 	
@@ -49,9 +45,9 @@ public class GetOptTestNewPattern {
 	public void testBadCharsGoodArgs() {
 		checkShortArgResults(badArgChars, goodArgs, false);
 	}
-	
+
 	@Test
-	public void testBadCharsBadArgs() {
+	void badCharsBadArgs() {
 		checkShortArgResults(badArgChars, badArgs, true);
 	}
 
@@ -96,16 +92,16 @@ public class GetOptTestNewPattern {
 			}
 		}
 	}
-	
+
 	@Test
-	public void testNewWayShort() {
+	void newWayShort() {
 		GetOpt getopt = new GetOpt(newWayLongOptions);
 		Map<String,String> map = getopt.parseArguments(goodArgs);
 		checkLongArgResults(getopt, map);
 	}
-	
+
 	@Test
-	public void testNewWayLong() {
+	void newWayLong() {
 		GetOpt getopt = new GetOpt(newWayLongOptions);
 		Map<String,String> map = getopt.parseArguments(goodLongArgs);
 		checkLongArgResults(getopt, map);
@@ -131,36 +127,36 @@ public class GetOptTestNewPattern {
 				case '?':
 					errs++;
 					break;
-				case 'o': 
-					assertEquals(val, "outfile");
+				case 'o':
+					assertEquals("outfile", val);
 					break;
 				case 'f':
 				case 'h':
 				case '1':
-					 assertEquals(val, null);
+					assertNull(val);
 					break;
 				default:
 					throw new IllegalArgumentException("Unexpected c value " + c);
 			}
 		}
-		assertEquals("Parse errors", 0, errs);
-		assertEquals("File names left after options", 1, getopt.getFilenameList().size());
-		assertEquals("File name from list", "infile", getopt.getFilenameList().get(0));
+		assertEquals(0, errs, "Parse errors");
+		assertEquals(1, getopt.getFilenameList().size(), "File names left after options");
+		assertEquals("infile", getopt.getFilenameList().get(0), "File name from list");
 	}
-	
+
 	/**
 	 * Make sure the correct arguments get left in options,
 	 * and that rewind() resets everything(?) correctly.
 	 * XXX maybe split this test...
 	 */
 	@Test
-	public void testRewindLeavesFilenamesLeft() {
+	void rewindLeavesFilenamesLeft() {
 		GetOpt getopt = new GetOpt("hn:");
 		final String oneArg[]  = {
 				"-h", "infile"
 		};
 		getopt.parseArguments(oneArg);
-		assertEquals("testFilenamesLeft", "infile", oneArg[getopt.getOptInd()]);
+		assertEquals("infile", oneArg[getopt.getOptInd()], "testFilenamesLeft");
 		final String twoArgs[]  = {
 				"-h", "-n", "100", "infile"
 		};
@@ -169,7 +165,8 @@ public class GetOptTestNewPattern {
 		assertNotNull(results);
 		assertTrue(results.size() > 0);
 		List<String> nonOptionArgs = getopt.getFilenameList();
-		assertEquals("testFilenamesLeft", "infile", 
-				nonOptionArgs.get(0));
+		assertEquals("infile", 
+				nonOptionArgs.get(0), 
+				"testFilenamesLeft");
 	}
 }

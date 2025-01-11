@@ -1,21 +1,19 @@
 package com.darwinsys.security;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the PassPhrase class.
  */
-public class PassPhraseTest {
+class PassPhraseTest {
 
 	/*
 	 * Test for String getNext()
 	 */
 	@Test
-	public void testGetNext() {
+	void getNext() {
 		String s = PassPhrase.getNext();
 		System.out.println(s);
 		assertNotNull(s);
@@ -26,7 +24,7 @@ public class PassPhraseTest {
 	 * Test for String getNext(int)
 	 */
 	@Test
-	public void testGetNextint() {
+	void getNextint() {
 		final int[] lengths = { 1, 5, 20, 200 };
 		for (int i = 0; i < lengths.length; i++) {
 			int j = lengths[i];
@@ -36,11 +34,10 @@ public class PassPhraseTest {
 			assertEquals(j, s.length());
 		}
 	}
-	
+
 	/* Test for failure */
-	@Test(expected=IllegalArgumentException.class)
-	public void testGetNextZero() {
-		PassPhrase.getNext(0);
-		fail("Did not trap length zero request");
+	@Test
+	void getNextZero() {
+		assertThrows(IllegalArgumentException.class, () -> PassPhrase.getNext(0));
 	}
 }

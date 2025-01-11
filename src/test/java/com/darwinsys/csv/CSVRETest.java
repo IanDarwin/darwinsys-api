@@ -1,12 +1,12 @@
 package com.darwinsys.csv;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit tests for CSV RE
@@ -18,15 +18,16 @@ public class CSVRETest extends CSVParserTestBase {
 	}
 
 	@Test
-	public void testCanonical() {
+	void canonical() {
 		List<String> list = csv.parse("\"a\",\"b\",\"c\"");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
 		assertEquals("b", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+
 	@Test
-	public void testNullField() {
+	void nullField() {
 		List<String> list = csv.parse("\"a\",,\"c\"");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
@@ -35,29 +36,31 @@ public class CSVRETest extends CSVParserTestBase {
 	}
 
 	@Test
-	public void testNotAllQuoted() {
+	void notAllQuoted() {
 		List<String> list = csv.parse("\"a\",b,\"c\"");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
 		assertEquals("b", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+
 	@Test
-	public void testAllUnQuoted() {
+	void allUnQuoted() {
 		List<String> list = csv.parse("a,b,c");
 		assertEquals(3, list.size());
 		assertEquals("a", list.get(0));
 		assertEquals("b", list.get(1));
 		assertEquals("c", list.get(2));
 	}
+
 	@Test
-	public void testMixedField() {
+	void mixedField() {
 		List<String> list = csv.parse("\"LU\",86.25|\"11/4/1998\"|\"2:19PM\"|+4.0625");
 		assertEquals(2, list.size());
 	}
 
 	@Test
-	public void testBrokenQuotes() {
+	void brokenQuotes() {
 		try {
 			csv.parse("one,two,\"three,four");
 			fail("Did not catch expected exception on bad input");
@@ -71,8 +74,10 @@ public class CSVRETest extends CSVParserTestBase {
 	 * at yahoo.com%gt.
 	 * The current RE version does not work with this test.
 	 */
-	@Test @Ignore // Not working yet
-	public void testEscapeQuoted() {
+	// Not working yet
+	@Test
+	@Disabled
+	void escapeQuoted() {
 		String string = "\"a,b,c\",d,\"and \\\"e\",f";
 		System.out.println(string);
 		List<String> list = csv.parse(string);

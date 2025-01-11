@@ -1,23 +1,23 @@
 package com.darwinsys.geo;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CountryTest {
+class CountryTest {
 
 	@Test
-	public void testGetLongName() {
+	void getLongName() {
 		assertEquals("Canada", Country.CA.toString());
 	}
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		assertEquals("Canada", Country.CA.toString());
 	}
 
 	@Test
-	public void testIsCanadaOrUSA() {
+	void isCanadaOrUSA() {
 		assertTrue(Country.CA.isCanadaOrUSA());
 		assertTrue(Country.US.isCanadaOrUSA());
 		assertFalse(Country.GB.isCanadaOrUSA());

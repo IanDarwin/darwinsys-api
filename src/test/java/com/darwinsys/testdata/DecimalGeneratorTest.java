@@ -2,21 +2,22 @@ package com.darwinsys.testdata;
 
 import java.math.BigDecimal;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DecimalGeneratorTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class DecimalGeneratorTest {
 
 	Generator<BigDecimal> subject;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	void setup() {
 		subject = new DecimalNumberGenerator(3, 2);
 	}
 
 	@Test
-	public void testOne() {
+	void one() {
 		BigDecimal actual = subject.nextValue();
 		assertTrue(actual.doubleValue() < 999);
 		assertTrue(actual.doubleValue() > -999);

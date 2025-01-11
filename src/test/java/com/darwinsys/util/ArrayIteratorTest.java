@@ -2,22 +2,25 @@ package com.darwinsys.util;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ArrayIteratorTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class ArrayIteratorTest {
 
 	String[] TESTDATA = { "one", "two", "three" };
 
 	ArrayIterator<String> it = new ArrayIterator<>(TESTDATA);
 
-	@Test(expected=NoSuchElementException.class)
-	public void testGettingAndGettingTooMany() {
+	@Test
+	void gettingAndGettingTooMany() {
 		int i = 0;
 		while (it.hasNext()) {
-			assertEquals(TESTDATA[i++], it.next());
-		}
-		// Do not split method here!!
-		it.next();		// EXPECT RUNTIME ERROR
+				assertEquals(TESTDATA[i++], it.next());
+			}
+		assertThrows(NoSuchElementException.class, () ->
+			// Do not split method here!!
+			it.next());		// EXPECT RUNTIME ERROR
 	}
 }

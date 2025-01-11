@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Simple class to non-exhaustively test out RelLayout layout manager.
@@ -20,23 +22,23 @@ public class ColumnLayoutTest {
 	JButton adButton;	// adjust (dummy here)
 	JButton qb;			// quit
 
-	/**
-	 * Simple main program to test out RelLayout.
-	 * Invoke directly from Java interpreter.
-	 */
-	public static void main(String[] av) {
-		JFrame jf = new JFrame("ColumnLayout1");
-		new ColumnLayoutTest(jf, ColumnLayout.X_AXIS, 0, 0);
-		jf = new JFrame("ColumnLayout1");
-		new ColumnLayoutTest(jf, ColumnLayout.Y_AXIS, 0, 0);
-		jf = new JFrame("ColumnLayout1");
-		new ColumnLayoutTest(jf, ColumnLayout.X_AXIS, 10, 10);
-		jf = new JFrame("ColumnLayout1");
-		new ColumnLayoutTest(jf, ColumnLayout.Y_AXIS, 10, 10);
-	}
 
-	/** Construct a Test test program. */
-	ColumnLayoutTest(JFrame jf, int alignment, int hpad, int vpad) {
+	@ParameterizedTest()
+	@CsvSource({
+		// 120 is ColumnLayout.XAXIS, 121 is Y
+		"120, 0, 0",
+		"121, 0, 0",
+		"120, 10, 10",
+		"121, 10, 10",
+	})
+	public void testLayout(int alignment, int hpad, int vpad) {
+		JFrame jf = null;
+		try {
+			jf = new JFrame("ColumnLayout");
+		} catch (HeadlessException he) {
+			System.out.println("ColumnLayoutTest.test(): cannot test Headless");
+			return;
+		}
 		Container cp = jf.getContentPane();
 		ColumnLayout cl = new ColumnLayout(alignment, hpad, vpad);
 		cp.setLayout(cl);
@@ -52,18 +54,5 @@ public class ColumnLayoutTest {
 		});
 		jf.pack();
 		jf.setVisible(true);
-	}
-	
-	public ColumnLayoutTest() {
-		// empty
-	}
-	
-	@Test
-	public void trivialTest() {
-		try {
-			main(null);
-		} catch (HeadlessException he) {
-			System.out.println("ColumnLayoutTest.test(): cannot test Headless");
-		}
 	}
 }

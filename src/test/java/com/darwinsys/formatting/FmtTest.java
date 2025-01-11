@@ -1,6 +1,6 @@
 package com.darwinsys.formatting;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.CharArrayWriter;
@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Potential difficulties of testing a class that insists
  * on writing to System.out. Instead of mucking about with
  * System.out here, we refactored the class under test to accept
  * a PrintWriter in some of its constructors.
  */
-public class FmtTest {
+class FmtTest {
 
 	Fmt fmt;
 	PrintWriter out;
@@ -39,18 +39,18 @@ public class FmtTest {
 	private void construct(String data) {
 		fmt = new Fmt(setupInputFile(data), out);
 	}
-	
+
 	@Test
-	public void testEmpty() throws Exception {
+	void empty() throws Exception {
 		setupOutputFile();
 		construct("");
 		fmt.format();
 		String[] string = outToStrings(outBytes.toString());
 		assertEquals(1, string.length);
 	}
-	
+
 	@Test
-	public void testSmall() throws Exception {
+	void small() throws Exception {
 		setupOutputFile(); construct("Once\nupon\na\ntime\n...");
 		fmt.format();
 		String[] expected = { "Once upon a time ... " };
@@ -59,7 +59,7 @@ public class FmtTest {
 	}
 
 	@Test
-	public void testBlanks() throws Exception {
+	void blanks() throws Exception {
 		setupOutputFile(); construct("Once\n\ntwice");
 		fmt.format();
 		String[] expected = { "Once ", "", "twice " };
@@ -79,18 +79,18 @@ public class FmtTest {
 		"a quaint and curiousvolume of forgotten lore, while I nodded, nearly "
 	};
 
-	
+
 	@Test
-	public void testLonger() throws Exception {
+	void longer() throws Exception {
 		setupOutputFile(); construct(longInput);
 		fmt.format();
 		String[] outStrings = outToStrings(outBytes.toString());
 		compareStringArrays(longExpected, outStrings);
 	}
-	
+
 	/** Test the static Stream method */
 	@Test
-	public void testStream() throws Exception {
+	void stream() throws Exception {
 		String[] input = { "Hello,", "World" };
 		setupOutputFile();
 		Fmt.format(Stream.of(input), out);

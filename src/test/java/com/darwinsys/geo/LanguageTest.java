@@ -1,28 +1,29 @@
 package com.darwinsys.geo;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class LanguageTest {
+class LanguageTest {
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		assertEquals("English", Language.en.toString());
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testSetName() {
-		Language.en.setName("Malarkey");
+	@Test
+	void setName() {
+		assertThrows(IllegalArgumentException.class, () ->
+			Language.en.setName("Malarkey"));
 	}
 
 	@Test
-	public void testGetName() {
+	void getName() {
 		assertEquals("English", Language.en.getName());
 	}
 
 	@Test
-	public void testValueOfIgnoreCase() {
+	void valueOfIgnoreCase() {
 		assertSame(Language.en, Language.valueOfIgnoreCase("english"));
 	}
 

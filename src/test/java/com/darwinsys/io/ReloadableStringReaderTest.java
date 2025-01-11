@@ -1,71 +1,71 @@
 package com.darwinsys.io;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
-public class ReloadableStringReaderTest {
+class ReloadableStringReaderTest {
 	final static String STRING = "Hello World of Blank Canvas";
 
 	ReloadableStringReader target = new ReloadableStringReader(STRING);
 
 	@Test
-	public void testAvailable() {
-		assertEquals("avail?", STRING.length(), target.available());
+	void available() {
+		assertEquals(STRING.length(), target.available(), "avail?");
 	}
 
 	@Test
-	public void testReadaFew() {
-		assertEquals("readaFew@0", 'H', target.read());
-		assertEquals("readaFew@1", 'e', target.read());
-		assertEquals("readaFew@2", 'l', target.read());
+	void readaFew() {
+		assertEquals('H', target.read(), "readaFew@0");
+		assertEquals('e', target.read(), "readaFew@1");
+		assertEquals('l', target.read(), "readaFew@2");
 	}
 
 	@Test
-	public void testReadEOF() {
+	void readEOF() {
 		for (int i = 0; i < STRING.length(); i++) {
 			target.read();
 		}
-		assertEquals("readEOF", -1, target.read());
+		assertEquals(-1, target.read(), "readEOF");
 	}
 
 	@Test
-	public void testReadPartial() {
+	void readPartial() {
 		char chars[] = new char[10];
 		int n = target.read(chars, 0, 10);
-		assertEquals("n=read", 10, n);
+		assertEquals(10, n, "n=read");
 		for (int i = 0; i < n; i++)
-			assertEquals("readPartial@"+i, chars[i], (char)STRING.charAt(i));
+			assertEquals(chars[i], (char)STRING.charAt(i), "readPartial@"+i);
 	}
 
 	@Test
-	public void testReadFully() {
+	void readFully() {
 		char chars[] = new char[100];
 		int n = target.read(chars, 0, 100);
-		assertEquals("n=readFully", STRING.length(), n);
+		assertEquals(STRING.length(), n, "n=readFully");
 		for (int i = 0; i < n; i++)
-			assertEquals("readFully@"+i, chars[i], (char)STRING.charAt(i));
+			assertEquals(chars[i], (char)STRING.charAt(i), "readFully@"+i);
 	}
 
 	@Test
-	public void testMarkReset() {
+	void markReset() {
 		target.mark(0);
 		int b1 = target.read();
 		target.reset();
 		int b2 = target.read();
-		assertEquals("markreset", b1, b2);
-		assertEquals("markresetavail", STRING.length()-1, target.available());
+		assertEquals(b1, b2, "markreset");
+		assertEquals(STRING.length()-1, target.available(), "markresetavail");
 	}
 
-	@Test
 	/** Read a few chars, change the string, ensure no missing or extra chars in stream */
-	public void testBaitAndSwitch() {
+	@Test
+	void baitAndSwitch() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i <= 5; i++)
 			sb.append((char)target.read());
 		target.setString("Word");
 		for (int i = 0; i <= 3; i++)
 			sb.append((char)target.read());
-		assertEquals("baitAndSwitch", "Hello Word", sb.toString());
+		assertEquals("Hello Word", sb.toString(), "baitAndSwitch");
 	}
 }

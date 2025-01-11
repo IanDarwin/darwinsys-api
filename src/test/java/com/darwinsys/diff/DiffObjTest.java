@@ -1,27 +1,29 @@
 package com.darwinsys.diff;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.darwinsys.diff.DiffObj.DiffField;
 
-public class DiffObjTest {
+class DiffObjTest {
 
 	class A {
 		int id;
 		String name;
 	}
 	A targetA;
+
 	class B extends A {
 		String addr;
 	}
 	B targetB;
 
-	@Before
-	public void init() {
+	@BeforeEach
+	void init() {
 		targetA = new A();
 		targetA.id = 1;
 		targetA.name = "name a";
@@ -30,19 +32,20 @@ public class DiffObjTest {
 		targetB.name = "name b";
 		targetB.addr = "address b";
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testDifferentClassesMustFail() {
-		DiffObj.diffObj(targetA, targetB);
-	}
-	
+
 	@Test
-	public void testNoDiff() {
+	void differentClassesMustFail() {
+		assertThrows(IllegalArgumentException.class, () ->
+			DiffObj.diffObj(targetA, targetB));
+	}
+
+	@Test
+	void noDiff() {
 		assertEquals(0, DiffObj.diffObj(targetB, targetB).size());
 	}
 
 	@Test
-	public void testOneDiff() {
+	void oneDiff() {
 		B newB = new B();
 		newB.id = 3;
 		newB.name=targetB.name;

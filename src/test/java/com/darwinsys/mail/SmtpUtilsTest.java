@@ -1,14 +1,18 @@
 package com.darwinsys.mail;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SmtpUtilsTest extends TestCase {
+class SmtpUtilsTest {
 	private SmtpUtils smtp;
-	
-	public void setUp() {
+
+	@BeforeEach
+	void setUp() {
 		smtp = new SmtpUtils("localhost", "localhost");
 	}
-	public void testVerifySender() throws Exception {
+
+	@Test
+	void verifySender() throws Exception {
 		System.out.println("Starting Send");
 		smtp.verifySender("ian", "smtp3.sympatico.ca");
 	}

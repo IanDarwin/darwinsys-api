@@ -1,41 +1,50 @@
 package com.darwinsys.sql;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ConfigurationTest extends TestCase {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class ConfigurationTest {
 
 	SimpleSQLConfiguration target;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	@BeforeEach
+	void setUp() throws Exception {
 		target = new SimpleSQLConfiguration("name", "url", "drv", "user", "pass");
 	}
 
-	public void testGetDbDriverName() {
+	@Test
+	void getDbDriverName() {
 		assertEquals("drv", target.getDriverName());
 	}
 
-	public void testGetDbPassword() {
+	@Test
+	void getDbPassword() {
 		assertEquals("pass", target.getPassword());
 	}
 
-	public void testHasPassword() {
-		assertTrue("pass passwd", target.hasPassword());
+	@Test
+	void hasPassword() {
+		assertTrue(target.hasPassword(), "pass passwd");
 		target.setPassword("");
-		assertFalse("0-length passwd", target.hasPassword());
+		assertFalse(target.hasPassword(), "0-length passwd");
 		target.setPassword(null);
-		assertFalse("null passwd", target.hasPassword());
+		assertFalse(target.hasPassword(), "null passwd");
 	}
 
-	public void testGetDbURL() {
+	@Test
+	void getDbURL() {
 		assertEquals("url", target.getDbURL());
 	}
 
-	public void testGetDbUserName() {
+	@Test
+	void getDbUserName() {
 		assertEquals("user", target.getUserName());
 	}
 
-	public void testGetName() {
+	@Test
+	void testGetName() {
 		assertEquals("name", target.getName());
 	}
 

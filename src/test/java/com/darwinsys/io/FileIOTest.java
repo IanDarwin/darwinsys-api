@@ -1,5 +1,7 @@
 package com.darwinsys.io;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -11,11 +13,13 @@ import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
-import junit.framework.TestCase;
-
 import com.darwinsys.util.Debug;
 
-public class FileIOTest extends TestCase {
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class FileIOTest {
 	/** Test File name. */
 	public static final String FILENAME = "fileiotest.dat";
 
@@ -29,8 +33,8 @@ public class FileIOTest extends TestCase {
 		"The quick brown fox jumps over the lazy dog.";
 
 	/** Set up initial state data file state for testing */
-	@Override
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		try {
 			tmpDir = File.createTempFile("test", "dir");
 			tmpDir.delete();
@@ -39,9 +43,9 @@ public class FileIOTest extends TestCase {
 			throw new IllegalStateException("FileIOTest: can't create " + FILENAME);
 		}
 	}
-	
-	@Override
-	public void tearDown() throws Exception {
+
+	@AfterEach
+	void tearDown() throws Exception {
 		File file = new File(tmpDir, FILENAME);
 		if (file.exists()) {
 			file.delete();
@@ -60,7 +64,8 @@ public class FileIOTest extends TestCase {
 		out.close();
 	}
 
-	public void testReaderToString() {
+	@Test
+	void readerToString() {
 		try {
 			makeFileIOTestDat();
 			String s = FileIO.readerToString(new FileReader(tmpDir + "/" + FILENAME));
@@ -77,8 +82,9 @@ public class FileIOTest extends TestCase {
 			throw new IllegalArgumentException(ex.toString());
 		}
 	}
-	
-    public void testCopyFileByName() {
+
+	@Test
+	void copyFileByName() {
 		String fileName = tmpDir + "/" + FILENAME;
 		String targetFileName = tmpDir + "/" + FILENAME + ".bak";
 		try {
@@ -93,8 +99,9 @@ public class FileIOTest extends TestCase {
 			throw new RuntimeException(ex.toString());
 		}
 	}
-    
-    public void testCopyFileByFile() {
+
+	@Test
+	void copyFileByFile() {
 		String fileName = tmpDir + "/" + FILENAME;
 		String targetFileName = tmpDir + "/" + FILENAME + ".bak";
 		try {
@@ -108,8 +115,9 @@ public class FileIOTest extends TestCase {
 			throw new RuntimeException(ex.toString());
 		}
 	}
-    
-    public void testCopyRecursivelyFiles() throws IOException {
+
+	@Test
+	void copyRecursivelyFiles() throws IOException {
     	
     	Debug.println("fileio", "my tmpdir = " + tmpDir);
       
@@ -158,8 +166,9 @@ public class FileIOTest extends TestCase {
     		if (targetCopyDir != null) targetCopyDir.delete();
     	}
     }
-    
-    public void testDeleteRecursively() throws Exception {
+
+	@Test
+	void deleteRecursively() throws Exception {
     	File f1 = new File(tmpDir, "file1");
     	f1.createNewFile();
     	File d1 = new File(tmpDir, "happyDir1");
@@ -176,8 +185,9 @@ public class FileIOTest extends TestCase {
     	assertFalse(f1.exists());
     	assertFalse(tmpDir.exists());
     }
-    	
-    public void testCopyRecursivelyFromJar() throws IOException {
+
+	@Test
+	void copyRecursivelyFromJar() throws IOException {
         	
     	Debug.println("fileio", " my tmpdir = " + tmpDir);
     	File targetFoo = null, targetBar = null, 

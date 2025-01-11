@@ -1,27 +1,28 @@
 package com.darwinsys.tools;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.regex.Matcher;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class XrefCheckTest {
+class XrefCheckTest {
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 	}
 
 	@Test
-	public void testDeclRE() {
+	void declRE() {
 			Matcher md = XrefCheck.decl.matcher("[[dog-chapter]]");
 			md.find();
 			System.out.println("DECL: " + md.group(1));
 			assertEquals("dog-chapter", md.group(1));
 	}
+
 	@Test
-	public void testXrefRE() {
+	void xrefRE() {
 
 			Matcher mr = XrefCheck.ref.matcher("see woof <<dog-chapter>> or meow <<cat_chapter>>.");
 			int i = 0;
@@ -29,6 +30,6 @@ public class XrefCheckTest {
 				++i;
 				System.out.println("REF: " + mr.group(1));
 			}
-			assertEquals("Failed to match 2 xrefs", 2, i);
+			assertEquals(2, i, "Failed to match 2 xrefs");
 	}
 }

@@ -1,18 +1,21 @@
 package com.darwinsys.csv;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class CSVExportTest extends TestCase {
+class CSVExportTest {
 
     List<Object> line = new ArrayList<Object>();
 
-    /**
-     * Test basics
-     */
-	public void testBasic() throws Exception {
+	/**
+	* Test basics
+	*/
+	@Test
+	void basic() throws Exception {
 		line.add("123");
 		line.add(42);
 		line.add("\"Hello, world\"");
@@ -22,10 +25,11 @@ public class CSVExportTest extends TestCase {
         assertEquals("123,42,\"Hello, world\",foo", result);
     }
 
-    /**
-     * Test quoted string
-     */
-    public void testQuoted() throws Exception {
+	/**
+	* Test quoted string
+	*/
+	@Test
+	void quoted() throws Exception {
 		line = new ArrayList<Object>();
 		line.add(123);
 		line.add("\"Hello, \\\"ian\\\"\"");
@@ -41,13 +45,14 @@ public class CSVExportTest extends TestCase {
         line.clear();
         line.add(123);
         line.add("\"\"");
-        assertEquals("quote at end", "123,\"\"", CSVExport.toString(line));
+        assertEquals("123,\"\"", CSVExport.toString(line), "quote at end");
 	}
 
-    /**
-     * Test null
-     */
-    public void testNullField() throws Exception {
+	/**
+	* Test null
+	*/
+	@Test
+	void nullField() throws Exception {
         line = new ArrayList<Object>();
         line.add(123);
         line.add(null);

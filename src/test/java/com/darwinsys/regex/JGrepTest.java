@@ -2,9 +2,9 @@ package com.darwinsys.regex;
 
 import java.io.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JGrepTest {
 
@@ -38,7 +38,7 @@ public class JGrepTest {
 	}
 
 	@Test
-	public void testNoFileNoOptions()  throws IOException {
+	void noFileNoOptions()  throws IOException {
 		setupStreamsFromString("line 1 abc\nline 2 def\n");
 		JGrep.main(new String[] { "de" });
 		String result = getStdOut();

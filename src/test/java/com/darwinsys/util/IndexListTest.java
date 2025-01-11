@@ -1,27 +1,27 @@
 package com.darwinsys.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class IndexListTest extends TestCase {
+public class IndexListTest {
 
 	String[] TESTDATA = { "one", "two", "three" };
 
 	IndexList<String> target = new IndexList<String>();
 
-	/** JUnit test classes require this constructor */
-	public IndexListTest(String name) {
-		super(name);
-	}
-
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		for (int i = 0; i<TESTDATA.length; i++) {
 			target.add(TESTDATA[i]);
 		}
 	}
 
-	public void testIterator() {
+	@Test
+	void iterator() {
 		Iterator<String> it = target.iterator();
 		int i = 0;
 		while (it.hasNext()) {
@@ -29,16 +29,19 @@ public class IndexListTest extends TestCase {
 		}
 	}
 
-	public void testSetAndGet() {
+	@Test
+	void setAndGet() {
 		target.set(1, "deux");
 		assertEquals( "deux", target.get(1));
 	}
 
-	public void testSize() {
+	@Test
+	void size() {
 		assertEquals( TESTDATA.length, target.size());
 	}
-	
-	public void testExpanding() {
+
+	@Test
+	void expanding() {
 		for (int i = 0; i < 255; i++) {
 			target.add(Integer.toString(i));
 		}

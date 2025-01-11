@@ -1,18 +1,13 @@
 package com.darwinsys.locks;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class PessimisticLockManagerImplTest {
+class PessimisticLockManagerImplTest {
 
 	/**
 	 * Number of seconds to sleep in reclaim test. Must be > 60 (seconds per
@@ -21,43 +16,44 @@ public class PessimisticLockManagerImplTest {
 	private static final int SECONDS_TO_ENSURE_RECLAIM = 70;
 
 	PessimisticLockManagerImpl<Integer> mgr;
-	
-	@Before
-	public void setup() {
+
+	@BeforeEach
+	void setup() {
 		mgr = new PessimisticLockManagerImpl<Integer>();
 		mgr.setTimeout(1);		// minute
 		mgr.start();
 	}
-	
-	
+
+
 	@Test
-	public final void testTryLock() {
+	final void tryLock() {
 		Lock l = mgr.tryLock(123);
 		assertNotNull(l);
 		// ...
 		assertTrue(l.release());
 		assertTrue(l.isReleased());
 	}
-	
-	@Test(expected=PessimisticLockException.class)
-	public final void testTryLockExclusivity() {
+
+	@Test
+	final void tryLockExclusivity() {
 		mgr.tryLock(123);
-		mgr.tryLock(123);
+		assertThrows(PessimisticLockException.class, () ->
+			mgr.tryLock(123));
 	}
 
 	@Test
-	public final void testReleaseLock() {
+	final void releaseLock() {
 		Lock l = mgr.tryLock(123);
 		assertTrue(mgr.getLockStore().containsKey(l));
 		assertTrue(mgr.getLockStore().containsValue(123));
 		l.release();
 		assertFalse(mgr.getLockStore().containsKey(l));
-		assertEquals("release", 0, mgr.getLockStore().keySet().size());
+		assertEquals(0, mgr.getLockStore().keySet().size(), "release");
 	}
-	
-	@Ignore("test passes but takes 70 seconds")
+
+	@Disabled("test passes but takes 70 seconds")
 	@Test
-	public final void testTimeoutReclaimsLock() throws Exception {
+	final void timeoutReclaimsLock() throws Exception {
 		Lock l = mgr.tryLock(123);
 		assertTrue(mgr.getLockStore().containsKey(l));
 		assertTrue(mgr.getLockStore().containsValue(123));
@@ -69,12 +65,12 @@ public class PessimisticLockManagerImplTest {
 		assertFalse(mgr.getLockStore().containsKey(l));
 		assertFalse(mgr.getLockStore().containsValue(123));
 	}
-	
+
 	@Test
-	public final void testTwoTriesOneRelease() {
+	final void twoTriesOneRelease() {
 		Integer i = 123;
 		Lock l = mgr.tryLock(i);
-		assertEquals("t2t1r", 1, mgr.getLocks().size());
+		assertEquals(1, mgr.getLocks().size(), "t2t1r");
 		try {
 			Integer i2 = 123;
 			mgr.tryLock(i2);
@@ -83,15 +79,15 @@ public class PessimisticLockManagerImplTest {
 		} catch (PessimisticLockException e) {
 			// OK
 		}
-		assertEquals("t2t1r", 1, mgr.getLocks().size());
+		assertEquals(1, mgr.getLocks().size(), "t2t1r");
 		if (!l.release()) {
 			fail("Lock.release returned false, it did!");
 		}
-		assertEquals("t2t1r", 0, mgr.getLocks().size());		
+		assertEquals(0, mgr.getLocks().size(), "t2t1r");		
 	}
-	
-	@After
-	public void done() {
+
+	@AfterEach
+	void done() {
 		mgr.close();
 	}
 }

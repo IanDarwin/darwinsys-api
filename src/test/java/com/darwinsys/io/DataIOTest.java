@@ -3,10 +3,11 @@ package com.darwinsys.io;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
-public class DataIOTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class DataIOTest {
 	
 	byte[] data = {
 			1, 2, 3, 4,
@@ -23,10 +24,10 @@ public class DataIOTest {
 	};
 
 	@Test
-	public void test() throws Exception {
+	void test() throws Exception {
 		DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
 		for (int i : expect) {
-			assertEquals("Element " + i, i, DataIO.readUnsignedInt(dis));
+			assertEquals(i, DataIO.readUnsignedInt(dis), "Element " + i);
 		}
 	}
 

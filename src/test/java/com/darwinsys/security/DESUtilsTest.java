@@ -1,24 +1,24 @@
 package com.darwinsys.security;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class DESUtilsTest {
+class DESUtilsTest {
 
 	DESCrypter target;
-	
-	@Before
-	public void setUp() throws Exception {
+
+	@BeforeEach
+	void setUp() throws Exception {
 		final String myPass = "Ain't no binary blobs here!";
 		target = new DESCrypter(myPass);
 	}
 
-	@Ignore("string length not % 4 from encrypt")
+	@Disabled("string length not % 4 from encrypt")
 	@Test
-	public void testDES() {
+	void des() {
 
 		final String clear = "Once, upon a midnight dreary...";
 		
@@ -29,6 +29,6 @@ public class DESUtilsTest {
 
 		String decrypted = target.decrypt(encrypted);
 
-		assertEquals("Decrypted OK!", clear, decrypted);
+		assertEquals(clear, decrypted, "Decrypted OK!");
 	}
 }
