@@ -23,22 +23,22 @@ import java.util.*;
  * @param location - where the event will take place
  * @param calName - the calendar to which this event belongs
  */
-public class CalendarEvent {
-	String summary;
-	Optional<String> description;
-	EventType eventType;
-	UUID uuid;
-	LocalDate startDate; Optional<LocalTime>startTime;
-	Optional<LocalDate> endDate; Optional<LocalTime>endTime;
-	Optional<String> organizerName; Optional<String> organizerEmail;
-	Optional<String> location;
-	Optional<String> calName;
+public record CalendarEvent(
+	String summary,
+	Optional<String> description,
+	EventType eventType,
+	UUID uuid,
+	LocalDate startDate, Optional<LocalTime>startTime,
+	Optional<LocalDate> endDate, Optional<LocalTime>endTime,
+	Optional<String> organizerName, Optional<String> organizerEmail,
+	Optional<String> location,
+	Optional<String> calName) {
 
 	static Random r = new Random();
 	static String defaultCalendar = "work";
 	
 	public static void setDefaultCalendar(String calName) {
-		defaultCalendar = calName;
+		throw new UnsupportedOperationException("Convert setDefaultCalendar to a 'with' method");
 	}
 
 	/** Present a bit of the event info for debugging */
@@ -69,9 +69,7 @@ public class CalendarEvent {
 		out.println("SUMMARY:" + summary);
 		description.ifPresent(s->out.println("DESCRIPTION:"+s));
 		location.ifPresent(s->out.println("LOCATION:"+s));
-		String dtStart = startTime.isPresent() ?
-			dtf.format(LocalDateTime.of(startDate, startTime.get())) :
-			df.format(startDate);
+		String dtStart = startTime.map(localTime -> dtf.format(LocalDateTime.of(startDate, localTime))).orElseGet(() -> df.format(startDate));
 		out.println("DTSTART;VALUE=DATE:" + dtStart);
 		
 		LocalDate dtEndDate;
@@ -131,6 +129,26 @@ public class CalendarEvent {
 	}
 
 	// Convenience constructors, for a form of compatibility with previous edition of this class
+
+	/** @return An event with a start date+time and and end date+time
+	 * @param description The text of the event
+	 * @param summary Short description
+	 * @param location Where the event is
+	 * @param start When the event starts
+	 * @param end When the event ends
+	 */
+	public static CalendarEvent newCalendarEvent(String description, String summary,
+		String location, LocalDateTime start, LocalDateTime end) {
+			return new CalendarEvent(description, Optional.of(summary),
+			EventType.APPOINTMENT, CalendarEvent.makeUUID(),
+			start.toLocalDate(), Optional.of(start.toLocalTime()),
+			Optional.of(end.toLocalDate()), Optional.of(end.toLocalTime()),
+			Optional.empty(),
+			Optional.empty(),
+            Optional.empty(),
+			Optional.empty()
+		);
+	}
 
 	/** @return An all-day event for one day only
 	 * @param description The text of the event

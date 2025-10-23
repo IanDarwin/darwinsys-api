@@ -1,26 +1,28 @@
 package com.darwinsys.calendar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+
+import static com.darwinsys.calendar.CalendarEvent.newCalendarEvent;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Map;
 import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class CalendarEventTest {
 	
 	StringWriter sout;
 	PrintWriter pout;
 	
-	@Before
+	@BeforeEach
 	public void makePout() {
 		sout = new StringWriter();
 		pout = new PrintWriter(sout);
@@ -34,7 +36,6 @@ public class CalendarEventTest {
 	}
 
 	CalendarEvent subject;
-
 	
 	private String getSubjectAsString() throws IOException {
 		subject.toVCalEvent(pout, false);
@@ -121,7 +122,7 @@ public class CalendarEventTest {
 	
 	@Test
 	public void testNewCalendarEvent1() throws IOException {
-		subject = CalendarEvent.newCalendarEvent("A Description", 
+		subject = newCalendarEvent("A Description",
 			"A summary", "Someplace", 2020, 02, 20);
 		assertEquals(subject.summary(), "A summary");
 		assertEquals(subject.description().get(), "A Description");
@@ -132,4 +133,20 @@ public class CalendarEventTest {
 		assertTrue(result.contains("LOCATION:Someplace"));
 	}
 
+    @Test
+    public void testNewCalEventWithLocalDateTimes() throws IOException {
+        subject = newCalendarEvent(
+				"A 200th Birthday Party for Canada!",
+				"A longer description will be here someday soon",
+                "All over Canada",
+				LocalDateTime.of(2067, 6, 1, 12,0),
+                LocalDateTime.of(2067, 6, 2, 0,0)
+				);
+		String result = getSubjectAsString();
+		assertEquals(subject.summary(),
+                "A 200th Birthday Party for Canada!");
+		assertEquals(subject.description().get(),
+                "A longer description will be here someday soon");
+        assertEquals(subject.endTime().get(), LocalTime.of(0, 0));
+    }
 }
