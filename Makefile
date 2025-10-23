@@ -5,7 +5,7 @@ install:	clean
 	sh -x ./scripts/inst
 
 clean:
-	rm -r target 20??
+	rm -rf target 20??
 
 doc:	install-zealdocs
 
