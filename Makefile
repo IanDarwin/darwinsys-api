@@ -1,8 +1,11 @@
 all:	install
 
-install:
-	mvn clean test package install
+install:	clean
+	mvn compile test package install
 	sh -x ./scripts/inst
+
+clean:
+	rm -r target 20??
 
 doc:	install-zealdocs
 
