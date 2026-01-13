@@ -25,8 +25,11 @@
 package com.darwinsys.sql;
 
 // tag::main[]
-import java.io.*;
-import java.sql.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 import com.darwinsys.util.Verbosity;
 

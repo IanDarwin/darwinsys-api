@@ -1,7 +1,8 @@
 package com.darwinsys.swingui;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Window;
 
 public class ProgressBarSupport {
 
