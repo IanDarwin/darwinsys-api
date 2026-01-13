@@ -22,10 +22,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-/** A Swing-based Font Selection JDialog, to be created and
+/**
+ * A Swing-based Font Selection JDialog, to be created and
  * setVisible(true) in the usual way.
  * <p>
- * Uses Listeners to ensure that Preview button isn't actually needed
+ * Uses Listeners so no Preview button is needed
  * @author	Ian Darwin
  */
 // tag::main[]
@@ -35,6 +36,9 @@ public class FontChooser extends JDialog {
 	private static final long serialVersionUID = 5363471384675038069L;
 
 	public static final String DEFAULT_TEXT = "Few grips galvanized text";
+
+	private static final String DEFAULT_FONT_NAME = "Dialog";
+	private static final int DEFAULT_FONT_SIZE = 16;
 
 	// Results:
 
@@ -106,8 +110,8 @@ public class FontChooser extends JDialog {
 		JPanel attrs = new JPanel();
 		top.add(attrs);
 		attrs.setLayout(new GridLayout(0,1));
-		attrs.add(bold  =new JCheckBox("Bold", false));
-		attrs.add(italic=new JCheckBox("Italic", false));
+		attrs.add(bold  = new JCheckBox("Bold", false));
+		attrs.add(italic= new JCheckBox("Italic", false));
 
 		// Make sure that any change to the GUI will trigger a font preview.
 		ListSelectionListener waker = new ListSelectionListener() {
@@ -142,13 +146,7 @@ public class FontChooser extends JDialog {
 		JButton canButton = new JButton("Cancel");
 		bot.add(canButton);
 		canButton.addActionListener(ae ->  {
-				// Set all values to null. Better: restore previous.
-				resultFont = null;
-				resultName = null;
-				resultSize = 0;
-				isBold = false;
-				isItalic = false;
-
+				// Do nothing
 				dispose();
 				setVisible(false);
 		});
@@ -166,19 +164,17 @@ public class FontChooser extends JDialog {
 	 */
 	protected void previewFont() {
 		resultName = (String)fontNameChoice.getSelectedValue();
-		String resultSizeName = fontSizeChoice.getSelectedValue().toString();
-		int resultSize = Integer.parseInt(resultSizeName);
+		int resultSize = Integer.parseInt(fontSizeChoice.getSelectedValue().toString());
 		isBold = bold.isSelected();
 		isItalic = italic.isSelected();
 		int attrs = Font.PLAIN;
-		if (isBold) attrs = Font.BOLD;
+		if (isBold) attrs |= Font.BOLD;
 		if (isItalic) attrs |= Font.ITALIC;
 		resultFont = new Font(resultName, attrs, resultSize);
+		System.out.println("resultFont = " + resultFont);
 		updatePreview();
 	}
 	private void updatePreview() {
-		boolean allCaps = resultFont.getName().endsWith("Caps");
-		previewArea.setText(allCaps ? DEFAULT_TEXT.toUpperCase() : DEFAULT_TEXT);
 		previewArea.setFont(resultFont);
 		pack();				// ensure Dialog is big enough.
 	}
@@ -243,7 +239,10 @@ public class FontChooser extends JDialog {
 	public static void main(String[] args) {
 		JFrame jf = new JFrame("FontChooser Demo");
 		jf.setVisible(true);
-		new FontChooser(jf).setVisible(true);
+		var fc = new FontChooser(jf);
+		fc.setVisible(true);
+		// Wait for Apply or Cancel.
+		System.out.println("font = " + fc.getSelectedFont());
 	}
 }
 // end::main[]
