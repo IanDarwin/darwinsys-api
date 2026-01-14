@@ -19,7 +19,7 @@ package com.darwinsys.locks;
  *   }
  * ... OK, commit the order... 
  * l.release();
- * @param T The pkey of the datatype being locked
+ * @param <T> The pkey of the datatype being locked
  * @author Ian Darwin, based on a design from Stephen Neal
  */
 public interface PessimisticLockManager<T> {

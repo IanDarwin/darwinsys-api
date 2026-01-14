@@ -27,6 +27,7 @@ import javax.swing.event.TableModelEvent;
  * <li>add constructor options for Add, Remove, MoveUp/MoveDown buttons
  * </ul>
  *
+ * @param <T> The type of objects in the table
  * @author	Ian Darwin, http://www.darwinsys.com/
  */
 public class ArrayListTablePanel<T> extends JPanel {

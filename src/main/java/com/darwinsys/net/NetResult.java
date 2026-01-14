@@ -3,7 +3,7 @@ package com.darwinsys.net;
 import java.net.HttpURLConnection;
 
 /** Encode the Result of a Network operation, typically over HTTP.
- * @param T The type of the data being transfered.
+ * @param <T> The type of the data being transfered.
  */
 public class NetResult<T> {
     int status;

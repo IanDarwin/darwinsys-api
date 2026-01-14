@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * Interface to be implemented by DAOs; using Java 5 Generics.
  * @author Per Mellqvist, http://www.ibm.com/developerworks/java/library/j-genericdao.html
- * @param T - datatype of the entity
- * @param PK - datatype of the primary key
+ * @param <T> - datatype of the entity
+ * @param <PK> - datatype of the primary key
  */
 public interface GenericDAO<T, PK extends Serializable> {
 

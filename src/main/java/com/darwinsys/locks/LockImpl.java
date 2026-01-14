@@ -2,6 +2,10 @@ package com.darwinsys.locks;
 
 import java.util.Date;
 
+/**
+ * Implementation of the simple Lock interface
+ * @param <T> The type of object we are locking for
+ */
 public class LockImpl<T> implements Lock {
 
 	private PessimisticLockManager<T> mgr;
@@ -10,6 +14,9 @@ public class LockImpl<T> implements Lock {
 	private boolean released;
 	private Object owner;
 
+	/**
+	 * Construct an instance of the simple Lock interface
+	 */
 	public LockImpl(PessimisticLockManager<T> mgr, T id, Object owner) {
 		this.mgr = mgr;
 		this.id = id;

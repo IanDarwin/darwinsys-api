@@ -2,15 +2,17 @@ package com.darwinsys.numbers;
 
 /**
  * My own implementation representing Complex Numbers. A Complex object is
- * immutable once created; the add, subtract and multiply routines
+ * immutable once created; the add, subtract, multiply and divide routines
  * return newly-created Complex objects containing the results.
  *
  * @author Ian F. Darwin, inspired by David Flanagan.
+ * @author Gisbert Selke wrote the divide() method.
  */
 // tag::main[]
 public class Complex {
 	double r, i;
 
+	/** Construct a Complex with the given real and imaginary parts */
 	public Complex(double r, double i) {
 		this.r = r;
 		this.i = i;
@@ -76,7 +78,6 @@ public class Complex {
 	}
 
 	/** Divide c1 by c2.
-	 * @author Gisbert Selke.
 	 */
 	public static Complex divide(Complex c1, Complex c2) {
 		return new Complex(
