@@ -1,15 +1,17 @@
 package com.darwinsys.swingui;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.image.ImageObserver;
-import java.time.*;
-import java.time.temporal.*;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.List;
 
 /** This class implements a short-term timer for timing e.g.,

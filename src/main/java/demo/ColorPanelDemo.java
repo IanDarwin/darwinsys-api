@@ -2,8 +2,8 @@ package demo;
 
 import com.darwinsys.swingui.ColorPanel;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Color;
 import java.util.function.Consumer;
 
 public class ColorPanelDemo {

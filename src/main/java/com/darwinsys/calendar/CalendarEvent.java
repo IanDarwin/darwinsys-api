@@ -1,9 +1,14 @@
 package com.darwinsys.calendar;
 
 import java.io.PrintWriter;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * CalendarEvent is a Java 14+ "record" type referring to one event in a calendar.

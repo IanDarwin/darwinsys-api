@@ -4,7 +4,9 @@ import java.net.URL;
 import java.awt.Image;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  * APPLET SUPPORT - provide some of the functionality of the

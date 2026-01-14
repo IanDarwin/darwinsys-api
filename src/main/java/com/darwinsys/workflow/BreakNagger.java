@@ -1,7 +1,6 @@
 package com.darwinsys.workflow;
 
 import javax.swing.JOptionPane;
-import java.util.Optional;
 
 public class BreakNagger implements Runnable {
 

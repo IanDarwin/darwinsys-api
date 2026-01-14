@@ -2,9 +2,12 @@ package com.darwinsys.io;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.*;
-import java.util.jar.*;
-import java.util.zip.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.jar.Attributes;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
+import java.util.zip.ZipEntry;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
