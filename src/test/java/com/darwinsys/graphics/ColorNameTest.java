@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class ColorNameTest {
 
 	@Test
-	static void lookup() {
+	public void lookup() {
 		assertEquals(Color.WHITE, ColorName.getColor("WhItE"), "WhItE");
 		assertEquals(Color.MAGENTA, ColorName.getColor("magenta"), "magenta");
 		assertEquals(Color.BLACK, ColorName.getColor("BLACK"), "BLACK");
