@@ -60,7 +60,7 @@ import java.nio.file.Path;
  */
 // tag::main[]
 // package com.darwinsys.io;
-public class FileSaver {
+public class FileSaver implements AutoCloseable {
 
 	private enum State {
 		/** The state before and after use */
@@ -135,7 +135,8 @@ public class FileSaver {
 	}
 	
 	/** Close is a better name for this function, but don't
-	 * want to break existing clients.
+	 * want to break existing clients. This allows use in
+	 * try-with-resources. Just calls finish().
 	 * @throws IOException
 	 */
 	public void close() throws IOException {
