@@ -1,4 +1,4 @@
-package com.darwinsys.swingui.filtergui;
+package com.darwinsys.swingui;
 
 /** Simple marker class 
  * */

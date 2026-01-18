@@ -1,8 +1,6 @@
-package com.darwinsys.swingui.filtergui;
+package com.darwinsys.swingui;
 
 import javax.swing.JFrame;
-
-import com.darwinsys.swingui.FilterGUI;
 
 /** A simple demo of FilterGUI */
 public class FilterGUIDemo2 {

@@ -1,5 +1,9 @@
 package com.darwinsys.swingui;
 
+import javax.swing.*;
+import java.awt.Color;
+import java.util.function.Consumer;
+
 public class ColorPanelDemo {
     // Simple demo harness
     public static void main(String[] args) {
