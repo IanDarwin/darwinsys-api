@@ -87,6 +87,26 @@
 
 		<plugins>
 
+			<!-- Add src/demo to build path -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/demo/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Ensure that JUnit5 surefire test runner is used -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -124,7 +144,15 @@
 					<!-- <excludeFilterFile>src/main/resources/MyFindBugsExcludes.xml</excludeFilterFile> -->
 				</configuration>
 			</plugin>
-		</plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>25</source>
+                    <target>25</target>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 
 	<reporting>
