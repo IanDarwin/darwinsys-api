@@ -56,6 +56,7 @@ import javax.swing.JTextField;
  * but simpler; it must of course count only elements that are visible.
  * @see javax.swing.ListModel
  */
+@Deprecated // "Use ClearableTextField instead"
 public class SearchBox extends JComponent {
 
 	private static final long serialVersionUID = -21240072882607221L;
