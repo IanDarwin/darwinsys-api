@@ -1,5 +1,12 @@
-// Demo main for ClearableTextField
+package com.darwinsys.swingui;
 
+import java.awt.*;
+import javax.swing.*;
+
+/**
+ * Demo main for ClearableTextField
+ */
+class ClearableTextFieldDemo {
 void main() {
 	SwingUtilities.invokeLater(() -> {
 
@@ -28,4 +35,5 @@ void main() {
 		frame.setContentPane(panel);
 		frame.setVisible(true);
 	});
+}
 }
