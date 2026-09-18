@@ -33,7 +33,6 @@ public class OrdinalFormat extends NumberFormat {
 		} else {
 			sb.append("th");
 		}
-		fp.setIndex(fp.getIndex() + sb.length());
 		return sb;
 	}
 

@@ -1,7 +1,8 @@
 package com.darwinsys.sql;
 
 /**
- * The interface used by all data source configurations here */
+ * The interface used by all data source configurations here
+ */
 public interface Configuration {
 
 	/**
@@ -68,5 +69,4 @@ public interface Configuration {
 	 * @param name The new name.
 	 */
 	public abstract void setName(String name);
-
 }
