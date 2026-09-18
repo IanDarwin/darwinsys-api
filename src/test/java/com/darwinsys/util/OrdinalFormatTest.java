@@ -9,6 +9,10 @@ class OrdinalFormatTest {
 	 */
 	@Test
 	void formatintStringBufferFieldPosition() {
+		StringBuffer sb = new StringBuffer;
+		FieldPosition fp = new FieldPosition();
+		StringBuilder sb = target.format(1, sb,fp);
+		assertEquals("1st", sb.toString);
 	}
 
 	/*
