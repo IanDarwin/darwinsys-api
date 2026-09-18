@@ -13,15 +13,15 @@ public class OrdinalFormat extends NumberFormat {
 
 	private static final long serialVersionUID = 3256727294604489521L;
 
-	/** Format the ordinal.
+	/** Format an int as a human-readable ordinal.
 	 * @param iNum the number to be formatted
-	 * @param sb The strinbuffer into which we format
-	 * @param ignored As you might expect, this value is ignored; required by inheritance
+	 * @param sb The stringbuffer into which we format
+	 * @param fp As you might expect, this value is ignored; required by inheritance
 	 * @see java.text.NumberFormat#format(double, java.lang.StringBuffer, java.text.FieldPosition)
 	 * @return The StringBuffer for fluent API use.
 	 */
-	public StringBuffer format(final int iNum, final StringBuffer sb,
-			final FieldPosition ignored) {
+	// Not an override
+	public StringBuffer format(final long iNum, final StringBuffer sb, final FieldPosition fp) {
 		
 		sb.append(iNum);
 		if (iNum % 10 == 1) {
@@ -33,17 +33,11 @@ public class OrdinalFormat extends NumberFormat {
 		} else {
 			sb.append("th");
 		}
+		fp.setIndex(fp.getIndex() + sb.length());
 		return sb;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.text.NumberFormat#format(long, java.lang.StringBuffer, java.text.FieldPosition)
-	 */
-	public StringBuffer format(long number, StringBuffer sb, FieldPosition fp) {
-		
-		return format((int)number, sb, fp);
-	}
-	
+	@Override
 	public StringBuffer format(final double number, final StringBuffer sb,
 			final FieldPosition fp) {
 		return format((int)number, sb, fp);
@@ -52,13 +46,10 @@ public class OrdinalFormat extends NumberFormat {
 	/* Given a string like 42nd or 1st or 43768th, return it as an Integer.
 	 * @see java.text.NumberFormat#parse(java.lang.String, java.text.ParsePosition)
 	 */
-	public Number parse(String arg0, ParsePosition arg1) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < arg0.length(); i++) {
-			if (!Character.isDigit(arg0.charAt(i))) {
-				break;
-			}	
-		}
-		return Integer.valueOf(sb.toString());
+	@Override
+	public Number parse(String str, ParsePosition pos) {
+		var ret = str.substring(pos.getIndex()).replaceFirst("[^\\d]+","");
+		pos.setIndex(pos.getIndex() + ret.length());
+		return Integer.parseInt(ret);
 	}
 }
