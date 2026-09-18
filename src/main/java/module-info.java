@@ -8,6 +8,7 @@ module com.darwinsys.api {
 	requires java.sql.rowset;
 	requires static jakarta.mail;
 	requires java.xml;
+	requires org.junit.jupiter.api;
 
 	exports com.darwinsys.calendar;
 	exports com.darwinsys.csv;
