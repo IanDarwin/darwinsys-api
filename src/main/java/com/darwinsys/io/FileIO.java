@@ -18,10 +18,13 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
+import java.util.Optional;
 
 /**
  * Some file I-O primitives reimplemented in Java.
@@ -37,6 +40,39 @@ public class FileIO {
 	/** Nobody should need to create an instance; all methods are static */
 	private FileIO() {
 		// Nothing to do
+	}
+
+	/**
+	 * Copy a file to a directory
+	 * @param sourceDir Where to copy the file from
+	 * @param sourceFile The file to copy
+	 * @param destDir The target directory
+	 * @param destDir The target file; if empty, sourceFile will be used.
+	 * @throws IOException if anything goes wrong.
+	 */
+	void copyToDirAndFile(String sourceDir, String sourceFile,
+		String destDir, Optional<String> destFile) throws IOException {
+
+		// From this directory:
+		final Path sourceDirPath = Path.of(sourceDir);
+		// Copy this file
+		final Path sourceFilePath = sourceDirPath.resolve(sourceFile);
+
+		// To here:
+		final Path destDirPath = Path.of(destDir);
+		final Path destFilePath = destFile.isEmpty() ?
+			destDirPath.resolve(sourceFile) :
+			destDirPath.resolve(destFile.get());
+
+		if (!Files.exists(destDirPath)) {
+            if (!Files.exists(Files.createDirectories(destDirPath))) {
+				throw new IOException("ERROR: create distfiles subdir failed");
+			}
+			Files.copy(sourceFilePath, destFilePath);
+		}
+		if (!Files.exists(destFilePath)) {
+			throw new IOException(sourceFilePath + " did not get created!");
+		}
 	}
 
     /** Copy a file from one filename to another
